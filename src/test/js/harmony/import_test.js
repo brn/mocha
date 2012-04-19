@@ -14,6 +14,8 @@ import {
   testExport5
 } from "./module_test";
 
+import './module_test2' as moduleTest2;
+import '*' from './module_test3'
 
 @assert( true , testExport1() === 1 );
 @assert( true , testExport2() === 2 );
@@ -27,4 +29,3 @@ module testModule {
 
 import {foo} from testModule;
 @assert( true ,foo() === "ok" );
-

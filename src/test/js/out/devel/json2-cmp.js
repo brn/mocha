@@ -2,8 +2,7 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var _mochaGlobalExport = {},
-      global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = (this !== null)?this : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -17,7 +16,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -29,6 +28,7 @@
         }
         
       }
+      
       var stringProto = _mochaLocalTmp0.prototype,
           arrayProto = _mochaLocalTmp1.prototype,
           functionProto = _mochaLocalTmp2.prototype,
@@ -372,6 +372,7 @@
   }.call(this);
   
   var Runtime = function () {
+        "use strict";
         function spreadCall(context,fn,args,isNew) {
           var newArgs = [];
           
@@ -563,6 +564,8 @@
           }
           
         }
+        function ModuleContainer(){}
+        function Module(){}
         function RecordConstructor(obj) {
           for (var i in obj){
             
@@ -630,6 +633,7 @@
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
+        
         var _mochaLocalExport = {};
         
         var max = Math.max,
@@ -710,7 +714,38 @@
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
-            },
+            };
+        
+        Object.defineProperty(ModuleContainer.prototype,'_modules', {
+          value : {},
+          writable : true
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'add', {
+          value : function (name) {
+            return this._modules[name] = new Module;
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'get', {
+          value : function (name) {
+            return this._modules[name];
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'toString', {
+          value : function () {
+            return "[object ModuleContainer]";
+          }
+        });
+        
+        Object.defineProperty(Module.prototype,'toString', {
+          value : function () {
+            return "[object Module]";
+          }
+        });
+        
+        var modules = _mochaLocalExport.modules = new ModuleContainer,
             getPrototype = ("getPrototypeOf" in Object)?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
@@ -898,174 +933,175 @@
       var __FILE__ = "-1426553882-json2.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1426553882-json2.js'] = {};
+      Runtime.modules.add('-1426553882-json2.js');
       
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1426553882-json2.js'],
-          JSON;
+      __LINE__ = 162;
+      var JSON;
       
       __LINE__ = 164;
       !JSON && (JSON = {});
       
       __LINE__ = 167;
       (function () {
-        try {
-          function str(key,holder) {
-            try {
-              __LINE__ = 233;
-              var i,
-                  k,
-                  v,
-                  length,
-                  mind = gap,
-                  partial,
-                  value = holder[key];
-              
-              __LINE__ = 245;
-              value && typeof value === 'object' && typeof value.toJSON === 'function' && (value = value.toJSON(key));
-              
-              __LINE__ = 252;
-              typeof rep === 'function' && (value = rep.call(holder,key,value));
-              
-              __LINE__ = 257;
-              switch (typeof value) {
-                case 'string' :
-                  __LINE__ = 259;
-                  return quote(value);
-                case 'number' :
-                  __LINE__ = 265;
-                  return isFinite(value)?String(value) : 'null';
-                case 'boolean' :
-                case 'null' :
-                  __LINE__ = 274;
-                  return String(value);
-                case 'object' :
-                  
-                  __LINE__ = 284;
-                  if (!value){
-                    __LINE__ = 285;
-                    return 'null';
-                  }
-                  
-                  __LINE__ = 290;
-                  gap += indent;
-                  
-                  __LINE__ = 291;
-                  partial = [];
-                  
-                  __LINE__ = 295;
-                  if (Object.prototype.toString.apply(value) === '[object Array]'){
-                    
-                    __LINE__ = 300;
-                    length = value.length;
-                    
-                    __LINE__ = 301;
-                    for (i = 0;i<length;i += 1){
-                      
-                      __LINE__ = 302;
-                      partial[i] = str(i,value) || 'null';
-                    }
-                    
-                    __LINE__ = 308;
-                    v = partial.length === 0?'[]' : gap?'[\n'+gap+partial.join(',\n'+gap)+'\n'+mind+']' : '['+partial.join(',')+']';
-                    
-                    __LINE__ = 313;
-                    gap = mind;
-                    __LINE__ = 314;
-                    return v;
-                  }
-                  
-                  __LINE__ = 319;
-                  if (rep && typeof rep === 'object'){
-                    
-                    __LINE__ = 320;
-                    length = rep.length;
-                    
-                    __LINE__ = 321;
-                    for (i = 0;i<length;i += 1){
-                      
-                      __LINE__ = 322;
-                      if (typeof rep[i] === 'string'){
-                        
-                        __LINE__ = 323;
-                        k = rep[i];
-                        
-                        __LINE__ = 324;
-                        v = str(k,value);
-                        
-                        __LINE__ = 325;
-                        if (v){
-                          
-                          __LINE__ = 326;
-                          partial.push(quote(k)+(gap?': ' : ':')+v);
-                        }
-                        
-                      }
-                      
-                    }
-                    
-                  } else {
-                    
-                    __LINE__ = 334;
-                    for (k in value){
-                      if (Object.prototype.hasOwnProperty.call(value,k)){
-                        
-                        __LINE__ = 336;
-                        v = str(k,value);
-                        if (v){
-                          
-                          __LINE__ = 338;
-                          partial.push(quote(k)+(gap?': ' : ':')+v);
-                        }
-                        
-                      }
-                      
-                    }
-                    
-                  }
-                  
-                  __LINE__ = 347;
-                  v = partial.length === 0?'{}' : gap?'{\n'+gap+partial.join(',\n'+gap)+'\n'+mind+'}' : '{'+partial.join(',')+'}';
-                  
-                  __LINE__ = 352;
-                  gap = mind;
-                  __LINE__ = 353;
-                  return v;
-                  
-              }
-              
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function quote(string) {
-            try {
-              __LINE__ = 219;
-              escapable.lastIndex = 0;
-              __LINE__ = 220;
-              return escapable.test(string)?'"'+string.replace(escapable,
-              function (a) {
-                try {
-                  __LINE__ = 221;
-                  var c = meta[a];
-                  __LINE__ = 222;
-                  return typeof c === 'string'?c : '\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        "use strict";
+        function str(key,holder) {
+          try {
+            __LINE__ = 233;
+            var i,
+                k,
+                v,
+                length,
+                mind = gap,
+                partial,
+                value = holder[key];
+            
+            __LINE__ = 245;
+            value && typeof value === 'object' && typeof value.toJSON === 'function' && (value = value.toJSON(key));
+            
+            __LINE__ = 252;
+            typeof rep === 'function' && (value = rep.call(holder,key,value));
+            
+            __LINE__ = 257;
+            switch (typeof value) {
+              case 'string' :
+                __LINE__ = 259;
+                return quote(value);
+              case 'number' :
+                __LINE__ = 265;
+                return isFinite(value)?String(value) : 'null';
+              case 'boolean' :
+              case 'null' :
+                __LINE__ = 274;
+                return String(value);
+              case 'object' :
+                
+                __LINE__ = 284;
+                if (!value){
+                  __LINE__ = 285;
+                  return 'null';
                 }
-              })+'"' : '"'+string+'"';
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                
+                __LINE__ = 290;
+                gap += indent;
+                
+                __LINE__ = 291;
+                partial = [];
+                
+                __LINE__ = 295;
+                if (Object.prototype.toString.apply(value) === '[object Array]'){
+                  
+                  __LINE__ = 300;
+                  length = value.length;
+                  
+                  __LINE__ = 301;
+                  for (i = 0;i<length;i += 1){
+                    
+                    __LINE__ = 302;
+                    partial[i] = str(i,value) || 'null';
+                  }
+                  
+                  __LINE__ = 308;
+                  v = partial.length === 0?'[]' : gap?'[\n'+gap+partial.join(',\n'+gap)+'\n'+mind+']' : '['+partial.join(',')+']';
+                  
+                  __LINE__ = 313;
+                  gap = mind;
+                  __LINE__ = 314;
+                  return v;
+                }
+                
+                __LINE__ = 319;
+                if (rep && typeof rep === 'object'){
+                  
+                  __LINE__ = 320;
+                  length = rep.length;
+                  
+                  __LINE__ = 321;
+                  for (i = 0;i<length;i += 1){
+                    
+                    __LINE__ = 322;
+                    if (typeof rep[i] === 'string'){
+                      
+                      __LINE__ = 323;
+                      k = rep[i];
+                      
+                      __LINE__ = 324;
+                      v = str(k,value);
+                      
+                      __LINE__ = 325;
+                      if (v){
+                        
+                        __LINE__ = 326;
+                        partial.push(quote(k)+(gap?': ' : ':')+v);
+                      }
+                      
+                    }
+                    
+                  }
+                  
+                } else {
+                  
+                  __LINE__ = 334;
+                  for (k in value){
+                    if (Object.prototype.hasOwnProperty.call(value,k)){
+                      
+                      __LINE__ = 336;
+                      v = str(k,value);
+                      if (v){
+                        
+                        __LINE__ = 338;
+                        partial.push(quote(k)+(gap?': ' : ':')+v);
+                      }
+                      
+                    }
+                    
+                  }
+                  
+                }
+                
+                __LINE__ = 347;
+                v = partial.length === 0?'{}' : gap?'{\n'+gap+partial.join(',\n'+gap)+'\n'+mind+'}' : '{'+partial.join(',')+'}';
+                
+                __LINE__ = 352;
+                gap = mind;
+                __LINE__ = 353;
+                return v;
+                
             }
+            
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
-          function f(n) {
-            try {
-              __LINE__ = 172;
-              return n<10?'0'+n : n;
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
+        }
+        function quote(string) {
+          try {
+            __LINE__ = 219;
+            escapable.lastIndex = 0;
+            __LINE__ = 220;
+            return escapable.test(string)?'"'+string.replace(escapable,
+            function (a) {
+              try {
+                __LINE__ = 221;
+                var c = meta[a];
+                __LINE__ = 222;
+                return typeof c === 'string'?c : '\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            })+'"' : '"'+string+'"';
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
+        }
+        function f(n) {
+          try {
+            __LINE__ = 172;
+            return n<10?'0'+n : n;
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        try {
+          
           __LINE__ = 175;
           if (typeof Date.prototype.toJSON !== 'function'){
             
@@ -1150,37 +1186,38 @@
           
           __LINE__ = 407;
           typeof JSON.parse !== 'function' && (JSON.parse = function (text,reviver) {
-            try {
-              function walk(holder,key) {
-                try {
-                  __LINE__ = 419;
-                  var k,
-                      v,
-                      value = holder[key];
-                  
-                  __LINE__ = 420;
-                  if (value && typeof value === 'object'){
-                    __LINE__ = 421;
-                    for (k in value){
-                      __LINE__ = 422;
-                      if (({}).hasOwnProperty.call(value,k)){
-                        
-                        __LINE__ = 423;
-                        v = walk(value,k);
-                        
-                        __LINE__ = 425;
-                        v !== undefined?value[k] = v : delete value[k];
-                      }
+            function walk(holder,key) {
+              try {
+                __LINE__ = 419;
+                var k,
+                    v,
+                    value = holder[key];
+                
+                __LINE__ = 420;
+                if (value && typeof value === 'object'){
+                  __LINE__ = 421;
+                  for (k in value){
+                    __LINE__ = 422;
+                    if (({}).hasOwnProperty.call(value,k)){
                       
+                      __LINE__ = 423;
+                      v = walk(value,k);
+                      
+                      __LINE__ = 425;
+                      v !== undefined?value[k] = v : delete value[k];
                     }
                     
                   }
-                  __LINE__ = 432;
-                  return reviver.call(holder,key,value);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  
                 }
+                __LINE__ = 432;
+                return reviver.call(holder,key,value);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            try {
+              
               __LINE__ = 412;
               var j;
               

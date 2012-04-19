@@ -2,8 +2,7 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var _mochaGlobalExport = {},
-      global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = (this !== null)?this : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -17,7 +16,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -29,6 +28,7 @@
         }
         
       }
+      
       var stringProto = _mochaLocalTmp0.prototype,
           arrayProto = _mochaLocalTmp1.prototype,
           functionProto = _mochaLocalTmp2.prototype,
@@ -372,6 +372,7 @@
   }.call(this);
   
   var Runtime = function () {
+        "use strict";
         function spreadCall(context,fn,args,isNew) {
           var newArgs = [];
           
@@ -563,6 +564,8 @@
           }
           
         }
+        function ModuleContainer(){}
+        function Module(){}
         function RecordConstructor(obj) {
           for (var i in obj){
             
@@ -630,6 +633,7 @@
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
+        
         var _mochaLocalExport = {};
         
         var max = Math.max,
@@ -710,7 +714,38 @@
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
-            },
+            };
+        
+        Object.defineProperty(ModuleContainer.prototype,'_modules', {
+          value : {},
+          writable : true
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'add', {
+          value : function (name) {
+            return this._modules[name] = new Module;
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'get', {
+          value : function (name) {
+            return this._modules[name];
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'toString', {
+          value : function () {
+            return "[object ModuleContainer]";
+          }
+        });
+        
+        Object.defineProperty(Module.prototype,'toString', {
+          value : function () {
+            return "[object Module]";
+          }
+        });
+        
+        var modules = _mochaLocalExport.modules = new ModuleContainer,
             getPrototype = ("getPrototypeOf" in Object)?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
@@ -898,75 +933,73 @@
       var __FILE__ = "-1426553882-knockout-2.0.0.debug.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1426553882-knockout-2.0.0.debug.js'] = {};
-      
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1426553882-knockout-2.0.0.debug.js'];
+      Runtime.modules.add('-1426553882-knockout-2.0.0.debug.js');
       
       __LINE__ = 5;
       !function (window,undefined) {
+        function ensureDropdownSelectionIsConsistentWithModelValue(element,modelValue,preferModelValue) {
+          try {
+            __LINE__ = 2022;
+            preferModelValue && modelValue !== ko.selectExtensions.readValue(element) && ko.selectExtensions.writeValue(element,modelValue);
+            
+            __LINE__ = 2029;
+            modelValue !== ko.selectExtensions.readValue(element) && ko.utils.triggerEvent(element,"change");
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function prepareOptions(evaluatorFunctionOrOptions,evaluatorFunctionTarget,options) {
+          try {
+            __LINE__ = 1043;
+            if (evaluatorFunctionOrOptions && typeof evaluatorFunctionOrOptions == "object"){
+              __LINE__ = 1045;
+              options = evaluatorFunctionOrOptions;
+            } else {
+              
+              __LINE__ = 1048;
+              options = options || {};
+              
+              __LINE__ = 1049;
+              options.read = evaluatorFunctionOrOptions || options.read;
+            }
+            
+            __LINE__ = 1053;
+            if (typeof options.read != "function"){
+              __LINE__ = 1054;
+              throw "Pass a function that returns the value of the dependentObservable";
+            }
+            __LINE__ = 1056;
+            return options;
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function applyExtenders(requestedExtenders) {
+          try {
+            __LINE__ = 753;
+            var target = this;
+            
+            __LINE__ = 754;
+            if (requestedExtenders){
+              __LINE__ = 755;
+              for (var key in requestedExtenders){
+                
+                __LINE__ = 756;
+                var extenderHandler = ko.extenders[key];
+                
+                __LINE__ = 758;
+                typeof extenderHandler == 'function' && (target = extenderHandler(target,requestedExtenders[key]));
+              }
+              
+            }
+            __LINE__ = 762;
+            return target;
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
         try {
-          function ensureDropdownSelectionIsConsistentWithModelValue(element,modelValue,preferModelValue) {
-            try {
-              __LINE__ = 2022;
-              preferModelValue && modelValue !== ko.selectExtensions.readValue(element) && ko.selectExtensions.writeValue(element,modelValue);
-              
-              __LINE__ = 2029;
-              modelValue !== ko.selectExtensions.readValue(element) && ko.utils.triggerEvent(element,"change");
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function prepareOptions(evaluatorFunctionOrOptions,evaluatorFunctionTarget,options) {
-            try {
-              __LINE__ = 1043;
-              if (evaluatorFunctionOrOptions && typeof evaluatorFunctionOrOptions == "object"){
-                __LINE__ = 1045;
-                options = evaluatorFunctionOrOptions;
-              } else {
-                
-                __LINE__ = 1048;
-                options = options || {};
-                
-                __LINE__ = 1049;
-                options.read = evaluatorFunctionOrOptions || options.read;
-              }
-              
-              __LINE__ = 1053;
-              if (typeof options.read != "function"){
-                __LINE__ = 1054;
-                throw "Pass a function that returns the value of the dependentObservable";
-              }
-              __LINE__ = 1056;
-              return options;
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function applyExtenders(requestedExtenders) {
-            try {
-              __LINE__ = 753;
-              var target = this;
-              
-              __LINE__ = 754;
-              if (requestedExtenders){
-                __LINE__ = 755;
-                for (var key in requestedExtenders){
-                  
-                  __LINE__ = 756;
-                  var extenderHandler = ko.extenders[key];
-                  
-                  __LINE__ = 758;
-                  typeof extenderHandler == 'function' && (target = extenderHandler(target,requestedExtenders[key]));
-                }
-                
-              }
-              __LINE__ = 762;
-              return target;
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
+          
           __LINE__ = 6;
           var ko = window.ko = {};
           
@@ -1003,29 +1036,30 @@
           
           __LINE__ = 18;
           ko.utils = new function () {
-            try {
-              function isClickOnCheckableElement(element,eventType) {
-                try {
+            function isClickOnCheckableElement(element,eventType) {
+              try {
+                __LINE__ = 49;
+                if ((element.tagName != "INPUT") || !element.type){
                   __LINE__ = 49;
-                  if ((element.tagName != "INPUT") || !element.type){
-                    __LINE__ = 49;
-                    return false;
-                  }
-                  
-                  __LINE__ = 50;
-                  if (eventType.toLowerCase() != "click"){
-                    __LINE__ = 50;
-                    return false;
-                  }
-                  
-                  __LINE__ = 51;
-                  var inputType = element.type.toLowerCase();
-                  __LINE__ = 52;
-                  return (inputType == "checkbox") || (inputType == "radio");
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  return false;
                 }
+                
+                __LINE__ = 50;
+                if (eventType.toLowerCase() != "click"){
+                  __LINE__ = 50;
+                  return false;
+                }
+                
+                __LINE__ = 51;
+                var inputType = element.type.toLowerCase();
+                __LINE__ = 52;
+                return (inputType == "checkbox") || (inputType == "radio");
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            try {
+              
               __LINE__ = 19;
               var stringTrimRegex = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
                   knownEvents = {},
@@ -2060,63 +2094,64 @@
           
           __LINE__ = 493;
           ko.utils.domNodeDisposal = new function () {
+            function cleanSingleNode(node) {
+              try {
+                __LINE__ = 510;
+                var callbacks = getDisposeCallbacksCollection(node,false);
+                
+                __LINE__ = 511;
+                if (callbacks){
+                  
+                  __LINE__ = 512;
+                  callbacks = callbacks.slice(0);
+                  
+                  __LINE__ = 513;
+                  for (var i = 0;i<callbacks.length;i ++ ){
+                    __LINE__ = 514;
+                    callbacks[i](node);
+                  }
+                  
+                }
+                
+                __LINE__ = 518;
+                ko.utils.domData.clear(node);
+                
+                __LINE__ = 524;
+                (typeof jQuery == "function") && (typeof jQuery.cleanData == "function") && jQuery.cleanData([node]);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function destroyCallbacksCollection(node) {
+              try {
+                __LINE__ = 505;
+                ko.utils.domData.set(node,domDataKey,undefined);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function getDisposeCallbacksCollection(node,createIfNotFound) {
+              try {
+                __LINE__ = 497;
+                var allDisposeCallbacks = ko.utils.domData.get(node,domDataKey);
+                
+                __LINE__ = 498;
+                if ((allDisposeCallbacks === undefined) && createIfNotFound){
+                  
+                  __LINE__ = 499;
+                  allDisposeCallbacks = [];
+                  
+                  __LINE__ = 500;
+                  ko.utils.domData.set(node,domDataKey,allDisposeCallbacks);
+                }
+                __LINE__ = 502;
+                return allDisposeCallbacks;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function cleanSingleNode(node) {
-                try {
-                  __LINE__ = 510;
-                  var callbacks = getDisposeCallbacksCollection(node,false);
-                  
-                  __LINE__ = 511;
-                  if (callbacks){
-                    
-                    __LINE__ = 512;
-                    callbacks = callbacks.slice(0);
-                    
-                    __LINE__ = 513;
-                    for (var i = 0;i<callbacks.length;i ++ ){
-                      __LINE__ = 514;
-                      callbacks[i](node);
-                    }
-                    
-                  }
-                  
-                  __LINE__ = 518;
-                  ko.utils.domData.clear(node);
-                  
-                  __LINE__ = 524;
-                  (typeof jQuery == "function") && (typeof jQuery.cleanData == "function") && jQuery.cleanData([node]);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function destroyCallbacksCollection(node) {
-                try {
-                  __LINE__ = 505;
-                  ko.utils.domData.set(node,domDataKey,undefined);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function getDisposeCallbacksCollection(node,createIfNotFound) {
-                try {
-                  __LINE__ = 497;
-                  var allDisposeCallbacks = ko.utils.domData.get(node,domDataKey);
-                  
-                  __LINE__ = 498;
-                  if ((allDisposeCallbacks === undefined) && createIfNotFound){
-                    
-                    __LINE__ = 499;
-                    allDisposeCallbacks = [];
-                    
-                    __LINE__ = 500;
-                    ko.utils.domData.set(node,domDataKey,allDisposeCallbacks);
-                  }
-                  __LINE__ = 502;
-                  return allDisposeCallbacks;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 494;
               var domDataKey = "__ko_domNodeDisposal__"+(new Date).getTime();
               __LINE__ = 527;
@@ -2232,55 +2267,56 @@
           
           __LINE__ = 568;
           !function () {
+            function jQueryHtmlParse(html) {
+              try {
+                __LINE__ = 606;
+                var elems = jQuery.clean([html]);
+                
+                __LINE__ = 611;
+                if (elems && elems[0]){
+                  
+                  __LINE__ = 613;
+                  var elem = elems[0];
+                  
+                  __LINE__ = 614;
+                  while (elem.parentNode && elem.parentNode.nodeType !== 11){
+                    __LINE__ = 615;
+                    elem = elem.parentNode;
+                  }
+                  
+                  __LINE__ = 618;
+                  elem.parentNode && elem.parentNode.removeChild(elem);
+                }
+                __LINE__ = 621;
+                return elems;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function simpleHtmlParse(html) {
+              try {
+                __LINE__ = 581;
+                var tags = ko.utils.stringTrim(html).toLowerCase(),
+                    div = document.createElement("div"),
+                    wrap = tags.match(/^<(thead|tbody|tfoot)/) && [1,"<table>","</table>"] || !tags.indexOf("<tr") && [2,"<table><tbody>","</tbody></table>"] || (!tags.indexOf("<td") || !tags.indexOf("<th")) && [3,"<table><tbody><tr>","</tr></tbody></table>"] || [0,"",""],
+                    markup = "ignored<div>"+wrap[1]+html+wrap[2]+"</div>";
+                
+                __LINE__ = 593;
+                typeof window.innerShiv == "function"?div.appendChild(window.innerShiv(markup)) : div.innerHTML = markup;
+                
+                __LINE__ = 599;
+                while (wrap[0] -- ){
+                  __LINE__ = 600;
+                  div = div.lastChild;
+                }
+                __LINE__ = 602;
+                return ko.utils.makeArray(div.lastChild.childNodes);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function jQueryHtmlParse(html) {
-                try {
-                  __LINE__ = 606;
-                  var elems = jQuery.clean([html]);
-                  
-                  __LINE__ = 611;
-                  if (elems && elems[0]){
-                    
-                    __LINE__ = 613;
-                    var elem = elems[0];
-                    
-                    __LINE__ = 614;
-                    while (elem.parentNode && elem.parentNode.nodeType !== 11){
-                      __LINE__ = 615;
-                      elem = elem.parentNode;
-                    }
-                    
-                    __LINE__ = 618;
-                    elem.parentNode && elem.parentNode.removeChild(elem);
-                  }
-                  __LINE__ = 621;
-                  return elems;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function simpleHtmlParse(html) {
-                try {
-                  __LINE__ = 581;
-                  var tags = ko.utils.stringTrim(html).toLowerCase(),
-                      div = document.createElement("div"),
-                      wrap = tags.match(/^<(thead|tbody|tfoot)/) && [1,"<table>","</table>"] || !tags.indexOf("<tr") && [2,"<table><tbody>","</tbody></table>"] || (!tags.indexOf("<td") || !tags.indexOf("<th")) && [3,"<table><tbody><tr>","</tr></tbody></table>"] || [0,"",""],
-                      markup = "ignored<div>"+wrap[1]+html+wrap[2]+"</div>";
-                  
-                  __LINE__ = 593;
-                  typeof window.innerShiv == "function"?div.appendChild(window.innerShiv(markup)) : div.innerHTML = markup;
-                  
-                  __LINE__ = 599;
-                  while (wrap[0] -- ){
-                    __LINE__ = 600;
-                    div = div.lastChild;
-                  }
-                  __LINE__ = 602;
-                  return ko.utils.makeArray(div.lastChild.childNodes);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 569;
               var leadingCommentRegex = /^(\s*)<!--(.*?)-->/;
               
@@ -2342,56 +2378,57 @@
           
           __LINE__ = 653;
           ko.memoization = function () {
+            function findMemoNodes(rootNode,appendToArray) {
+              try {
+                __LINE__ = 663;
+                if (!rootNode){
+                  __LINE__ = 664;
+                  return ;
+                }
+                
+                __LINE__ = 665;
+                if (rootNode.nodeType == 8){
+                  
+                  __LINE__ = 666;
+                  var memoId = ko.memoization.parseMemoText(rootNode.nodeValue);
+                  
+                  __LINE__ = 668;
+                  memoId != null && appendToArray.push( {
+                    domNode : rootNode,
+                    memoId : memoId
+                  });
+                } else if (rootNode.nodeType == 1){
+                  __LINE__ = 670;
+                  for (var i = 0,childNodes = rootNode.childNodes,j = childNodes.length;i<j;i ++ ){
+                    
+                    __LINE__ = 671;
+                    findMemoNodes(childNodes[i],appendToArray);
+                  }
+                  
+                }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function generateRandomId() {
+              try {
+                __LINE__ = 660;
+                return randomMax8HexChars()+randomMax8HexChars();
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function randomMax8HexChars() {
+              try {
+                __LINE__ = 657;
+                return (((1+Math.random())*0x00000000)|0).toString(16).substring(1);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function findMemoNodes(rootNode,appendToArray) {
-                try {
-                  __LINE__ = 663;
-                  if (!rootNode){
-                    __LINE__ = 664;
-                    return ;
-                  }
-                  
-                  __LINE__ = 665;
-                  if (rootNode.nodeType == 8){
-                    
-                    __LINE__ = 666;
-                    var memoId = ko.memoization.parseMemoText(rootNode.nodeValue);
-                    
-                    __LINE__ = 668;
-                    memoId != null && appendToArray.push( {
-                      domNode : rootNode,
-                      memoId : memoId
-                    });
-                  } else if (rootNode.nodeType == 1){
-                    __LINE__ = 670;
-                    for (var i = 0,childNodes = rootNode.childNodes,j = childNodes.length;i<j;i ++ ){
-                      
-                      __LINE__ = 671;
-                      findMemoNodes(childNodes[i],appendToArray);
-                    }
-                    
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function generateRandomId() {
-                try {
-                  __LINE__ = 660;
-                  return randomMax8HexChars()+randomMax8HexChars();
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function randomMax8HexChars() {
-                try {
-                  __LINE__ = 657;
-                  return (((1+Math.random())*0x00000000)|0).toString(16).substring(1);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 654;
               var memos = {};
               __LINE__ = 675;
@@ -2805,38 +2842,39 @@
           
           __LINE__ = 860;
           ko.observable = function (initialValue) {
-            try {
-              function observable() {
-                try {
-                  __LINE__ = 864;
-                  if (arguments.length>0){
-                    
-                    __LINE__ = 868;
-                    if ((!observable.equalityComparer) || !observable.equalityComparer(_latestValue,arguments[0])){
-                      
-                      __LINE__ = 869;
-                      observable.valueWillMutate();
-                      
-                      __LINE__ = 870;
-                      _latestValue = arguments[0];
-                      
-                      __LINE__ = 871;
-                      observable.valueHasMutated();
-                    }
-                    __LINE__ = 873;
-                    return this;
-                  } else {
-                    
-                    __LINE__ = 877;
-                    ko.dependencyDetection.registerDependency(observable);
-                    __LINE__ = 878;
-                    return _latestValue;
-                  }
+            function observable() {
+              try {
+                __LINE__ = 864;
+                if (arguments.length>0){
                   
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __LINE__ = 868;
+                  if ((!observable.equalityComparer) || !observable.equalityComparer(_latestValue,arguments[0])){
+                    
+                    __LINE__ = 869;
+                    observable.valueWillMutate();
+                    
+                    __LINE__ = 870;
+                    _latestValue = arguments[0];
+                    
+                    __LINE__ = 871;
+                    observable.valueHasMutated();
+                  }
+                  __LINE__ = 873;
+                  return this;
+                } else {
+                  
+                  __LINE__ = 877;
+                  ko.dependencyDetection.registerDependency(observable);
+                  __LINE__ = 878;
+                  return _latestValue;
                 }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            try {
+              
               __LINE__ = 861;
               var _latestValue = initialValue;
               
@@ -3247,136 +3285,137 @@
           
           __LINE__ = 1059;
           ko.dependentObservable = function (evaluatorFunctionOrOptions,evaluatorFunctionTarget,options) {
-            try {
-              function dependentObservable() {
-                try {
-                  __LINE__ = 1126;
-                  if (arguments.length>0){
-                    __LINE__ = 1127;
-                    if (typeof options.write === "function"){
-                      
-                      __LINE__ = 1129;
-                      var valueForThis = options.owner || evaluatorFunctionTarget;
-                      
-                      __LINE__ = 1130;
-                      options.write.apply(valueForThis,arguments);
-                    } else {
-                      __LINE__ = 1132;
-                      throw "Cannot write a value to a dependentObservable unless you specify a 'write' option. If you wish to read the current value, don't pass any parameters.";
-                    }
+            function dependentObservable() {
+              try {
+                __LINE__ = 1126;
+                if (arguments.length>0){
+                  __LINE__ = 1127;
+                  if (typeof options.write === "function"){
                     
-                  } else {
-                    
-                    __LINE__ = 1137;
-                    !_hasBeenEvaluated && evaluateImmediate();
-                    
-                    __LINE__ = 1138;
-                    ko.dependencyDetection.registerDependency(dependentObservable);
-                    __LINE__ = 1139;
-                    return _latestValue;
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function evaluateImmediate() {
-                try {
-                  __LINE__ = 1101;
-                  if ((_hasBeenEvaluated) && typeof options.disposeWhen == "function"){
-                    __LINE__ = 1102;
-                    if (options.disposeWhen()){
-                      
-                      __LINE__ = 1103;
-                      dependentObservable.dispose();
-                      __LINE__ = 1104;
-                      return ;
-                    }
-                    
-                  }
-                  
-                  try {
-                    
-                    __LINE__ = 1109;
-                    disposeAllSubscriptionsToDependencies();
-                    
-                    __LINE__ = 1110;
-                    ko.dependencyDetection.begin(function (subscribable) {
-                      try {
-                        __LINE__ = 1111;
-                        _subscriptionsToDependencies.push(subscribable.subscribe(evaluatePossiblyAsync));
-                      } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                      }
-                    });
-                    
-                    __LINE__ = 1113;
+                    __LINE__ = 1129;
                     var valueForThis = options.owner || evaluatorFunctionTarget;
                     
-                    __LINE__ = 1114;
-                    var newValue = options.read.call(valueForThis);
-                    
-                    __LINE__ = 1115;
-                    dependentObservable.notifySubscribers(_latestValue,"beforeChange");
-                    
-                    __LINE__ = 1116;
-                    _latestValue = newValue;
-                  } finally {
-                    
-                    __LINE__ = 1118;
-                    ko.dependencyDetection.end();
-                  }
-                  
-                  __LINE__ = 1121;
-                  dependentObservable.notifySubscribers(_latestValue);
-                  
-                  __LINE__ = 1122;
-                  _hasBeenEvaluated = true;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function evaluatePossiblyAsync() {
-                try {
-                  __LINE__ = 1089;
-                  var throttleEvaluationTimeout = dependentObservable.throttleEvaluation;
-                  
-                  __LINE__ = 1090;
-                  if (throttleEvaluationTimeout && throttleEvaluationTimeout >= 0){
-                    
-                    __LINE__ = 1091;
-                    clearTimeout(evaluationTimeoutInstance);
-                    
-                    __LINE__ = 1092;
-                    evaluationTimeoutInstance = setTimeout(evaluateImmediate,throttleEvaluationTimeout);
+                    __LINE__ = 1130;
+                    options.write.apply(valueForThis,arguments);
                   } else {
-                    __LINE__ = 1094;
-                    evaluateImmediate();
+                    __LINE__ = 1132;
+                    throw "Cannot write a value to a dependentObservable unless you specify a 'write' option. If you wish to read the current value, don't pass any parameters.";
                   }
                   
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } else {
+                  
+                  __LINE__ = 1137;
+                  !_hasBeenEvaluated && evaluateImmediate();
+                  
+                  __LINE__ = 1138;
+                  ko.dependencyDetection.registerDependency(dependentObservable);
+                  __LINE__ = 1139;
+                  return _latestValue;
                 }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function disposeAllSubscriptionsToDependencies() {
+            }
+            function evaluateImmediate() {
+              try {
+                __LINE__ = 1101;
+                if ((_hasBeenEvaluated) && typeof options.disposeWhen == "function"){
+                  __LINE__ = 1102;
+                  if (options.disposeWhen()){
+                    
+                    __LINE__ = 1103;
+                    dependentObservable.dispose();
+                    __LINE__ = 1104;
+                    return ;
+                  }
+                  
+                }
+                
                 try {
-                  __LINE__ = 1081;
-                  ko.utils.arrayForEach(_subscriptionsToDependencies,
-                  function (subscription) {
+                  
+                  __LINE__ = 1109;
+                  disposeAllSubscriptionsToDependencies();
+                  
+                  __LINE__ = 1110;
+                  ko.dependencyDetection.begin(function (subscribable) {
                     try {
-                      __LINE__ = 1082;
-                      subscription.dispose();
+                      __LINE__ = 1111;
+                      _subscriptionsToDependencies.push(subscribable.subscribe(evaluatePossiblyAsync));
                     } catch(e){
                       Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
-                  __LINE__ = 1084;
-                  _subscriptionsToDependencies = [];
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __LINE__ = 1113;
+                  var valueForThis = options.owner || evaluatorFunctionTarget;
+                  
+                  __LINE__ = 1114;
+                  var newValue = options.read.call(valueForThis);
+                  
+                  __LINE__ = 1115;
+                  dependentObservable.notifySubscribers(_latestValue,"beforeChange");
+                  
+                  __LINE__ = 1116;
+                  _latestValue = newValue;
+                } finally {
+                  
+                  __LINE__ = 1118;
+                  ko.dependencyDetection.end();
                 }
+                
+                __LINE__ = 1121;
+                dependentObservable.notifySubscribers(_latestValue);
+                
+                __LINE__ = 1122;
+                _hasBeenEvaluated = true;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            function evaluatePossiblyAsync() {
+              try {
+                __LINE__ = 1089;
+                var throttleEvaluationTimeout = dependentObservable.throttleEvaluation;
+                
+                __LINE__ = 1090;
+                if (throttleEvaluationTimeout && throttleEvaluationTimeout >= 0){
+                  
+                  __LINE__ = 1091;
+                  clearTimeout(evaluationTimeoutInstance);
+                  
+                  __LINE__ = 1092;
+                  evaluationTimeoutInstance = setTimeout(evaluateImmediate,throttleEvaluationTimeout);
+                } else {
+                  __LINE__ = 1094;
+                  evaluateImmediate();
+                }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function disposeAllSubscriptionsToDependencies() {
+              try {
+                __LINE__ = 1081;
+                ko.utils.arrayForEach(_subscriptionsToDependencies,
+                function (subscription) {
+                  try {
+                    __LINE__ = 1082;
+                    subscription.dispose();
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  }
+                });
+                
+                __LINE__ = 1084;
+                _subscriptionsToDependencies = [];
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            try {
+              
               __LINE__ = 1060;
               var _latestValue,
                   _hasBeenEvaluated = false,
@@ -3483,141 +3522,142 @@
           
           __LINE__ = 1170;
           !function () {
+            function objectLookup() {
+              try {
+                __LINE__ = 1236;
+                var keys = [],
+                    values = [];
+                
+                __LINE__ = 1238;
+                this.save = function (key,value) {
+                  try {
+                    __LINE__ = 1239;
+                    var existingIndex = ko.utils.arrayIndexOf(keys,key);
+                    
+                    __LINE__ = 1240;
+                    if (existingIndex >= 0){
+                      __LINE__ = 1241;
+                      values[existingIndex] = value;
+                    } else {
+                      
+                      __LINE__ = 1243;
+                      keys.push(key);
+                      
+                      __LINE__ = 1244;
+                      values.push(value);
+                    }
+                    
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  }
+                };
+                
+                __LINE__ = 1247;
+                this.get = function (key) {
+                  try {
+                    __LINE__ = 1248;
+                    var existingIndex = ko.utils.arrayIndexOf(keys,key);
+                    __LINE__ = 1249;
+                    return (existingIndex >= 0)?values[existingIndex] : undefined;
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  }
+                };
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function visitPropertiesOrArrayEntries(rootObject,visitorCallback) {
+              try {
+                __LINE__ = 1226;
+                if (rootObject instanceof Array){
+                  __LINE__ = 1227;
+                  for (var i = 0;i<rootObject.length;i ++ ){
+                    
+                    __LINE__ = 1228;
+                    visitorCallback(i);
+                  }
+                  
+                } else {
+                  __LINE__ = 1230;
+                  for (var propertyName in rootObject){
+                    
+                    __LINE__ = 1231;
+                    visitorCallback(propertyName);
+                  }
+                  
+                }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function mapJsObjectGraph(rootObject,mapInputCallback,visitedObjects) {
+              try {
+                __LINE__ = 1192;
+                visitedObjects = visitedObjects || new objectLookup();
+                
+                __LINE__ = 1194;
+                rootObject = mapInputCallback(rootObject);
+                
+                __LINE__ = 1195;
+                var canHaveProperties = (typeof rootObject == "object") && (rootObject !== null) && (rootObject !== undefined) && (!(rootObject instanceof Date));
+                
+                __LINE__ = 1196;
+                if (!canHaveProperties){
+                  __LINE__ = 1197;
+                  return rootObject;
+                }
+                
+                __LINE__ = 1199;
+                var outputProperties = rootObject instanceof Array?[] : {};
+                
+                __LINE__ = 1200;
+                visitedObjects.save(rootObject,outputProperties);
+                
+                __LINE__ = 1202;
+                visitPropertiesOrArrayEntries(rootObject,
+                function (indexer) {
+                  try {
+                    __LINE__ = 1203;
+                    var propertyValue = mapInputCallback(rootObject[indexer]);
+                    
+                    __LINE__ = 1205;
+                    switch (typeof propertyValue) {
+                      case "boolean" :
+                      case "number" :
+                      case "string" :
+                      case "function" :
+                        
+                        __LINE__ = 1210;
+                        outputProperties[indexer] = propertyValue;
+                        __LINE__ = 1211;
+                        break;
+                      case "object" :
+                      case "undefined" :
+                        
+                        __LINE__ = 1214;
+                        var previouslyMappedValue = visitedObjects.get(propertyValue);
+                        
+                        __LINE__ = 1215;
+                        outputProperties[indexer] = (previouslyMappedValue !== undefined)?previouslyMappedValue : mapJsObjectGraph(propertyValue,mapInputCallback,visitedObjects);
+                        __LINE__ = 1218;
+                        break;
+                        
+                    }
+                    
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  }
+                });
+                __LINE__ = 1222;
+                return outputProperties;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function objectLookup() {
-                try {
-                  __LINE__ = 1236;
-                  var keys = [],
-                      values = [];
-                  
-                  __LINE__ = 1238;
-                  this.save = function (key,value) {
-                    try {
-                      __LINE__ = 1239;
-                      var existingIndex = ko.utils.arrayIndexOf(keys,key);
-                      
-                      __LINE__ = 1240;
-                      if (existingIndex >= 0){
-                        __LINE__ = 1241;
-                        values[existingIndex] = value;
-                      } else {
-                        
-                        __LINE__ = 1243;
-                        keys.push(key);
-                        
-                        __LINE__ = 1244;
-                        values.push(value);
-                      }
-                      
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  };
-                  
-                  __LINE__ = 1247;
-                  this.get = function (key) {
-                    try {
-                      __LINE__ = 1248;
-                      var existingIndex = ko.utils.arrayIndexOf(keys,key);
-                      __LINE__ = 1249;
-                      return (existingIndex >= 0)?values[existingIndex] : undefined;
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  };
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function visitPropertiesOrArrayEntries(rootObject,visitorCallback) {
-                try {
-                  __LINE__ = 1226;
-                  if (rootObject instanceof Array){
-                    __LINE__ = 1227;
-                    for (var i = 0;i<rootObject.length;i ++ ){
-                      
-                      __LINE__ = 1228;
-                      visitorCallback(i);
-                    }
-                    
-                  } else {
-                    __LINE__ = 1230;
-                    for (var propertyName in rootObject){
-                      
-                      __LINE__ = 1231;
-                      visitorCallback(propertyName);
-                    }
-                    
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function mapJsObjectGraph(rootObject,mapInputCallback,visitedObjects) {
-                try {
-                  __LINE__ = 1192;
-                  visitedObjects = visitedObjects || new objectLookup();
-                  
-                  __LINE__ = 1194;
-                  rootObject = mapInputCallback(rootObject);
-                  
-                  __LINE__ = 1195;
-                  var canHaveProperties = (typeof rootObject == "object") && (rootObject !== null) && (rootObject !== undefined) && (!(rootObject instanceof Date));
-                  
-                  __LINE__ = 1196;
-                  if (!canHaveProperties){
-                    __LINE__ = 1197;
-                    return rootObject;
-                  }
-                  
-                  __LINE__ = 1199;
-                  var outputProperties = rootObject instanceof Array?[] : {};
-                  
-                  __LINE__ = 1200;
-                  visitedObjects.save(rootObject,outputProperties);
-                  
-                  __LINE__ = 1202;
-                  visitPropertiesOrArrayEntries(rootObject,
-                  function (indexer) {
-                    try {
-                      __LINE__ = 1203;
-                      var propertyValue = mapInputCallback(rootObject[indexer]);
-                      
-                      __LINE__ = 1205;
-                      switch (typeof propertyValue) {
-                        case "boolean" :
-                        case "number" :
-                        case "string" :
-                        case "function" :
-                          
-                          __LINE__ = 1210;
-                          outputProperties[indexer] = propertyValue;
-                          __LINE__ = 1211;
-                          break;
-                        case "object" :
-                        case "undefined" :
-                          
-                          __LINE__ = 1214;
-                          var previouslyMappedValue = visitedObjects.get(propertyValue);
-                          
-                          __LINE__ = 1215;
-                          outputProperties[indexer] = (previouslyMappedValue !== undefined)?previouslyMappedValue : mapJsObjectGraph(propertyValue,mapInputCallback,visitedObjects);
-                          __LINE__ = 1218;
-                          break;
-                          
-                      }
-                      
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  });
-                  __LINE__ = 1222;
-                  return outputProperties;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 1171;
               var maxNestedObservableDepth = 10;
               
@@ -3788,69 +3828,70 @@
           
           __LINE__ = 1312;
           ko.jsonExpressionRewriting = function () {
+            function ensureQuoted(key) {
+              try {
+                __LINE__ = 1335;
+                var trimmedKey = ko.utils.stringTrim(key);
+                
+                __LINE__ = 1336;
+                switch (trimmedKey.length && trimmedKey.charAt(0)) {
+                  case "'" :
+                  case '"' :
+                    __LINE__ = 1339;
+                    return key;
+                  default :
+                    __LINE__ = 1341;
+                    return "'"+trimmedKey+"'";
+                    
+                }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function isWriteableValue(expression) {
+              try {
+                __LINE__ = 1329;
+                if (ko.utils.arrayIndexOf(javaScriptReservedWords,ko.utils.stringTrim(expression).toLowerCase()) >= 0){
+                  __LINE__ = 1330;
+                  return false;
+                }
+                __LINE__ = 1331;
+                return expression.match(javaScriptAssignmentTarget) !== null;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function restoreTokens(string,tokens) {
+              try {
+                __LINE__ = 1318;
+                var prevValue = null;
+                
+                __LINE__ = 1319;
+                while (string != prevValue){
+                  
+                  __LINE__ = 1320;
+                  prevValue = string;
+                  
+                  __LINE__ = 1321;
+                  string = string.replace(restoreCapturedTokensRegex,
+                  function (match,tokenIndex) {
+                    try {
+                      __LINE__ = 1322;
+                      return tokens[tokenIndex];
+                    } catch(e){
+                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    }
+                  });
+                }
+                __LINE__ = 1325;
+                return string;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function ensureQuoted(key) {
-                try {
-                  __LINE__ = 1335;
-                  var trimmedKey = ko.utils.stringTrim(key);
-                  
-                  __LINE__ = 1336;
-                  switch (trimmedKey.length && trimmedKey.charAt(0)) {
-                    case "'" :
-                    case '"' :
-                      __LINE__ = 1339;
-                      return key;
-                    default :
-                      __LINE__ = 1341;
-                      return "'"+trimmedKey+"'";
-                      
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function isWriteableValue(expression) {
-                try {
-                  __LINE__ = 1329;
-                  if (ko.utils.arrayIndexOf(javaScriptReservedWords,ko.utils.stringTrim(expression).toLowerCase()) >= 0){
-                    __LINE__ = 1330;
-                    return false;
-                  }
-                  __LINE__ = 1331;
-                  return expression.match(javaScriptAssignmentTarget) !== null;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function restoreTokens(string,tokens) {
-                try {
-                  __LINE__ = 1318;
-                  var prevValue = null;
-                  
-                  __LINE__ = 1319;
-                  while (string != prevValue){
-                    
-                    __LINE__ = 1320;
-                    prevValue = string;
-                    
-                    __LINE__ = 1321;
-                    string = string.replace(restoreCapturedTokensRegex,
-                    function (match,tokenIndex) {
-                      try {
-                        __LINE__ = 1322;
-                        return tokens[tokenIndex];
-                      } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                      }
-                    });
-                  }
-                  __LINE__ = 1325;
-                  return string;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 1313;
               var restoreCapturedTokensRegex = /\@ko_token_(\d+)\@/g,
                   javaScriptAssignmentTarget = /^[\_$a-z][\_$a-z0-9]*(\[.*?\])*(\.[\_$a-z][\_$a-z0-9]*(\[.*?\])*)*$/i,
@@ -4187,144 +4228,145 @@
           
           __LINE__ = 1483;
           !function () {
-            try {
-              function getUnbalancedChildTags(node) {
-                try {
-                  __LINE__ = 1553;
-                  var childNode = node.firstChild,
-                      captureRemaining = null;
+            function getUnbalancedChildTags(node) {
+              try {
+                __LINE__ = 1553;
+                var childNode = node.firstChild,
+                    captureRemaining = null;
+                
+                __LINE__ = 1554;
+                if (childNode){
                   
-                  __LINE__ = 1554;
-                  if (childNode){
-                    
-                    __LINE__ = 1555;
-                    do {
-                      __LINE__ = 1556;
-                      if (captureRemaining){
-                        __LINE__ = 1557;
-                        captureRemaining.push(childNode);
-                      } else if (isStartComment(childNode)){
-                        
-                        __LINE__ = 1559;
-                        var matchingEndComment = getMatchingEndComment(childNode,true);
-                        
-                        __LINE__ = 1561;
-                        matchingEndComment?childNode = matchingEndComment : captureRemaining = [childNode];
-                      } else {
-                        __LINE__ = 1565;
-                        isEndComment(childNode) && (captureRemaining = [childNode]);
-                      }
+                  __LINE__ = 1555;
+                  do {
+                    __LINE__ = 1556;
+                    if (captureRemaining){
+                      __LINE__ = 1557;
+                      captureRemaining.push(childNode);
+                    } else if (isStartComment(childNode)){
                       
-                    }while (childNode = childNode.nextSibling);
-                  }
-                  __LINE__ = 1569;
-                  return captureRemaining;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function nodeArrayToText(nodeArray,cleanNodes) {
-                try {
-                  __LINE__ = 1541;
-                  var texts = [];
-                  
-                  __LINE__ = 1542;
-                  for (var i = 0,j = nodeArray.length;i<j;i ++ ){
-                    
-                    __LINE__ = 1544;
-                    cleanNodes && ko.utils.domNodeDisposal.cleanNode(nodeArray[i]);
-                    
-                    __LINE__ = 1545;
-                    texts.push(ko.utils.outerHTML(nodeArray[i]));
-                  }
-                  __LINE__ = 1547;
-                  return ''.concat.apply("",texts);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function getMatchingEndComment(startComment,allowUnbalanced) {
-                try {
-                  __LINE__ = 1531;
-                  var allVirtualChildren = getVirtualChildren(startComment,allowUnbalanced);
-                  
-                  __LINE__ = 1532;
-                  if (allVirtualChildren){
-                    
-                    __LINE__ = 1533;
-                    if (allVirtualChildren.length>0){
-                      __LINE__ = 1534;
-                      return allVirtualChildren[allVirtualChildren.length-1].nextSibling;
-                    }
-                    __LINE__ = 1535;
-                    return startComment.nextSibling;
-                  } else {
-                    __LINE__ = 1537;
-                    return null;
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function getVirtualChildren(startComment,allowUnbalanced) {
-                try {
-                  __LINE__ = 1510;
-                  var currentNode = startComment,
-                      depth = 1,
-                      children = [];
-                  
-                  __LINE__ = 1513;
-                  while (currentNode = currentNode.nextSibling){
-                    
-                    __LINE__ = 1514;
-                    if (isEndComment(currentNode)){
+                      __LINE__ = 1559;
+                      var matchingEndComment = getMatchingEndComment(childNode,true);
                       
-                      __LINE__ = 1515;
-                      depth -- ;
-                      
-                      __LINE__ = 1516;
-                      if (depth === 0){
-                        __LINE__ = 1517;
-                        return children;
-                      }
-                      
+                      __LINE__ = 1561;
+                      matchingEndComment?childNode = matchingEndComment : captureRemaining = [childNode];
+                    } else {
+                      __LINE__ = 1565;
+                      isEndComment(childNode) && (captureRemaining = [childNode]);
                     }
                     
-                    __LINE__ = 1520;
-                    children.push(currentNode);
-                    
-                    __LINE__ = 1523;
-                    isStartComment(currentNode) && depth ++ ;
-                  }
+                  }while (childNode = childNode.nextSibling);
+                }
+                __LINE__ = 1569;
+                return captureRemaining;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function nodeArrayToText(nodeArray,cleanNodes) {
+              try {
+                __LINE__ = 1541;
+                var texts = [];
+                
+                __LINE__ = 1542;
+                for (var i = 0,j = nodeArray.length;i<j;i ++ ){
                   
-                  __LINE__ = 1525;
-                  if (!allowUnbalanced){
-                    __LINE__ = 1526;
-                    throw new Error("Cannot find closing comment tag to match: "+startComment.nodeValue);
+                  __LINE__ = 1544;
+                  cleanNodes && ko.utils.domNodeDisposal.cleanNode(nodeArray[i]);
+                  
+                  __LINE__ = 1545;
+                  texts.push(ko.utils.outerHTML(nodeArray[i]));
+                }
+                __LINE__ = 1547;
+                return ''.concat.apply("",texts);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function getMatchingEndComment(startComment,allowUnbalanced) {
+              try {
+                __LINE__ = 1531;
+                var allVirtualChildren = getVirtualChildren(startComment,allowUnbalanced);
+                
+                __LINE__ = 1532;
+                if (allVirtualChildren){
+                  
+                  __LINE__ = 1533;
+                  if (allVirtualChildren.length>0){
+                    __LINE__ = 1534;
+                    return allVirtualChildren[allVirtualChildren.length-1].nextSibling;
                   }
-                  __LINE__ = 1527;
+                  __LINE__ = 1535;
+                  return startComment.nextSibling;
+                } else {
+                  __LINE__ = 1537;
                   return null;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function isEndComment(node) {
-                try {
-                  __LINE__ = 1506;
-                  return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(endCommentRegex);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+            function getVirtualChildren(startComment,allowUnbalanced) {
+              try {
+                __LINE__ = 1510;
+                var currentNode = startComment,
+                    depth = 1,
+                    children = [];
+                
+                __LINE__ = 1513;
+                while (currentNode = currentNode.nextSibling){
+                  
+                  __LINE__ = 1514;
+                  if (isEndComment(currentNode)){
+                    
+                    __LINE__ = 1515;
+                    depth -- ;
+                    
+                    __LINE__ = 1516;
+                    if (depth === 0){
+                      __LINE__ = 1517;
+                      return children;
+                    }
+                    
+                  }
+                  
+                  __LINE__ = 1520;
+                  children.push(currentNode);
+                  
+                  __LINE__ = 1523;
+                  isStartComment(currentNode) && depth ++ ;
                 }
-              }
-              function isStartComment(node) {
-                try {
-                  __LINE__ = 1502;
-                  return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(startCommentRegex);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                
+                __LINE__ = 1525;
+                if (!allowUnbalanced){
+                  __LINE__ = 1526;
+                  throw new Error("Cannot find closing comment tag to match: "+startComment.nodeValue);
                 }
+                __LINE__ = 1527;
+                return null;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            function isEndComment(node) {
+              try {
+                __LINE__ = 1506;
+                return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(endCommentRegex);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function isStartComment(node) {
+              try {
+                __LINE__ = 1502;
+                return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(startCommentRegex);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            try {
+              
               __LINE__ = 1495;
               var commentNodesHaveTextProperty = document.createComment("test").text === "<!--test-->",
                   startCommentRegex = commentNodesHaveTextProperty?/^<!--\s*ko\s+(.*\:.*)\s*-->$/ : /^\s*ko\s+(.*\:.*)\s*$/,
@@ -4657,202 +4699,204 @@
           
           __LINE__ = 1725;
           !function () {
-            try {
-              function applyBindingsToNodeInternal(node,bindings,viewModelOrBindingContext,isRootNodeForBindingContext) {
+            function applyBindingsToNodeInternal(node,bindings,viewModelOrBindingContext,isRootNodeForBindingContext) {
+              function parsedBindingsAccessor() {
                 try {
-                  function parsedBindingsAccessor() {
-                    try {
-                      __LINE__ = 1797;
-                      return parsedBindings;
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  }
-                  function makeValueAccessor(bindingKey) {
+                  __LINE__ = 1797;
+                  return parsedBindings;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              function makeValueAccessor(bindingKey) {
+                try {
+                  __LINE__ = 1794;
+                  return function () {
                     try {
                       __LINE__ = 1794;
-                      return function () {
-                        try {
-                          __LINE__ = 1794;
-                          return parsedBindings[bindingKey];
-                        } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                        }
-                      };
+                      return parsedBindings[bindingKey];
                     } catch(e){
                       Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
-                  }
-                  __LINE__ = 1781;
-                  var initPhase = 0;
-                  
-                  __LINE__ = 1784;
-                  ko.virtualElements.extractAnonymousTemplateIfVirtualElement(node);
-                  
-                  __LINE__ = 1792;
-                  var parsedBindings;
-                  
-                  __LINE__ = 1800;
-                  var bindingHandlerThatControlsDescendantBindings;
-                  
-                  __LINE__ = 1801;
-                  new ko.dependentObservable(function () {
-                    try {
-                      __LINE__ = 1804;
-                      var bindingContextInstance = viewModelOrBindingContext && (viewModelOrBindingContext instanceof ko.bindingContext)?viewModelOrBindingContext : new ko.bindingContext(ko.utils.unwrapObservable(viewModelOrBindingContext)),
-                          viewModel = bindingContextInstance.$data;
+                  };
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }
+              try {
+                
+                __LINE__ = 1781;
+                var initPhase = 0;
+                
+                __LINE__ = 1784;
+                ko.virtualElements.extractAnonymousTemplateIfVirtualElement(node);
+                
+                __LINE__ = 1792;
+                var parsedBindings;
+                
+                __LINE__ = 1800;
+                var bindingHandlerThatControlsDescendantBindings;
+                
+                __LINE__ = 1801;
+                new ko.dependentObservable(function () {
+                  try {
+                    __LINE__ = 1804;
+                    var bindingContextInstance = viewModelOrBindingContext && (viewModelOrBindingContext instanceof ko.bindingContext)?viewModelOrBindingContext : new ko.bindingContext(ko.utils.unwrapObservable(viewModelOrBindingContext)),
+                        viewModel = bindingContextInstance.$data;
+                    
+                    __LINE__ = 1812;
+                    isRootNodeForBindingContext && ko.storedBindingContextForNode(node,bindingContextInstance);
+                    
+                    __LINE__ = 1815;
+                    var evaluatedBindings = (typeof bindings == "function")?bindings() : bindings;
+                    
+                    __LINE__ = 1816;
+                    parsedBindings = evaluatedBindings || ko.bindingProvider.instance.getBindings(node,bindingContextInstance);
+                    
+                    __LINE__ = 1818;
+                    if (parsedBindings){
                       
-                      __LINE__ = 1812;
-                      isRootNodeForBindingContext && ko.storedBindingContextForNode(node,bindingContextInstance);
-                      
-                      __LINE__ = 1815;
-                      var evaluatedBindings = (typeof bindings == "function")?bindings() : bindings;
-                      
-                      __LINE__ = 1816;
-                      parsedBindings = evaluatedBindings || ko.bindingProvider.instance.getBindings(node,bindingContextInstance);
-                      
-                      __LINE__ = 1818;
-                      if (parsedBindings){
+                      __LINE__ = 1820;
+                      if (initPhase === 0){
                         
-                        __LINE__ = 1820;
-                        if (initPhase === 0){
+                        __LINE__ = 1821;
+                        initPhase = 1;
+                        
+                        __LINE__ = 1822;
+                        for (var bindingKey in parsedBindings){
                           
-                          __LINE__ = 1821;
-                          initPhase = 1;
+                          __LINE__ = 1823;
+                          var binding = ko.bindingHandlers[bindingKey];
                           
-                          __LINE__ = 1822;
-                          for (var bindingKey in parsedBindings){
+                          __LINE__ = 1825;
+                          binding && node.nodeType === 8 && validateThatBindingIsAllowedForVirtualElements(bindingKey);
+                          
+                          __LINE__ = 1827;
+                          if (binding && typeof binding.init == "function"){
                             
-                            __LINE__ = 1823;
-                            var binding = ko.bindingHandlers[bindingKey];
+                            __LINE__ = 1828;
+                            var handlerInitFn = binding.init;
                             
-                            __LINE__ = 1825;
-                            binding && node.nodeType === 8 && validateThatBindingIsAllowedForVirtualElements(bindingKey);
+                            __LINE__ = 1829;
+                            var initResult = handlerInitFn(node,makeValueAccessor(bindingKey),parsedBindingsAccessor,viewModel,bindingContextInstance);
                             
-                            __LINE__ = 1827;
-                            if (binding && typeof binding.init == "function"){
+                            __LINE__ = 1832;
+                            if (initResult && initResult.controlsDescendantBindings){
                               
-                              __LINE__ = 1828;
-                              var handlerInitFn = binding.init;
-                              
-                              __LINE__ = 1829;
-                              var initResult = handlerInitFn(node,makeValueAccessor(bindingKey),parsedBindingsAccessor,viewModel,bindingContextInstance);
-                              
-                              __LINE__ = 1832;
-                              if (initResult && initResult.controlsDescendantBindings){
-                                
-                                __LINE__ = 1833;
-                                if (bindingHandlerThatControlsDescendantBindings !== undefined){
-                                  __LINE__ = 1834;
-                                  throw new Error("Multiple bindings ("+bindingHandlerThatControlsDescendantBindings+" and "+bindingKey+") are trying to control descendant bindings of the same element. You cannot use these bindings together on the same element.");
-                                }
-                                
-                                __LINE__ = 1835;
-                                bindingHandlerThatControlsDescendantBindings = bindingKey;
+                              __LINE__ = 1833;
+                              if (bindingHandlerThatControlsDescendantBindings !== undefined){
+                                __LINE__ = 1834;
+                                throw new Error("Multiple bindings ("+bindingHandlerThatControlsDescendantBindings+" and "+bindingKey+") are trying to control descendant bindings of the same element. You cannot use these bindings together on the same element.");
                               }
                               
+                              __LINE__ = 1835;
+                              bindingHandlerThatControlsDescendantBindings = bindingKey;
                             }
                             
                           }
                           
-                          __LINE__ = 1839;
-                          initPhase = 2;
                         }
                         
-                        __LINE__ = 1843;
-                        if (initPhase === 2){
-                          __LINE__ = 1844;
-                          for (var bindingKey in parsedBindings){
+                        __LINE__ = 1839;
+                        initPhase = 2;
+                      }
+                      
+                      __LINE__ = 1843;
+                      if (initPhase === 2){
+                        __LINE__ = 1844;
+                        for (var bindingKey in parsedBindings){
+                          
+                          __LINE__ = 1845;
+                          var binding = ko.bindingHandlers[bindingKey];
+                          
+                          __LINE__ = 1846;
+                          if (binding && typeof binding.update == "function"){
                             
-                            __LINE__ = 1845;
-                            var binding = ko.bindingHandlers[bindingKey];
+                            __LINE__ = 1847;
+                            var handlerUpdateFn = binding.update;
                             
-                            __LINE__ = 1846;
-                            if (binding && typeof binding.update == "function"){
-                              
-                              __LINE__ = 1847;
-                              var handlerUpdateFn = binding.update;
-                              
-                              __LINE__ = 1848;
-                              handlerUpdateFn(node,makeValueAccessor(bindingKey),parsedBindingsAccessor,viewModel,bindingContextInstance);
-                            }
-                            
+                            __LINE__ = 1848;
+                            handlerUpdateFn(node,makeValueAccessor(bindingKey),parsedBindingsAccessor,viewModel,bindingContextInstance);
                           }
                           
                         }
                         
                       }
                       
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
-                  },null, {
-                    'disposeWhenNodeIsRemoved' : node
-                  });
-                  __LINE__ = 1858;
-                  return  {
-                    shouldBindDescendants : bindingHandlerThatControlsDescendantBindings === undefined
-                  };
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function applyBindingsToNodeAndDescendantsInternal(viewModel,nodeVerified,isRootNodeForBindingContext) {
-                try {
-                  __LINE__ = 1760;
-                  var shouldBindDescendants = true,
-                      isElement = (nodeVerified.nodeType == 1);
-                  
-                  __LINE__ = 1768;
-                  isElement && ko.virtualElements.normaliseVirtualElementDomStructure(nodeVerified);
-                  
-                  __LINE__ = 1770;
-                  var shouldApplyBindings = (isElement && isRootNodeForBindingContext) || ko.bindingProvider.instance.nodeHasBindings(nodeVerified);
-                  
-                  __LINE__ = 1773;
-                  shouldApplyBindings && (shouldBindDescendants = applyBindingsToNodeInternal(nodeVerified,null,viewModel,isRootNodeForBindingContext).shouldBindDescendants);
-                  
-                  __LINE__ = 1776;
-                  isElement && shouldBindDescendants && applyBindingsToDescendantsInternal(viewModel,nodeVerified);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function applyBindingsToDescendantsInternal(viewModel,elementVerified) {
-                try {
-                  __LINE__ = 1751;
-                  var currentChild,
-                      nextInQueue = elementVerified.childNodes[0];
-                  
-                  __LINE__ = 1752;
-                  while (currentChild = nextInQueue){
                     
-                    __LINE__ = 1754;
-                    nextInQueue = ko.virtualElements.nextSibling(currentChild);
-                    
-                    __LINE__ = 1755;
-                    applyBindingsToNodeAndDescendantsInternal(viewModel,currentChild,false);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
+                },null, {
+                  'disposeWhenNodeIsRemoved' : node
+                });
+                __LINE__ = 1858;
+                return  {
+                  shouldBindDescendants : bindingHandlerThatControlsDescendantBindings === undefined
+                };
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function validateThatBindingIsAllowedForVirtualElements(bindingName) {
-                try {
-                  __LINE__ = 1745;
-                  var validator = ko.virtualElements.allowedBindings[bindingName];
-                  
-                  __LINE__ = 1746;
-                  if (!validator){
-                    __LINE__ = 1747;
-                    throw new Error("The binding '"+bindingName+"' cannot be used with virtual elements");
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
+            }
+            function applyBindingsToNodeAndDescendantsInternal(viewModel,nodeVerified,isRootNodeForBindingContext) {
+              try {
+                __LINE__ = 1760;
+                var shouldBindDescendants = true,
+                    isElement = (nodeVerified.nodeType == 1);
+                
+                __LINE__ = 1768;
+                isElement && ko.virtualElements.normaliseVirtualElementDomStructure(nodeVerified);
+                
+                __LINE__ = 1770;
+                var shouldApplyBindings = (isElement && isRootNodeForBindingContext) || ko.bindingProvider.instance.nodeHasBindings(nodeVerified);
+                
+                __LINE__ = 1773;
+                shouldApplyBindings && (shouldBindDescendants = applyBindingsToNodeInternal(nodeVerified,null,viewModel,isRootNodeForBindingContext).shouldBindDescendants);
+                
+                __LINE__ = 1776;
+                isElement && shouldBindDescendants && applyBindingsToDescendantsInternal(viewModel,nodeVerified);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            function applyBindingsToDescendantsInternal(viewModel,elementVerified) {
+              try {
+                __LINE__ = 1751;
+                var currentChild,
+                    nextInQueue = elementVerified.childNodes[0];
+                
+                __LINE__ = 1752;
+                while (currentChild = nextInQueue){
+                  
+                  __LINE__ = 1754;
+                  nextInQueue = ko.virtualElements.nextSibling(currentChild);
+                  
+                  __LINE__ = 1755;
+                  applyBindingsToNodeAndDescendantsInternal(viewModel,currentChild,false);
+                }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function validateThatBindingIsAllowedForVirtualElements(bindingName) {
+              try {
+                __LINE__ = 1745;
+                var validator = ko.virtualElements.allowedBindings[bindingName];
+                
+                __LINE__ = 1746;
+                if (!validator){
+                  __LINE__ = 1747;
+                  throw new Error("The binding '"+bindingName+"' cannot be used with virtual elements");
+                }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            try {
+              
               __LINE__ = 1726;
               ko.bindingHandlers = {};
               
@@ -6431,68 +6475,69 @@
           
           __LINE__ = 2539;
           ko.templateRewriting = function () {
-            try {
-              function constructMemoizedTagReplacement(dataBindAttributeValue,tagToRetain,templateEngine) {
-                try {
-                  __LINE__ = 2562;
-                  var dataBindKeyValueArray = ko.jsonExpressionRewriting.parseObjectLiteral(dataBindAttributeValue);
-                  
-                  __LINE__ = 2563;
-                  validateDataBindValuesForRewriting(dataBindKeyValueArray);
-                  
-                  __LINE__ = 2564;
-                  var rewrittenDataBindAttributeValue = ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson(dataBindKeyValueArray),
-                      applyBindingsToNextSiblingScript = "ko.templateRewriting.applyMemoizedBindingsToNextSibling(function() { \
+            function constructMemoizedTagReplacement(dataBindAttributeValue,tagToRetain,templateEngine) {
+              try {
+                __LINE__ = 2562;
+                var dataBindKeyValueArray = ko.jsonExpressionRewriting.parseObjectLiteral(dataBindAttributeValue);
+                
+                __LINE__ = 2563;
+                validateDataBindValuesForRewriting(dataBindKeyValueArray);
+                
+                __LINE__ = 2564;
+                var rewrittenDataBindAttributeValue = ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson(dataBindKeyValueArray),
+                    applyBindingsToNextSiblingScript = "ko.templateRewriting.applyMemoizedBindingsToNextSibling(function() { \
             return (function() { return { "+rewrittenDataBindAttributeValue+" } })() \
         })";
-                  __LINE__ = 2570;
-                  return templateEngine.createJavaScriptEvaluatorBlock(applyBindingsToNextSiblingScript)+tagToRetain;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
+                __LINE__ = 2570;
+                return templateEngine.createJavaScriptEvaluatorBlock(applyBindingsToNextSiblingScript)+tagToRetain;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function validateDataBindValuesForRewriting(keyValueArray) {
-                try {
-                  __LINE__ = 2544;
-                  var allValidators = ko.jsonExpressionRewriting.bindingRewriteValidators;
+            }
+            function validateDataBindValuesForRewriting(keyValueArray) {
+              try {
+                __LINE__ = 2544;
+                var allValidators = ko.jsonExpressionRewriting.bindingRewriteValidators;
+                
+                __LINE__ = 2545;
+                for (var i = 0;i<keyValueArray.length;i ++ ){
                   
-                  __LINE__ = 2545;
-                  for (var i = 0;i<keyValueArray.length;i ++ ){
+                  __LINE__ = 2546;
+                  var key = keyValueArray[i].key;
+                  
+                  __LINE__ = 2547;
+                  if (allValidators.hasOwnProperty(key)){
                     
-                    __LINE__ = 2546;
-                    var key = keyValueArray[i].key;
+                    __LINE__ = 2548;
+                    var validator = allValidators[key];
                     
-                    __LINE__ = 2547;
-                    if (allValidators.hasOwnProperty(key)){
+                    __LINE__ = 2550;
+                    if (typeof validator === "function"){
                       
-                      __LINE__ = 2548;
-                      var validator = allValidators[key];
+                      __LINE__ = 2551;
+                      var possibleErrorMessage = validator(keyValueArray[i].value);
                       
-                      __LINE__ = 2550;
-                      if (typeof validator === "function"){
-                        
-                        __LINE__ = 2551;
-                        var possibleErrorMessage = validator(keyValueArray[i].value);
-                        
-                        __LINE__ = 2552;
-                        if (possibleErrorMessage){
-                          __LINE__ = 2553;
-                          throw new Error(possibleErrorMessage);
-                        }
-                        
-                      } else if (!validator){
-                        __LINE__ = 2555;
-                        throw new Error("This template engine does not support the '"+key+"' binding within its templates");
+                      __LINE__ = 2552;
+                      if (possibleErrorMessage){
+                        __LINE__ = 2553;
+                        throw new Error(possibleErrorMessage);
                       }
                       
+                    } else if (!validator){
+                      __LINE__ = 2555;
+                      throw new Error("This template engine does not support the '"+key+"' binding within its templates");
                     }
                     
                   }
                   
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            try {
+              
               __LINE__ = 2540;
               var memoizeDataBindingAttributeSyntaxRegex = /(<[a-z]+\d*(\s+(?!data-bind=)[a-z0-9\-]+(=(\"[^\"]*\"|\'[^\']*\'))?)*\s+)data-bind=(["'])([\s\S]*?)\5/gi,
                   memoizeVirtualContainerBindingSyntaxRegex = /<!--\s*ko\b\s*([\s\S]*?)\s*-->/g;
@@ -6684,115 +6729,116 @@
           
           __LINE__ = 2667;
           !function () {
+            function disposeOldSubscriptionAndStoreNewOne(element,newSubscription) {
+              try {
+                __LINE__ = 2818;
+                var oldSubscription = ko.utils.domData.get(element,templateSubscriptionDomDataKey);
+                
+                __LINE__ = 2820;
+                oldSubscription && (typeof (oldSubscription.dispose) == 'function') && oldSubscription.dispose();
+                
+                __LINE__ = 2821;
+                ko.utils.domData.set(element,templateSubscriptionDomDataKey,newSubscription);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function executeTemplate(targetNodeOrNodeArray,renderMode,template,bindingContext,options) {
+              try {
+                __LINE__ = 2712;
+                options = options || {};
+                
+                __LINE__ = 2713;
+                var templateEngineToUse = (options.templateEngine || _templateEngine);
+                
+                __LINE__ = 2714;
+                ko.templateRewriting.ensureTemplateIsRewritten(template,templateEngineToUse);
+                
+                __LINE__ = 2715;
+                var renderedNodesArray = templateEngineToUse.renderTemplate(template,bindingContext,options);
+                
+                __LINE__ = 2718;
+                if ((typeof renderedNodesArray.length != "number") || (renderedNodesArray.length>0 && typeof renderedNodesArray[0].nodeType != "number")){
+                  __LINE__ = 2719;
+                  throw "Template engine must return an array of DOM nodes";
+                }
+                
+                __LINE__ = 2721;
+                var haveAddedNodesToParent = false;
+                
+                __LINE__ = 2722;
+                switch (renderMode) {
+                  case "replaceChildren" :
+                    
+                    __LINE__ = 2724;
+                    ko.virtualElements.setDomNodeChildren(targetNodeOrNodeArray,renderedNodesArray);
+                    
+                    __LINE__ = 2725;
+                    haveAddedNodesToParent = true;
+                    __LINE__ = 2726;
+                    break;
+                  case "replaceNode" :
+                    
+                    __LINE__ = 2728;
+                    ko.utils.replaceDomNodes(targetNodeOrNodeArray,renderedNodesArray);
+                    
+                    __LINE__ = 2729;
+                    haveAddedNodesToParent = true;
+                    __LINE__ = 2730;
+                    break;
+                  case "ignoreTargetNode" :
+                    __LINE__ = 2731;
+                    break;
+                  default :
+                    __LINE__ = 2733;
+                    throw new Error("Unknown renderMode: "+renderMode);
+                    
+                }
+                
+                __LINE__ = 2736;
+                if (haveAddedNodesToParent){
+                  
+                  __LINE__ = 2737;
+                  ko.activateBindingsOnTemplateRenderedNodes(renderedNodesArray,bindingContext);
+                  
+                  __LINE__ = 2739;
+                  options.afterRender && options.afterRender(renderedNodesArray,bindingContext.$data);
+                }
+                __LINE__ = 2742;
+                return renderedNodesArray;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function getFirstNodeFromPossibleArray(nodeOrNodeArray) {
+              try {
+                __LINE__ = 2706;
+                return nodeOrNodeArray.nodeType?nodeOrNodeArray : nodeOrNodeArray.length>0?nodeOrNodeArray[0] : null;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function invokeForEachNodeOrCommentInParent(nodeArray,parent,action) {
+              try {
+                __LINE__ = 2676;
+                for (var i = 0;node = nodeArray[i];i ++ ){
+                  
+                  __LINE__ = 2677;
+                  if (node.parentNode !== parent){
+                    __LINE__ = 2678;
+                    continue ;
+                  }
+                  
+                  __LINE__ = 2680;
+                  ((node.nodeType === 1) || (node.nodeType === 8)) && action(node);
+                }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function disposeOldSubscriptionAndStoreNewOne(element,newSubscription) {
-                try {
-                  __LINE__ = 2818;
-                  var oldSubscription = ko.utils.domData.get(element,templateSubscriptionDomDataKey);
-                  
-                  __LINE__ = 2820;
-                  oldSubscription && (typeof (oldSubscription.dispose) == 'function') && oldSubscription.dispose();
-                  
-                  __LINE__ = 2821;
-                  ko.utils.domData.set(element,templateSubscriptionDomDataKey,newSubscription);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function executeTemplate(targetNodeOrNodeArray,renderMode,template,bindingContext,options) {
-                try {
-                  __LINE__ = 2712;
-                  options = options || {};
-                  
-                  __LINE__ = 2713;
-                  var templateEngineToUse = (options.templateEngine || _templateEngine);
-                  
-                  __LINE__ = 2714;
-                  ko.templateRewriting.ensureTemplateIsRewritten(template,templateEngineToUse);
-                  
-                  __LINE__ = 2715;
-                  var renderedNodesArray = templateEngineToUse.renderTemplate(template,bindingContext,options);
-                  
-                  __LINE__ = 2718;
-                  if ((typeof renderedNodesArray.length != "number") || (renderedNodesArray.length>0 && typeof renderedNodesArray[0].nodeType != "number")){
-                    __LINE__ = 2719;
-                    throw "Template engine must return an array of DOM nodes";
-                  }
-                  
-                  __LINE__ = 2721;
-                  var haveAddedNodesToParent = false;
-                  
-                  __LINE__ = 2722;
-                  switch (renderMode) {
-                    case "replaceChildren" :
-                      
-                      __LINE__ = 2724;
-                      ko.virtualElements.setDomNodeChildren(targetNodeOrNodeArray,renderedNodesArray);
-                      
-                      __LINE__ = 2725;
-                      haveAddedNodesToParent = true;
-                      __LINE__ = 2726;
-                      break;
-                    case "replaceNode" :
-                      
-                      __LINE__ = 2728;
-                      ko.utils.replaceDomNodes(targetNodeOrNodeArray,renderedNodesArray);
-                      
-                      __LINE__ = 2729;
-                      haveAddedNodesToParent = true;
-                      __LINE__ = 2730;
-                      break;
-                    case "ignoreTargetNode" :
-                      __LINE__ = 2731;
-                      break;
-                    default :
-                      __LINE__ = 2733;
-                      throw new Error("Unknown renderMode: "+renderMode);
-                      
-                  }
-                  
-                  __LINE__ = 2736;
-                  if (haveAddedNodesToParent){
-                    
-                    __LINE__ = 2737;
-                    ko.activateBindingsOnTemplateRenderedNodes(renderedNodesArray,bindingContext);
-                    
-                    __LINE__ = 2739;
-                    options.afterRender && options.afterRender(renderedNodesArray,bindingContext.$data);
-                  }
-                  __LINE__ = 2742;
-                  return renderedNodesArray;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function getFirstNodeFromPossibleArray(nodeOrNodeArray) {
-                try {
-                  __LINE__ = 2706;
-                  return nodeOrNodeArray.nodeType?nodeOrNodeArray : nodeOrNodeArray.length>0?nodeOrNodeArray[0] : null;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function invokeForEachNodeOrCommentInParent(nodeArray,parent,action) {
-                try {
-                  __LINE__ = 2676;
-                  for (var i = 0;node = nodeArray[i];i ++ ){
-                    
-                    __LINE__ = 2677;
-                    if (node.parentNode !== parent){
-                      __LINE__ = 2678;
-                      continue ;
-                    }
-                    
-                    __LINE__ = 2680;
-                    ((node.nodeType === 1) || (node.nodeType === 8)) && action(node);
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 2668;
               var _templateEngine;
               
@@ -7122,158 +7168,159 @@
           
           __LINE__ = 2891;
           !function () {
-            try {
-              function findEditScriptFromEditDistanceMatrix(editDistanceMatrix,oldArray,newArray) {
-                try {
-                  __LINE__ = 2928;
-                  var oldIndex = oldArray.length,
-                      newIndex = newArray.length,
-                      editScript = [],
-                      maxDistance = editDistanceMatrix[newIndex][oldIndex];
+            function findEditScriptFromEditDistanceMatrix(editDistanceMatrix,oldArray,newArray) {
+              try {
+                __LINE__ = 2928;
+                var oldIndex = oldArray.length,
+                    newIndex = newArray.length,
+                    editScript = [],
+                    maxDistance = editDistanceMatrix[newIndex][oldIndex];
+                
+                __LINE__ = 2932;
+                if (maxDistance === undefined){
+                  __LINE__ = 2933;
+                  return null;
+                }
+                
+                __LINE__ = 2934;
+                while ((oldIndex>0) || (newIndex>0)){
                   
-                  __LINE__ = 2932;
-                  if (maxDistance === undefined){
-                    __LINE__ = 2933;
-                    return null;
+                  __LINE__ = 2935;
+                  var me = editDistanceMatrix[newIndex][oldIndex];
+                  
+                  __LINE__ = 2936;
+                  var distanceViaAdd = (newIndex>0)?editDistanceMatrix[newIndex-1][oldIndex] : maxDistance+1;
+                  
+                  __LINE__ = 2937;
+                  var distanceViaDelete = (oldIndex>0)?editDistanceMatrix[newIndex][oldIndex-1] : maxDistance+1;
+                  
+                  __LINE__ = 2938;
+                  var distanceViaRetain = (newIndex>0) && (oldIndex>0)?editDistanceMatrix[newIndex-1][oldIndex-1] : maxDistance+1;
+                  
+                  __LINE__ = 2939;
+                  ((distanceViaAdd === undefined) || (distanceViaAdd<me-1)) && (distanceViaAdd = maxDistance+1);
+                  
+                  __LINE__ = 2940;
+                  ((distanceViaDelete === undefined) || (distanceViaDelete<me-1)) && (distanceViaDelete = maxDistance+1);
+                  
+                  __LINE__ = 2941;
+                  distanceViaRetain<me-1 && (distanceViaRetain = maxDistance+1);
+                  
+                  __LINE__ = 2943;
+                  if ((distanceViaAdd <= distanceViaDelete) && (distanceViaAdd<distanceViaRetain)){
+                    
+                    __LINE__ = 2944;
+                    editScript.push( {
+                      status : "added",
+                      value : newArray[newIndex-1]
+                    });
+                    
+                    __LINE__ = 2945;
+                    newIndex -- ;
+                  } else if ((distanceViaDelete<distanceViaAdd) && (distanceViaDelete<distanceViaRetain)){
+                    
+                    __LINE__ = 2947;
+                    editScript.push( {
+                      status : "deleted",
+                      value : oldArray[oldIndex-1]
+                    });
+                    
+                    __LINE__ = 2948;
+                    oldIndex -- ;
+                  } else {
+                    
+                    __LINE__ = 2950;
+                    editScript.push( {
+                      status : "retained",
+                      value : oldArray[oldIndex-1]
+                    });
+                    
+                    __LINE__ = 2951;
+                    newIndex -- ;
+                    
+                    __LINE__ = 2952;
+                    oldIndex -- ;
                   }
                   
-                  __LINE__ = 2934;
-                  while ((oldIndex>0) || (newIndex>0)){
-                    
-                    __LINE__ = 2935;
-                    var me = editDistanceMatrix[newIndex][oldIndex];
-                    
-                    __LINE__ = 2936;
-                    var distanceViaAdd = (newIndex>0)?editDistanceMatrix[newIndex-1][oldIndex] : maxDistance+1;
-                    
-                    __LINE__ = 2937;
-                    var distanceViaDelete = (oldIndex>0)?editDistanceMatrix[newIndex][oldIndex-1] : maxDistance+1;
-                    
-                    __LINE__ = 2938;
-                    var distanceViaRetain = (newIndex>0) && (oldIndex>0)?editDistanceMatrix[newIndex-1][oldIndex-1] : maxDistance+1;
-                    
-                    __LINE__ = 2939;
-                    ((distanceViaAdd === undefined) || (distanceViaAdd<me-1)) && (distanceViaAdd = maxDistance+1);
-                    
-                    __LINE__ = 2940;
-                    ((distanceViaDelete === undefined) || (distanceViaDelete<me-1)) && (distanceViaDelete = maxDistance+1);
-                    
-                    __LINE__ = 2941;
-                    distanceViaRetain<me-1 && (distanceViaRetain = maxDistance+1);
-                    
-                    __LINE__ = 2943;
-                    if ((distanceViaAdd <= distanceViaDelete) && (distanceViaAdd<distanceViaRetain)){
-                      
-                      __LINE__ = 2944;
-                      editScript.push( {
-                        status : "added",
-                        value : newArray[newIndex-1]
-                      });
-                      
-                      __LINE__ = 2945;
-                      newIndex -- ;
-                    } else if ((distanceViaDelete<distanceViaAdd) && (distanceViaDelete<distanceViaRetain)){
-                      
-                      __LINE__ = 2947;
-                      editScript.push( {
-                        status : "deleted",
-                        value : oldArray[oldIndex-1]
-                      });
-                      
-                      __LINE__ = 2948;
-                      oldIndex -- ;
+                }
+                __LINE__ = 2955;
+                return editScript.reverse();
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function calculateEditDistanceMatrix(oldArray,newArray,maxAllowedDistance) {
+              try {
+                __LINE__ = 2894;
+                var distances = [];
+                
+                __LINE__ = 2895;
+                for (var i = 0;i <= newArray.length;i ++ ){
+                  
+                  __LINE__ = 2896;
+                  distances[i] = [];
+                }
+                
+                __LINE__ = 2899;
+                for (var i = 0,j = Math.min(oldArray.length,maxAllowedDistance);i <= j;i ++ ){
+                  
+                  __LINE__ = 2900;
+                  distances[0][i] = i;
+                }
+                
+                __LINE__ = 2903;
+                for (var i = 1,j = Math.min(newArray.length,maxAllowedDistance);i <= j;i ++ ){
+                  
+                  __LINE__ = 2904;
+                  distances[i][0] = i;
+                }
+                
+                __LINE__ = 2908;
+                var oldIndex,
+                    oldIndexMax = oldArray.length,
+                    newIndex,
+                    newIndexMax = newArray.length,
+                    distanceViaAddition,
+                    distanceViaDeletion;
+                
+                __LINE__ = 2910;
+                for (oldIndex = 1;oldIndex <= oldIndexMax;oldIndex ++ ){
+                  
+                  __LINE__ = 2911;
+                  var newIndexMinForRow = Math.max(1,oldIndex-maxAllowedDistance);
+                  
+                  __LINE__ = 2912;
+                  var newIndexMaxForRow = Math.min(newIndexMax,oldIndex+maxAllowedDistance);
+                  
+                  __LINE__ = 2913;
+                  for (newIndex = newIndexMinForRow;newIndex <= newIndexMaxForRow;newIndex ++ ){
+                    __LINE__ = 2914;
+                    if (oldArray[oldIndex-1] === newArray[newIndex-1]){
+                      __LINE__ = 2915;
+                      distances[newIndex][oldIndex] = distances[newIndex-1][oldIndex-1];
                     } else {
                       
-                      __LINE__ = 2950;
-                      editScript.push( {
-                        status : "retained",
-                        value : oldArray[oldIndex-1]
-                      });
+                      __LINE__ = 2917;
+                      var northDistance = distances[newIndex-1][oldIndex] === undefined?Number.MAX_VALUE : distances[newIndex-1][oldIndex]+1;
                       
-                      __LINE__ = 2951;
-                      newIndex -- ;
+                      __LINE__ = 2918;
+                      var westDistance = distances[newIndex][oldIndex-1] === undefined?Number.MAX_VALUE : distances[newIndex][oldIndex-1]+1;
                       
-                      __LINE__ = 2952;
-                      oldIndex -- ;
+                      __LINE__ = 2919;
+                      distances[newIndex][oldIndex] = Math.min(northDistance,westDistance);
                     }
                     
                   }
-                  __LINE__ = 2955;
-                  return editScript.reverse();
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  
                 }
+                __LINE__ = 2924;
+                return distances;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function calculateEditDistanceMatrix(oldArray,newArray,maxAllowedDistance) {
-                try {
-                  __LINE__ = 2894;
-                  var distances = [];
-                  
-                  __LINE__ = 2895;
-                  for (var i = 0;i <= newArray.length;i ++ ){
-                    
-                    __LINE__ = 2896;
-                    distances[i] = [];
-                  }
-                  
-                  __LINE__ = 2899;
-                  for (var i = 0,j = Math.min(oldArray.length,maxAllowedDistance);i <= j;i ++ ){
-                    
-                    __LINE__ = 2900;
-                    distances[0][i] = i;
-                  }
-                  
-                  __LINE__ = 2903;
-                  for (var i = 1,j = Math.min(newArray.length,maxAllowedDistance);i <= j;i ++ ){
-                    
-                    __LINE__ = 2904;
-                    distances[i][0] = i;
-                  }
-                  
-                  __LINE__ = 2908;
-                  var oldIndex,
-                      oldIndexMax = oldArray.length,
-                      newIndex,
-                      newIndexMax = newArray.length,
-                      distanceViaAddition,
-                      distanceViaDeletion;
-                  
-                  __LINE__ = 2910;
-                  for (oldIndex = 1;oldIndex <= oldIndexMax;oldIndex ++ ){
-                    
-                    __LINE__ = 2911;
-                    var newIndexMinForRow = Math.max(1,oldIndex-maxAllowedDistance);
-                    
-                    __LINE__ = 2912;
-                    var newIndexMaxForRow = Math.min(newIndexMax,oldIndex+maxAllowedDistance);
-                    
-                    __LINE__ = 2913;
-                    for (newIndex = newIndexMinForRow;newIndex <= newIndexMaxForRow;newIndex ++ ){
-                      __LINE__ = 2914;
-                      if (oldArray[oldIndex-1] === newArray[newIndex-1]){
-                        __LINE__ = 2915;
-                        distances[newIndex][oldIndex] = distances[newIndex-1][oldIndex-1];
-                      } else {
-                        
-                        __LINE__ = 2917;
-                        var northDistance = distances[newIndex-1][oldIndex] === undefined?Number.MAX_VALUE : distances[newIndex-1][oldIndex]+1;
-                        
-                        __LINE__ = 2918;
-                        var westDistance = distances[newIndex][oldIndex-1] === undefined?Number.MAX_VALUE : distances[newIndex][oldIndex-1]+1;
-                        
-                        __LINE__ = 2919;
-                        distances[newIndex][oldIndex] = Math.min(northDistance,westDistance);
-                      }
-                      
-                    }
-                    
-                  }
-                  __LINE__ = 2924;
-                  return distances;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+            }
+            try {
+              
               __LINE__ = 2958;
               ko.utils.compareArrays = function (oldArray,newArray,maxEditsToConsider) {
                 try {
@@ -7311,91 +7358,92 @@
           
           __LINE__ = 2974;
           !function () {
-            try {
-              function mapNodeAndRefreshWhenChanged(containerNode,mapping,valueToMap,callbackAfterAddingNodes) {
-                try {
-                  __LINE__ = 3009;
-                  var mappedNodes = [],
-                      dependentObservable = ko.dependentObservable(function () {
+            function mapNodeAndRefreshWhenChanged(containerNode,mapping,valueToMap,callbackAfterAddingNodes) {
+              try {
+                __LINE__ = 3009;
+                var mappedNodes = [],
+                    dependentObservable = ko.dependentObservable(function () {
+                      try {
+                        __LINE__ = 3011;
+                        var newMappedNodes = mapping(valueToMap) || [];
+                        
+                        __LINE__ = 3014;
+                        if (mappedNodes.length>0){
+                          
+                          __LINE__ = 3015;
+                          fixUpVirtualElements(mappedNodes);
+                          
+                          __LINE__ = 3016;
+                          ko.utils.replaceDomNodes(mappedNodes,newMappedNodes);
+                          
+                          __LINE__ = 3018;
+                          callbackAfterAddingNodes && callbackAfterAddingNodes(valueToMap,newMappedNodes);
+                        }
+                        
+                        __LINE__ = 3023;
+                        mappedNodes.splice(0,mappedNodes.length);
+                        
+                        __LINE__ = 3024;
+                        ko.utils.arrayPushAll(mappedNodes,newMappedNodes);
+                      } catch(e){
+                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      }
+                    },null, {
+                      'disposeWhenNodeIsRemoved' : containerNode,
+                      'disposeWhen' : function () {
                         try {
-                          __LINE__ = 3011;
-                          var newMappedNodes = mapping(valueToMap) || [];
-                          
-                          __LINE__ = 3014;
-                          if (mappedNodes.length>0){
-                            
-                            __LINE__ = 3015;
-                            fixUpVirtualElements(mappedNodes);
-                            
-                            __LINE__ = 3016;
-                            ko.utils.replaceDomNodes(mappedNodes,newMappedNodes);
-                            
-                            __LINE__ = 3018;
-                            callbackAfterAddingNodes && callbackAfterAddingNodes(valueToMap,newMappedNodes);
-                          }
-                          
-                          __LINE__ = 3023;
-                          mappedNodes.splice(0,mappedNodes.length);
-                          
-                          __LINE__ = 3024;
-                          ko.utils.arrayPushAll(mappedNodes,newMappedNodes);
+                          __LINE__ = 3025;
+                          return (mappedNodes.length == 0) || !ko.utils.domNodeIsAttachedToDocument(mappedNodes[0]);
                         } catch(e){
                           Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
-                      },null, {
-                        'disposeWhenNodeIsRemoved' : containerNode,
-                        'disposeWhen' : function () {
-                          try {
-                            __LINE__ = 3025;
-                            return (mappedNodes.length == 0) || !ko.utils.domNodeIsAttachedToDocument(mappedNodes[0]);
-                          } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                          }
-                        }
-                      });
-                  __LINE__ = 3026;
-                  return  {
-                    mappedNodes : mappedNodes,
-                    dependentObservable : dependentObservable
-                  };
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function fixUpVirtualElements(contiguousNodeArray) {
-                try {
-                  __LINE__ = 2991;
-                  if (contiguousNodeArray.length>2){
-                    
-                    __LINE__ = 2993;
-                    var current = contiguousNodeArray[0],
-                        last = contiguousNodeArray[contiguousNodeArray.length-1],
-                        newContiguousSet = [current];
-                    
-                    __LINE__ = 2994;
-                    while (current !== last){
-                      
-                      __LINE__ = 2995;
-                      current = current.nextSibling;
-                      
-                      __LINE__ = 2996;
-                      if (!current){
-                        __LINE__ = 2997;
-                        return ;
                       }
-                      
-                      __LINE__ = 2998;
-                      newContiguousSet.push(current);
+                    });
+                __LINE__ = 3026;
+                return  {
+                  mappedNodes : mappedNodes,
+                  dependentObservable : dependentObservable
+                };
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function fixUpVirtualElements(contiguousNodeArray) {
+              try {
+                __LINE__ = 2991;
+                if (contiguousNodeArray.length>2){
+                  
+                  __LINE__ = 2993;
+                  var current = contiguousNodeArray[0],
+                      last = contiguousNodeArray[contiguousNodeArray.length-1],
+                      newContiguousSet = [current];
+                  
+                  __LINE__ = 2994;
+                  while (current !== last){
+                    
+                    __LINE__ = 2995;
+                    current = current.nextSibling;
+                    
+                    __LINE__ = 2996;
+                    if (!current){
+                      __LINE__ = 2997;
+                      return ;
                     }
                     
-                    __LINE__ = 3003;
-                    [].splice.apply(contiguousNodeArray,[0,contiguousNodeArray.length].concat(newContiguousSet));
+                    __LINE__ = 2998;
+                    newContiguousSet.push(current);
                   }
                   
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __LINE__ = 3003;
+                  [].splice.apply(contiguousNodeArray,[0,contiguousNodeArray.length].concat(newContiguousSet));
                 }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            try {
+              
               __LINE__ = 3029;
               var lastMappingResultDomDataKey = "setDomNodeChildrenFromArrayMapping_lastMappingResult";
               
@@ -7643,27 +7691,28 @@
             try {
               __LINE__ = 3142;
               ko.jqueryTmplTemplateEngine = function () {
+                function executeTemplate(compiledTemplate,data,jQueryTemplateOptions) {
+                  try {
+                    __LINE__ = 3167;
+                    return jQuery.tmpl(compiledTemplate,data,jQueryTemplateOptions);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  }
+                }
+                function ensureHasReferencedJQueryTemplates() {
+                  try {
+                    __LINE__ = 3162;
+                    if (jQueryTmplVersion<2){
+                      __LINE__ = 3163;
+                      throw new Error("Your version of jQuery.tmpl is too old. Please upgrade to jQuery.tmpl 1.0.0pre or later.");
+                    }
+                    
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  }
+                }
                 try {
-                  function executeTemplate(compiledTemplate,data,jQueryTemplateOptions) {
-                    try {
-                      __LINE__ = 3167;
-                      return jQuery.tmpl(compiledTemplate,data,jQueryTemplateOptions);
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  }
-                  function ensureHasReferencedJQueryTemplates() {
-                    try {
-                      __LINE__ = 3162;
-                      if (jQueryTmplVersion<2){
-                        __LINE__ = 3163;
-                        throw new Error("Your version of jQuery.tmpl is too old. Please upgrade to jQuery.tmpl 1.0.0pre or later.");
-                      }
-                      
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
-                  }
+                  
                   __LINE__ = 3147;
                   var jQueryTmplVersion = this.jQueryTmplVersion = function () {
                         try {

@@ -2,8 +2,7 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var _mochaGlobalExport = {},
-      global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = (this !== null)?this : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -17,7 +16,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -29,6 +28,7 @@
         }
         
       }
+      
       var stringProto = _mochaLocalTmp0.prototype,
           arrayProto = _mochaLocalTmp1.prototype,
           functionProto = _mochaLocalTmp2.prototype,
@@ -372,6 +372,7 @@
   }.call(this);
   
   var Runtime = function () {
+        "use strict";
         function spreadCall(context,fn,args,isNew) {
           var newArgs = [];
           
@@ -563,6 +564,8 @@
           }
           
         }
+        function ModuleContainer(){}
+        function Module(){}
         function RecordConstructor(obj) {
           for (var i in obj){
             
@@ -630,6 +633,7 @@
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
+        
         var _mochaLocalExport = {};
         
         var max = Math.max,
@@ -710,7 +714,38 @@
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
-            },
+            };
+        
+        Object.defineProperty(ModuleContainer.prototype,'_modules', {
+          value : {},
+          writable : true
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'add', {
+          value : function (name) {
+            return this._modules[name] = new Module;
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'get', {
+          value : function (name) {
+            return this._modules[name];
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'toString', {
+          value : function () {
+            return "[object ModuleContainer]";
+          }
+        });
+        
+        Object.defineProperty(Module.prototype,'toString', {
+          value : function () {
+            return "[object Module]";
+          }
+        });
+        
+        var modules = _mochaLocalExport.modules = new ModuleContainer,
             getPrototype = ("getPrototypeOf" in Object)?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
@@ -898,31 +933,31 @@
       var __FILE__ = "-759650552-class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-759650552-class_test.js'] = {};
+      Runtime.modules.add('-759650552-class_test.js');
       
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-class_test.js'],
-          Monster = function () {
+      __LINE__ = 1;
+      var Monster = function () {
+            function constructor(name,health) {
+              try {
+                __LINE__ = 8;
+                this.name = name;
+                
+                __LINE__ = 9;
+                Runtime.getPrivateRecord(this).health = health;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function Monster() {
+              try {
+                __LINE__ = 1;
+                Runtime.initializeClass(this,Monster,_mochaPrivateHolder,constructor,arguments,'Monster',1);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function constructor(name,health) {
-                try {
-                  __LINE__ = 8;
-                  this.name = name;
-                  
-                  __LINE__ = 9;
-                  Runtime.getPrivateRecord(this).health = health;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function Monster() {
-                try {
-                  __LINE__ = 1;
-                  Runtime.initializeClass(this,Monster,_mochaPrivateHolder,constructor,arguments,'Monster',1);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 1;
               var _mochaPrivateHolder = function (){};
               
@@ -998,29 +1033,30 @@
       
       __LINE__ = 52;
       var BaseTest = function () {
+            function constructor(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2) {
+              try {
+                __LINE__ = 53;
+                Runtime.getPrivateRecord(this).name = _mochaLocalTmp0 || "foo";
+                
+                __LINE__ = 53;
+                Runtime.getPrivateRecord(this).addr = _mochaLocalTmp1 || "tokyo";
+                
+                __LINE__ = 53;
+                Runtime.getPrivateRecord(this).age = _mochaLocalTmp2;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function BaseTest() {
+              try {
+                __LINE__ = 52;
+                Runtime.initializeClass(this,BaseTest,_mochaPrivateHolder,constructor,arguments,'BaseTest',52);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function constructor(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2) {
-                try {
-                  __LINE__ = 53;
-                  Runtime.getPrivateRecord(this).name = _mochaLocalTmp0 || "foo";
-                  
-                  __LINE__ = 53;
-                  Runtime.getPrivateRecord(this).addr = _mochaLocalTmp1 || "tokyo";
-                  
-                  __LINE__ = 53;
-                  Runtime.getPrivateRecord(this).age = _mochaLocalTmp2;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function BaseTest() {
-                try {
-                  __LINE__ = 52;
-                  Runtime.initializeClass(this,BaseTest,_mochaPrivateHolder,constructor,arguments,'BaseTest',52);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 52;
               var _mochaPrivateHolder = function (){};
               
@@ -1046,23 +1082,24 @@
             }
           }(),
           DeriveTest = function () {
+            function constructor() {
+              try {
+                __LINE__ = 58;
+                return _mochaSuper.constructor.call(this);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function DeriveTest() {
+              try {
+                __LINE__ = 57;
+                Runtime.initializeClass(this,DeriveTest,_mochaPrivateHolder,constructor,arguments,'DeriveTest',57);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function constructor() {
-                try {
-                  __LINE__ = 58;
-                  return _mochaSuper.constructor.call(this);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function DeriveTest() {
-                try {
-                  __LINE__ = 57;
-                  Runtime.initializeClass(this,DeriveTest,_mochaPrivateHolder,constructor,arguments,'DeriveTest',57);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 57;
               var _mochaPrivateHolder = function (){};
               
@@ -1097,23 +1134,24 @@
             }
           }(),
           Derive2 = function () {
+            function constructor() {
+              try {
+                __LINE__ = 64;
+                return _mochaSuper.constructor.call(this);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function Derive2() {
+              try {
+                __LINE__ = 63;
+                Runtime.initializeClass(this,Derive2,_mochaPrivateHolder,constructor,arguments,'Derive2',63);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function constructor() {
-                try {
-                  __LINE__ = 64;
-                  return _mochaSuper.constructor.call(this);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function Derive2() {
-                try {
-                  __LINE__ = 63;
-                  Runtime.initializeClass(this,Derive2,_mochaPrivateHolder,constructor,arguments,'Derive2',63);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 63;
               var _mochaPrivateHolder = function (){};
               
@@ -1148,23 +1186,24 @@
             }
           }(),
           Drive3 = function () {
+            function constructor() {
+              try {
+                __LINE__ = 71;
+                _mochaSuper.constructor.call(this,200,'tokyo',20);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function Drive3() {
+              try {
+                __LINE__ = 69;
+                Runtime.initializeClass(this,Drive3,_mochaPrivateHolder,constructor,arguments,'Drive3',69);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function constructor() {
-                try {
-                  __LINE__ = 71;
-                  _mochaSuper.constructor.call(this,200,'tokyo',20);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function Drive3() {
-                try {
-                  __LINE__ = 69;
-                  Runtime.initializeClass(this,Drive3,_mochaPrivateHolder,constructor,arguments,'Drive3',69);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 69;
               var _mochaPrivateHolder = function (){};
               
@@ -1189,29 +1228,30 @@
             }
           }(),
           TestClass = function () {
+            function constructor(_mochaLocalTmp7,_mochaLocalTmp8) {
+              try {
+                __LINE__ = 76;
+                Runtime.getPrivateRecord(this)._name = _mochaLocalTmp7 || "test";
+                
+                __LINE__ = 76;
+                Runtime.getPrivateRecord(this)._age = _mochaLocalTmp8 || 20;
+                
+                __LINE__ = 77;
+                this.testProp = 1;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function _mochaLocalTmp6() {
+              try {
+                __LINE__ = 75;
+                Runtime.initializeClass(this,_mochaLocalTmp6,_mochaPrivateHolder,constructor,arguments,'_mochaLocalTmp6',75);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function constructor(_mochaLocalTmp7,_mochaLocalTmp8) {
-                try {
-                  __LINE__ = 76;
-                  Runtime.getPrivateRecord(this)._name = _mochaLocalTmp7 || "test";
-                  
-                  __LINE__ = 76;
-                  Runtime.getPrivateRecord(this)._age = _mochaLocalTmp8 || 20;
-                  
-                  __LINE__ = 77;
-                  this.testProp = 1;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function _mochaLocalTmp6() {
-                try {
-                  __LINE__ = 75;
-                  Runtime.initializeClass(this,_mochaLocalTmp6,_mochaPrivateHolder,constructor,arguments,'_mochaLocalTmp6',75);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+              
               __LINE__ = 75;
               var _mochaPrivateHolder = function (){};
               
@@ -1250,16 +1290,17 @@
               
               __LINE__ = 82;
               _mochaPrivateHolder.prototype.Inner = function () {
-                try {
-                  function constructor(){}
-                  function Inner() {
-                    try {
-                      __LINE__ = 82;
-                      Runtime.initializeClass(this,Inner,_mochaPrivateHolder,constructor,arguments,'Inner',82);
-                    } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                    }
+                function constructor(){}
+                function Inner() {
+                  try {
+                    __LINE__ = 82;
+                    Runtime.initializeClass(this,Inner,_mochaPrivateHolder,constructor,arguments,'Inner',82);
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
+                }
+                try {
+                  
                   __LINE__ = 82;
                   var _mochaPrivateHolder = function (){};
                   
@@ -1360,16 +1401,17 @@
             _mochaTraitMark : true
           },
           MixinTest = function () {
-            try {
-              function constructor(){}
-              function MixinTest() {
-                try {
-                  __LINE__ = 106;
-                  Runtime.initializeClass(this,MixinTest,_mochaPrivateHolder,constructor,arguments,'MixinTest',106);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
+            function constructor(){}
+            function MixinTest() {
+              try {
+                __LINE__ = 106;
+                Runtime.initializeClass(this,MixinTest,_mochaPrivateHolder,constructor,arguments,'MixinTest',106);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
+            }
+            try {
+              
               __LINE__ = 106;
               var _mochaPrivateHolder = function (){};
               
@@ -1420,75 +1462,76 @@
           }(),
           instance2 = new MixinTest();
       
-      __LINE__ = 113;
-      Runtime.assert(true,instance2.m1("foo") === "foo","instance2.m1(\"foo\") === \"foo\"",113,'class_test.js');
-      
       __LINE__ = 114;
-      Runtime.assert(true,instance2.m2 === undefined,"instance2.m2 === undefined",114,'class_test.js');
+      Runtime.assert(true,instance2.m1("foo") === "foo","instance2.m1(\"foo\") === \"foo\"",114,'class_test.js');
       
-      __LINE__ = 117;
+      __LINE__ = 115;
+      Runtime.assert(true,instance2.m2 === undefined,"instance2.m2 === undefined",115,'class_test.js');
+      
+      __LINE__ = 118;
       var Box = function () {
+            function constructor(_mochaLocalTmp9,_mochaLocalTmp10) {
+              try {
+                __LINE__ = 119;
+                Runtime.getPrivateRecord(this).width = _mochaLocalTmp9 || 100;
+                
+                __LINE__ = 119;
+                Runtime.getPrivateRecord(this).height = _mochaLocalTmp10 || 100;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function Box() {
+              try {
+                __LINE__ = 118;
+                Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box',118);
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
             try {
-              function constructor(_mochaLocalTmp9,_mochaLocalTmp10) {
-                try {
-                  __LINE__ = 118;
-                  Runtime.getPrivateRecord(this).width = _mochaLocalTmp9 || 100;
-                  
-                  __LINE__ = 118;
-                  Runtime.getPrivateRecord(this).height = _mochaLocalTmp10 || 100;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              function Box() {
-                try {
-                  __LINE__ = 117;
-                  Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box',117);
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
-              __LINE__ = 117;
-              var _mochaPrivateHolder = function (){};
               
               __LINE__ = 118;
-              Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+              var _mochaPrivateHolder = function (){};
               
               __LINE__ = 119;
+              Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+              
+              __LINE__ = 120;
               Box.prototype.height = function () {
                 try {
-                  __LINE__ = 119;
+                  __LINE__ = 120;
                   return Runtime.getPrivateRecord(this).height;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
-              __LINE__ = 120;
+              __LINE__ = 121;
               Box.prototype.width = function () {
                 try {
-                  __LINE__ = 120;
+                  __LINE__ = 121;
                   return Runtime.getPrivateRecord(this).width;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
-              __LINE__ = 121;
+              __LINE__ = 122;
               var _mochaLocalTmp11 =  {
                     type : 200,
                     _max : 400
                   };
               
-              __LINE__ = 121;
+              __LINE__ = 122;
               _mochaPrivateHolder.prototype._type = _mochaLocalTmp11._type;
               
-              __LINE__ = 121;
+              __LINE__ = 122;
               _mochaPrivateHolder.prototype._max = _mochaLocalTmp11._max;
               
-              __LINE__ = 117;
+              __LINE__ = 118;
               Runtime.createUnenumProp(Box.prototype,"constructor",constructor);
-              __LINE__ = 117;
+              __LINE__ = 118;
               return Box;
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
@@ -1496,11 +1539,11 @@
           }(),
           inst = new Box();
       
-      __LINE__ = 125;
-      Runtime.assert(true,inst.height() === 100,"inst.height() === 100",125,'class_test.js');
-      
       __LINE__ = 126;
-      Runtime.assert(true,inst.width() === 100,"inst.width() === 100",126,'class_test.js');
+      Runtime.assert(true,inst.height() === 100,"inst.height() === 100",126,'class_test.js');
+      
+      __LINE__ = 127;
+      Runtime.assert(true,inst.width() === 100,"inst.width() === 100",127,'class_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

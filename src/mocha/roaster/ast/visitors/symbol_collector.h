@@ -5,9 +5,10 @@
 namespace mocha {
 class ScopeRegistry;
 class Scope;
+class CompilationInfo;
 class SymbolCollector : public IVisitor {
  public :
-  SymbolCollector(ScopeRegistry* scope_registry, bool is_debug);
+  SymbolCollector(ScopeRegistry* scope_registry, CompilationInfo* info);
   ~SymbolCollector(){};
 #include <mocha/roaster/ast/visitors/visitor_decl.h>
  private :
@@ -17,10 +18,14 @@ class SymbolCollector : public IVisitor {
   void NormalFunctionCall_(CallExp* exp);
   void ArrayProccessor_(AstNode* ast_node);
   void ObjectProccessor_(AstNode* ast_node);
+  void Rename(Literal* lit);
   int depth_;
-  bool is_debug_;
+  int scope_index_;
+  CompilationInfo* info_;
   ScopeRegistry* scope_registry_;
+  ScopeRegistry virtual_registry_;
   Scope* scope_;
+  Scope* virtual_scope_;
 };
 
 }

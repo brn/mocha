@@ -43,14 +43,19 @@ class Scope : public memory::Allocated {
  public :
   typedef std::pair<std::string,TokenInfo*> RefEntry;
   typedef std::pair<const char*,SymbolEntry> TableEntry;
+  typedef std::pair<const char*,const char*> RenamedEntry;
   typedef roastlib::unordered_map<std::string,SymbolEntry> SymbolTable;
   typedef roastlib::unordered_map<std::string,TokenInfo*> RefTable;
   typedef roastlib::unordered_map<std::string,TokenInfo*> UsedTable;
+  typedef roastlib::unordered_map<std::string,std::string> RenamedTable;
   typedef SymbolTable::iterator SymbolIterator;
   typedef RefTable::iterator RefIterator;
   typedef UsedTable::iterator UsedIterator;
+  typedef RenamedTable::iterator RenamedIterator;
   ~Scope();
   void Insert (TokenInfo* info, AstNode* ast_node);
+  void ScopeRename(TokenInfo* info);
+  const char* FindRenamed(TokenInfo* info);
   void InsertAlias(TokenInfo* info, AstNode* ast_node);
   Scope* parent() { return parent_; }
   SymbolEntry FindAlias(TokenInfo* info);
@@ -58,6 +63,7 @@ class Scope : public memory::Allocated {
   void Ref(TokenInfo* info);
   void Rename();
   bool IsGlobal() const;
+  bool IsFirstScope() const;
   
  private :
   Scope();
@@ -75,11 +81,13 @@ class Scope : public memory::Allocated {
   RefTable reference_table_;
   UsedTable used_table_;
   UsedTable renamed_table_;
+  RenamedTable scope_renamed_table_;
 };
 
 class ScopeRegistry {
  public :
   ScopeRegistry(memory::Pool* pool);
+  ScopeRegistry();
   ~ScopeRegistry();
   Scope* Assign();
   Scope* Return();

@@ -2,8 +2,7 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var _mochaGlobalExport = {},
-      global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = (this !== null)?this : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -17,7 +16,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -29,6 +28,7 @@
         }
         
       }
+      
       var stringProto = _mochaLocalTmp0.prototype,
           arrayProto = _mochaLocalTmp1.prototype,
           functionProto = _mochaLocalTmp2.prototype,
@@ -372,6 +372,7 @@
   }.call(this);
   
   var Runtime = function () {
+        "use strict";
         function spreadCall(context,fn,args,isNew) {
           var newArgs = [];
           
@@ -563,6 +564,8 @@
           }
           
         }
+        function ModuleContainer(){}
+        function Module(){}
         function RecordConstructor(obj) {
           for (var i in obj){
             
@@ -630,6 +633,7 @@
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
+        
         var _mochaLocalExport = {};
         
         var max = Math.max,
@@ -710,7 +714,38 @@
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
-            },
+            };
+        
+        Object.defineProperty(ModuleContainer.prototype,'_modules', {
+          value : {},
+          writable : true
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'add', {
+          value : function (name) {
+            return this._modules[name] = new Module;
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'get', {
+          value : function (name) {
+            return this._modules[name];
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'toString', {
+          value : function () {
+            return "[object ModuleContainer]";
+          }
+        });
+        
+        Object.defineProperty(Module.prototype,'toString', {
+          value : function () {
+            return "[object Module]";
+          }
+        });
+        
+        var modules = _mochaLocalExport.modules = new ModuleContainer,
             getPrototype = ("getPrototypeOf" in Object)?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
@@ -898,11 +933,10 @@
       var __FILE__ = "1653259312-with_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['1653259312-with_test.js'] = {};
+      Runtime.modules.add('1653259312-with_test.js');
       
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-with_test.js'],
-          testvalue =  {
+      __LINE__ = 1;
+      var testvalue =  {
             prop : 200
           };
       

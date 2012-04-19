@@ -89,16 +89,20 @@ CodegenVisitor::CodegenVisitor(bool is_pretty_print, bool is_debug, CompilationI
 VISITOR_IMPL(AstRoot) {
   PRINT_NODE_NAME;
   scope_ = ast_node->scope();
-  stream()->Write("!function()");
-  writer()->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream());
+  if (info_->GlobalScope()) {
+    stream()->Write("!function()");
+    writer()->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream());
+  }
   writer()->InitializeFileName("Runtime", stream());
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
   }
-  writer()->WriteOp('}', CodeWriter::kArgs, stream());
-  stream()->Write("()");
-  writer()->WriteOp(';', 0, stream());
+  if (info_->GlobalScope()) {
+    writer()->WriteOp('}', CodeWriter::kArgs, stream());
+    stream()->Write("()");
+    writer()->WriteOp(';', 0, stream());
+  }
 }
 
 
@@ -855,9 +859,21 @@ VISITOR_IMPL(Function){
     stream()->Write("{}");
   } else {
     writer()->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream());
-    if (ast_node->IsStrict() && !is_line_) {
+    if (ast_node->IsStrict()) {
       stream()->Write("\"use strict\"");
       writer()->WriteOp(';', 0, stream());
+    }
+    bool has_function = false;
+    NodeIterator iterator = ast_node->ChildNodes();
+    while (iterator.HasNext()) {
+      AstNode* node = iterator.Next();
+      if (node->node_type() == AstNode::kFunction) {
+        has_function = true;
+        node->Accept(this);
+      }
+    }
+    if (has_function) {
+      writer()->WriteOp('\n', 0, stream());
     }
     if (current_root_ && !current_root_->runtime()) {
       writer()->DebugBlockBegin(stream());
@@ -865,10 +881,10 @@ VISITOR_IMPL(Function){
     if (current_root_ && ast_node->IsRoot()) {
       writer()->InitializeFileName(current_root_->filename(), stream());
     }
-    NodeIterator iterator = ast_node->ChildNodes();
+    iterator = ast_node->ChildNodes();
     while (iterator.HasNext()) {
       AstNode* node = iterator.Next();
-      if (!node->IsEmpty()) {
+      if (!node->IsEmpty() && node->node_type() != AstNode::kFunction) {
         node->Accept(this);
       }
     }

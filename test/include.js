@@ -10,6 +10,8 @@ var options = (filename) -> ({
         prettyPrint : true,
         debug : true,
         versions : ['ex']
+        //fileScope : false,
+        //globalScope : false
       }
     });
 

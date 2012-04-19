@@ -517,6 +517,8 @@ class FileRoot : public AstNode {
     }
     return NULL;
   }
+  void set_scope(Scope* scope){ scope_ = scope; };
+  Scope* scope() const { return scope_; };
   const Modules& modules() {return modules_;}
   int module_size() {return modules_.size();}
   virtual FileRoot* CastToFileRoot() {return this;}
@@ -525,6 +527,7 @@ class FileRoot : public AstNode {
   BitVector8 flags_;
   std::string filename_;
   Modules modules_;
+  Scope* scope_;
   CALL_ACCEPTOR(FileRoot);
 };
 

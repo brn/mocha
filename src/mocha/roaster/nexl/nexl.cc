@@ -41,7 +41,7 @@ CompilationResultHandle Nexl::Link(AstRoot* root, SharedPtr<ErrorReporter> repor
     visitor->Write(error.c_str());
   } else {
     ScopeRegistry scope_registry(pool_);
-    SymbolCollector collector(&scope_registry, info_->Debug());
+    SymbolCollector collector(&scope_registry, info_);
     root->Accept(&collector);
     DEBUG_LOG(Info, "compress mode = %s", (info_->Compress()? "yes" : "no"));
     DEBUG_LOG(Info, "pretty print mode = %s", (info_->PrettyPrint()? "yes" : "no"));

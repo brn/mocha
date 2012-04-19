@@ -2,8 +2,7 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var _mochaGlobalExport = {},
-      global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = (this !== null)?this : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -17,7 +16,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -29,6 +28,7 @@
         }
         
       }
+      
       var stringProto = _mochaLocalTmp0.prototype,
           arrayProto = _mochaLocalTmp1.prototype,
           functionProto = _mochaLocalTmp2.prototype,
@@ -372,6 +372,7 @@
   }.call(this);
   
   var Runtime = function () {
+        "use strict";
         function spreadCall(context,fn,args,isNew) {
           var newArgs = [];
           
@@ -563,6 +564,8 @@
           }
           
         }
+        function ModuleContainer(){}
+        function Module(){}
         function RecordConstructor(obj) {
           for (var i in obj){
             
@@ -630,6 +633,7 @@
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
+        
         var _mochaLocalExport = {};
         
         var max = Math.max,
@@ -710,7 +714,38 @@
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
-            },
+            };
+        
+        Object.defineProperty(ModuleContainer.prototype,'_modules', {
+          value : {},
+          writable : true
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'add', {
+          value : function (name) {
+            return this._modules[name] = new Module;
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'get', {
+          value : function (name) {
+            return this._modules[name];
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'toString', {
+          value : function () {
+            return "[object ModuleContainer]";
+          }
+        });
+        
+        Object.defineProperty(Module.prototype,'toString', {
+          value : function () {
+            return "[object Module]";
+          }
+        });
+        
+        var modules = _mochaLocalExport.modules = new ModuleContainer,
             getPrototype = ("getPrototypeOf" in Object)?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
@@ -894,80 +929,78 @@
   
   __LINE__ = 0;
   !function () {
+    function switchTest(type) {
+      try {
+        __LINE__ = 3;
+        var ret = 0;
+        
+        __LINE__ = 4;
+        switch (type) {
+          case 1 :
+            
+            __LINE__ = 6;
+            ret = 0;
+            
+            __LINE__ = 7;
+            ret += 1;
+            __LINE__ = 8;
+            return ret;
+          case 2 :
+            
+            __LINE__ = 10;
+            ret = 100;
+            __LINE__ = 11;
+            break;
+          case 3 :
+          case 4 :
+            
+            __LINE__ = 15;
+            ret = 0;
+            
+            __LINE__ = 16;
+            ret ++ ;
+            __LINE__ = 17;
+            break;
+          case 5 :
+            
+            {
+              
+              __LINE__ = 20;
+              ret = 0;
+              
+              __LINE__ = 21;
+              ret = 1;
+            }
+            __LINE__ = 23;
+            break;
+          case 6 :
+          case 7 :
+            
+            {
+              
+              __LINE__ = 26;
+              ret = 10;
+            }
+            __LINE__ = 28;
+            break;
+          default :
+            
+            __LINE__ = 30;
+            ret = 100;
+            
+        }
+        __LINE__ = 32;
+        return ret;
+      } catch(e){
+        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      }
+    }
     try {
       var __FILE__ = "1653259312-switch_test.js",
           __LINE__ = 0;
-      function switchTest(type) {
-        try {
-          __LINE__ = 3;
-          var ret = 0;
-          
-          __LINE__ = 4;
-          switch (type) {
-            case 1 :
-              
-              __LINE__ = 6;
-              ret = 0;
-              
-              __LINE__ = 7;
-              ret += 1;
-              __LINE__ = 8;
-              return ret;
-            case 2 :
-              
-              __LINE__ = 10;
-              ret = 100;
-              __LINE__ = 11;
-              break;
-            case 3 :
-            case 4 :
-              
-              __LINE__ = 15;
-              ret = 0;
-              
-              __LINE__ = 16;
-              ret ++ ;
-              __LINE__ = 17;
-              break;
-            case 5 :
-              
-              {
-                
-                __LINE__ = 20;
-                ret = 0;
-                
-                __LINE__ = 21;
-                ret = 1;
-              }
-              __LINE__ = 23;
-              break;
-            case 6 :
-            case 7 :
-              
-              {
-                
-                __LINE__ = 26;
-                ret = 10;
-              }
-              __LINE__ = 28;
-              break;
-            default :
-              
-              __LINE__ = 30;
-              ret = 100;
-              
-          }
-          __LINE__ = 32;
-          return ret;
-        } catch(e){
-          Runtime.exceptionHandler(__LINE__, __FILE__, e);
-        }
-      }
-      __LINE__ = 2;
-      _mochaGlobalExport['1653259312-switch_test.js'] = {};
       
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['1653259312-switch_test.js'];
+      __LINE__ = 2;
+      Runtime.modules.add('1653259312-switch_test.js');
       
       __LINE__ = 35;
       Runtime.assert(true,switchTest(1) === 1,"switchTest(1) === 1",35,'switch_test.js');

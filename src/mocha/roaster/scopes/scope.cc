@@ -157,6 +157,41 @@ SymbolEntry Scope::Find (TokenInfo* info) {
   }
 }
 
+void Scope::ScopeRename(TokenInfo* info) {
+  if (JsToken::IsBuiltin(info->token())) {
+    return;
+  }
+  std::string before = info->token();
+  std::string after;
+  os::SPrintf(&after, "%s_%d", info->token(), reinterpret_cast<const intptr_t>(this));
+  info->set_token(after.c_str());
+  RenamedIterator entry = scope_renamed_table_.find(before.c_str());
+  if (entry == scope_renamed_table_.end()) {
+    scope_renamed_table_.insert(RenamedEntry(before.c_str(), after.c_str()));
+  }
+}
+
+const char* Scope::FindRenamed(TokenInfo* info) {
+  if (scope_renamed_table_.size() > 0) {
+    const char* ident = info->token();
+    RenamedIterator entry = scope_renamed_table_.find(ident);
+    if (entry != scope_renamed_table_.end()) {
+      return entry->second.c_str();
+    } else {
+      if (parent_) {
+        return parent_->FindRenamed(info);
+      }
+      return NULL;
+    }
+  } else {
+    if (parent_) {
+      return parent_->FindRenamed(info);
+    } else {
+      return NULL;
+    }
+  }
+}
+
 void Scope::InsertAlias(TokenInfo* info, AstNode* ast_node) {
   const char* ident = info->token();
   if (JsToken::IsBuiltin(ident)) {
@@ -302,8 +337,19 @@ bool Scope::IsGlobal() const {
   return head_ == this;
 }
 
+bool Scope::IsFirstScope() const {
+  return parent_ && parent_->parent_ == 0;
+}
+
 ScopeRegistry::ScopeRegistry(memory::Pool* pool)
-    : head_(0), current_(head_), pool_(pool){};
+    : head_(0),
+      current_(head_),
+      pool_(pool){};
+
+ScopeRegistry::ScopeRegistry()
+    : head_(0),
+      current_(head_),
+      pool_(memory::Pool::Local()){};
 
 ScopeRegistry::~ScopeRegistry () {}
 
@@ -313,9 +359,11 @@ Scope* ScopeRegistry::Assign() {
     head_ = scope;
     current_ = head_;
   } else {
-    current_->children_.push_back(scope);
+    if (current_) {
+      current_->children_.push_back(scope);
+      scope->parent_ = current_;
+    }
     scope->head_ = head_;
-    scope->parent_ = current_;
     current_ = scope;
   }
   return scope;

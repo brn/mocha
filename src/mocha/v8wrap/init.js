@@ -39,7 +39,10 @@
         },
         globalExports : {},
         defaultExports : {},
-        current : 'main'
+        current : 'main',
+        isDefined : function (item) {
+          return item !== undefined && item !== null;
+        }
       };
 
   (function(global){
@@ -253,9 +256,11 @@
             deployName = setting.deployName || path_info.filename().replace('.js', '-cmp.js'),
             moduleDir = (isString)? '(' + (setting.moduleDir || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : setting.moduleDir || [],
             options = setting.options || {},
-            compress = (!isString)? options.compress || false : options.compress? 'yes' : 'no',
-            debug = (!isString)? options.debug || false : options.debug? 'yes' : 'no',
-            prettyPrint = (!isString)? options.prettyPrint || true : options.prettyPrint? 'yes' : 'no',
+            compress = (!isString)? ((utils.isDefined(options.compress))?options.compress : false) : options.compress? 'yes' : 'no',
+            debug = (!isString)? ((utils.isDefined(options.debug))? options.debug : false) : options.debug? 'yes' : 'no',
+            prettyPrint = (!isString)? (utils.isDefined(options.prettyPrint)? options.prettyPrint : true) : options.prettyPrint? 'yes' : 'no',
+            fileScope = (!isString)? ((utils.isDefined(options.fileScope))? options.fileScope : true) : options.fileScope? 'yes' : 'no',
+            globalScope = (!isString)? ((utils.isDefined(options.globalScope))? options.globalScope : true) : options.globalScope? 'yes' : 'no',
             versions = (isString)? '(' + (options.versions || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.versions || [];
         return {
           name : i,
@@ -267,6 +272,8 @@
           compress : compress,
           debug : debug,
           prettyPrint : prettyPrint,
+          fileScope : fileScope,
+          globalScope : globalScope,
           versions : (!isString)? Array.prototype.slice.call(versions) : versions
         }
       }
@@ -281,9 +288,9 @@
       var is_match = pred(option);
       if (is_match) {
         if (showDeploy && showOpt) {
-          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.versions]);
+          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.versions]);
         } else if (showOpt) {
-          ret.push([i, option.compress, option.debug, option.prettyPrint, option.versions]);
+          ret.push([i, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.versions]);
         } else if (showDeploy) {
           ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir]);
         } else {
@@ -292,9 +299,9 @@
       }
     }
     if (showDeploy && showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'versions'], 2);
+      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'versions'], 2);
     } else if (showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint', 'versions'], 2);
+      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'versions'], 2);
     } else if (showDeploy) {
       mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir'], 2);
     } else {
@@ -335,7 +342,9 @@
         prettyPrint : option.prettyPrint,
         debug : option.debug,
         versions : option.versions,
-        moduleDir : option.moduleDir
+        moduleDir : option.moduleDir,
+        fileScope : option.fileScope,
+        globalScope : option.globalScope
       }
       if (pred(option)) {
         natives.script.Roaster.deploy(i, option.inputCharset, option);
@@ -366,7 +375,9 @@
           prettyPrint : option.prettyPrint,
           debug : option.debug,
           versions : option.versions,
-          moduleDir : option.moduleDir
+          moduleDir : option.moduleDir,
+          fileScope : option.fileScope,
+          globalScope : option.globalScope
         }
         if (pred(option)) {
           natives.script.Roaster.deploy(i, option.inputCharset, option);
@@ -422,7 +433,7 @@
         return;
       }
     });
-    
+
     nconsole.printStdout('+');
     colInfo.forEach(function (item, index) {
       for (var i = 0; i < item; i++) {

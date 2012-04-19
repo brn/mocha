@@ -2,8 +2,7 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var _mochaGlobalExport = {},
-      global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = (this !== null)?this : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -17,7 +16,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -29,6 +28,7 @@
         }
         
       }
+      
       var stringProto = _mochaLocalTmp0.prototype,
           arrayProto = _mochaLocalTmp1.prototype,
           functionProto = _mochaLocalTmp2.prototype,
@@ -372,6 +372,7 @@
   }.call(this);
   
   var Runtime = function () {
+        "use strict";
         function spreadCall(context,fn,args,isNew) {
           var newArgs = [];
           
@@ -563,6 +564,8 @@
           }
           
         }
+        function ModuleContainer(){}
+        function Module(){}
         function RecordConstructor(obj) {
           for (var i in obj){
             
@@ -630,6 +633,7 @@
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
+        
         var _mochaLocalExport = {};
         
         var max = Math.max,
@@ -710,7 +714,38 @@
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
-            },
+            };
+        
+        Object.defineProperty(ModuleContainer.prototype,'_modules', {
+          value : {},
+          writable : true
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'add', {
+          value : function (name) {
+            return this._modules[name] = new Module;
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'get', {
+          value : function (name) {
+            return this._modules[name];
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'toString', {
+          value : function () {
+            return "[object ModuleContainer]";
+          }
+        });
+        
+        Object.defineProperty(Module.prototype,'toString', {
+          value : function () {
+            return "[object Module]";
+          }
+        });
+        
+        var modules = _mochaLocalExport.modules = new ModuleContainer,
             getPrototype = ("getPrototypeOf" in Object)?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
@@ -898,52 +933,78 @@
       var __FILE__ = "-1426553882-json2_compiled.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-1426553882-json2_compiled.js'] = {};
+      Runtime.modules.add('-1426553882-json2_compiled.js');
       
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-1426553882-json2_compiled.js'],
-          g = null,
+      __LINE__ = 1;
+      var g = null,
           json_parse = function () {
-            try {
-              function h(a) {
-                try {
-                  __LINE__ = 1;
-                  throw  {
-                    name : "SyntaxError",
-                    message : a,
-                    a : i,
-                    text : k
-                  };
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
+            function h(a) {
+              try {
+                __LINE__ = 1;
+                throw  {
+                  name : "SyntaxError",
+                  message : a,
+                  a : i,
+                  text : k
+                };
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function b(b) {
-                try {
-                  __LINE__ = 1;
-                  b && b !== a && h("Expected '"+b+"' instead of '"+a+"'");
-                  
-                  __LINE__ = 1;
-                  a = k.charAt(i);
-                  
-                  __LINE__ = 1;
-                  i += 1;
-                  __LINE__ = 1;
-                  return a;
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
+            }
+            function b(b) {
+              try {
+                __LINE__ = 1;
+                b && b !== a && h("Expected '"+b+"' instead of '"+a+"'");
+                
+                __LINE__ = 1;
+                a = k.charAt(i);
+                
+                __LINE__ = 1;
+                i += 1;
+                __LINE__ = 1;
+                return a;
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function n() {
-                try {
+            }
+            function n() {
+              try {
+                __LINE__ = 1;
+                var c;
+                
+                __LINE__ = 1;
+                c = "";
+                
+                __LINE__ = 1;
+                a === "-" && (c = "-", b("-"));
+                
+                __LINE__ = 1;
+                for (;a >= "0" && a <= "9";){
                   __LINE__ = 1;
-                  var c;
+                  c += a, b(g);
+                }
+                
+                __LINE__ = 1;
+                if (a === "."){
+                  __LINE__ = 1;
+                  for (c += ".";b(g) && a >= "0" && a <= "9";){
+                    __LINE__ = 1;
+                    c += a;
+                  }
+                  
+                }
+                
+                __LINE__ = 1;
+                if (a === "e" || a === "E"){
                   
                   __LINE__ = 1;
-                  c = "";
+                  c += a;
                   
                   __LINE__ = 1;
-                  a === "-" && (c = "-", b("-"));
+                  b(g);
+                  
+                  __LINE__ = 1;
+                  a === "-" || a === "+" && (c += a, b(g));
                   
                   __LINE__ = 1;
                   for (;a >= "0" && a <= "9";){
@@ -951,143 +1012,117 @@
                     c += a, b(g);
                   }
                   
-                  __LINE__ = 1;
-                  if (a === "."){
-                    __LINE__ = 1;
-                    for (c += ".";b(g) && a >= "0" && a <= "9";){
-                      __LINE__ = 1;
-                      c += a;
-                    }
-                    
-                  }
-                  
-                  __LINE__ = 1;
-                  if (a === "e" || a === "E"){
-                    
-                    __LINE__ = 1;
-                    c += a;
-                    
-                    __LINE__ = 1;
-                    b(g);
-                    
-                    __LINE__ = 1;
-                    a === "-" || a === "+" && (c += a, b(g));
-                    
-                    __LINE__ = 1;
-                    for (;a >= "0" && a <= "9";){
-                      __LINE__ = 1;
-                      c += a, b(g);
-                    }
-                    
-                  }
-                  
-                  __LINE__ = 1;
-                  c = +c;
-                  
-                  __LINE__ = 1;
-                  if (isFinite(c)){
-                    __LINE__ = 1;
-                    return c;
-                  }
-                  
-                  __LINE__ = 1;
-                  h("Bad number");
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
+                
+                __LINE__ = 1;
+                c = +c;
+                
+                __LINE__ = 1;
+                if (isFinite(c)){
+                  __LINE__ = 1;
+                  return c;
+                }
+                
+                __LINE__ = 1;
+                h("Bad number");
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function l() {
-                try {
+            }
+            function l() {
+              try {
+                __LINE__ = 1;
+                var c,
+                    f,
+                    d = "",
+                    e;
+                
+                __LINE__ = 1;
+                if (a === '"'){
                   __LINE__ = 1;
-                  var c,
-                      f,
-                      d = "",
-                      e;
-                  
-                  __LINE__ = 1;
-                  if (a === '"'){
+                  for (;b(g);){
                     __LINE__ = 1;
-                    for (;b(g);){
+                    if (a === '"'){
                       __LINE__ = 1;
-                      if (a === '"'){
+                      return b(g), d;
+                    } else if (a === "\\"){
+                      if (b(g), a === "u"){
+                        
                         __LINE__ = 1;
-                        return b(g), d;
-                      } else if (a === "\\"){
-                        if (b(g), a === "u"){
+                        for (f = e = 0;f<4;f += 1){
                           
                           __LINE__ = 1;
-                          for (f = e = 0;f<4;f += 1){
-                            
+                          c = parseInt(b(g),16);
+                          if (!isFinite(c)){
                             __LINE__ = 1;
-                            c = parseInt(b(g),16);
-                            if (!isFinite(c)){
-                              __LINE__ = 1;
-                              break;
-                            }
-                            
-                            __LINE__ = 1;
-                            e = e*16+c;
+                            break;
                           }
                           
                           __LINE__ = 1;
-                          d += String.fromCharCode(e);
-                        } else if (typeof m[a] === "string"){
-                          __LINE__ = 1;
-                          d += m[a];
-                        } else {
-                          __LINE__ = 1;
-                          break;
+                          e = e*16+c;
                         }
                         
+                        __LINE__ = 1;
+                        d += String.fromCharCode(e);
+                      } else if (typeof m[a] === "string"){
+                        __LINE__ = 1;
+                        d += m[a];
                       } else {
                         __LINE__ = 1;
-                        d += a;
+                        break;
                       }
                       
+                    } else {
+                      __LINE__ = 1;
+                      d += a;
                     }
                     
                   }
                   
-                  __LINE__ = 1;
-                  h("Bad string");
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
+                
+                __LINE__ = 1;
+                h("Bad string");
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function e() {
-                try {
+            }
+            function e() {
+              try {
+                __LINE__ = 1;
+                for (;a && a <= " ";){
                   __LINE__ = 1;
-                  for (;a && a <= " ";){
+                  b(g);
+                }
+                
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              }
+            }
+            function o() {
+              try {
+                __LINE__ = 1;
+                switch (a) {
+                  case "t" :
                     __LINE__ = 1;
-                    b(g);
-                  }
-                  
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    return b("t"), b("r"), b("u"), b("e"), !0;
+                  case "f" :
+                    __LINE__ = 1;
+                    return b("f"), b("a"), b("l"), b("s"), b("e"), !1;
+                  case "n" :
+                    __LINE__ = 1;
+                    return b("n"), b("u"), b("l"), b("l"), g;
+                    
                 }
+                
+                __LINE__ = 1;
+                h("Unexpected '"+a+"'");
+              } catch(e){
+                Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
-              function o() {
-                try {
-                  __LINE__ = 1;
-                  switch (a) {
-                    case "t" :
-                      __LINE__ = 1;
-                      return b("t"), b("r"), b("u"), b("e"), !0;
-                    case "f" :
-                      __LINE__ = 1;
-                      return b("f"), b("a"), b("l"), b("s"), b("e"), !1;
-                    case "n" :
-                      __LINE__ = 1;
-                      return b("n"), b("u"), b("l"), b("l"), g;
-                      
-                  }
-                  
-                  __LINE__ = 1;
-                  h("Unexpected '"+a+"'");
-                } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
-                }
-              }
+            }
+            try {
+              
               __LINE__ = 1;
               var i,
                   a,
@@ -1116,7 +1151,7 @@
                       
                       __LINE__ = 1;
                       var cv;
-                      __LINE__ = 4337802208;
+                      __LINE__ = 4337978248;
                       a : 
                       {
                         
@@ -1193,7 +1228,7 @@
                       __LINE__ = 1;
                       return cv;
                     case "[" :
-                      __LINE__ = 4337830376;
+                      __LINE__ = 4338006416;
                       a : 
                       {
                         

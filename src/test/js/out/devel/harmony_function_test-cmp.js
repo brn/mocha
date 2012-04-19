@@ -2,8 +2,7 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var _mochaGlobalExport = {},
-      global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = (this !== null)?this : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -17,7 +16,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",45,'runtime.js');
+        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -29,6 +28,7 @@
         }
         
       }
+      
       var stringProto = _mochaLocalTmp0.prototype,
           arrayProto = _mochaLocalTmp1.prototype,
           functionProto = _mochaLocalTmp2.prototype,
@@ -372,6 +372,7 @@
   }.call(this);
   
   var Runtime = function () {
+        "use strict";
         function spreadCall(context,fn,args,isNew) {
           var newArgs = [];
           
@@ -563,6 +564,8 @@
           }
           
         }
+        function ModuleContainer(){}
+        function Module(){}
         function RecordConstructor(obj) {
           for (var i in obj){
             
@@ -630,6 +633,7 @@
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
+        
         var _mochaLocalExport = {};
         
         var max = Math.max,
@@ -710,7 +714,38 @@
         
         var extendPrototype = _mochaLocalExport.extendPrototype = function (derived,base) {
               derived.prototype = base;
-            },
+            };
+        
+        Object.defineProperty(ModuleContainer.prototype,'_modules', {
+          value : {},
+          writable : true
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'add', {
+          value : function (name) {
+            return this._modules[name] = new Module;
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'get', {
+          value : function (name) {
+            return this._modules[name];
+          }
+        });
+        
+        Object.defineProperty(ModuleContainer.prototype,'toString', {
+          value : function () {
+            return "[object ModuleContainer]";
+          }
+        });
+        
+        Object.defineProperty(Module.prototype,'toString', {
+          value : function () {
+            return "[object Module]";
+          }
+        });
+        
+        var modules = _mochaLocalExport.modules = new ModuleContainer,
             getPrototype = ("getPrototypeOf" in Object)?function (obj) {
               return Object.getPrototypeOf(obj);
             } : function (obj) {
@@ -898,134 +933,132 @@
       var __FILE__ = "-759650552-harmony_function_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      _mochaGlobalExport['-759650552-harmony_function_test.js'] = {};
-      
-      __LINE__ = 3;
-      var _mochaGlobalAlias = _mochaGlobalExport['-759650552-harmony_function_test.js'];
+      Runtime.modules.add('-759650552-harmony_function_test.js');
       
       __LINE__ = 1;
       !function () {
+        function testWithContext() {
+          try {
+            __LINE__ = 32;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalWithContext() {
+          try {
+            __LINE__ = 31;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalHasBlockWithContext() {
+          try {
+            __LINE__ = 29;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function test() {
+          try {
+            __LINE__ = 26;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormal() {
+          try {
+            __LINE__ = 25;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalHasBlock() {
+          try {
+            __LINE__ = 23;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionWithContext() {
+          try {
+            __LINE__ = 17;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasFormalWithContext() {
+          try {
+            __LINE__ = 16;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionNonFormal() {
+          try {
+            __LINE__ = 14;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasForaml() {
+          try {
+            __LINE__ = 13;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasBlockHasFormal() {
+          try {
+            __LINE__ = 8;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclNonForamlWithContext() {
+          try {
+            __LINE__ = 5;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormalWithContext() {
+          try {
+            __LINE__ = 4;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclNonFormal() {
+          try {
+            __LINE__ = 3;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormal() {
+          try {
+            __LINE__ = 2;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
         try {
-          function testWithContext() {
-            try {
-              __LINE__ = 32;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalWithContext() {
-            try {
-              __LINE__ = 31;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalHasBlockWithContext() {
-            try {
-              __LINE__ = 29;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function test() {
-            try {
-              __LINE__ = 26;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormal() {
-            try {
-              __LINE__ = 25;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalHasBlock() {
-            try {
-              __LINE__ = 23;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionWithContext() {
-            try {
-              __LINE__ = 17;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasFormalWithContext() {
-            try {
-              __LINE__ = 16;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionNonFormal() {
-            try {
-              __LINE__ = 14;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasForaml() {
-            try {
-              __LINE__ = 13;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasBlockHasFormal() {
-            try {
-              __LINE__ = 8;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testDeclNonForamlWithContext() {
-            try {
-              __LINE__ = 5;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testDeclHasFormalWithContext() {
-            try {
-              __LINE__ = 4;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testDeclNonFormal() {
-            try {
-              __LINE__ = 3;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testDeclHasFormal() {
-            try {
-              __LINE__ = 2;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
+          
           __LINE__ = 32;
           testWithContext = testWithContext.bind(this);
           
@@ -1081,244 +1114,245 @@
       
       __LINE__ = 35;
       !function () {
+        function testHasFormalDstaWithContext(_mochaLocalTmp24,_mochaLocalTmp25,_mochaLocalTmp26,args8) {
+          try {
+            __LINE__ = 68;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 68;
+            var args = _mochaLocalTmp24.args,
+                args2 = _mochaLocalTmp25.tmp && _mochaLocalTmp25.tmp["args2"]?_mochaLocalTmp25.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp26[0],
+                args4 = _mochaLocalTmp26[1],
+                args5 = _mochaLocalTmp26[2] && _mochaLocalTmp26[2].args5?_mochaLocalTmp26[2].args5 : undefined,
+                args7 = _mochaLocalTmp26[2] && _mochaLocalTmp26[2].args6 && _mochaLocalTmp26[2].args6.args7?_mochaLocalTmp26[2].args6.args7 : undefined;
+            __LINE__ = 68;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalWithContext(args,args2,args3) {
+          try {
+            __LINE__ = 67;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalDstaHasBlockWithContext(_mochaLocalTmp21,_mochaLocalTmp22,_mochaLocalTmp23,args8) {
+          try {
+            __LINE__ = 64;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 64;
+            var args = _mochaLocalTmp21.args,
+                args2 = _mochaLocalTmp22.tmp && _mochaLocalTmp22.tmp["args2"]?_mochaLocalTmp22.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp23[0],
+                args4 = _mochaLocalTmp23[1],
+                args5 = _mochaLocalTmp23[2] && _mochaLocalTmp23[2].args5?_mochaLocalTmp23[2].args5 : undefined,
+                args7 = _mochaLocalTmp23[2] && _mochaLocalTmp23[2].args6 && _mochaLocalTmp23[2].args6.args7?_mochaLocalTmp23[2].args6.args7 : undefined;
+            
+            __LINE__ = 65;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalHasBlockWithContext(args,args2,args3) {
+          try {
+            __LINE__ = 62;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalDsta(_mochaLocalTmp18,_mochaLocalTmp19,_mochaLocalTmp20,args8) {
+          try {
+            __LINE__ = 60;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 60;
+            var args = _mochaLocalTmp18.args,
+                args2 = _mochaLocalTmp19.tmp && _mochaLocalTmp19.tmp["args2"]?_mochaLocalTmp19.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp20[0],
+                args4 = _mochaLocalTmp20[1],
+                args5 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args5?_mochaLocalTmp20[2].args5 : undefined,
+                args7 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args6 && _mochaLocalTmp20[2].args6.args7?_mochaLocalTmp20[2].args6.args7 : undefined;
+            __LINE__ = 60;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormal(args,args2,args3) {
+          try {
+            __LINE__ = 59;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalDstaHasBlock(_mochaLocalTmp15,_mochaLocalTmp16,_mochaLocalTmp17,args8) {
+          try {
+            __LINE__ = 56;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 56;
+            var args = _mochaLocalTmp15.args,
+                args2 = _mochaLocalTmp16.tmp && _mochaLocalTmp16.tmp["args2"]?_mochaLocalTmp16.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp17[0],
+                args4 = _mochaLocalTmp17[1],
+                args5 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args5?_mochaLocalTmp17[2].args5 : undefined,
+                args7 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args6 && _mochaLocalTmp17[2].args6.args7?_mochaLocalTmp17[2].args6.args7 : undefined;
+            
+            __LINE__ = 57;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalHasBlock(args,args2,args3) {
+          try {
+            __LINE__ = 54;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasFormalDstaWithContext(_mochaLocalTmp12,_mochaLocalTmp13,_mochaLocalTmp14,args8) {
+          try {
+            __LINE__ = 51;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 51;
+            var args = _mochaLocalTmp12.args,
+                args2 = _mochaLocalTmp13.tmp && _mochaLocalTmp13.tmp["args2"]?_mochaLocalTmp13.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp14[0],
+                args4 = _mochaLocalTmp14[1],
+                args5 = _mochaLocalTmp14[2] && _mochaLocalTmp14[2].args5?_mochaLocalTmp14[2].args5 : undefined,
+                args7 = _mochaLocalTmp14[2] && _mochaLocalTmp14[2].args6 && _mochaLocalTmp14[2].args6.args7?_mochaLocalTmp14[2].args6.args7 : undefined;
+            __LINE__ = 51;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasFormalWithContext(args,args2,args3) {
+          try {
+            __LINE__ = 50;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasForamlDsta(_mochaLocalTmp9,_mochaLocalTmp10,_mochaLocalTmp11,args8) {
+          try {
+            __LINE__ = 49;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 49;
+            var args = _mochaLocalTmp9.args,
+                args2 = _mochaLocalTmp10.tmp && _mochaLocalTmp10.tmp["args2"]?_mochaLocalTmp10.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp11[0],
+                args4 = _mochaLocalTmp11[1],
+                args5 = _mochaLocalTmp11[2] && _mochaLocalTmp11[2].args5?_mochaLocalTmp11[2].args5 : undefined,
+                args7 = _mochaLocalTmp11[2] && _mochaLocalTmp11[2].args6 && _mochaLocalTmp11[2].args6.args7?_mochaLocalTmp11[2].args6.args7 : undefined;
+            __LINE__ = 49;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasForaml(args,args2,args3) {
+          try {
+            __LINE__ = 48;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasBlockHasFormalDsta(_mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,args8) {
+          try {
+            __LINE__ = 44;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 44;
+            var args = _mochaLocalTmp6.args,
+                args2 = _mochaLocalTmp7.tmp && _mochaLocalTmp7.tmp["args2"]?_mochaLocalTmp7.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp8[0],
+                args4 = _mochaLocalTmp8[1],
+                args5 = _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args5?_mochaLocalTmp8[2].args5 : undefined,
+                args7 = _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args6 && _mochaLocalTmp8[2].args6.args7?_mochaLocalTmp8[2].args6.args7 : undefined;
+            
+            __LINE__ = 45;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasBlockHasFormal(args,args2,args3) {
+          try {
+            __LINE__ = 42;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormalDstaWithContext(_mochaLocalTmp3,_mochaLocalTmp4,_mochaLocalTmp5,args8) {
+          try {
+            __LINE__ = 40;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 40;
+            var args = _mochaLocalTmp3.args,
+                args2 = _mochaLocalTmp4.tmp && _mochaLocalTmp4.tmp["args2"]?_mochaLocalTmp4.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp5[0],
+                args4 = _mochaLocalTmp5[1],
+                args5 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args5?_mochaLocalTmp5[2].args5 : undefined,
+                args7 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args6 && _mochaLocalTmp5[2].args6.args7?_mochaLocalTmp5[2].args6.args7 : undefined;
+            __LINE__ = 40;
+            return console.log(this);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormalWithContext(args,args2,args3) {
+          try {
+            __LINE__ = 39;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormalDsta(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,args8) {
+          try {
+            __LINE__ = 38;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 38;
+            var args = _mochaLocalTmp0.args,
+                args2 = _mochaLocalTmp1.tmp && _mochaLocalTmp1.tmp["args2"]?_mochaLocalTmp1.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp2[0],
+                args4 = _mochaLocalTmp2[1],
+                args5 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args5?_mochaLocalTmp2[2].args5 : undefined,
+                args7 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args6 && _mochaLocalTmp2[2].args6.args7?_mochaLocalTmp2[2].args6.args7 : undefined;
+            __LINE__ = 38;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormal(args,args2,args3) {
+          try {
+            __LINE__ = 37;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
         try {
-          function testHasFormalDstaWithContext(_mochaLocalTmp24,_mochaLocalTmp25,_mochaLocalTmp26,args8) {
-            try {
-              __LINE__ = 68;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 68;
-              var args = _mochaLocalTmp24.args,
-                  args2 = _mochaLocalTmp25.tmp && _mochaLocalTmp25.tmp["args2"]?_mochaLocalTmp25.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp26[0],
-                  args4 = _mochaLocalTmp26[1],
-                  args5 = _mochaLocalTmp26[2] && _mochaLocalTmp26[2].args5?_mochaLocalTmp26[2].args5 : undefined,
-                  args7 = _mochaLocalTmp26[2] && _mochaLocalTmp26[2].args6 && _mochaLocalTmp26[2].args6.args7?_mochaLocalTmp26[2].args6.args7 : undefined;
-              __LINE__ = 68;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalWithContext(args,args2,args3) {
-            try {
-              __LINE__ = 67;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalDstaHasBlockWithContext(_mochaLocalTmp21,_mochaLocalTmp22,_mochaLocalTmp23,args8) {
-            try {
-              __LINE__ = 64;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 64;
-              var args = _mochaLocalTmp21.args,
-                  args2 = _mochaLocalTmp22.tmp && _mochaLocalTmp22.tmp["args2"]?_mochaLocalTmp22.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp23[0],
-                  args4 = _mochaLocalTmp23[1],
-                  args5 = _mochaLocalTmp23[2] && _mochaLocalTmp23[2].args5?_mochaLocalTmp23[2].args5 : undefined,
-                  args7 = _mochaLocalTmp23[2] && _mochaLocalTmp23[2].args6 && _mochaLocalTmp23[2].args6.args7?_mochaLocalTmp23[2].args6.args7 : undefined;
-              
-              __LINE__ = 65;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalHasBlockWithContext(args,args2,args3) {
-            try {
-              __LINE__ = 62;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalDsta(_mochaLocalTmp18,_mochaLocalTmp19,_mochaLocalTmp20,args8) {
-            try {
-              __LINE__ = 60;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 60;
-              var args = _mochaLocalTmp18.args,
-                  args2 = _mochaLocalTmp19.tmp && _mochaLocalTmp19.tmp["args2"]?_mochaLocalTmp19.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp20[0],
-                  args4 = _mochaLocalTmp20[1],
-                  args5 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args5?_mochaLocalTmp20[2].args5 : undefined,
-                  args7 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args6 && _mochaLocalTmp20[2].args6.args7?_mochaLocalTmp20[2].args6.args7 : undefined;
-              __LINE__ = 60;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormal(args,args2,args3) {
-            try {
-              __LINE__ = 59;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalDstaHasBlock(_mochaLocalTmp15,_mochaLocalTmp16,_mochaLocalTmp17,args8) {
-            try {
-              __LINE__ = 56;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 56;
-              var args = _mochaLocalTmp15.args,
-                  args2 = _mochaLocalTmp16.tmp && _mochaLocalTmp16.tmp["args2"]?_mochaLocalTmp16.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp17[0],
-                  args4 = _mochaLocalTmp17[1],
-                  args5 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args5?_mochaLocalTmp17[2].args5 : undefined,
-                  args7 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args6 && _mochaLocalTmp17[2].args6.args7?_mochaLocalTmp17[2].args6.args7 : undefined;
-              
-              __LINE__ = 57;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testHasFormalHasBlock(args,args2,args3) {
-            try {
-              __LINE__ = 54;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasFormalDstaWithContext(_mochaLocalTmp12,_mochaLocalTmp13,_mochaLocalTmp14,args8) {
-            try {
-              __LINE__ = 51;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 51;
-              var args = _mochaLocalTmp12.args,
-                  args2 = _mochaLocalTmp13.tmp && _mochaLocalTmp13.tmp["args2"]?_mochaLocalTmp13.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp14[0],
-                  args4 = _mochaLocalTmp14[1],
-                  args5 = _mochaLocalTmp14[2] && _mochaLocalTmp14[2].args5?_mochaLocalTmp14[2].args5 : undefined,
-                  args7 = _mochaLocalTmp14[2] && _mochaLocalTmp14[2].args6 && _mochaLocalTmp14[2].args6.args7?_mochaLocalTmp14[2].args6.args7 : undefined;
-              __LINE__ = 51;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasFormalWithContext(args,args2,args3) {
-            try {
-              __LINE__ = 50;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasForamlDsta(_mochaLocalTmp9,_mochaLocalTmp10,_mochaLocalTmp11,args8) {
-            try {
-              __LINE__ = 49;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 49;
-              var args = _mochaLocalTmp9.args,
-                  args2 = _mochaLocalTmp10.tmp && _mochaLocalTmp10.tmp["args2"]?_mochaLocalTmp10.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp11[0],
-                  args4 = _mochaLocalTmp11[1],
-                  args5 = _mochaLocalTmp11[2] && _mochaLocalTmp11[2].args5?_mochaLocalTmp11[2].args5 : undefined,
-                  args7 = _mochaLocalTmp11[2] && _mochaLocalTmp11[2].args6 && _mochaLocalTmp11[2].args6.args7?_mochaLocalTmp11[2].args6.args7 : undefined;
-              __LINE__ = 49;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasForaml(args,args2,args3) {
-            try {
-              __LINE__ = 48;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasBlockHasFormalDsta(_mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,args8) {
-            try {
-              __LINE__ = 44;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 44;
-              var args = _mochaLocalTmp6.args,
-                  args2 = _mochaLocalTmp7.tmp && _mochaLocalTmp7.tmp["args2"]?_mochaLocalTmp7.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp8[0],
-                  args4 = _mochaLocalTmp8[1],
-                  args5 = _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args5?_mochaLocalTmp8[2].args5 : undefined,
-                  args7 = _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args6 && _mochaLocalTmp8[2].args6.args7?_mochaLocalTmp8[2].args6.args7 : undefined;
-              
-              __LINE__ = 45;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testConstFunctionHasBlockHasFormal(args,args2,args3) {
-            try {
-              __LINE__ = 42;
-              console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testDeclHasFormalDstaWithContext(_mochaLocalTmp3,_mochaLocalTmp4,_mochaLocalTmp5,args8) {
-            try {
-              __LINE__ = 40;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 40;
-              var args = _mochaLocalTmp3.args,
-                  args2 = _mochaLocalTmp4.tmp && _mochaLocalTmp4.tmp["args2"]?_mochaLocalTmp4.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp5[0],
-                  args4 = _mochaLocalTmp5[1],
-                  args5 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args5?_mochaLocalTmp5[2].args5 : undefined,
-                  args7 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args6 && _mochaLocalTmp5[2].args6.args7?_mochaLocalTmp5[2].args6.args7 : undefined;
-              __LINE__ = 40;
-              return console.log(this);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testDeclHasFormalWithContext(args,args2,args3) {
-            try {
-              __LINE__ = 39;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testDeclHasFormalDsta(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,args8) {
-            try {
-              __LINE__ = 38;
-              args8 = Runtime.toArray(arguments,3);
-              
-              __LINE__ = 38;
-              var args = _mochaLocalTmp0.args,
-                  args2 = _mochaLocalTmp1.tmp && _mochaLocalTmp1.tmp["args2"]?_mochaLocalTmp1.tmp.args2 : undefined,
-                  args3 = _mochaLocalTmp2[0],
-                  args4 = _mochaLocalTmp2[1],
-                  args5 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args5?_mochaLocalTmp2[2].args5 : undefined,
-                  args7 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args6 && _mochaLocalTmp2[2].args6.args7?_mochaLocalTmp2[2].args6.args7 : undefined;
-              __LINE__ = 38;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function testDeclHasFormal(args,args2,args3) {
-            try {
-              __LINE__ = 37;
-              return console.log(1);
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
+          
           __LINE__ = 68;
           testHasFormalDstaWithContext = testHasFormalDstaWithContext.bind(this);
           
@@ -1349,109 +1383,110 @@
       
       __LINE__ = 71;
       !function () {
+        function newSpreadWithArgs($1,a,b,c,d,$2,e,f) {
+          try {
+            
+            __LINE__ = 134;
+            Runtime.assert(true,$1 === 0,"$1 === 0",134,'harmony_function_test.js');
+            
+            __LINE__ = 135;
+            Runtime.assert(true,a === 1,"a === 1",135,'harmony_function_test.js');
+            
+            __LINE__ = 136;
+            Runtime.assert(true,b === 2,"b === 2",136,'harmony_function_test.js');
+            
+            __LINE__ = 137;
+            Runtime.assert(true,c === 3,"c === 3",137,'harmony_function_test.js');
+            
+            __LINE__ = 138;
+            Runtime.assert(true,$2 === 0,"$2 === 0",138,'harmony_function_test.js');
+            
+            __LINE__ = 139;
+            Runtime.assert(true,d === 4,"d === 4",139,'harmony_function_test.js');
+            
+            __LINE__ = 140;
+            Runtime.assert(true,e === 100,"e === 100",140,'harmony_function_test.js');
+            
+            __LINE__ = 141;
+            Runtime.assert(true,f === 200,"f === 200",141,'harmony_function_test.js');
+            
+            __LINE__ = 142;
+            Runtime.assert(true,this.valid,"this.valid",142,'harmony_function_test.js');
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function normalSpreadWithArgs($1,a,b,c,d,$2,e,f) {
+          try {
+            
+            __LINE__ = 109;
+            Runtime.assert(true,$1 === 0,"$1 === 0",109,'harmony_function_test.js');
+            
+            __LINE__ = 110;
+            Runtime.assert(true,a === 1,"a === 1",110,'harmony_function_test.js');
+            
+            __LINE__ = 111;
+            Runtime.assert(true,b === 2,"b === 2",111,'harmony_function_test.js');
+            
+            __LINE__ = 112;
+            Runtime.assert(true,c === 3,"c === 3",112,'harmony_function_test.js');
+            
+            __LINE__ = 113;
+            Runtime.assert(true,$2 === 0,"$2 === 0",113,'harmony_function_test.js');
+            
+            __LINE__ = 114;
+            Runtime.assert(true,d === 4,"d === 4",114,'harmony_function_test.js');
+            
+            __LINE__ = 115;
+            Runtime.assert(true,e === 100,"e === 100",115,'harmony_function_test.js');
+            
+            __LINE__ = 116;
+            Runtime.assert(true,f === 200,"f === 200",116,'harmony_function_test.js');
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function newSpread(a,b,c,d) {
+          try {
+            
+            __LINE__ = 91;
+            Runtime.assert(true,a === 1,"a === 1",91,'harmony_function_test.js');
+            
+            __LINE__ = 92;
+            Runtime.assert(true,b === 2,"b === 2",92,'harmony_function_test.js');
+            
+            __LINE__ = 93;
+            Runtime.assert(true,c === 3,"c === 3",93,'harmony_function_test.js');
+            
+            __LINE__ = 94;
+            Runtime.assert(true,d === 4,"d === 4",94,'harmony_function_test.js');
+            
+            __LINE__ = 95;
+            Runtime.assert(true,this.valid,"this.valid",95,'harmony_function_test.js');
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function normalSpread(a,b,c,d) {
+          try {
+            
+            __LINE__ = 74;
+            Runtime.assert(true,a === 1,"a === 1",74,'harmony_function_test.js');
+            
+            __LINE__ = 75;
+            Runtime.assert(true,b === 2,"b === 2",75,'harmony_function_test.js');
+            
+            __LINE__ = 76;
+            Runtime.assert(true,c === 3,"c === 3",76,'harmony_function_test.js');
+            
+            __LINE__ = 77;
+            Runtime.assert(true,d === 4,"d === 4",77,'harmony_function_test.js');
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
         try {
-          function newSpreadWithArgs($1,a,b,c,d,$2,e,f) {
-            try {
-              
-              __LINE__ = 134;
-              Runtime.assert(true,$1 === 0,"$1 === 0",134,'harmony_function_test.js');
-              
-              __LINE__ = 135;
-              Runtime.assert(true,a === 1,"a === 1",135,'harmony_function_test.js');
-              
-              __LINE__ = 136;
-              Runtime.assert(true,b === 2,"b === 2",136,'harmony_function_test.js');
-              
-              __LINE__ = 137;
-              Runtime.assert(true,c === 3,"c === 3",137,'harmony_function_test.js');
-              
-              __LINE__ = 138;
-              Runtime.assert(true,$2 === 0,"$2 === 0",138,'harmony_function_test.js');
-              
-              __LINE__ = 139;
-              Runtime.assert(true,d === 4,"d === 4",139,'harmony_function_test.js');
-              
-              __LINE__ = 140;
-              Runtime.assert(true,e === 100,"e === 100",140,'harmony_function_test.js');
-              
-              __LINE__ = 141;
-              Runtime.assert(true,f === 200,"f === 200",141,'harmony_function_test.js');
-              
-              __LINE__ = 142;
-              Runtime.assert(true,this.valid,"this.valid",142,'harmony_function_test.js');
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function normalSpreadWithArgs($1,a,b,c,d,$2,e,f) {
-            try {
-              
-              __LINE__ = 109;
-              Runtime.assert(true,$1 === 0,"$1 === 0",109,'harmony_function_test.js');
-              
-              __LINE__ = 110;
-              Runtime.assert(true,a === 1,"a === 1",110,'harmony_function_test.js');
-              
-              __LINE__ = 111;
-              Runtime.assert(true,b === 2,"b === 2",111,'harmony_function_test.js');
-              
-              __LINE__ = 112;
-              Runtime.assert(true,c === 3,"c === 3",112,'harmony_function_test.js');
-              
-              __LINE__ = 113;
-              Runtime.assert(true,$2 === 0,"$2 === 0",113,'harmony_function_test.js');
-              
-              __LINE__ = 114;
-              Runtime.assert(true,d === 4,"d === 4",114,'harmony_function_test.js');
-              
-              __LINE__ = 115;
-              Runtime.assert(true,e === 100,"e === 100",115,'harmony_function_test.js');
-              
-              __LINE__ = 116;
-              Runtime.assert(true,f === 200,"f === 200",116,'harmony_function_test.js');
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function newSpread(a,b,c,d) {
-            try {
-              
-              __LINE__ = 91;
-              Runtime.assert(true,a === 1,"a === 1",91,'harmony_function_test.js');
-              
-              __LINE__ = 92;
-              Runtime.assert(true,b === 2,"b === 2",92,'harmony_function_test.js');
-              
-              __LINE__ = 93;
-              Runtime.assert(true,c === 3,"c === 3",93,'harmony_function_test.js');
-              
-              __LINE__ = 94;
-              Runtime.assert(true,d === 4,"d === 4",94,'harmony_function_test.js');
-              
-              __LINE__ = 95;
-              Runtime.assert(true,this.valid,"this.valid",95,'harmony_function_test.js');
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
-          function normalSpread(a,b,c,d) {
-            try {
-              
-              __LINE__ = 74;
-              Runtime.assert(true,a === 1,"a === 1",74,'harmony_function_test.js');
-              
-              __LINE__ = 75;
-              Runtime.assert(true,b === 2,"b === 2",75,'harmony_function_test.js');
-              
-              __LINE__ = 76;
-              Runtime.assert(true,c === 3,"c === 3",76,'harmony_function_test.js');
-              
-              __LINE__ = 77;
-              Runtime.assert(true,d === 4,"d === 4",77,'harmony_function_test.js');
-            } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
-            }
-          }
+          
           __LINE__ = 72;
           var args = [1,2,3,4];
           

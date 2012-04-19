@@ -6,6 +6,7 @@
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/nexc/tokens/symbol_list.h>
 #include <mocha/roaster/nexc/tokens/token_info.h>
+#include <mocha/roaster/nexc/utils/utils.h>
 #include <mocha/roaster/ast/ast.h>
 namespace mocha {
 
@@ -50,13 +51,28 @@ void ModuleProcessor::ProcessNode() {
 void ModuleProcessor::ProcessModule(AstNode* node, AstNode* name, bool is_runtime) {
   TranslatorData* translator_data = info_->translator_data();
   if (!is_runtime) {
-    Literal* alias = 0;
+    AstNode* alias = 0;
     if (translator_data->IsInModules()) {
       alias = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kLocalExport),
                                          Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
     } else {
-      alias = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGlobalAlias),
-                                         Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
+      Literal* get = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGet),
+                                               Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kProperty);
+      Literal* module = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kModules),
+                                                  Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kProperty);
+      std::string key_str;
+#ifndef PACKING_RUNTIME
+      nexc_utils::ManglingName(&key_str, translator_data->filename(), translator_data->compilation_event()->path());
+#else
+      os::SPrintf(&key_str, "'%s'", translator_data->filename());
+      key_str.erase(key_str.size() - 4, 3);
+#endif
+      Literal* key = builder()->CreateNameNode(key_str.c_str(), Token::JS_STRING_LITERAL, stmt_->line_number(), Literal::kString);
+                                                                
+      CallExp* runtime_accessor = builder()->CreateRuntimeMod(module, stmt_->line_number());
+      CallExp* add_accessor = builder()->CreateDotAccessor(runtime_accessor, get, stmt_->line_number());
+      NodeList* args = builder()->CreateNodeList(1, key);
+      alias = builder()->CreateNormalAccessor(add_accessor, args, stmt_->line_number());
     }
     CallExp* dot_accessor = builder()->CreateDotAccessor(alias, name, stmt_->line_number());
     AssignmentExp* exp = builder()->CreateAssignment('=', dot_accessor, node, stmt_->line_number());

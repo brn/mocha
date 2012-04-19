@@ -24,6 +24,12 @@ class CompilationInfo {
   void UnsetPrettyPrint();
   bool ShowOrgName() const;
   void SetOrgName();
+  bool FileScope() const;
+  void SetFileScope();
+  void UnsetFileScope();
+  bool GlobalScope() const;
+  void SetGlobalScope();
+  void UnsetGlobalScope();
   bool HasVersion(const char*) const;
   void SetVersion(const char*);
   void UnsetVersion(const char*);

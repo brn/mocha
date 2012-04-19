@@ -109,6 +109,7 @@ class MixinTest {
   mixin TestTrait with testm1 as m1;
   mixin TestTrait2 without testm2, without testm3;
 }
+
 var instance2 = new MixinTest();
 @assert( true , instance2.m1( "foo" ) === "foo" );
 @assert( true , instance2.m2 === undefined );
@@ -124,3 +125,4 @@ class Box {
 var inst = new Box();
 @assert(true, inst.height() === 100);
 @assert(true, inst.width() === 100);
+

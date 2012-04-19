@@ -60,8 +60,13 @@ static const char runtime[][50] = {
   "initializeClass",
   "Tuple",
   "spreadCall",
-  "getInstanceBody"
+  "getInstanceBody",
+  "modules",
+  "Module",
+  "add",
+  "get"
 };
+
 
 static const char builtin[][50] = {
   "arguments",

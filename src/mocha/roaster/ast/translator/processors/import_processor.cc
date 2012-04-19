@@ -31,9 +31,14 @@ void ImportProccessor::ProcessNode() {
     LoadModule();
     AstNode *name = builder()->CreateNameNode(stmt_->module_key()->token(),
                                               Token::JS_STRING_LITERAL, stmt_->line_number(), Literal::kString);
-    Literal *global = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGlobalExport),
-                                                Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kIdentifier);
-    exp = builder()->CreateArrayAccessor(global, name, stmt_->line_number());
+    Literal* get = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGet),
+                                             Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kProperty);
+    Literal* module = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kModules),
+                                                Token::JS_IDENTIFIER, stmt_->line_number(), Literal::kProperty);
+    CallExp* runtime_accessor = builder()->CreateRuntimeMod(module, stmt_->line_number());
+    CallExp* add_accessor = builder()->CreateDotAccessor(runtime_accessor, get, stmt_->line_number());
+    NodeList* args = builder()->CreateNodeList(1, name);
+    exp = builder()->CreateNormalAccessor(add_accessor, args, stmt_->line_number());
   } else {
     if (!stmt_->IsContainDestructuring()) {
       Literal *global = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kGlobalAlias),
@@ -44,6 +49,7 @@ void ImportProccessor::ProcessNode() {
       exp = stmt_->from();
     }
   }
+  
   typedef std::vector<TokenInfo*> PropertyArray;
   PropertyArray property_array;
   AstNode* expression = (stmt_->module_type() == ImportStmt::kAs)? stmt_->expression() : stmt_->from();

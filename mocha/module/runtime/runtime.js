@@ -22,8 +22,7 @@
  */
 
 //Global module container.
-var _mochaGlobalExport = {},
-    global = (this !== null)?this : typeof window === 'object'? window : {};
+var global = (this !== null)?this : typeof window === 'object'? window : {};
 
 //ecma262 5th edition compatible buitin extensions,
 //and some extras from both strawman and harmony.
@@ -697,6 +696,32 @@ module Runtime {
   export extendPrototype = ( derived , base ) -> {
     derived.prototype = base;
   }
+
+  Module -> {}
+  ModuleContainer -> {}
+
+  Object.defineProperty(ModuleContainer.prototype, '_modules', {
+    value : {},
+    writable : true
+  });
+
+  Object.defineProperty(ModuleContainer.prototype, 'add', {
+    value : (name) -> this._modules[name] = new Module
+  });
+
+  Object.defineProperty(ModuleContainer.prototype, 'get', {
+    value : (name) -> this._modules[name]
+  });
+
+  Object.defineProperty(ModuleContainer.prototype, 'toString', {
+    value : -> "[object ModuleContainer]"
+  });
+
+  Object.defineProperty(Module.prototype, 'toString', {
+    value : -> "[object Module]"
+  });
+
+  export modules = new ModuleContainer;
 
   const getPrototype = ( "getPrototypeOf" in Object )?
     ( obj ) -> Object.getPrototypeOf( obj ) :

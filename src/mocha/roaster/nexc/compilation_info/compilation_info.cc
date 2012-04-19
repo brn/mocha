@@ -8,11 +8,15 @@ static const int compress = 1;
 static const int pretty_print = 2;
 static const int file = 3;
 static const int org_name = 3;
+static const int file_scope = 4;
+static const int global_scope = 5;
 
 CompilationInfo::CompilationInfo() {
   versions_.insert(VersionPair(Consts::kVersionAll, 1));
   versions_.insert(VersionPair(Consts::kVersionNone, 1));
   versions_.insert(VersionPair(Consts::kVersionCompat, 1));
+  flags_.Set(file_scope);
+  flags_.Set(global_scope);
 }
 
 bool CompilationInfo::Debug() const {
@@ -52,6 +56,30 @@ void CompilationInfo::SetPrettyPrint() {
 void CompilationInfo::UnsetPrettyPrint() {
   flags_.UnSet(pretty_print);
 }
+
+bool CompilationInfo::FileScope() const {
+  return flags_.At(file_scope);
+}
+
+void CompilationInfo::SetFileScope() {
+  flags_.Set(file_scope);
+}
+
+void CompilationInfo::UnsetFileScope() {
+  flags_.UnSet(file_scope);
+}
+
+bool CompilationInfo::GlobalScope() const {
+  return flags_.At(global_scope);
+}
+void CompilationInfo::SetGlobalScope() {
+  flags_.Set(global_scope);
+}
+
+void CompilationInfo::UnsetGlobalScope() {
+  flags_.UnSet(global_scope);
+}
+
 
 void CompilationInfo::SetVersion(const char* name) {
   Versions::iterator entry = versions_.find(name);
