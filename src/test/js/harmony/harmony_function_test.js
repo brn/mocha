@@ -16,9 +16,9 @@ const testConstFunctionNonFormal->console.log(1);
 const testConstFunctionHasFormalWithContext()=>console.log(1);
 const testConstFunctionWithContext=>console.log(1);
   var x = (a,b,c) -> {
-        a + b
+        return a + b
       };
-  var x = function(a,b,c) { return a + b; }
+  var x2 = function(a,b,c) { return a + b; }
 testHasFormalHasBlock()->{
   console.log(1);
 }

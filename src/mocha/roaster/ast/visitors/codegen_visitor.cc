@@ -971,43 +971,38 @@ VISITOR_IMPL(Literal) {
                         
     case Literal::kIdentifier : {
       const char* symbol = ast_node->value()->token();
-      if (symbol[ 0 ] == '@') {
-        std::string tmp = symbol;
-        if (strlen(symbol) > 1) {
-          stream()->Write("this.");
-          tmp.erase(0, 1);
-        } else {
-          stream()->Write("this");
-        }
-        stream()->Write(tmp.c_str());
-      } else {
-        if (scope_) {
-          SymbolEntry entry = scope_->Find(ast_node->value());
-          if (entry.first != 0) {
-            TokenInfo *info = entry.first;
-            stream()->Write(info->compressed_name());
-            if (info_->ShowOrgName()) {
-              stream()->Write("/*");
-              stream()->Write(symbol);
-              stream()->Write("*/");
-            }
-          } else {
+      if (scope_) {
+        SymbolEntry entry = scope_->Find(ast_node->value());
+        if (entry.first != 0) {
+          TokenInfo *info = entry.first;
+          stream()->Write(info->compressed_name());
+          if (info_->ShowOrgName()) {
+            stream()->Write("/*");
             stream()->Write(symbol);
+            stream()->Write("*/");
           }
         } else {
           stream()->Write(symbol);
         }
+      } else {
+        stream()->Write(symbol);
       }
     }
       break;
-                        
+
+    case Literal::kUndefined :
+    case Literal::kRegExp :
+    case Literal::kString :
+    case Literal::kNumeric :
+      stream()->Write(ast_node->value()->token());
+      
     case Literal::kRest :
     case Literal::kPrivateProperty :
       return;
       break;
 
     default :
-      stream()->Write(ast_node->value()->token());
+      writer_->WriteOp(ast_node->value()->type(), 0, stream());
   }
 }
 

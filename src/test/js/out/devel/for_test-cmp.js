@@ -2,21 +2,21 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = ( this  !==  null )? this  : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
       function defineBuiltin(obj,name,value) {
         return Object.defineProperty(obj,name, {
           value : value,
-          configurable : true,
-          enumerable : false,
-          writable : true
+          configurable :  true ,
+          enumerable :  false ,
+          writable :  true 
         });
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
+        Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -67,18 +67,18 @@
               var obj = {};
               
               Object.defineProperty(obj,"test", {
-                configurable : false,
-                writable : false,
-                enumerable : false,
+                configurable :  false ,
+                writable :  false ,
+                enumerable :  false ,
                 value : 0
               });
               
               obj.test = 200;
               
-              ret = (obj.test === 200)?false : true;
+              ret = (obj.test === 200)? false  :  true ;
             } catch(e){
               
-              ret = false;
+              ret =  false ;
             }
             return ret;
           }();
@@ -90,7 +90,7 @@
       if (!stringProto.trim){
         
         stringProto.trim = function () {
-          return this.replace(stringProto.trim.rtrim,"");
+          return  this .replace(stringProto.trim.rtrim,"");
         };
         
         stringProto.trim.rtrim = /^\s*|\s*$/g;
@@ -98,29 +98,29 @@
       
       !stringProto.repeat && defineBuiltin(stringProto,"repeat",
       function (num) {
-        return Array(num+1).join(this.toString());
+        return Array(num+1).join( this .toString());
       });
       
       !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
       function (str) {
-        return !this.indexOf(str);
+        return ! this .indexOf(str);
       });
       
       !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
       function (str) {
         var t = String(str),
-            index = this.lastIndexOf(t);
-        return index >= 0 && index === this.length-t.length;
+            index =  this .lastIndexOf(t);
+        return index >= 0 && index ===  this .length-t.length;
       });
       
       !stringProto.contains && defineBuiltin(stringProto,"contains",
       function (str) {
-        return this.indexOf(str) !== -1;
+        return  this .indexOf(str) !== -1;
       });
       
       !stringProto.toArray && defineBuiltin(stringProto,"toArray",
       function (str) {
-        return this.split("");
+        return  this .split("");
       });
       
       !functionProto.bind && defineBuiltin(functionProto,"bind",
@@ -129,12 +129,12 @@
             context = argArray.shift(),
             ret = function () {
               var args = argArray.concat(arrayProto.slice.call(arguments));
-              return this !== null && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
+              return  this  !==  null  &&  this  !== global &&  this  instanceof ret?ret.context.apply( this ,args) : ret.context.apply(context,args);
             };
         
-        ret.prototype = this.prototype;
+        ret.prototype =  this .prototype;
         
-        ret.context = this;
+        ret.context =  this ;
         return ret;
       });
       
@@ -145,16 +145,16 @@
         var iter = -1,
             ta;
         
-        this === null && builtinTypeError("Array.forEach : this is null or not defined");
+         this  ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
         
         if (that){
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            callback.call(that,ta,iter,this);
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            callback.call(that,ta,iter, this );
           }
           
         } else {
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            callback(ta,iter,this);
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            callback(ta,iter, this );
           }
           
         }
@@ -168,26 +168,26 @@
         var iter = -1,
             ta;
         
-        this === null && builtinTypeError("Array.every : this is null or not defined");
+         this  ===  null  && builtinTypeError("Array.every : this is null or not defined");
         
         if (that){
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            if (!(callback.call(that,ta,iter,this))){
-              return false;
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback.call(that,ta,iter, this ))){
+              return  false ;
             }
             
           }
           
         } else {
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            if (!(callback(ta,iter,this))){
-              return false;
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback(ta,iter, this ))){
+              return  false ;
             }
             
           }
           
         }
-        return true;
+        return  true ;
       });
       
       !arrayProto.some && defineBuiltin(arrayProto,"some",
@@ -197,49 +197,49 @@
         var iter = -1,
             ta;
         
-        this === null && builtinTypeError("Array.some : this is null or not defined");
+         this  ===  null  && builtinTypeError("Array.some : this is null or not defined");
         
         if (that){
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            if (callback.call(that,ta,iter,this)){
-              return true;
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (callback.call(that,ta,iter, this )){
+              return  true ;
             }
             
           }
           
         } else {
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            if (callback(ta,iter,this)){
-              return true;
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (callback(ta,iter, this )){
+              return  true ;
             }
             
           }
           
         }
-        return false;
+        return  false ;
       });
       
       !arrayProto.filter && defineBuiltin(arrayProto,"filter",
       function (callback,that) {
         callbackCheck(callback,"Array.filter");
         
-        var len = this.length,
+        var len =  this .length,
             iter = -1,
             ret = [],
             ta;
         
-        this === null && builtinTypeError("Array.filter : this is null or not defined");
+         this  ===  null  && builtinTypeError("Array.filter : this is null or not defined");
         
         if (that){
-          for (var i = 0,len = this.length;i<len; ++ i){
+          for (var i = 0,len =  this .length;i<len; ++ i){
             
-            (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+            (ta =  this [i]) !==  null  && ta !== undefined && callback.call(that,ta,i, this ) && (ret[ ++ iter] = ta);
           }
           
         } else {
-          for (var i = 0,len = this.length;i<len; ++ i){
+          for (var i = 0,len =  this .length;i<len; ++ i){
             
-            (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+            (ta =  this [i]) !==  null  && ta !== undefined && callback(ta,i, this ) && (ret[ ++ iter] = ta);
           }
           
         }
@@ -252,9 +252,9 @@
             index = -1,
             ta;
         
-        this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
+         this  ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
         
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
           if (ta === subject){
             
             index = iter;
@@ -267,14 +267,14 @@
       
       !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
       function (target,fromIndex) {
-        var len = this.length,
+        var len =  this .length,
             iter = (fromIndex)?fromIndex+1 : len,
             index = -1,
             ta;
         
-        this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+         this  ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
         
-        while ((ta = this[ -- iter]) !== null && ta !== undefined){
+        while ((ta =  this [ -- iter]) !==  null  && ta !== undefined){
           if (ta === target){
             
             index = iter;
@@ -291,20 +291,20 @@
         
         var ret = [],
             iter = -1,
-            len = this.length,
+            len =  this .length,
             i = 0,
             ta;
         
-        this === null && builtinTypeError("Array.map : this is null or not defined.");
+         this  ===  null  && builtinTypeError("Array.map : this is null or not defined.");
         
         if (that){
           for (i;i<len; ++ i){
-            (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
+            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i, this ));
           }
           
         } else {
           for (i;i<len; ++ i){
-            (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i, this ));
           }
           
         }
@@ -315,15 +315,15 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduce");
         
-        var ret = initial || this[0],
+        var ret = initial ||  this [0],
             i = (initial)?0 : 1,
-            len = this.length,
+            len =  this .length,
             ta;
         
-        (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i<len; ++ i){
-          (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
         }
         return ret;
       });
@@ -332,28 +332,28 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduceRight");
         
-        var len = this.length,
-            ret = initial || this[len-1],
+        var len =  this .length,
+            ret = initial ||  this [len-1],
             i = (initial)?len-1 : len-2,
             ta;
         
-        (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i>-1; -- i){
-          (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
         }
         return ret;
       });
       
       !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
       function () {
-        var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+        var _mochaLocalTmp4 = [ this .getUTCMonth(), this .getUTCDate(), this .getUTCHours(), this .getMinutes(), this .getSeconds()],
             month = _mochaLocalTmp4[0],
             date = _mochaLocalTmp4[1],
             hour = _mochaLocalTmp4[2],
             minute = _mochaLocalTmp4[3],
             second = _mochaLocalTmp4[4];
-        return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
+        return '"'+ this .getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+ this .getUTCMilliseconds()+'Z"';
       });
       
       !Date.now && defineBuiltin(Date,"now",
@@ -364,12 +364,12 @@
       !Array.isArray && defineBuiltin(Array,"isArray",
       function (arr) {
         if (arguments.length === 0){
-          return false;
+          return  false ;
         }
-        return (arr)?({}).toString.call(arr) === "[object Array]" : false;
+        return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
       });
-    }.call(this,String,Array,Function,Date);
-  }.call(this);
+    }.call( this ,String,Array,Function,Date);
+  }.call( this );
   
   var Runtime = function () {
         "use strict";
@@ -378,7 +378,7 @@
           
           for (var i = 0,len = args.length;i<len;i += 2){
             
-            args[i] === true?push.apply(newArgs,args[i+1]) : newArgs.push(args[i+1]);
+            args[i] ===  true ?push.apply(newArgs,args[i+1]) : newArgs.push(args[i+1]);
           }
           
           if (isNew){
@@ -569,15 +569,15 @@
         function RecordConstructor(obj) {
           for (var i in obj){
             
-            this[i] = obj[i];
+             this [i] = obj[i];
           }
           
-          Object.freeze(this);
+          Object.freeze( this );
         }
         function TupleConstructor(args) {
-          push.apply(this,args);
+          push.apply( this ,args);
           
-          Object.freeze(this);
+          Object.freeze( this );
         }
         function extend(dest,source) {
           for (var prop in source){
@@ -592,13 +592,13 @@
         function createGenerator(generatorFn,closeFn,context) {
           var ret = new Generator;
           
-          createUnenumProp(ret,"next",generatorFn.bind(context,false,false));
+          createUnenumProp(ret,"next",generatorFn.bind(context, false , false ));
           
-          createUnenumProp(ret,"send",generatorFn.bind(context,true,false));
+          createUnenumProp(ret,"send",generatorFn.bind(context, true , false ));
           
           createUnenumProp(ret,"close",closeFn.bind(context));
           
-          createUnenumProp(ret,"__nothrowNext__",generatorFn.bind(context,false,true));
+          createUnenumProp(ret,"__nothrowNext__",generatorFn.bind(context, false , true ));
           
           createUnenumProp(ret,"toString",
           function () {
@@ -614,22 +614,22 @@
         }
         function constant(obj,prop,value) {
           return Object.defineProperty(obj,prop, {
-            configurable : false,
-            enumerable : false,
-            writable : false,
+            configurable :  false ,
+            enumerable :  false ,
+            writable :  false ,
             value : value
           });
         }
         function createUnenumProp(obj,prop,value) {
           return Object.defineProperty(obj,prop, {
-            configurable : true,
-            enumerable : false,
-            writable : true,
+            configurable :  true ,
+            enumerable :  false ,
+            writable :  true ,
             value : value
           });
         }
         function Exception(line,file,e) {
-          this.toString = function () {
+           this .toString = function () {
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
@@ -647,10 +647,10 @@
               exceptionHandler : function (line,file,e) {
                 if (isStopIteration(e)){
                   
-                  this.throwException(e);
+                   this .throwException(e);
                 } else {
                   
-                  this.throwException(new Exception(line,file,e));
+                   this .throwException(new Exception(line,file,e));
                 }
                 
               },
@@ -662,7 +662,7 @@
                   if (isStopIteration(e)){
                     throw new Error(e);
                   } else {
-                    throw new Error(this.getErrorMessage(e));
+                    throw new Error( this .getErrorMessage(e));
                   }
                   
                 }
@@ -688,16 +688,16 @@
         
         TupleConstructor.prototype =  {
           compareTuple : function (tuple) {
-            var maxIndex = max(tuple.length,this.length),
+            var maxIndex = max(tuple.length, this .length),
                 i = -1;
             
-            while ( ++ i<maxIndex && tuple[i] === this[i]){
+            while ( ++ i<maxIndex && tuple[i] ===  this [i]){
               
             }
             return maxIndex === i;
           },
           tupleToArray : function () {
-            return slice.call(this);
+            return slice.call( this );
           },
           toString : function () {
             return "[object Tuple]";
@@ -718,18 +718,18 @@
         
         Object.defineProperty(ModuleContainer.prototype,'_modules', {
           value : {},
-          writable : true
+          writable :  true 
         });
         
         Object.defineProperty(ModuleContainer.prototype,'add', {
           value : function (name) {
-            return this._modules[name] = new Module;
+            return  this ._modules[name] = new Module;
           }
         });
         
         Object.defineProperty(ModuleContainer.prototype,'get', {
           value : function (name) {
-            return this._modules[name];
+            return  this ._modules[name];
           }
         });
         
@@ -906,7 +906,7 @@
               } : function (expect,exp,str,line,filename) {
                 expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
               };
-        }.call(this);
+        }.call( this );
         return _mochaLocalExport;
       }();
   
@@ -930,10 +930,10 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "1653259312-for_test.js",
+      var __FILE__ = "-836421475-for_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('1653259312-for_test.js');
+      Runtime.modules.add('-836421475-for_test.js');
       
       __LINE__ = 1;
       var target = ['a','b','c','d','e','f','g','h','i','j'],
@@ -947,34 +947,34 @@
       }
       
       __LINE__ = 6;
-      Runtime.assert(true,arr[0] === 'a',"arr[0] === 'a'",6,'for_test.js');
+      Runtime.assert( true ,arr[0] === 'a',"arr[0] === 'a'",6,'for_test.js');
       
       __LINE__ = 7;
-      Runtime.assert(true,arr[1] === 'b',"arr[1] === 'b'",7,'for_test.js');
+      Runtime.assert( true ,arr[1] === 'b',"arr[1] === 'b'",7,'for_test.js');
       
       __LINE__ = 8;
-      Runtime.assert(true,arr[2] === 'c',"arr[2] === 'c'",8,'for_test.js');
+      Runtime.assert( true ,arr[2] === 'c',"arr[2] === 'c'",8,'for_test.js');
       
       __LINE__ = 9;
-      Runtime.assert(true,arr[3] === 'd',"arr[3] === 'd'",9,'for_test.js');
+      Runtime.assert( true ,arr[3] === 'd',"arr[3] === 'd'",9,'for_test.js');
       
       __LINE__ = 10;
-      Runtime.assert(true,arr[4] === 'e',"arr[4] === 'e'",10,'for_test.js');
+      Runtime.assert( true ,arr[4] === 'e',"arr[4] === 'e'",10,'for_test.js');
       
       __LINE__ = 11;
-      Runtime.assert(true,arr[5] === 'f',"arr[5] === 'f'",11,'for_test.js');
+      Runtime.assert( true ,arr[5] === 'f',"arr[5] === 'f'",11,'for_test.js');
       
       __LINE__ = 12;
-      Runtime.assert(true,arr[6] === 'g',"arr[6] === 'g'",12,'for_test.js');
+      Runtime.assert( true ,arr[6] === 'g',"arr[6] === 'g'",12,'for_test.js');
       
       __LINE__ = 13;
-      Runtime.assert(true,arr[7] === 'h',"arr[7] === 'h'",13,'for_test.js');
+      Runtime.assert( true ,arr[7] === 'h',"arr[7] === 'h'",13,'for_test.js');
       
       __LINE__ = 14;
-      Runtime.assert(true,arr[8] === 'i',"arr[8] === 'i'",14,'for_test.js');
+      Runtime.assert( true ,arr[8] === 'i',"arr[8] === 'i'",14,'for_test.js');
       
       __LINE__ = 15;
-      Runtime.assert(true,arr[9] === 'j',"arr[9] === 'j'",15,'for_test.js');
+      Runtime.assert( true ,arr[9] === 'j',"arr[9] === 'j'",15,'for_test.js');
       
       __LINE__ = 17;
       arr = [];
@@ -986,34 +986,34 @@
       }
       
       __LINE__ = 21;
-      Runtime.assert(true,arr[0] === 'a',"arr[0] === 'a'",21,'for_test.js');
+      Runtime.assert( true ,arr[0] === 'a',"arr[0] === 'a'",21,'for_test.js');
       
       __LINE__ = 22;
-      Runtime.assert(true,arr[1] === 'b',"arr[1] === 'b'",22,'for_test.js');
+      Runtime.assert( true ,arr[1] === 'b',"arr[1] === 'b'",22,'for_test.js');
       
       __LINE__ = 23;
-      Runtime.assert(true,arr[2] === 'c',"arr[2] === 'c'",23,'for_test.js');
+      Runtime.assert( true ,arr[2] === 'c',"arr[2] === 'c'",23,'for_test.js');
       
       __LINE__ = 24;
-      Runtime.assert(true,arr[3] === 'd',"arr[3] === 'd'",24,'for_test.js');
+      Runtime.assert( true ,arr[3] === 'd',"arr[3] === 'd'",24,'for_test.js');
       
       __LINE__ = 25;
-      Runtime.assert(true,arr[4] === 'e',"arr[4] === 'e'",25,'for_test.js');
+      Runtime.assert( true ,arr[4] === 'e',"arr[4] === 'e'",25,'for_test.js');
       
       __LINE__ = 26;
-      Runtime.assert(true,arr[5] === 'f',"arr[5] === 'f'",26,'for_test.js');
+      Runtime.assert( true ,arr[5] === 'f',"arr[5] === 'f'",26,'for_test.js');
       
       __LINE__ = 27;
-      Runtime.assert(true,arr[6] === 'g',"arr[6] === 'g'",27,'for_test.js');
+      Runtime.assert( true ,arr[6] === 'g',"arr[6] === 'g'",27,'for_test.js');
       
       __LINE__ = 28;
-      Runtime.assert(true,arr[7] === 'h',"arr[7] === 'h'",28,'for_test.js');
+      Runtime.assert( true ,arr[7] === 'h',"arr[7] === 'h'",28,'for_test.js');
       
       __LINE__ = 29;
-      Runtime.assert(true,arr[8] === 'i',"arr[8] === 'i'",29,'for_test.js');
+      Runtime.assert( true ,arr[8] === 'i',"arr[8] === 'i'",29,'for_test.js');
       
       __LINE__ = 30;
-      Runtime.assert(true,arr[9] === 'j',"arr[9] === 'j'",30,'for_test.js');
+      Runtime.assert( true ,arr[9] === 'j',"arr[9] === 'j'",30,'for_test.js');
       
       __LINE__ = 32;
       i = 0;
@@ -1036,34 +1036,34 @@
       }
       
       __LINE__ = 38;
-      Runtime.assert(true,arr[0] === 'a',"arr[0] === 'a'",38,'for_test.js');
+      Runtime.assert( true ,arr[0] === 'a',"arr[0] === 'a'",38,'for_test.js');
       
       __LINE__ = 39;
-      Runtime.assert(true,arr[1] === 'b',"arr[1] === 'b'",39,'for_test.js');
+      Runtime.assert( true ,arr[1] === 'b',"arr[1] === 'b'",39,'for_test.js');
       
       __LINE__ = 40;
-      Runtime.assert(true,arr[2] === 'c',"arr[2] === 'c'",40,'for_test.js');
+      Runtime.assert( true ,arr[2] === 'c',"arr[2] === 'c'",40,'for_test.js');
       
       __LINE__ = 41;
-      Runtime.assert(true,arr[3] === 'd',"arr[3] === 'd'",41,'for_test.js');
+      Runtime.assert( true ,arr[3] === 'd',"arr[3] === 'd'",41,'for_test.js');
       
       __LINE__ = 42;
-      Runtime.assert(true,arr[4] === 'e',"arr[4] === 'e'",42,'for_test.js');
+      Runtime.assert( true ,arr[4] === 'e',"arr[4] === 'e'",42,'for_test.js');
       
       __LINE__ = 43;
-      Runtime.assert(true,arr[5] === 'f',"arr[5] === 'f'",43,'for_test.js');
+      Runtime.assert( true ,arr[5] === 'f',"arr[5] === 'f'",43,'for_test.js');
       
       __LINE__ = 44;
-      Runtime.assert(true,arr[6] === 'g',"arr[6] === 'g'",44,'for_test.js');
+      Runtime.assert( true ,arr[6] === 'g',"arr[6] === 'g'",44,'for_test.js');
       
       __LINE__ = 45;
-      Runtime.assert(true,arr[7] === 'h',"arr[7] === 'h'",45,'for_test.js');
+      Runtime.assert( true ,arr[7] === 'h',"arr[7] === 'h'",45,'for_test.js');
       
       __LINE__ = 46;
-      Runtime.assert(true,arr[8] === 'i',"arr[8] === 'i'",46,'for_test.js');
+      Runtime.assert( true ,arr[8] === 'i',"arr[8] === 'i'",46,'for_test.js');
       
       __LINE__ = 47;
-      Runtime.assert(true,arr[9] === 'j',"arr[9] === 'j'",47,'for_test.js');
+      Runtime.assert( true ,arr[9] === 'j',"arr[9] === 'j'",47,'for_test.js');
       
       __LINE__ = 49;
       i = 9;
@@ -1079,34 +1079,34 @@
       }
       
       __LINE__ = 54;
-      Runtime.assert(true,arr[0] === 'a',"arr[0] === 'a'",54,'for_test.js');
+      Runtime.assert( true ,arr[0] === 'a',"arr[0] === 'a'",54,'for_test.js');
       
       __LINE__ = 55;
-      Runtime.assert(true,arr[1] === 'b',"arr[1] === 'b'",55,'for_test.js');
+      Runtime.assert( true ,arr[1] === 'b',"arr[1] === 'b'",55,'for_test.js');
       
       __LINE__ = 56;
-      Runtime.assert(true,arr[2] === 'c',"arr[2] === 'c'",56,'for_test.js');
+      Runtime.assert( true ,arr[2] === 'c',"arr[2] === 'c'",56,'for_test.js');
       
       __LINE__ = 57;
-      Runtime.assert(true,arr[3] === 'd',"arr[3] === 'd'",57,'for_test.js');
+      Runtime.assert( true ,arr[3] === 'd',"arr[3] === 'd'",57,'for_test.js');
       
       __LINE__ = 58;
-      Runtime.assert(true,arr[4] === 'e',"arr[4] === 'e'",58,'for_test.js');
+      Runtime.assert( true ,arr[4] === 'e',"arr[4] === 'e'",58,'for_test.js');
       
       __LINE__ = 59;
-      Runtime.assert(true,arr[5] === 'f',"arr[5] === 'f'",59,'for_test.js');
+      Runtime.assert( true ,arr[5] === 'f',"arr[5] === 'f'",59,'for_test.js');
       
       __LINE__ = 60;
-      Runtime.assert(true,arr[6] === 'g',"arr[6] === 'g'",60,'for_test.js');
+      Runtime.assert( true ,arr[6] === 'g',"arr[6] === 'g'",60,'for_test.js');
       
       __LINE__ = 61;
-      Runtime.assert(true,arr[7] === 'h',"arr[7] === 'h'",61,'for_test.js');
+      Runtime.assert( true ,arr[7] === 'h',"arr[7] === 'h'",61,'for_test.js');
       
       __LINE__ = 62;
-      Runtime.assert(true,arr[8] === 'i',"arr[8] === 'i'",62,'for_test.js');
+      Runtime.assert( true ,arr[8] === 'i',"arr[8] === 'i'",62,'for_test.js');
       
       __LINE__ = 63;
-      Runtime.assert(true,arr[9] === 'j',"arr[9] === 'j'",63,'for_test.js');
+      Runtime.assert( true ,arr[9] === 'j',"arr[9] === 'j'",63,'for_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

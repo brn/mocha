@@ -494,12 +494,14 @@ AstNode* UnPacker::MakeBaseAst() {
 
 void UnPacker::UnpackChar(std::string* buf) {
   int size = Advance();
-  std::stringstream st;
-  while (size) {
-    st << static_cast<char>(Advance());
-    size--;
+  if (size > 0) {
+    std::stringstream st;
+    while (size) {
+      st << static_cast<char>(Advance());
+      size--;
+    }
+    buf->assign(st.str());
   }
-  buf->assign(st.str());
 }
 
 TokenInfo* UnPacker::UnpackToken() {
@@ -509,7 +511,8 @@ TokenInfo* UnPacker::UnpackToken() {
   UnpackChar(&token);
   int line1 = Advance();
   int line2 = Advance();
-  TokenInfo* info = new(pool_) TokenInfo(token.c_str(), type, (line1 + line2));
+  const char* str = (token.empty())? "" : token.c_str();
+  TokenInfo* info = new(pool_) TokenInfo(str, type, (line1 + line2));
   if (const_decl) {
     info->set_const_declaration();
   }

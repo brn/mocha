@@ -10,14 +10,10 @@
 #include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/nexc/tokens/symbol_list.h>
 
-#define TOKEN yy::ParserImplementation::token
-
 namespace mocha {
-
 
 class ClassProcessorUtils : public Processor{
  public :
-
   ClassProcessorUtils(ClassProcessor* processor)
       : Processor(), processor_(processor) {}
 

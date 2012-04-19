@@ -2,21 +2,21 @@
   var __FILE__ = "Runtime",
       __LINE__ = 0;
   
-  var global = (this !== null)?this : typeof window === 'object'?window : {};
+  var global = ( this  !==  null )? this  : typeof window === 'object'?window : {};
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
       function defineBuiltin(obj,name,value) {
         return Object.defineProperty(obj,name, {
           value : value,
-          configurable : true,
-          enumerable : false,
-          writable : true
+          configurable :  true ,
+          enumerable :  false ,
+          writable :  true 
         });
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert(true,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
+        Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",44,'runtime.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -67,18 +67,18 @@
               var obj = {};
               
               Object.defineProperty(obj,"test", {
-                configurable : false,
-                writable : false,
-                enumerable : false,
+                configurable :  false ,
+                writable :  false ,
+                enumerable :  false ,
                 value : 0
               });
               
               obj.test = 200;
               
-              ret = (obj.test === 200)?false : true;
+              ret = (obj.test === 200)? false  :  true ;
             } catch(e){
               
-              ret = false;
+              ret =  false ;
             }
             return ret;
           }();
@@ -90,7 +90,7 @@
       if (!stringProto.trim){
         
         stringProto.trim = function () {
-          return this.replace(stringProto.trim.rtrim,"");
+          return  this .replace(stringProto.trim.rtrim,"");
         };
         
         stringProto.trim.rtrim = /^\s*|\s*$/g;
@@ -98,29 +98,29 @@
       
       !stringProto.repeat && defineBuiltin(stringProto,"repeat",
       function (num) {
-        return Array(num+1).join(this.toString());
+        return Array(num+1).join( this .toString());
       });
       
       !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
       function (str) {
-        return !this.indexOf(str);
+        return ! this .indexOf(str);
       });
       
       !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
       function (str) {
         var t = String(str),
-            index = this.lastIndexOf(t);
-        return index >= 0 && index === this.length-t.length;
+            index =  this .lastIndexOf(t);
+        return index >= 0 && index ===  this .length-t.length;
       });
       
       !stringProto.contains && defineBuiltin(stringProto,"contains",
       function (str) {
-        return this.indexOf(str) !== -1;
+        return  this .indexOf(str) !== -1;
       });
       
       !stringProto.toArray && defineBuiltin(stringProto,"toArray",
       function (str) {
-        return this.split("");
+        return  this .split("");
       });
       
       !functionProto.bind && defineBuiltin(functionProto,"bind",
@@ -129,12 +129,12 @@
             context = argArray.shift(),
             ret = function () {
               var args = argArray.concat(arrayProto.slice.call(arguments));
-              return this !== null && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
+              return  this  !==  null  &&  this  !== global &&  this  instanceof ret?ret.context.apply( this ,args) : ret.context.apply(context,args);
             };
         
-        ret.prototype = this.prototype;
+        ret.prototype =  this .prototype;
         
-        ret.context = this;
+        ret.context =  this ;
         return ret;
       });
       
@@ -145,16 +145,16 @@
         var iter = -1,
             ta;
         
-        this === null && builtinTypeError("Array.forEach : this is null or not defined");
+         this  ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
         
         if (that){
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            callback.call(that,ta,iter,this);
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            callback.call(that,ta,iter, this );
           }
           
         } else {
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            callback(ta,iter,this);
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            callback(ta,iter, this );
           }
           
         }
@@ -168,26 +168,26 @@
         var iter = -1,
             ta;
         
-        this === null && builtinTypeError("Array.every : this is null or not defined");
+         this  ===  null  && builtinTypeError("Array.every : this is null or not defined");
         
         if (that){
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            if (!(callback.call(that,ta,iter,this))){
-              return false;
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback.call(that,ta,iter, this ))){
+              return  false ;
             }
             
           }
           
         } else {
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            if (!(callback(ta,iter,this))){
-              return false;
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback(ta,iter, this ))){
+              return  false ;
             }
             
           }
           
         }
-        return true;
+        return  true ;
       });
       
       !arrayProto.some && defineBuiltin(arrayProto,"some",
@@ -197,49 +197,49 @@
         var iter = -1,
             ta;
         
-        this === null && builtinTypeError("Array.some : this is null or not defined");
+         this  ===  null  && builtinTypeError("Array.some : this is null or not defined");
         
         if (that){
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            if (callback.call(that,ta,iter,this)){
-              return true;
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (callback.call(that,ta,iter, this )){
+              return  true ;
             }
             
           }
           
         } else {
-          while ((ta = this[ ++ iter]) !== null && ta !== undefined){
-            if (callback(ta,iter,this)){
-              return true;
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (callback(ta,iter, this )){
+              return  true ;
             }
             
           }
           
         }
-        return false;
+        return  false ;
       });
       
       !arrayProto.filter && defineBuiltin(arrayProto,"filter",
       function (callback,that) {
         callbackCheck(callback,"Array.filter");
         
-        var len = this.length,
+        var len =  this .length,
             iter = -1,
             ret = [],
             ta;
         
-        this === null && builtinTypeError("Array.filter : this is null or not defined");
+         this  ===  null  && builtinTypeError("Array.filter : this is null or not defined");
         
         if (that){
-          for (var i = 0,len = this.length;i<len; ++ i){
+          for (var i = 0,len =  this .length;i<len; ++ i){
             
-            (ta = this[i]) !== null && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+            (ta =  this [i]) !==  null  && ta !== undefined && callback.call(that,ta,i, this ) && (ret[ ++ iter] = ta);
           }
           
         } else {
-          for (var i = 0,len = this.length;i<len; ++ i){
+          for (var i = 0,len =  this .length;i<len; ++ i){
             
-            (ta = this[i]) !== null && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+            (ta =  this [i]) !==  null  && ta !== undefined && callback(ta,i, this ) && (ret[ ++ iter] = ta);
           }
           
         }
@@ -252,9 +252,9 @@
             index = -1,
             ta;
         
-        this === null && builtinTypeError("Array.indexOf : this is null or not defined.");
+         this  ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
         
-        while ((ta = this[ ++ iter]) !== null && ta !== undefined){
+        while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
           if (ta === subject){
             
             index = iter;
@@ -267,14 +267,14 @@
       
       !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
       function (target,fromIndex) {
-        var len = this.length,
+        var len =  this .length,
             iter = (fromIndex)?fromIndex+1 : len,
             index = -1,
             ta;
         
-        this === null && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+         this  ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
         
-        while ((ta = this[ -- iter]) !== null && ta !== undefined){
+        while ((ta =  this [ -- iter]) !==  null  && ta !== undefined){
           if (ta === target){
             
             index = iter;
@@ -291,20 +291,20 @@
         
         var ret = [],
             iter = -1,
-            len = this.length,
+            len =  this .length,
             i = 0,
             ta;
         
-        this === null && builtinTypeError("Array.map : this is null or not defined.");
+         this  ===  null  && builtinTypeError("Array.map : this is null or not defined.");
         
         if (that){
           for (i;i<len; ++ i){
-            (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
+            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i, this ));
           }
           
         } else {
           for (i;i<len; ++ i){
-            (ta = this[i]) !== null && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i, this ));
           }
           
         }
@@ -315,15 +315,15 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduce");
         
-        var ret = initial || this[0],
+        var ret = initial ||  this [0],
             i = (initial)?0 : 1,
-            len = this.length,
+            len =  this .length,
             ta;
         
-        (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i<len; ++ i){
-          (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
         }
         return ret;
       });
@@ -332,28 +332,28 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduceRight");
         
-        var len = this.length,
-            ret = initial || this[len-1],
+        var len =  this .length,
+            ret = initial ||  this [len-1],
             i = (initial)?len-1 : len-2,
             ta;
         
-        (len === 0 || len === null) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i>-1; -- i){
-          (ta = this[i]) !== null && ta !== undefined && (ret = callback(ret,ta,i,this));
+          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
         }
         return ret;
       });
       
       !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
       function () {
-        var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+        var _mochaLocalTmp4 = [ this .getUTCMonth(), this .getUTCDate(), this .getUTCHours(), this .getMinutes(), this .getSeconds()],
             month = _mochaLocalTmp4[0],
             date = _mochaLocalTmp4[1],
             hour = _mochaLocalTmp4[2],
             minute = _mochaLocalTmp4[3],
             second = _mochaLocalTmp4[4];
-        return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
+        return '"'+ this .getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+ this .getUTCMilliseconds()+'Z"';
       });
       
       !Date.now && defineBuiltin(Date,"now",
@@ -364,12 +364,12 @@
       !Array.isArray && defineBuiltin(Array,"isArray",
       function (arr) {
         if (arguments.length === 0){
-          return false;
+          return  false ;
         }
-        return (arr)?({}).toString.call(arr) === "[object Array]" : false;
+        return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
       });
-    }.call(this,String,Array,Function,Date);
-  }.call(this);
+    }.call( this ,String,Array,Function,Date);
+  }.call( this );
   
   var Runtime = function () {
         "use strict";
@@ -378,7 +378,7 @@
           
           for (var i = 0,len = args.length;i<len;i += 2){
             
-            args[i] === true?push.apply(newArgs,args[i+1]) : newArgs.push(args[i+1]);
+            args[i] ===  true ?push.apply(newArgs,args[i+1]) : newArgs.push(args[i+1]);
           }
           
           if (isNew){
@@ -569,15 +569,15 @@
         function RecordConstructor(obj) {
           for (var i in obj){
             
-            this[i] = obj[i];
+             this [i] = obj[i];
           }
           
-          Object.freeze(this);
+          Object.freeze( this );
         }
         function TupleConstructor(args) {
-          push.apply(this,args);
+          push.apply( this ,args);
           
-          Object.freeze(this);
+          Object.freeze( this );
         }
         function extend(dest,source) {
           for (var prop in source){
@@ -592,13 +592,13 @@
         function createGenerator(generatorFn,closeFn,context) {
           var ret = new Generator;
           
-          createUnenumProp(ret,"next",generatorFn.bind(context,false,false));
+          createUnenumProp(ret,"next",generatorFn.bind(context, false , false ));
           
-          createUnenumProp(ret,"send",generatorFn.bind(context,true,false));
+          createUnenumProp(ret,"send",generatorFn.bind(context, true , false ));
           
           createUnenumProp(ret,"close",closeFn.bind(context));
           
-          createUnenumProp(ret,"__nothrowNext__",generatorFn.bind(context,false,true));
+          createUnenumProp(ret,"__nothrowNext__",generatorFn.bind(context, false , true ));
           
           createUnenumProp(ret,"toString",
           function () {
@@ -614,22 +614,22 @@
         }
         function constant(obj,prop,value) {
           return Object.defineProperty(obj,prop, {
-            configurable : false,
-            enumerable : false,
-            writable : false,
+            configurable :  false ,
+            enumerable :  false ,
+            writable :  false ,
             value : value
           });
         }
         function createUnenumProp(obj,prop,value) {
           return Object.defineProperty(obj,prop, {
-            configurable : true,
-            enumerable : false,
-            writable : true,
+            configurable :  true ,
+            enumerable :  false ,
+            writable :  true ,
             value : value
           });
         }
         function Exception(line,file,e) {
-          this.toString = function () {
+           this .toString = function () {
             return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
           };
         }
@@ -647,10 +647,10 @@
               exceptionHandler : function (line,file,e) {
                 if (isStopIteration(e)){
                   
-                  this.throwException(e);
+                   this .throwException(e);
                 } else {
                   
-                  this.throwException(new Exception(line,file,e));
+                   this .throwException(new Exception(line,file,e));
                 }
                 
               },
@@ -662,7 +662,7 @@
                   if (isStopIteration(e)){
                     throw new Error(e);
                   } else {
-                    throw new Error(this.getErrorMessage(e));
+                    throw new Error( this .getErrorMessage(e));
                   }
                   
                 }
@@ -688,16 +688,16 @@
         
         TupleConstructor.prototype =  {
           compareTuple : function (tuple) {
-            var maxIndex = max(tuple.length,this.length),
+            var maxIndex = max(tuple.length, this .length),
                 i = -1;
             
-            while ( ++ i<maxIndex && tuple[i] === this[i]){
+            while ( ++ i<maxIndex && tuple[i] ===  this [i]){
               
             }
             return maxIndex === i;
           },
           tupleToArray : function () {
-            return slice.call(this);
+            return slice.call( this );
           },
           toString : function () {
             return "[object Tuple]";
@@ -718,18 +718,18 @@
         
         Object.defineProperty(ModuleContainer.prototype,'_modules', {
           value : {},
-          writable : true
+          writable :  true 
         });
         
         Object.defineProperty(ModuleContainer.prototype,'add', {
           value : function (name) {
-            return this._modules[name] = new Module;
+            return  this ._modules[name] = new Module;
           }
         });
         
         Object.defineProperty(ModuleContainer.prototype,'get', {
           value : function (name) {
-            return this._modules[name];
+            return  this ._modules[name];
           }
         });
         
@@ -906,7 +906,7 @@
               } : function (expect,exp,str,line,filename) {
                 expect !== exp && Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
               };
-        }.call(this);
+        }.call( this );
         return _mochaLocalExport;
       }();
   
@@ -930,10 +930,10 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-759650552-class_test.js",
+      var __FILE__ = "-839149963-class_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('-759650552-class_test.js');
+      Runtime.modules.add('-839149963-class_test.js');
       
       __LINE__ = 1;
       var Monster = function () {
@@ -978,7 +978,7 @@
               Monster.prototype.isAlive = function () {
                 try {
                   __LINE__ = 23;
-                  return Runtime.getPrivateRecord(this).health>0;
+                  return Runtime.getPrivateRecord( this ).health>0;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -994,7 +994,7 @@
                   }
                   
                   __LINE__ = 31;
-                  Runtime.getPrivateRecord(this).health = value;
+                  Runtime.getPrivateRecord( this ).health = value;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1020,7 +1020,7 @@
           monster = new Monster("slime",100);
       
       __LINE__ = 48;
-      Runtime.assert(true,monster.isAlive(),"monster.isAlive()",48,'class_test.js');
+      Runtime.assert( true ,monster.isAlive(),"monster.isAlive()",48,'class_test.js');
       
       __LINE__ = 49;
       Runtime.assert(0,monster.numAttacks,"monster.numAttacks",49,'class_test.js');
@@ -1036,13 +1036,13 @@
             function constructor(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2) {
               try {
                 __LINE__ = 53;
-                Runtime.getPrivateRecord(this).name = _mochaLocalTmp0 || "foo";
+                Runtime.getPrivateRecord( this ).name = _mochaLocalTmp0 || "foo";
                 
                 __LINE__ = 53;
-                Runtime.getPrivateRecord(this).addr = _mochaLocalTmp1 || "tokyo";
+                Runtime.getPrivateRecord( this ).addr = _mochaLocalTmp1 || "tokyo";
                 
                 __LINE__ = 53;
-                Runtime.getPrivateRecord(this).age = _mochaLocalTmp2;
+                Runtime.getPrivateRecord( this ).age = _mochaLocalTmp2;
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1067,7 +1067,7 @@
               BaseTest.prototype.getName = function () {
                 try {
                   __LINE__ = 54;
-                  return Runtime.getPrivateRecord(this).name;
+                  return Runtime.getPrivateRecord( this ).name;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1085,7 +1085,7 @@
             function constructor() {
               try {
                 __LINE__ = 58;
-                return _mochaSuper.constructor.call(this);
+                return _mochaSuper.constructor.call( this );
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1119,7 +1119,7 @@
               DeriveTest.prototype.getName = function () {
                 try {
                   __LINE__ = 59;
-                  return _mochaSuper.getName.call(this);
+                  return _mochaSuper.getName.call( this );
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1137,7 +1137,7 @@
             function constructor() {
               try {
                 __LINE__ = 64;
-                return _mochaSuper.constructor.call(this);
+                return _mochaSuper.constructor.call( this );
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1171,7 +1171,7 @@
               Derive2.prototype.getAddr = function () {
                 try {
                   __LINE__ = 65;
-                  return Runtime.getPrivateRecord(this).addr;
+                  return Runtime.getPrivateRecord( this ).addr;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1189,7 +1189,7 @@
             function constructor() {
               try {
                 __LINE__ = 71;
-                _mochaSuper.constructor.call(this,200,'tokyo',20);
+                _mochaSuper.constructor.call( this ,200,'tokyo',20);
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1231,13 +1231,13 @@
             function constructor(_mochaLocalTmp7,_mochaLocalTmp8) {
               try {
                 __LINE__ = 76;
-                Runtime.getPrivateRecord(this)._name = _mochaLocalTmp7 || "test";
+                Runtime.getPrivateRecord( this )._name = _mochaLocalTmp7 || "test";
                 
                 __LINE__ = 76;
-                Runtime.getPrivateRecord(this)._age = _mochaLocalTmp8 || 20;
+                Runtime.getPrivateRecord( this )._age = _mochaLocalTmp8 || 20;
                 
                 __LINE__ = 77;
-                this.testProp = 1;
+                 this .testProp = 1;
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1262,7 +1262,7 @@
               _mochaLocalTmp6.prototype.getName = function () {
                 try {
                   __LINE__ = 79;
-                  return Runtime.getPrivateRecord(this)._name;
+                  return Runtime.getPrivateRecord( this )._name;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1272,7 +1272,7 @@
               _mochaLocalTmp6.prototype.getAge = function () {
                 try {
                   __LINE__ = 80;
-                  return Runtime.getPrivateRecord(this)._age;
+                  return Runtime.getPrivateRecord( this )._age;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1282,7 +1282,7 @@
               _mochaLocalTmp6.prototype.ptest = function () {
                 try {
                   __LINE__ = 81;
-                  return Runtime.getPrivateRecord(this).test();
+                  return Runtime.getPrivateRecord( this ).test();
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1320,7 +1320,7 @@
               _mochaPrivateHolder.prototype.test = function () {
                 try {
                   __LINE__ = 85;
-                  return Runtime.getInstanceBody(this).testProp;
+                  return Runtime.getInstanceBody( this ).testProp;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1336,22 +1336,22 @@
           }();
       
       __LINE__ = 88;
-      Runtime.assert(true,new DeriveTest().getName() === "foo","new DeriveTest().getName() === \"foo\"",88,'class_test.js');
+      Runtime.assert( true ,new DeriveTest().getName() === "foo","new DeriveTest().getName() === \"foo\"",88,'class_test.js');
       
       __LINE__ = 89;
-      Runtime.assert(true,new Derive2().getAddr() === "tokyo","new Derive2().getAddr() === \"tokyo\"",89,'class_test.js');
+      Runtime.assert( true ,new Derive2().getAddr() === "tokyo","new Derive2().getAddr() === \"tokyo\"",89,'class_test.js');
       
       __LINE__ = 90;
       var instance = new TestClass();
       
       __LINE__ = 91;
-      Runtime.assert(true,instance.getName() === "test","instance.getName() === \"test\"",91,'class_test.js');
+      Runtime.assert( true ,instance.getName() === "test","instance.getName() === \"test\"",91,'class_test.js');
       
       __LINE__ = 92;
-      Runtime.assert(true,instance.getAge() === 20,"instance.getAge() === 20",92,'class_test.js');
+      Runtime.assert( true ,instance.getAge() === 20,"instance.getAge() === 20",92,'class_test.js');
       
       __LINE__ = 93;
-      Runtime.assert(true,instance.ptest() === 1,"instance.ptest() === 1",93,'class_test.js');
+      Runtime.assert( true ,instance.ptest() === 1,"instance.ptest() === 1",93,'class_test.js');
       
       __LINE__ = 95;
       var TestTrait =  {
@@ -1369,9 +1369,9 @@
               }
             },
             _mochaRequires :  {
-              doTestm1 : true
+              doTestm1 :  true 
             },
-            _mochaTraitMark : true
+            _mochaTraitMark :  true 
           },
           TestTrait2 =  {
             _mochaTraitPrivate : {},
@@ -1396,9 +1396,9 @@
               }
             },
             _mochaRequires :  {
-              doTestm2 : true
+              doTestm2 :  true 
             },
-            _mochaTraitMark : true
+            _mochaTraitMark :  true 
           },
           MixinTest = function () {
             function constructor(){}
@@ -1463,20 +1463,20 @@
           instance2 = new MixinTest();
       
       __LINE__ = 114;
-      Runtime.assert(true,instance2.m1("foo") === "foo","instance2.m1(\"foo\") === \"foo\"",114,'class_test.js');
+      Runtime.assert( true ,instance2.m1("foo") === "foo","instance2.m1(\"foo\") === \"foo\"",114,'class_test.js');
       
       __LINE__ = 115;
-      Runtime.assert(true,instance2.m2 === undefined,"instance2.m2 === undefined",115,'class_test.js');
+      Runtime.assert( true ,instance2.m2 === undefined,"instance2.m2 === undefined",115,'class_test.js');
       
       __LINE__ = 118;
       var Box = function () {
             function constructor(_mochaLocalTmp9,_mochaLocalTmp10) {
               try {
                 __LINE__ = 119;
-                Runtime.getPrivateRecord(this).width = _mochaLocalTmp9 || 100;
+                Runtime.getPrivateRecord( this ).width = _mochaLocalTmp9 || 100;
                 
                 __LINE__ = 119;
-                Runtime.getPrivateRecord(this).height = _mochaLocalTmp10 || 100;
+                Runtime.getPrivateRecord( this ).height = _mochaLocalTmp10 || 100;
               } catch(e){
                 Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
@@ -1501,7 +1501,7 @@
               Box.prototype.height = function () {
                 try {
                   __LINE__ = 120;
-                  return Runtime.getPrivateRecord(this).height;
+                  return Runtime.getPrivateRecord( this ).height;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1511,7 +1511,7 @@
               Box.prototype.width = function () {
                 try {
                   __LINE__ = 121;
-                  return Runtime.getPrivateRecord(this).width;
+                  return Runtime.getPrivateRecord( this ).width;
                 } catch(e){
                   Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
@@ -1540,10 +1540,10 @@
           inst = new Box();
       
       __LINE__ = 126;
-      Runtime.assert(true,inst.height() === 100,"inst.height() === 100",126,'class_test.js');
+      Runtime.assert( true ,inst.height() === 100,"inst.height() === 100",126,'class_test.js');
       
       __LINE__ = 127;
-      Runtime.assert(true,inst.width() === 100,"inst.width() === 100",127,'class_test.js');
+      Runtime.assert( true ,inst.width() === 100,"inst.width() === 100",127,'class_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

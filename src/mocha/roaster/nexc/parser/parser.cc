@@ -3698,7 +3698,9 @@ AstNode* Parser::ParseLiteral(bool reserved_usablity) {
       break;
 
     default : {
-      if (reserved_usablity && JsToken::IsReserved(token->token())) {
+      const char* str = JsToken::GetTokenFromNumber(token->type());
+      if (reserved_usablity && JsToken::IsReserved(str)) {
+        token->set_token(str);
         value_type = Literal::kIdentifier;
         is_invalid_lhs = true;
       } else {

@@ -67,14 +67,23 @@ void Packer::BasePacker(AstNode* node) {
   }
 }
 
-void Packer::TokenPacker(TokenInfo* info) {
+void Packer::TokenPacker(TokenInfo* info, int lit_type) {
   int type = info->type();
   bool const_decl = info->const_declaration();
   const char* token = info->token();
   int64_t line = info->line_number();
   PushBack(type);
   PushBack(((const_decl)? 1 : 0));
-  CharPacker(token, strlen(token));
+  if (lit_type == Literal::kVariable ||
+      lit_type == Literal::kProperty ||
+      lit_type == Literal::kIdentifier ||
+      lit_type == Literal::kRegExp ||
+      lit_type == Literal::kString ||
+      lit_type == Literal::kNumeric) {
+    CharPacker(token, strlen(token));
+  } else {
+    PushBack(0);
+  }
   PushBack(static_cast<int32_t>(ceil(static_cast<float>(line / 2))));
   PushBack(static_cast<int32_t>(floor(static_cast<float>(line / 2))));
 }
@@ -118,7 +127,7 @@ UNREACHABLE_IMPL(Statement);
 VISITOR_IMPL(VersionStmt) {
   BasePacker(ast_node);
   TokenInfo* version = ast_node->version();
-  TokenPacker(version);
+  TokenPacker(version, Literal::kIdentifier);
   ast_node->first_child()->Accept(this);
 }
 
@@ -475,7 +484,7 @@ VISITOR_IMPL(Literal) {
   AstNode* node = ast_node->node();
   if (info) {
     PushBack(1);
-    TokenPacker(info);
+    TokenPacker(info, ast_node->value_type());
   } else {
     PushBack(0);
   }

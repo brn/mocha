@@ -552,7 +552,7 @@ class Scanner::InternalScanner {
           if (flags_.At(FLAG_REST)) {
             token_str_ += Advance();
             token_str_ += Advance();
-            PushBack(token_str_.c_str(), Token::JS_PARAMETER_REST);
+            PushBack(Token::JS_PARAMETER_REST);
             flags_.UnSet(FLAG_REST);
           }
         }
@@ -678,7 +678,7 @@ class Scanner::InternalScanner {
       Advance();
       token_str_ += next;
     }
-    PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str (), true));
+    PushBack(JsToken::GetType(token_str_.c_str (), true));
   }
 
 
@@ -692,7 +692,7 @@ class Scanner::InternalScanner {
       Advance();
       token_str_ += next;
     }
-    PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str (), true));
+    PushBack(JsToken::GetType (token_str_.c_str (), true));
   }
                                 
                                 
@@ -794,7 +794,7 @@ class Scanner::InternalScanner {
       Advance();
       token_str_ += next;
     }
-    PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str (), true));
+    PushBack(JsToken::GetType(token_str_.c_str (), true));
   }
 
 
@@ -818,7 +818,7 @@ class Scanner::InternalScanner {
       Advance();
       token_str_ += next;
     }
-    PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str(), true));
+    PushBack(JsToken::GetType (token_str_.c_str(), true));
   }
 
 
@@ -844,7 +844,7 @@ class Scanner::InternalScanner {
       Advance();
       token_str_ += next;
     }
-    PushBack(token_str_.c_str(), JsToken::GetType (token_str_.c_str(), true));
+    PushBack(JsToken::GetType(token_str_.c_str(), true));
   }
 
 

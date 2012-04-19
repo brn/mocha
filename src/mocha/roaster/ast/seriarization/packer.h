@@ -16,7 +16,7 @@ class Packer : public IVisitor {
   void PushBack(int32_t val);
   void CharPacker(const char* str, int size);
   void BasePacker(AstNode* node);
-  void TokenPacker(TokenInfo* info);
+  void TokenPacker(TokenInfo* info, int type);
   void IterateChildren(AstNode* node);
   void ArrayAccessorProccessor_(CallExp* exp);
   void DotAccessorProccessor_(CallExp* exp);
