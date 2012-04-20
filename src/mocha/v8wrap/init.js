@@ -511,7 +511,6 @@
   function runInConfigContext (source, path) {
     path = path || 'anonymous';
     var compiled = natives.script.Roaster.compile(source, 'utf-8', {prettyPrint : true, unversions : "backCompat"});
-    console.log(compiled,source);
     source = '(function(mocha) {\n' + compiled + '\n})';
     compile(source, path)(mocha);
   };

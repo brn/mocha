@@ -94,23 +94,87 @@ inline void* Allocated::operator new(size_t size, Pool* pool) {
 inline void Allocated::operator delete(void*) {}
 inline void Allocated::operator delete(void* ptr, Pool*){ operator delete(ptr); }
 
+struct Block {
+  char malloced;
+  size_t size;
+  Block* next;
+};
+
+static const size_t alignment = sizeof(void*);
+static const size_t allocated_size = Pool::Align(sizeof(Allocated), alignment);
+static const size_t block_size = Pool::Align(sizeof(Block),alignment);
+
 //Pool constructor.
 inline Pool::Pool()
-  : current_(0),
-    head_(0) {
+    : current_(0),
+      head_(0),
+      head_block_(NULL),
+      current_block_(NULL) {
   head_chunk_ = new Chunk<kDefaultSize>;
   current_chunk_ = head_chunk_;
 }
 inline Pool::~Pool() {Free();}
 
+template <typename T>
+inline T* Pool::Alloc(size_t size) {
+  reinterpret_cast<T*>(AllocateBlock(sizeof(T) * size));
+}
+  
+inline void* Pool::AllocateBlock(size_t size) {
+  if (size < block_size) {
+    size = block_size;
+  }
+  size += block_size;
+  size_t aligned = Align(size,alignment);
+  void* empty = NULL;
+  bool malloced = false;
+  if (aligned < kDefaultSize) {
+    if (!current_chunk_->HasEnoughSize(aligned)) {
+      current_chunk_->set_next(new Chunk<kDefaultSize>);
+      current_chunk_ = current_chunk_->next();
+    }
+    empty = current_chunk_->GetBlock(aligned);
+  } else {
+    malloced = true;
+    empty = malloc(aligned);
+  }
+  Block* block = reinterpret_cast<Block*>(reinterpret_cast<char*>(empty) + (aligned - block_size));
+  block->size = aligned - block_size;
+  block->malloced = 0;
+  if (malloced) {
+    block->malloced |= 1;
+  }
+  if (head_block_ == NULL) {
+    head_block_ = block;
+  }
+  if (current_block_ == NULL) {
+    current_block_ = block;
+    block->next = NULL;
+  } else {
+    current_block_->next = block;
+    block->next = NULL;
+    current_block_ = block;
+  }
+  return empty;
+}
+
 //Allocate chunk.
 inline void* Pool::AllocLinkedList(size_t size) {
-  ASSERT(true, size < kDefaultSize);
   if (!current_chunk_->HasEnoughSize(size)) {
     current_chunk_->set_next(new Chunk<kDefaultSize>);
     current_chunk_ = current_chunk_->next();
   }
-  Allocated* block = reinterpret_cast<Allocated*>(current_chunk_->GetBlock(size));
+  Allocated* block = NULL;
+  if (size < kDefaultSize) {
+    if (size < allocated_size) {
+      size = allocated_size;
+    }
+    block = reinterpret_cast<Allocated*>(current_chunk_->GetBlock(size));
+    block->allocated_ = 0;
+  } else {
+    block = reinterpret_cast<Allocated*>(malloc(size));
+    block->allocated_ = 1;
+  }
   block->next_ = block->prev_ = 0;
   if (head_ == 0) {
     current_ = head_ = block;

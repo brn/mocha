@@ -45,12 +45,16 @@ class Allocated {
   void operator delete(void* ptr);
   void operator delete(void* ptr, Pool* pool);
  private :
+  char allocated_;
   Allocated* prev_;
   Allocated* next_;
 };
 
 template <size_t>
 class Chunk;
+
+struct Block;
+
 /**
  * @class
  * The pointer lifetime managable allocator.
@@ -74,7 +78,10 @@ class Pool : private Uncopyable {
    */
   static Pool* Local();
   static size_t Align(size_t offset, size_t alignment);
+  template <typename T>
+  T* Alloc(size_t size = 1);
  private :
+  void* AllocateBlock(size_t size);
   ///Default memory block size.
   static const size_t kDefaultSize = 3072;
   /**
@@ -89,6 +96,8 @@ class Pool : private Uncopyable {
   Allocated* head_;
   Chunk<kDefaultSize>* head_chunk_;
   Chunk<kDefaultSize>* current_chunk_;
+  Block* head_block_;
+  Block* current_block_;
   static os::ThreadLocalStorageKey key_;
 };
 

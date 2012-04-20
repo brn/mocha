@@ -961,11 +961,11 @@
     }
     function b(){}
     try {
-      var __FILE__ = "-1301891693-name_test.js",
+      var __FILE__ = "-310326848-name_test.js",
           __LINE__ = 0;
       
       __LINE__ = 2;
-      Runtime.modules.add('-1301891693-name_test.js');
+      Runtime.modules.add('-310326848-name_test.js');
       
       __LINE__ = 1;
       Array.prototype.x = 0;

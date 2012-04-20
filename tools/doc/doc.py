@@ -31,10 +31,10 @@ def BuildTextile(path) :
     html += InsertScript('shBrushJScript.js')
     html += InsertScript('SyntaxHighlighter.all();', True)
     html += "</head>\n"
-    html += '<body><div id="wrapper">'
+    html += '<body><div id="wrapper"><div id="inner">'
     html += '<h1><a href="index.html">' + title + '</a></h1>'
     html += body
-    html += '</div>'
+    html += '</div></div>'
     html += "</body>"
     html += "</html>"
     fp = open('out/' + path.replace('.textile', '.html'), 'w+b')

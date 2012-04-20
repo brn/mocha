@@ -48,7 +48,7 @@ class Scanner : public memory::Allocated {
   void CreateTokenStream();
   
   class InternalScanner;
-  ScopedPtr<InternalScanner> scanner_;
+  InternalScanner* scanner_;
   TokenStream* token_stream_;
   ErrorReporter* reporter_;
 };

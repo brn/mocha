@@ -77,7 +77,7 @@ void Scanner::ScannerEventListener::operator()(CompilationEvent* e) {
   e->NotifyForKey(Nexc::kParse);
 }
 
-class Scanner::InternalScanner {
+class Scanner::InternalScanner : public memory::Allocated {
  public :
   InternalScanner(SourceStream* source, ErrorReporter* reporter, const char* filename) :
       line_(1),
@@ -978,7 +978,7 @@ Scanner* Scanner::New(SourceStream* stream, ErrorReporter* reporter, const char*
 }
 
 Scanner::Scanner(SourceStream* source, ErrorReporter* reporter, const char* filename)
-    : scanner_(new InternalScanner(source, reporter, filename)),
+    : scanner_(new(memory::Pool::Local()) InternalScanner(source, reporter, filename)),
       reporter_(reporter){}
 Scanner::~Scanner(){}
 

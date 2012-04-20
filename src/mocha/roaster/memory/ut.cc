@@ -47,4 +47,30 @@ TEST(PoolTest, ComparisonNew) {
   }
 }
 
+TEST(PoolTest, ComparisonPoolPrimitive) {
+  mocha::memory::Pool pool;
+  mocha::Profiler prof(stdout, "ComparisonPoolPrimitive");
+  prof.Begin();
+  for (int i = 0; i < 10000; i++) {
+    char* alloced = pool.Alloc<char>(100);
+  }
+  prof.End();
+}
+
+TEST(PoolTest, ComparisonNewPrimitive) {
+  mocha::memory::Pool pool;
+  std::list<char*> list;
+  mocha::Profiler prof(stdout, "ComparisonNewPrimitive");
+  prof.Begin();
+  for (int i = 0; i < 10000; i++) {
+    char* alloced = new char[100];
+    list.push_back(alloced);
+  }
+  prof.End();
+  std::list<char*>::iterator it = list.begin();
+  for (; it != list.end(); ++it) {
+    delete (*it);
+  }
+}
+
 

@@ -333,10 +333,10 @@
   font-weight: bold !important;
 }
 html,body {
-margin : 0,
-padding : 0,
+margin : 0;
+padding : 0;
 font-size : 12px;
-font-family:'Times New Roman','Times','ヒラギノ明朝 Pro W3','Hiragino Mincho Pro W3','ＭＳ 明朝',serif;
+font-family:"Trebuchet MS",Arial,Helvetica,'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
 background : #F8F8F8;
 height : 100%;
 }
@@ -350,11 +350,34 @@ padding : 0;
 }
 
 h1 {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 14px;
+padding: 11px 11px;
+background: -moz-linear-gradient(
+    top,
+    #ffffff 0%,
+    #e2e2e2);
+background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#ffffff),
+    to(#e2e2e2));
+border-radius: 4px;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border: 1px solid #b3b3b3;
+-moz-box-shadow:
+0px 1px 2px rgba(000,000,000,0.3),
+inset 0px -1px 0px rgba(255,255,255,1);
+-webkit-box-shadow:
+0px 1px 2px rgba(000,000,000,0.3),
+inset 0px -1px 0px rgba(255,255,255,1);
+text-shadow:
+0px -1px 0px rgba(000,000,000,0),
+0px 1px 0px rgba(255,255,255,0.3);
 font-size : 28px;
 font-weight : bold;
 margin : 10px 0;
 margin-bottom : 15px;
-border-bottom : 1px solid #CCCCCC;
 }
 
 h1 a{
@@ -362,10 +385,34 @@ color : #000000;
 }
 
 h2 {
-font-size : 22px;
-font-weight : bold;
-margin : 10px 0;
-border-bottom : 1px solid #DFDFDF;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 14px;
+padding: 11px 11px;
+background: -moz-linear-gradient(
+    top,
+    #ffffff 0%,
+    #e2e2e2);
+background: -webkit-gradient(
+    linear, left top, left bottom, 
+    from(#ffffff),
+    to(#e2e2e2));
+border-radius: 4px;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border: 1px solid #b3b3b3;
+-moz-box-shadow:
+0px 1px 2px rgba(000,000,000,0.3),
+inset 0px -1px 0px rgba(255,255,255,1);
+-webkit-box-shadow:
+0px 1px 2px rgba(000,000,000,0.3),
+inset 0px -1px 0px rgba(255,255,255,1);
+text-shadow:
+0px -1px 0px rgba(000,000,000,0),
+0px 1px 0px rgba(255,255,255,0.3);
+padding : 5px 10px;
+font-size : 14px;
+display : inline-block;
+margin-top : 10px;
 }
 
 h3 {
@@ -426,13 +473,14 @@ padding : 10px;
 }
 
 #wrapper {
-width : 1100px;
+width : 100%;
 box-shadow : 0px 0px 14px rgba(0,0,0,0.3);
-margin : 10px auto;
-padding : 40px;
+margin : 40px auto;
 background: #FFFFFF;
 }
-
+#inner {
+padding : 40px;
+}
 #wrapper>ul{
 border-radius : 4px;
 border : 1px solid #CCCCCC;
@@ -523,7 +571,7 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
 //<![CDATA[
 SyntaxHighlighter.all();//]]>
 </script></head>
-<body><div id="wrapper"><h1><a href="index.html">mocha ES Next Translator</a></h1>	<h2>for of</h2>
+<body><div id="wrapper"><div id="inner"><h1><a href="index.html">mocha ES Next Translator</a></h1>	<h2>for of</h2>
 
 	<h3><a href="index.html">index</a> > <a href="es_next_detail.html">ES Next</a> > for of</h3>
 
@@ -578,4 +626,4 @@ for of(var i in iter) {
 </pre>
 </p>
 
-	<p>このように、generatorかiteratorの定義されたオブジェクトを与えることで、次々にnextを呼び出し、StopIterationが投げられると、処理を終了します。</p></div></body></html>
+	<p>このように、generatorかiteratorの定義されたオブジェクトを与えることで、次々にnextを呼び出し、StopIterationが投げられると、処理を終了します。</p></div></div></body></html>

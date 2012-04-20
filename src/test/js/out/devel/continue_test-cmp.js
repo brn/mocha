@@ -930,10 +930,10 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-836421475-continue_test.js",
+      var __FILE__ = "1653259312-continue_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('-836421475-continue_test.js');
+      Runtime.modules.add('1653259312-continue_test.js');
       
       __LINE__ = 1;
       for (var i = 0;i<10;i ++ ){
@@ -949,7 +949,7 @@
       
       __LINE__ = 6;
       for (i = 0;i<10;i ++ ){
-        __LINE__ = 780813200484860456;
+        __LINE__ = 4346146640;
         END : {
           
           __LINE__ = 8;

@@ -9,7 +9,59 @@ class機能自体はfunctionの糖衣構文になります。
 
 *実装済み処理系* : 無し
 
-*基本*
+h4. Example
+
+まずは今までの書き方でクラスを生成してみます。
+
+<notextile>
+<pre class="brush: js">
+//このクラスはTHREE.Meshを継承しています。
+function SkinnedMesh(geometry, materials) {
+  //親クラスのコンストラクタを呼び出します。
+  THREE.Mesh.call(this, geometry, materials); 
+  this.identityMatrix = new THREE.Matrix4();
+  this.bones = [];
+  this.boneMatrices = [];
+};
+//ecmascript5以降での継承です。
+//THREE.Mesh.prototypeを継承したprototypeオブジェクトを生成します。
+SkinnedMesh.prototype = Object.create(THREE.Mesh.prototype);
+SkinnedMesh.prototype.constructor = SkinnedMesh;
+SkinnedMesh.prototype.update = function(camera) {
+  //親クラスのupdateメソッドの呼び出し。
+  THREE.Mesh.prototype.update.call(this);
+};
+</pre>
+</notextile>
+
+es nextで予定されているclassを使って書き換えてみます。
+
+<notextile>
+<pre class="brush: js">
+//継承を行うためにはclass 'drived' extends 'super'という構文を使う
+//superはコンストラクタ関数か、クラスである必要がある
+class SkinnedMesh extends THREE.Mesh {
+  constructor(geometry, materials) {
+    //親クラスのコンストラクタを呼び出す。
+    //THREE.Mesh.call(this, geometry, materials)に該当
+    super(geometry, materials);
+    //publicなメンバはすべてpublic修飾子を宣言の前に付与する
+    public identityMatrix = new THREE.Matrix4();
+    public bones = [];
+    public boneMatrices = [];
+    ...
+  }
+  update(camera) {
+    ...
+    //親クラスのメソッド呼び出し。
+    //THREE.Mesh.prototype.update.call(this)に該当
+    super.update();
+  }
+}
+</pre>
+</notextile>
+
+基本的な書き方はを提示します。
 
 <notextile>
 <pre class="brush: js">
@@ -48,7 +100,7 @@ class Monster {
 </pre>
 </notextile>
 
-*変換後*
+mochaによる変換後のスクリプトです。
 
 <notextile>
 <pre class="brush: js">
@@ -90,61 +142,23 @@ var Monster = function () {
 </pre>
 </notextile>
 
-*継承*
+h4. Detail
 
-<notextile>
-<pre class="brush: js">
-class BaseTest {
-  constructor( private.name = 'foo' , private.addr = 'tokyo' , private.age = 20 ) {}
-  public getName() -> private.name;
-}
-//継承する場合はextendsキーワードを使用します。
-class DeriveTest extends BaseTest {
-  //superキーワードで親クラスのメンバにアクセスできます。
-  constructor() -> super();
-  public getName() -> super.getName();
-}
-</pre>
-</notextile>
+mochaではclassはコンストラクタ関数と、プロトタイプの糖衣構文として機能します。なので、既存のjavascriptのクラスと100%の互換性を持っています。
+またクラスを使用することによるオーバーヘッドもできるだけ抑えてありますが、privateフィールドの実現のためにやや実行時にオーバーヘッドがあります。
 
-*変換後*
+以下が詳細な構文です。
 
-<notextile>
-<pre class="brush: js">
-var BaseTest = function () {
-      function constructor(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2) {
-        Runtime.getPrivateRecord(this).name = _mochaLocalTmp0 || 'foo';
-        Runtime.getPrivateRecord(this).addr = _mochaLocalTmp1 || "tokyo";
-        Runtime.getPrivateRecord(this).age = _mochaLocalTmp2 || 20;
-      }
-      function BaseTest() {
-        Runtime.initializeClass(this,BaseTest,_mochaPrivateHolder,constructor,arguments,'BaseTest',52);
-      }
-      var _mochaPrivateHolder = function (){};
-      Runtime.createUnenumProp(constructor,"__harmony_class__",1);
-      BaseTest.prototype.getName = function () {
-        return Runtime.getPrivateRecord(this).name;
-      };
-      Runtime.createUnenumProp(BaseTest.prototype,"constructor",constructor);
-      return BaseTest;
-    }(),
-    DeriveTest = function () {
-      function constructor() {
-        _mochaSuper.constructor.call(this);
-      }
-      function DeriveTest() {
-        Runtime.initializeClass(this,DeriveTest,_mochaPrivateHolder,constructor,arguments,'DeriveTest',60);
-      }
-      var _mochaPrivateHolder = function (){};
-      var _mochaLocalTmp3 = BaseTest;
-      Runtime.extendClass(DeriveTest,_mochaLocalTmp3);
-      var _mochaSuper = Runtime.getSuper(_mochaLocalTmp3);
-      Runtime.createUnenumProp(constructor,"__harmony_class__",1);
-      DeriveTest.prototype.getName = function () {
-        return _mochaSuper.getName.constructor.call(this);
-      };
-      Runtime.createUnenumProp(DeriveTest.prototype,"constructor",constructor);
-      return DeriveTest;
-    }()
-</pre>
-</notextile>
+h5. 宣言
+
+_class_ *&lt;class name&gt;* _extends_ or _prototype_ *&lt;base class name or literal&gt;*
+　
+クラスを宣言します。class nameとbase class nameはjavascriptで使用可能な変数名を使用可能です。
+継承の際にextendsを選ぶと、通常のプロトタイプの継承になります。prototypeを選ぶと、直接&lt;base class name or literal&gt;をprototypeとして使用します。
+　
+　
+_constructor( *&lt;arguments list&gt;* )_ *&lt;function body&gt;*
+　
+コンストラクタを定義します。コンストラクタは必ずconstructorという関数名でなければなりません。
+メンバ変数の初期化を行います。コンストラクタが定義されていなければ、mochaが自動で空のコンストラクタを生成します。
+

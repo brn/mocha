@@ -930,10 +930,10 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-839149963-tuple_test.js",
+      var __FILE__ = "-759650552-tuple_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('-839149963-tuple_test.js');
+      Runtime.modules.add('-759650552-tuple_test.js');
       
       __LINE__ = 3;
       var test = new Tuple(0,1,2,3),

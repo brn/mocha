@@ -930,10 +930,10 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-836421475-label_test.js",
+      var __FILE__ = "1653259312-label_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('-836421475-label_test.js');
+      Runtime.modules.add('1653259312-label_test.js');
       
       __LINE__ = 1;
       var ret = 0;
@@ -952,7 +952,7 @@
       
       __LINE__ = 7;
       Runtime.assert( true ,ret === 100,"ret === 100",7,'label_test.js');
-      __LINE__ = 780805503903464232;
+      __LINE__ = 4337707520;
       TEST_LABEL2 : {
         
         __LINE__ = 9;
