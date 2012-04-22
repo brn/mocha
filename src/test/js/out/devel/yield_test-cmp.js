@@ -930,10 +930,10 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-759650552-yield_test.js",
+      var __FILE__ = "-839149963-yield_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('-759650552-yield_test.js');
+      Runtime.modules.add('-839149963-yield_test.js');
       
       __LINE__ = 1;
       var generator,
@@ -2708,8 +2708,10 @@
                                   return m;
                                 case 2 :
                                   
+                                  __LINE__ = 254;
+                                  _yieldState = 3;
                                   __LINE__ = 260;
-                                  ddddd();
+                                  return ddddd();
                                   
                                   __LINE__ = 254;
                                   _mochaCatchCache = undefined;

@@ -16,23 +16,23 @@ var options = (filename) -> ({
     });
 
 class FileSeaker {
-  constructor(@dir, @fn = []) {}
+  constructor(private(this).dir, private(this).fn = []) {}
 
   public addSetting(recursive, optionCallback) ->
-    new fs.Dir(@dir).entries(recursive).forEach((item) => @setCompileSetting(item, optionCallback));
+    new fs.Dir(@dir).entries(recursive).forEach((item) => private(this).setCompileSetting(item, optionCallback));
 
-  public addFilter(fn) -> @fn.push(fn);
+  public addFilter(fn) -> private(this).fn.push(fn);
 
   private setCompileSetting(file, optionCallbacks) {
-    if (@fn.every((item) => item(file))) {
+    if (file.isfile && private(this).fn.every((item) => item(file))) {
       optionCallbacks(file);
     }
   }
 }
 
-fileSeaker = new FileSeaker('../src/test/js/');
+var fileSeaker = new FileSeaker('../src/test/js/');
 fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf('.js') > -1);
 fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf("-cmp.js") === -1)
-fileSeaker.addSetting(true, ({fullpath,filename}) -> watcher.addSetting(fullpath, options(filename)));
+fileSeaker.addSetting(true, ({fullpath,name}) -> watcher.addSetting(fullpath, options(name)));
 
 

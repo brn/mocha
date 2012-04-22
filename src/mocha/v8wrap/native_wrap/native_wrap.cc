@@ -73,8 +73,10 @@ Handle<Object> NativeWrap::Directory::Entry::New(const os::fs::DirEntry* ent, Ha
   HandleScope handle_scope;
   Handle<Object> instance = fn->NewInstance();
   instance->Set(String::New("fullpath"), String::New(ent->GetFullPath()));
-  instance->Set(String::New("filename"), String::New(ent->GetName()));
+  instance->Set(String::New("name"), String::New(ent->GetName()));
   instance->Set(String::New("dir"), String::New(ent->GetDirName()));
+  instance->Set(String::New("isdir"), Boolean::New(ent->IsDir()));
+  instance->Set(String::New("isfile"), Boolean::New(ent->IsFile()));
   return handle_scope.Close(instance);
 }
 

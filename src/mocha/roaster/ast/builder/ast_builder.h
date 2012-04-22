@@ -69,6 +69,8 @@ class AstBuilder : private Uncopyable {
   void FindDirectivePrologue(AstNode* node, Function* fn);
   void FindDirectivePrologue(AstNode* node, FileRoot* fn);
   CallExp* BuildPrivateRecordAccessor(int64_t line);
+  void SetAutoReturnFlag(AstNode* node);
+  void ReplaceAutoReturnStatement(AstNode* stmt);
   static bool IsDestructringLeftHandSide(AstNode* node);
  private :
   memory::Pool* pool() { return pool_; }

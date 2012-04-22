@@ -582,6 +582,8 @@ class Statement : public AstNode {
   bool IsSplitable() const { return HAS(2); }
   bool IsNeedDestructuringTmpRef() const { return HAS(3); }
   void NeedTmpRef() { SET(3); }
+  void set_autoreturn() {SET(4);}
+  bool autoreturn() const {return HAS(4);}
   /**
    * Set 0 to all destructuring assignment block.
    */
@@ -603,10 +605,15 @@ class Statement : public AstNode {
  */
 class StatementList : public AstNode {
  public :
-  StatementList() : AstNode(AstNode::kStatementList, "StatementList", 0){}
+  StatementList()
+      : AstNode(AstNode::kStatementList, "StatementList", 0),
+        auto_return_(false){}
   ~StatementList(){}
+  void set_autoreturn() {auto_return_ = true;}
+  bool autoreturn() {return auto_return_;}
   CLONE;
  private :
+  bool auto_return_;
   CALL_ACCEPTOR(StatementList);
 };
 
@@ -1366,6 +1373,7 @@ class Function : public Expression {
   bool IsDeclaredAsConst() const { return HAS(0); }
   void MarkAsDeclaration() { SET(1); }
   bool IsDeclared() const { return HAS(1); }
+  void UnmarkDeclaration() {flags_.UnSet(0),flags_.UnSet(1);}
   int function_type() const { return fn_type_; }
   void set_function_type(int type) { fn_type_ = type; }
   int context_type() const { return context_; }
@@ -1394,6 +1402,8 @@ class Function : public Expression {
     }
   }
   bool attribute(int type) const { return (type == kGet)? HAS(5) : (type == kSet)? HAS(6) : false; }
+  void set_autoreturn() {SET(7);}
+  bool autoreturn() const {return HAS(7);}
   CLONE;
  private :
   int fn_type_;

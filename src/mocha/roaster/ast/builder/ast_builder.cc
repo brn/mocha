@@ -259,5 +259,18 @@ bool AstBuilder::IsDestructringLeftHandSide(AstNode* node) {
       node->CastToExpression() && node->CastToExpression()->IsValidLhs();
 }
 
+void AstBuilder::SetAutoReturnFlag(AstNode* node) {
+  if (node) {
+    Statement* stmt = node->CastToStatement();
+    Expression* exp = node->CastToExpression();
+    if (stmt) {
+      stmt->set_autoreturn();
+    } else if (exp) {
+      Function* fn = exp->CastToFunction();
+      fn->set_autoreturn();
+    }
+  }
+}
+
 os::ThreadLocalStorageKey AstBuilder::key_;
 }

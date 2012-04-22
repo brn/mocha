@@ -1585,6 +1585,15 @@ AstNode* Parser::ParseDoWhileStatement(bool is_expression) {
           stmt = builder()->CreateReturnStmt(node, node->line_number());
         }
         fn->ReplaceChild(node, stmt);
+      } else {
+        Statement* stmt = node->CastToStatement();
+        Expression* exp = node->CastToExpression();
+        if (stmt) {
+          stmt->set_autoreturn();
+        } else if (exp) {
+          Function* fn = exp->CastToFunction();
+          fn->set_autoreturn();
+        }
       }
     }
     fn->set_argv(new(pool()) Empty);

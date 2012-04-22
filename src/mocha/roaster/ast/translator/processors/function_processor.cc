@@ -20,6 +20,11 @@ FunctionProcessor::FunctionProcessor(Function* function, ProcessorInfo* info) :
 FunctionProcessor::~FunctionProcessor(){}
 
 void FunctionProcessor::ProcessNode() {
+  if (function_->autoreturn() && function_->IsDeclared()) {
+    function_->UnmarkDeclaration();
+    ReturnStmt* stmt = builder()->CreateReturnStmt(function_, function_->line_number());
+    function_->parent_node()->ReplaceChild(function_, stmt);
+  }
   TranslatorData* translator_data = info_->translator_data();
   Statement* tmp_statement = new(pool()) Statement;
   translator_data->set_current_statement(tmp_statement);
@@ -34,6 +39,7 @@ void FunctionProcessor::ProcessNode() {
     decl_list->Append(list);
     dsta_stmt = builder()->CreateVarStmt(decl_list, function_->line_number());
   }
+  
   ProcessBody();
   if (function_->IsGenerator()) {
     ProcessYield();

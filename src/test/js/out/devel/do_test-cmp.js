@@ -930,10 +930,10 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-759650552-do_test.js",
+      var __FILE__ = "-839149963-do_test.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('-759650552-do_test.js');
+      Runtime.modules.add('-839149963-do_test.js');
       
       __LINE__ = 1;
       var testvalue = function () {
@@ -945,10 +945,64 @@
             } catch(e){
               Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
+          }(),
+          testvalue2 = function () {
+            try {
+              __LINE__ = 7;
+              var x = 0;
+              
+              __LINE__ = 8;
+              if (x == 0){
+                
+                __LINE__ = 9;
+                var m = 1;
+                
+                __LINE__ = 10;
+                m;
+              } else {
+                __LINE__ = 12;
+                x;
+              }
+              
+              __LINE__ = 14;
+              var v = 100;
+              __LINE__ = 14;
+              return v;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }(),
+          testError = function () {
+            try {
+              try {
+                __LINE__ = 19;
+                return m();
+              } catch(e){
+                __LINE__ = 22;
+                return e;
+              }
+              
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
+          }(),
+          testvalue3 = function () {
+            try {
+              __LINE__ = 26;
+              var _mochaLocalTmp0 = [1,2,3,4],
+                  m = _mochaLocalTmp0[0];
+              __LINE__ = 0;
+              return m;
+            } catch(e){
+              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            }
           }();
       
-      __LINE__ = 6;
-      Runtime.assert( true ,testvalue === 0,"testvalue === 0",6,'do_test.js');
+      __LINE__ = 29;
+      Runtime.assert( true ,testvalue === 0,"testvalue === 0",29,'do_test.js');
+      
+      __LINE__ = 30;
+      Runtime.assert( true ,testvalue2 === 1,"testvalue2 === 1",30,'do_test.js');
     } catch(e){
       Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }

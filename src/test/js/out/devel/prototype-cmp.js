@@ -1013,11 +1013,11 @@
       }
     }
     try {
-      var __FILE__ = "-1426553882-prototype.js",
+      var __FILE__ = "-1506053293-prototype.js",
           __LINE__ = 0;
       
       __LINE__ = 2;
-      Runtime.modules.add('-1426553882-prototype.js');
+      Runtime.modules.add('-1506053293-prototype.js');
       
       __LINE__ = 9;
       var Prototype =  {
@@ -1994,9 +1994,8 @@
                     
                     __LINE__ = 511;
                      this .execute();
-                    
                     __LINE__ = 512;
-                     this .currentlyExecuting =  false ;
+                    return  this .currentlyExecuting =  false ;
                   } catch(e){
                     
                     __LINE__ = 514;
@@ -3099,9 +3098,8 @@
                 var index = 0;
                 
                 try {
-                  
                   __LINE__ = 824;
-                   this ._each(function (value) {
+                  return  this ._each(function (value) {
                     try {
                       __LINE__ = 825;
                       iterator.call(context,value,index ++ );
@@ -3937,9 +3935,8 @@
                 if (Object.isFunction(responder[callback])){
                   
                   try {
-                    
                     __LINE__ = 1458;
-                    responder[callback].apply(responder,[request,transport,json]);
+                    return responder[callback].apply(responder,[request,transport,json]);
                   } catch(e){
                     
                   }
@@ -4100,15 +4097,13 @@
               
               __LINE__ = 1534;
               if (! this .options.asynchronous &&  this .transport.overrideMimeType){
-                
                 __LINE__ = 1535;
-                 this .onStateChange();
+                return  this .onStateChange();
               }
               
             } catch(e){
-              
               __LINE__ = 1539;
-               this .dispatchException(e);
+              return  this .dispatchException(e);
             }
             
           } catch(e){
@@ -4239,13 +4234,11 @@
                 
                 __LINE__ = 1600;
                  this ._complete =  true ;
-                
                 __LINE__ = 1601;
-                ( this .options['on'+response.status] ||  this .options['on'+( this .success()?'Success' : 'Failure')] || Prototype.emptyFunction)(response,response.headerJSON);
+                return ( this .options['on'+response.status] ||  this .options['on'+( this .success()?'Success' : 'Failure')] || Prototype.emptyFunction)(response,response.headerJSON);
               } catch(e){
-                
                 __LINE__ = 1605;
-                 this .dispatchException(e);
+                return  this .dispatchException(e);
               }
               
               __LINE__ = 1608;
@@ -4264,13 +4257,11 @@
               
               __LINE__ = 1616;
               ( this .options['on'+state] || Prototype.emptyFunction)(response,response.headerJSON);
-              
               __LINE__ = 1617;
-              Ajax.Responders.dispatch('on'+state, this ,response,response.headerJSON);
+              return Ajax.Responders.dispatch('on'+state, this ,response,response.headerJSON);
             } catch(e){
-              
               __LINE__ = 1619;
-               this .dispatchException(e);
+              return  this .dispatchException(e);
             }
             
             __LINE__ = 1622;
@@ -4318,9 +4309,8 @@
               __LINE__ = 1644;
               return eval(( this .transport.responseText || '').unfilterJSON());
             } catch(e){
-              
               __LINE__ = 1646;
-               this .dispatchException(e);
+              return  this .dispatchException(e);
             }
             
           } catch(e){
@@ -4453,9 +4443,8 @@
               __LINE__ = 1719;
               return json.evalJSON( this .request.options.sanitizeJSON || ! this .request.isSameOrigin());
             } catch(e){
-              
               __LINE__ = 1722;
-               this .request.dispatchException(e);
+              return  this .request.dispatchException(e);
             }
             
           } catch(e){
@@ -4477,9 +4466,8 @@
               __LINE__ = 1733;
               return  this .responseText.evalJSON(options.sanitizeJSON || ! this .request.isSameOrigin());
             } catch(e){
-              
               __LINE__ = 1736;
-               this .request.dispatchException(e);
+              return  this .request.dispatchException(e);
             }
             
           } catch(e){
@@ -5097,13 +5085,11 @@
                       
                       __LINE__ = 1994;
                       s.appendChild(document.createTextNode(""));
-                      
                       __LINE__ = 1995;
-                      isBuggy = !s.firstChild || s.firstChild && s.firstChild.nodeType !== 3;
+                      return isBuggy = !s.firstChild || s.firstChild && s.firstChild.nodeType !== 3;
                     } catch(e){
-                      
                       __LINE__ = 1998;
-                      isBuggy =  true ;
+                      return isBuggy =  true ;
                     }
                     
                     __LINE__ = 2000;
@@ -6639,9 +6625,8 @@
                   
                   __LINE__ = 2762;
                   element.appendChild(n);
-                  
                   __LINE__ = 2763;
-                  element.removeChild(n);
+                  return element.removeChild(n);
                 } catch(e){
                   
                 }
@@ -10448,13 +10433,11 @@
               };
           
           try {
-            
             __LINE__ = 4643;
-            [].slice.call(document.documentElement.childNodes,0);
+            return [].slice.call(document.documentElement.childNodes,0);
           } catch(e){
-            
             __LINE__ = 4646;
-            makeArray = function (array,results) {
+            return makeArray = function (array,results) {
               try {
                 __LINE__ = 4647;
                 var ret = results || [];
@@ -11345,9 +11328,8 @@
               
               __LINE__ = 5148;
               if (element.select && (element.tagName.toLowerCase() != 'input' || !(/^(?:button|reset|submit)$/i.test(element.type)))){
-                
                 __LINE__ = 5150;
-                element.select();
+                return element.select();
               }
               
             } catch(e){
@@ -12018,13 +12000,11 @@
                 __LINE__ = 5586;
                 while (parent && parent !== element){
                   try {
-                    
                     __LINE__ = 5587;
-                    parent = parent.parentNode;
+                    return parent = parent.parentNode;
                   } catch(e){
-                    
                     __LINE__ = 5588;
-                    parent = element;
+                    return parent = element;
                   }
                   
                 }
@@ -12572,9 +12552,8 @@
         function pollDoScroll() {
           try {
             try {
-              
               __LINE__ = 5832;
-              document.documentElement.doScroll('left');
+              return document.documentElement.doScroll('left');
             } catch(e){
               
               __LINE__ = 5834;

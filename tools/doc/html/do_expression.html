@@ -1,0 +1,27 @@
+h2. do expression
+
+h3. "index":index.html > "ES Next":es_next_detail.html > do expression
+
+簡易スコープです。
+
+*実装済み処理系* : 無し
+
+*例*
+
+<notextile>
+<pre class="brush: js">
+var x = do { var t = f(); t * t + 1 };
+</pre>
+</notextile>
+
+*変換後*
+
+<notextile>
+<pre class="brush: js">
+var x = function () {
+    var t = f();
+    return t * t + 1;
+}();
+</pre>
+</notextile>
+

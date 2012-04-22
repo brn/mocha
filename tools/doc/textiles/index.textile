@@ -55,6 +55,7 @@ h2. インストール
 
 h2. ガイド
 
+* "最初の一歩":first_step_guide.html
 * 設定ファイルを作る
 ** "config.js":config.js_guide.html
 ** "コンパイル設定ファイル":compile_setting_guide.html
@@ -67,4 +68,5 @@ h2. ガイド
 ** "コンパイラ拡張":compiler_directive_guide.html
 * テスト
 ** "phantomjsを使う":phantomjs_guide.html
+* "APIリファレンス":api_guide.html
 

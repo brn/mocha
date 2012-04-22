@@ -930,13 +930,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-759650552-module_test2.js",
+      var __FILE__ = "-839149963-module_test2.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('-759650552-module_test2.js');
+      Runtime.modules.add('-839149963-module_test2.js');
       
       __LINE__ = 1;
-      var testModule2Module = Runtime.modules.get('-759650552-module_test2.js').testModule2Module = function () {
+      var testModule2Module = Runtime.modules.get('-839149963-module_test2.js').testModule2Module = function () {
             function test2(){}
             function test1(){}
             try {

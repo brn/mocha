@@ -1,0 +1,90 @@
+h2. First step
+
+h3. "index":index.html > First step
+
+mochaの基本的な使用方法です。
+まず、ターミナル、あるいはコマンドプロンプトを起動します。
+その後、
+<pre>
+<code>
+cd <mochaの実行ファイルのあるディレクトリ>
+</code>
+</pre>
+と入力し、ディレクトリを移動します。
+
+移動先のディレクトリで、
+<pre>
+<code>
+mchd
+</code>
+</pre>
+と入力し、mochaを起動します。
+
+<pre>
+<code>
+mocha es-next-compiler(stand-alone)
+usage -> run 'help'
+>>
+</code>
+</pre>
+
+するとこのようなプロンプトが表示されます。
+この状態で、pcのuserディレクトリを見ると、.mochaというディレクトリができているはずです。
+このディレクトリの中身は以下のような構成になっています。
+
+<pre>
+<code>
+.mocha
+     |_config.js
+     |_mocha.log
+</code>
+</pre>
+
+config.jsの中を見てみましょう。
+デフォルトでは以下のようになっているはずです。
+
+<pre>
+<code>
+config.set('compileSettingPath', './watch.js')
+config.set('logFilePath', './mocha.log')
+</code>
+</pre>
+
+watch.jsが実装する必要のあるファイルです。
+.mochaの中にwatch.jsファイルを作ります。watch.js内では監視するjsファイルを、mochaの設定に追加していきます。
+以下がサンプルです。
+
+<pre>
+<code>
+var script = mocha.import('script');
+script.watcher.addSetting('/home/foo/src/test.js', {
+  deployDir : '/home/foo/src/deploy',
+  deployName : 'test-deploy.js',
+  outputCharset : 'utf8',
+  inputCharset : 'utf8',
+  options : {
+    compress : false,
+    prettyPrint : true,
+    debug : true,
+    versions : [],
+    fileScope : true,
+    globalScope : true
+  }
+})
+</code>
+</pre>
+
+上記の記述で'/home/foo/src/test.js'が監視されます。
+test.jsを修正するたびに、'/home/foo/src/deploy/'フォルダに、'test-deploy.js'という名前でコンパイル済みファイルが
+保存されます。
+その後、mochaのコンソールで、
+<pre>
+<code>
+>> .restart()
+</code>
+</pre>
+と入力し、watch.jsを読み込ませます。
+これでtest.jsの監視が始まります。
+　
+以上が基本的なステップです。
+

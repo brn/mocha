@@ -157,6 +157,9 @@ VISITOR_IMPL(VersionStmt) {
 VISITOR_IMPL(BlockStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
+  if (ast_node->autoreturn()) {
+    builder()->SetAutoReturnFlag(ast_node->last_child());
+  }
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
@@ -194,23 +197,38 @@ VISITOR_IMPL(Statement) {
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;
+  if (ast_node->autoreturn()) {
+    builder()->SetAutoReturnFlag(ast_node->last_child());
+  }
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
   }
 }
 
-
 VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   VariableProcessor::ProcessVarList(ast_node->first_child(), proc_info_.Get());
+  AstNode* node = NULL;
   if (ast_node->IsContainDestructuring()) {
     NodeList* list = DstaProcessor::CreateDstaExtractedVarStmt(ast_node, proc_info_.Get());
     ast_node->first_child()->Append(list);
+    node = ast_node->destructuring_node()->last_child();
+  }
+  if (ast_node->autoreturn()) {
+    node = ast_node->first_child()->last_child();
+    if (node) {
+      Literal* lit = node->CastToLiteral();
+      if (lit) {
+        Literal* clone = lit->Clone(pool())->CastToLiteral();
+        clone->set_value_type(Literal::kIdentifier);
+        ReturnStmt* stmt = builder()->CreateReturnStmt(clone, clone->line_number());
+        ast_node->parent_node()->InsertAfter(stmt, ast_node);
+      }
+    }
   }
 }
-
 
 VISITOR_IMPL(LetStmt) {
   PRINT_NODE_NAME;
@@ -223,6 +241,7 @@ VISITOR_IMPL(ExpressionStmt) {
   REGIST(ast_node);
   ast_node->first_child()->Accept(this);
   if (ast_node->IsContainDestructuring()) {
+    AstNode* result = NULL;
     if (ast_node->IsNeedDestructuringTmpRef()) {
       NodeIterator iterator = ast_node->destructuring_node()->refs()->ChildNodes();
       VariableDeclarationList* var_list = new(pool()) VariableDeclarationList(ast_node->line_number());
@@ -234,6 +253,9 @@ VISITOR_IMPL(ExpressionStmt) {
       }
       VariableStmt *var_stmt = builder()->CreateVarStmt(var_list, ast_node->line_number());
       ast_node->parent_node()->InsertBefore(var_stmt, ast_node);
+      result = ast_node->destructuring_node()->refs()->last_child();
+    } else {
+      result = ast_node->first_child();
     }
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment(ast_node, proc_info_.Get());
     NodeIterator iter = list->ChildNodes();
@@ -249,6 +271,15 @@ VISITOR_IMPL(ExpressionStmt) {
         last = stmt;
       }
     }
+    if (ast_node->autoreturn()) {
+      ReturnStmt* stmt = builder()->CreateReturnStmt(result, ast_node->line_number());
+      ast_node->parent_node()->ReplaceChild(ast_node, stmt);
+    }
+  } else {
+    if (ast_node->autoreturn()) {
+      ReturnStmt* stmt = builder()->CreateReturnStmt(ast_node->first_child(), ast_node->line_number());
+      ast_node->parent_node()->ReplaceChild(ast_node, stmt);
+    }
   }
 }
 
@@ -259,6 +290,12 @@ VISITOR_IMPL(IFStmt) {
   ast_node->condition()->Accept(this);
   AstNode* then_statement = ast_node->then_statement();
   AstNode* maybe_else_statement = ast_node->else_statement();
+  if (ast_node->autoreturn()) {
+    builder()->SetAutoReturnFlag(then_statement);
+    if (maybe_else_statement->CastToStatement()) {
+      builder()->SetAutoReturnFlag(maybe_else_statement);
+    }
+  }
   if (then_statement->node_type() != AstNode::kBlockStmt) {
     BlockStmt* block = builder()->CreateBlockStmt(then_statement->line_number(), 1, then_statement);
     ast_node->set_then_statement(block);
@@ -357,6 +394,9 @@ VISITOR_IMPL(WithStmt) {
     ast_node->AddChild(block);
     body = block;
   }
+  if (ast_node->autoreturn()) {
+    builder()->SetAutoReturnFlag(body);
+  }
   exp->Accept(this);
   body->Accept(this);
   if (ast_node->IsContainDestructuring()) {
@@ -378,7 +418,14 @@ VISITOR_IMPL(SwitchStmt) {
   exp->Accept(this);
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
+    AstNode* item = iterator.Next();
+    if (ast_node->autoreturn()) {
+      AstNode* node = item->last_child();
+      if (node) {
+        builder()->SetAutoReturnFlag(node);
+      }
+    }
+    item->Accept(this);
   }
   if (ast_node->IsContainYield()) {
     translator_data_->function()->set_statement_in_generator(ast_node);
@@ -466,10 +513,13 @@ VISITOR_IMPL(ThrowStmt) {
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
+  builder()->SetAutoReturnFlag(ast_node->first_child());
   ast_node->first_child()->Accept(this);
   if (!ast_node->catch_block()->IsEmpty()) {
+    builder()->SetAutoReturnFlag(ast_node->catch_block()->first_child());
     ast_node->catch_block()->first_child()->Accept(this);
   }
+  builder()->SetAutoReturnFlag(ast_node->finally_block());
   ast_node->finally_block()->Accept(this);
   if (ast_node->IsContainYield()) {
     translator_data_->function()->set_try_catch_list(ast_node);
