@@ -1,37 +1,312 @@
-h2. APIリファレンス
-
-h3. "index":index.html > APIリファレンス
-
-mochaのAPIリファレンスです。
-
-h2. ネイティブモジュール
-
-*module 'fs'*
-　
-*class Dir*
-
-インスタンスメソッド
-
-|_. メンバ|_. インターフェース|_. 説明|
-|Dir|Dir(dirname)|コンストラクタです。引数で指定したディレクトリに対する操作を行います。|
-|entries|entries(recursive)|コンストラクタで指定したフォルダ内のエントリの数だけEntryクラスのインスタンスを配列で返します。|
-　
-スタティックメソッド
-　
-|_. メンバ|_. インターフェース|_. 説明|
-|mkdir|mkdir(dirname)|dirnameで指定されたディレクトリを生成します。
-|rm|rm(name)|nameで指定されたファイル、ディレクトリを削除します。|
-|chdir|chdir(dirname)|dirnameで指定されたディレクトリにカレントディレクトリを変更します。|
-　
-　
-*class Entry*
-　
-インスタンスメソッド
-　
-|_. メンバ|_. インターフェース|_. 説明|
-|fullpath|fullpath()|エントリの絶対パスを返します。|
-|name|filename()|エントリの名前のみを返します。|
-|dir|dir()|エントリの親ディレクトリを返します。|
-
+<div class="titile">
+    <h2>API Reference</h2>
+</div>
+<div class="row">
+    <div class="span4">
+	<div class="tabbable tabs-left">
+	    <ul class="nav nav-tabs grammar_list">
+		<li class="active"><a data-toggle="tab" href="#fs">fs</a></li>
+		<li><a data-toggle="tab" href="#io">io</a></li>
+		<li><a data-toggle="tab" href="#script">script</a></li>
+		<li><a data-toggle="tab" href="#os">os</a></li>
+		<li><a data-toggle="tab" href="#mocha">mocha</a></li>
+	    </ul>
+	</div>
+</div>
+<div class="span8 api_block">
+    <div class="tab-content">
+	<div id="fs" class="tab-pane active">
+	    <h3>fs</h3>
+	    <div class="section" id="section1">
+		<div class="accordion-heading">
+                    <p class="title"><a href="#class-dir" data-parent="#section1" data-toggle="collapse" class="accordion-toggle">Dir</a></p>
+		</div>
+		<div id="class-dir" class="accordion-body collapse">
+		    <p>インスタンスメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>Dir</td><td>Dir(dirname)</td><td>コンストラクタです。引数で指定したディレクトリに対する操作を行います。</td></tr>
+			<tr><td>entries</td><td>entries(recursive)</td><td>コンストラクタで指定したフォルダ内のエントリの数だけEntryクラスのインスタンスを配列で返します。</td></tr>
+		    </table>
+		    <p>スタティックメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>mkdir</td><td>mkdir(dirname)</td><td>dirnameで指定されたディレクトリを生成します。</td></tr>
+			<tr><td>rm</td><td>rm(name)</td><td>nameで指定されたファイル、ディレクトリを削除します。</td></tr>
+			<tr><td>chdir</td><td>chdir(dirname)</td><td>dirnameで指定されたディレクトリにカレントディレクトリを変更します。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#class-entry" data-parent="#section1" data-toggle="collapse" class="accordion-toggle">Entry</a></p>
+		</div>
+		<div id="class-entry" class="accordion-body collapse">
+		    <p>インスタンスメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>fullpath</td><td>fullpath</td><td>エントリの絶対パスを返します。</td></tr>
+			<tr><td>name</td><td>filename</td><td>エントリの名前のみを返します。</td></tr>
+			<tr><td>dir</td><td>dir</td><td>エントリの親ディレクトリを返します。</tr>
+			<tr><td>isdir</td><td>isdir</td><td>エントリがディレクトリかどうかのフラグです。</tr>
+			<tr><td>isfile</td><td>isdir</td><td>エントリがファイルかどうかのフラグです。</tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#class-path" data-parent="#section1" data-toggle="collapse" class="accordion-toggle">Path</a></p>
+		</div>
+		<div id="class-path" class="accordion-body collapse">
+		    <p>インスタンスメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>Path</td><td>Path(path)</td><td>コンストラクタです。引数で指定したパスに対する操作を行います。</td></tr>
+			<tr><td>filename</td><td>filename()</td><td>コンストラクタで指定したパスの名前部分を返します。</td></tr>
+			<tr><td>directory</td><td>directory</td><td>コンストラクタで指定したパスのディレクトリ部分を返します。</tr>
+			<tr><td>fullpath</td><td>fullpath</td><td>コンストラクタで指定したパスの絶対パスを返します。</tr>
+		    </table>
+		    <p>スタティックメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>getcwd</td><td>getcwd()</td><td>現在の作業ディレクトリを返します。</td></tr>
+			<tr><td>homeDir</td><td>homeDir()</td><td>ユーザーのホームディレクトリを返します。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#class-stat" data-parent="#section1" data-toggle="collapse" class="accordion-toggle">Stat</a></p>
+		</div>
+		<div id="class-stat" class="accordion-body collapse">
+		    <p>インスタンスメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>Stat</td><td>Stat(path)</td><td>コンストラクタです。引数で指定したパスの情報を取得します。</td></tr>
+			<tr><td>isDir</td><td>isDir()</td><td>コンストラクタで指定したパスがディレクトリかどうかを判定します。</td></tr>
+			<tr><td>isReg</td><td>isReg()</td><td>コンストラクタで指定したパスが通常のファイルかどうかを判定します。</tr>
+			<tr><td>isChr</td><td>isChr()</td><td>コンストラクタで指定したパスがキャラクターデバイスかどうかを判定します。</tr>
+			<tr><td>isExist</td><td>isExist()</td><td>コンストラクタで指定したパスが存在するかどうかを判定します。</tr>
+			<tr><td>dev</td><td>dev()</td><td>コンストラクタで指定したパスがあるデバイスのidを返します。</tr>
+			<tr><td>ino</td><td>ino()</td><td>コンストラクタで指定したパスのinode番号を返します。</tr>
+			<tr><td>nlink</td><td>nlink()</td><td>コンストラクタで指定したパスのハードリンクの数を返します。</tr>
+			<tr><td>uid</td><td>uid()</td><td>コンストラクタで指定したパスの所有者のユーザIDを返します。</tr>
+			<tr><td>gid</td><td>gid()</td><td>コンストラクタで指定したパスの所有者のグループIDを返します。</tr>
+			<tr><td>rdev</td><td>rdev()</td><td>コンストラクタで指定したパスのデバイスIDを返します。</tr>
+			<tr><td>size</td><td>size()</td><td>コンストラクタで指定したパスのサイズをバイト単位で返します。</tr>
+			<tr><td>atime</td><td>atime()</td><td>コンストラクタで指定したパスの最終アクセス日時を文字列で返します。</tr>
+			<tr><td>mtime</td><td>mtime()</td><td>コンストラクタで指定したパスの最終更新日時を文字列で返します。</tr>
+			<tr><td>ctime</td><td>ctime()</td><td>コンストラクタで指定したパスの作成日時を文字列で返します。</tr>
+		    </table>
+		    <p>スタティックメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>isDir</td><td>isDir(path)</td><td>pathがディレクトリかどうか判定します。</td></tr>
+			<tr><td>isFile</td><td>isFile(path)</td><td>pathがファイルかどうか判定します。</td></tr>
+		    </table>
+		</div>
+	    </div>
+	</div>
+	<div id="io" class="tab-pane">
+	    <h3>io</h3>
+	    <div class="section" id="section2">
+		<div class="accordion-heading">
+                    <p class="title"><a href="#fopen" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">fopen</a></p>
+		</div>
+		<div id="fopen" class="accordion-body collapse">
+		    <table>
+			<tr>
+			    <th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>fopen(path, flags)</td><td>引数パスで指定されたファイルストリームをオープンし、Fileクラスのインスタンスを返します。引数flagsには以下のフラグを複数指定可能です。例 fopen(path , 'rw');</td></tr>
+		    </table>
+		    <dl>
+			<dt>r</dt>
+			<dd>テキストファイルを読み出すために開きます。ストリームはファイルの先頭になります。</dd>
+			<dt>r+</dt>
+			<dd>テキストファイルに書きだしと読み出しの両方で開きます。ストリームはファイルの先頭になります。</dd>
+			<dt>w</dt>
+			<dd>テキストファイルに書きだすために開きます。ストリームはファイルの先頭になります。</dd>
+			<dt>w+</dt>
+			<dd>テキストファイルに書きだすために開きます。ストリームはファイルの先頭になります。またファイルが存在しなければ新たに作成します。ファイルが存在していて、中身がすでにあった場合は全て消去します。</dd>
+			<dt>a</dt>
+			<dd>テキストファイルへの追記のために開きます。ストリームはファイルの末尾になります。またファイルが存在しなければ新たに作成します。</dd>
+			<dt>a+</dt>
+			<dd>テキストファイルへの追記と読み出しのために開きます。ストリームはファイルの先頭になりますが、書き込みは常にファイルの末尾になります。またファイルが存在しなければ新たに作成します。</dd>
+			<dt>b</dt>
+			<dd>テキストファイルをバイナリファイルとして開きます。windowsの場合、改行が\n\rとして読まれるので注意してください。</dd>
+		    </dl>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#file" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">File</a></p>
+		</div>
+		<div id="file" class="accordion-body collapse">
+		    <p>インスタンスメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>writeTextContent</td><td>writeTextContent(str)</td><td>strをファイルに書き出します。</td></tr>
+			<tr><td>getTextContent</td><td>getTextContent()</td><td>ファイルの中身を文字列で返します。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#nativeConsole" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">nativeConsole</a></p>
+		</div>
+		<div id="nativeConsole" class="accordion-body collapse">
+		    <p>スタティックメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>printStdout</td><td>printStdout(str)</td><td>strを標準出力に書き出します。</td></tr>
+			<tr><td>printStderr</td><td>printStderr(str)</td><td>strを標準エラー出力に書き出します。</td></tr>
+		    </table>
+		</div>
+	    </div>
+	</div>
+	<div id="script" class="tab-pane">
+	    <h3>script</h3>
+	    <div class="section" id="section3">
+		<div class="accordion-heading">
+                    <p class="title"><a href="#watcher" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">watcher</a></p>
+		</div>
+		<div id="watcher" class="accordion-body collapse">
+		    <p>スタティックメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>run</td><td>run()</td><td>ファイル監視をスタートします。</td></tr>
+			<tr><td>exit</td><td>exit()</td><td>ファイル監視を終了し、mochaを終了します。</td></tr>
+			<tr><td>isRunning</td><td>isRunning()</td><td>ファイル監視が行われているかどうかを判定します。</td></tr>
+			<tr><td>addSetting</td><td>addSetting(path, options)</td><td>新たにファイルを監視対象に加えます。</td></tr>
+			<tr><td>removeSetting</td><td>removeSetting(path)</td><td>ファイルを監視対象から外します。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#roaster" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">Roaster</a></p>
+		</div>
+		<div id="roaster" class="accordion-body collapse">
+		    <p>スタティックメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>compile</td><td>compile(str, charset, option)</td><td>文字列strをコンパイルし、結果を返します。</td></tr>
+			<tr><td>compileFile</td><td>compileFile(path, charset, option)</td><td>ファイルをコンパイルし、結果を返します。</td></tr>
+			<tr><td>deploy</td><td>deploy(pred, option)</td><td>設定ファイルに従って、登録されたファイルをコンパイルします。引数predでファイルを絞り込むことが可能です。predには関数か、正規表現、文字列のいずれかを指定してください。predに関数が渡された場合、引数として各option+ファイル名をプロパティに持つオブジェクトが渡されます。</td></tr>
+			<tr><td>checkDependencies</td><td>checkDependencies(path)</td><td>引数pathで指定されたファイルの依存関係を調べ、依存しているファイルを配列で返します。</td></tr>
+		    </table>
+		</div>
+	    </div>
+	</div>
+	<div id="os" class="tab-pane">
+	    <h3>os</h3>
+	    <div class="section" id="section4">
+		<div class="accordion-heading">
+                    <p class="title"><a href="#process" data-parent="#section4" data-toggle="collapse" class="accordion-toggle">process</a></p>
+		</div>
+		<div id="process" class="accordion-body collapse">
+		    <p>スタティックメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>spawn</td><td>spawn(path, args)</td><td>引数pathで指定された実行ファイルを引数argと共に実行し、実行結果を文字列で返します。</td></tr>
+		    </table>
+		</div>
+	    </div>
+	</div>
+	<div id="mocha" class="tab-pane">
+	    <h3>mocha</h3>
+	    <div class="section" id="section5">
+		<div class="accordion-heading">
+                    <p class="title"><a href="#config" data-parent="#section5" data-toggle="collapse" class="accordion-toggle">config</a></p>
+		</div>
+		<div id="config" class="accordion-body collapse">
+		    <p>スタティックメンバ</p>
+		    <table>
+			<tr>
+			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>add</td><td>add(key, value)</td><td>引数keyで指定された設定に対してvalueを設定します。</td></tr>
+			<tr><td>get</td><td>add(key)</td><td>引数keyで指定された設定を取得します。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#import" data-parent="#section5" data-toggle="collapse" class="accordion-toggle">import</a></p>
+		</div>
+		<div id="import" class="accordion-body collapse">
+		    <table>
+			<tr>
+			    <th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>import(path)</td><td>引数pathで指定されたjsファイルを読み込みます。読み込みは以下の順で行われます。</td></tr>
+		    </table>
+		    <table>
+			<tr>
+			    <th>記述</th><th>説明</th>
+			</tr>
+			<tr><td>import('./path') or import('../path')</td><td>現在のディレクトリからの相対パスでファイルを探します。</td></tr>
+			<tr><td>import('path')</td><td>最初にネイティブモジュールを検索し、なければ現在のディレクトリからの相対パスでファイルを探します。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#export" data-parent="#section5" data-toggle="collapse" class="accordion-toggle">export</a></p>
+		</div>
+		<div id="export" class="accordion-body collapse">
+		    <table>
+			<tr>
+			    <th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>export(name, value)</td><td>引数nameで指定された名前でvalueをエクスポートします。エクスポートした値はimportから取得可能です。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#addCommand" data-parent="#section5" data-toggle="collapse" class="accordion-toggle">addCommand</a></p>
+		</div>
+		<div id="addCommand" class="accordion-body collapse">
+		    <table>
+			<tr>
+			    <th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>addCommand(name, value, help)</td><td>引数nameで指定された名前のコマンドを追加します。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#getCommand" data-parent="#section5" data-toggle="collapse" class="accordion-toggle">getCommand</a></p>
+		</div>
+		<div id="getCommand" class="accordion-body collapse">
+		    <table>
+			<tr>
+			    <th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>getCommand(name)</td><td>引数nameで指定された名前のコマンドを取得します。</td></tr>
+		    </table>
+		</div>
+		<div class="accordion-heading">
+                    <p class="title"><a href="#callCommand" data-parent="#section5" data-toggle="collapse" class="accordion-toggle">callCommand</a></p>
+		</div>
+		<div id="callCommand" class="accordion-body collapse">
+		    <table>
+			<tr>
+			    <th>インターフェース</th><th>説明</th>
+			</tr>
+			<tr><td>callCommand(name, ...args)</td><td>引数nameで指定された名前のコマンドをargsを引数に呼び出します。</td></tr>
+		    </table>
+		</div>
+	    </div>
+	</div>
+    </div>
+</div>
 
 

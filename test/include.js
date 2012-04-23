@@ -9,9 +9,9 @@ var options = (filename) -> ({
         compress : false,
         prettyPrint : true,
         debug : true,
-        versions : ['ex']
-        //fileScope : false,
-        //globalScope : false
+        versions : ['ex'],
+        fileScope : true,
+        globalScope : true
       }
     });
 
@@ -34,5 +34,3 @@ var fileSeaker = new FileSeaker('../src/test/js/');
 fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf('.js') > -1);
 fileSeaker.addFilter(({fullpath}) -> fullpath.indexOf("-cmp.js") === -1)
 fileSeaker.addSetting(true, ({fullpath,name}) -> watcher.addSetting(fullpath, options(name)));
-
-

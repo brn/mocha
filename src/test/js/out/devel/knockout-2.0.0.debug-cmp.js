@@ -930,10 +930,10 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1506053293-knockout-2.0.0.debug.js",
+      var __FILE__ = "-1426553882-knockout-2.0.0.debug.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      Runtime.modules.add('-1506053293-knockout-2.0.0.debug.js');
+      Runtime.modules.add('-1426553882-knockout-2.0.0.debug.js');
       
       __LINE__ = 5;
       !function (window,undefined) {
@@ -2470,8 +2470,9 @@
                       __LINE__ = 690;
                       return  true ;
                     } finally {
+                      
                       __LINE__ = 692;
-                      return delete memos[memoId];
+                      delete memos[memoId];
                     }
                     
                   } catch(e){
@@ -3354,11 +3355,13 @@
                   
                   __LINE__ = 1115;
                   dependentObservable.notifySubscribers(_latestValue,"beforeChange");
+                  
                   __LINE__ = 1116;
-                  return _latestValue = newValue;
+                  _latestValue = newValue;
                 } finally {
+                  
                   __LINE__ = 1118;
-                  return ko.dependencyDetection.end();
+                  ko.dependencyDetection.end();
                 }
                 
                 __LINE__ = 1121;
@@ -5151,8 +5154,9 @@
                               
                               __LINE__ = 1948;
                               argsForHandler.unshift(viewModel);
+                              
                               __LINE__ = 1949;
-                              return handlerReturnValue = handlerFunction.apply(viewModel,argsForHandler);
+                              handlerReturnValue = handlerFunction.apply(viewModel,argsForHandler);
                             } finally {
                               
                               __LINE__ = 1951;
@@ -5160,11 +5164,12 @@
                                 
                                 __LINE__ = 1952;
                                 if (event.preventDefault){
+                                  
                                   __LINE__ = 1953;
-                                  return event.preventDefault();
+                                  event.preventDefault();
                                 } else {
                                   __LINE__ = 1955;
-                                  return event.returnValue =  false ;
+                                  event.returnValue =  false ;
                                 }
                                 
                               }
@@ -5228,8 +5233,9 @@
                     var value = valueAccessor();
                     
                     try {
+                      
                       __LINE__ = 1979;
-                      return handlerReturnValue = value.call(viewModel,element);
+                      handlerReturnValue = value.call(viewModel,element);
                     } finally {
                       
                       __LINE__ = 1981;
@@ -5237,11 +5243,12 @@
                         
                         __LINE__ = 1982;
                         if (event.preventDefault){
+                          
                           __LINE__ = 1983;
-                          return event.preventDefault();
+                          event.preventDefault();
                         } else {
                           __LINE__ = 1985;
-                          return event.returnValue =  false ;
+                          event.returnValue =  false ;
                         }
                         
                       }

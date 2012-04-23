@@ -189,8 +189,8 @@ class Scanner::InternalScanner : public memory::Allocated {
    * Skip all comment, unicode's byte order mark, whitespace and linebreak.
    */
   void Skip() {
-    char ch = Seek(1);
-    char next = Seek(2);
+    int ch = Seek(1);
+    int next = Seek(2);
     bool isbreak = IsBreak(ch);
     //Check that token is whitespace or line break.
     if (IsWhiteSpace(ch) || IsByteOrderMark(ch) || isbreak) {
@@ -223,7 +223,7 @@ class Scanner::InternalScanner : public memory::Allocated {
    * @returns {bool}
    * Check is whitespace or not.
    */
-  inline bool IsWhiteSpace(char ch) {
+  inline bool IsWhiteSpace(int ch) {
     if (ch == ' ' ||
         ch == '\t'||
         ch == '\r') {
@@ -239,7 +239,7 @@ class Scanner::InternalScanner : public memory::Allocated {
    * @return {bool}
    * Check is line break or not.
    */
-  inline bool IsBreak(char ch) {
+  inline bool IsBreak(int ch) {
     if (ch == '\n') {
       return true;
     }
@@ -254,7 +254,7 @@ class Scanner::InternalScanner : public memory::Allocated {
     int ch;
     while (!IsEof()) {
       ch = Advance();
-      char next = Advance();
+      int next = Advance();
       //End of multiline comment.
       if (ch == '*' && next == '/') {
         return;
@@ -290,8 +290,8 @@ class Scanner::InternalScanner : public memory::Allocated {
    * @returns {bool}
    * Check is identifier token start or not.
    */
-  inline bool IsIdentStart(char ch, bool is_begin) {
-    char next = Seek(1);
+  inline bool IsIdentStart(int ch, bool is_begin) {
+    int next = Seek(1);
     if (isalpha(ch) || 
         ch == '_' || 
         ch == '$' ||
@@ -311,9 +311,9 @@ class Scanner::InternalScanner : public memory::Allocated {
    * @param {char}
    * Collect identifier.
    */
-  inline void CaseIdent(char ch) {
+  inline void CaseIdent(int ch) {
     token_str_ = ch;
-    char next = Seek(1);
+    int next = Seek(1);
     while (IsIdentStart(next, false) || isdigit(next)) {
       Advance();
       token_str_ += next;
@@ -328,9 +328,9 @@ class Scanner::InternalScanner : public memory::Allocated {
    * @param {char}
    * In case of numeric literal.
    */
-  inline void CaseDigit(char ch) {
+  inline void CaseDigit(int ch) {
     token_str_ = ch;
-    char next = tolower(Seek(1));
+    int next = tolower(Seek(1));
     if (next == '.') {
       Advance();
       CaseDigitFloat(next);
@@ -350,10 +350,10 @@ class Scanner::InternalScanner : public memory::Allocated {
    * @param {char}
    * Case float.
    */
-  inline void CaseDigitFloat(char ch) {
+  inline void CaseDigitFloat(int ch) {
     token_str_ += ch;
     bool hasIndex = false;
-    char next;
+    int next;
     char last = 0;
                                                                 
     while ((next = Seek(1))) {
@@ -382,7 +382,7 @@ class Scanner::InternalScanner : public memory::Allocated {
   }
 
 
-  inline bool IsHex(char ch) {
+  inline bool IsHex(int ch) {
     if (isdigit(ch) ||
         ch == 'a' ||
         ch == 'b' ||
@@ -396,9 +396,9 @@ class Scanner::InternalScanner : public memory::Allocated {
   }
 
 
-  inline void CaseDigitHex(char ch) {
+  inline void CaseDigitHex(int ch) {
 
-    char next;
+    int next;
     token_str_ += ch;
     Advance();
     while ((next = Seek(1))) {
@@ -416,11 +416,11 @@ class Scanner::InternalScanner : public memory::Allocated {
   }
 
 
-  inline void CaseDigitNumber(char ch) {
+  inline void CaseDigitNumber(int ch) {
     token_str_ += ch;
     bool hasIndex = (ch == 'e')? true : false;
     char last = ch;
-    char next;
+    int next;
     while ((next = Seek(1))) {
       next = tolower (next);
                                                                 
@@ -450,11 +450,11 @@ class Scanner::InternalScanner : public memory::Allocated {
   }
 
 
-  inline void CaseDigitBeginWithDot(char ch) {
+  inline void CaseDigitBeginWithDot(int ch) {
     token_str_ = ch;
     bool hasIndex = false;
     char last;
-    char next;
+    int next;
     int index = 0;
                                 
     while ((next = Seek(1))) {
@@ -501,7 +501,7 @@ class Scanner::InternalScanner : public memory::Allocated {
    * @returns {bool}
    * Distinct parameter char is operators that is continue after operator. 
    */
-  inline bool IsSingleOperator(char ch) {
+  inline bool IsSingleOperator(int ch) {
     if (ch == '(' || ch == ')' ||
         ch == '{' || ch == '}' ||
         ch == '[' || ch == ']' ||
@@ -509,8 +509,8 @@ class Scanner::InternalScanner : public memory::Allocated {
         ch == '.' || ch == ':' ||
         ch == ';' || ch == '?' ||
         ch == '#') {
-      char next = Seek(1);
-      char next_after_ = Seek(2);
+      int next = Seek(1);
+      int next_after_ = Seek(2);
       if (ch == '.' && next == ch && next_after_ == ch) {
         flags_.Set(FLAG_REST);
         return false;
@@ -527,7 +527,7 @@ class Scanner::InternalScanner : public memory::Allocated {
    * @returns {bool}
    * Check operator like + = -
    */
-  inline bool IsNotSingleOperator(char ch) {
+  inline bool IsNotSingleOperator(int ch) {
     if (!IsSingleOperator(ch) && 
         ((ch > 32 && ch < 48) ||
          (ch > 57 && ch < 65) ||
@@ -543,7 +543,7 @@ class Scanner::InternalScanner : public memory::Allocated {
   }
 
 
-  inline void CaseNotSingleOperator(char ch) {
+  inline void CaseNotSingleOperator(int ch) {
     token_str_ = ch;
                                                                 
     switch (ch) {
@@ -610,9 +610,9 @@ class Scanner::InternalScanner : public memory::Allocated {
   }
 
                                 
-  inline void CaseStringLiteral(char ch) {
-    char next = Seek(1);
-    char next_after_ = Seek(2);
+  inline void CaseStringLiteral(int ch) {
+    int next = Seek(1);
+    int next_after_ = Seek(2);
     bool escaped = false;
 
     if (next == ch && next_after_ == ch) {
@@ -623,8 +623,8 @@ class Scanner::InternalScanner : public memory::Allocated {
         } else if (next != '\r') {
           token_str_ += next;
         }
-        char next_after = Advance();
-        char next_after_after = Advance();
+        int next_after = Advance();
+        int next_after_after = Advance();
         if (next == ch && next_after == ch && next_after_after == ch) {
           break;
         } else {
@@ -665,7 +665,7 @@ class Scanner::InternalScanner : public memory::Allocated {
 
 
   inline void CaseEqualitiesORFunGlyph() {
-    char next = Seek(1);
+    int next = Seek(1);
     if (next == '=') {
       Advance();
       token_str_ += next;
@@ -683,8 +683,8 @@ class Scanner::InternalScanner : public memory::Allocated {
 
 
                                 
-  inline void CaseAddAndSubORFunGlyph(char ch) {
-    char next = Seek(1);
+  inline void CaseAddAndSubORFunGlyph(int ch) {
+    int next = Seek(1);
     if (next == ch || next == '=') {
       Advance();
       token_str_ += next;
@@ -699,7 +699,7 @@ class Scanner::InternalScanner : public memory::Allocated {
   inline void CaseRegExpLiteral() {
     bool isescaped = false;
     bool ischar_class = false;
-    char next;                                                            
+    int next;                                                            
     while ((next = Advance())) {
       if (!isescaped &&
           next == '\\') {
@@ -727,7 +727,7 @@ class Scanner::InternalScanner : public memory::Allocated {
     }
   }
                                 
-  inline void CaseRegExpFlag(char ch) {
+  inline void CaseRegExpFlag(int ch) {
     token_str_ += ch;
     char flag = Seek(1);
     bool has_error = false;
@@ -789,7 +789,7 @@ class Scanner::InternalScanner : public memory::Allocated {
 
                                 
   inline void CaseUnary() {
-    char next = Seek(1);
+    int next = Seek(1);
     if (next == '=') {
       Advance();
       token_str_ += next;
@@ -798,8 +798,8 @@ class Scanner::InternalScanner : public memory::Allocated {
   }
 
 
-  inline void CaseLogical(char ch) {
-    char next = Seek(1);                                
+  inline void CaseLogical(int ch) {
+    int next = Seek(1);                                
     if (next == ch) {
       Advance();
       token_str_ += next;
@@ -823,7 +823,7 @@ class Scanner::InternalScanner : public memory::Allocated {
 
 
   inline void CaseShiftRight() {
-    char next = Seek(1);
+    int next = Seek(1);
     if (next == '>') {
       Advance();
       token_str_ += next;

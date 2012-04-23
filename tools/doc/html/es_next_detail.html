@@ -1,5 +1,5 @@
 <div class="titile">
-    <h2>Grammar Referrence</h2>
+    <h2>Grammar Reference</h2>
 </div>
 <div class="row">
     <div class="span4">
@@ -14,7 +14,7 @@
 		<li><a data-toggle="tab" href="#import">import</a></li>
 		<li><a data-toggle="tab" href="#module">module</a></li>
 		<li><a data-toggle="tab" href="#let-expression">let expression</a></li>
-		<li><a data-toggle="tab" href="#object-literal">object literal extras</a></li>
+		<li><a data-toggle="tab" href="#object-literal-extras">object literal extras</a></li>
 		<li><a data-toggle="tab" href="#data-structure-extras">data structur extras</a></li>
 		<li><a data-toggle="tab" href="#generator-iterator">generator/iterator</a></li>
 		<li><a data-toggle="tab" href="#for-of">for of</a></li>
@@ -432,6 +432,311 @@ import './test5' as test5</code></pre>
 			    <td>'filename'</td><td>ランタイムモジュール、あるいはoptionのmoduleDirプロパティから探します。</td>
 			</tr>
 		    </table>
+		</div>
+	    </div>
+	</div>
+	<div id="module" class="tab-pane">
+	    <h3>module</h3>
+	    <p>モジュール化機能です。</p>
+	    <p>実装済み処理系 : なし</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>module testModule {
+  export test() -> console.log('test!!');
+}
+module testModule2 {
+  module testInnerModule3 {
+    export testExport2()->2;
+    export testExport3 = {test:200};
+  }
+}
+module testModule3 = ->3</code></pre>
+		<p>変換後</p>
+		<pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
+      function testExport1() {
+        return console.log('test!!');
+      }
+      var _mochaLocalExport = {};
+      _mochaLocalExport.testExport1 = testExport1;
+      return _mochaLocalExport;
+    }();
+var testModule2 = Runtime.modules.get('3490394-test.js').testModule2 = function () {
+  var _mochaLocalExport = {},
+    testInnerModule3 = _mochaLocalExport.testInnerModule3 = function () {
+      function testExport2() {
+        return 2;
+      }
+      var _mochaLocalExport = {};
+      _mochaLocalExport.testExport2 = testExport2;
+      var testExport3 = _mochaLocalExport.testExport3 =  {
+          test : 200
+        };
+      return _mochaLocalExport;
+    }();
+  return _mochaLocalExport;
+}();
+Runtime.modules.get('3490394-test.js').testModule3 = function () {
+  return 3;
+}</code></pre>
+		<div class="section">
+		    <p class="title">詳細</p>
+		    <p>各モジュールはファイルスコープ直下にしか置けません。モジュールに指定した名前が直接エクスポートされます。</p>
+		</div>
+		<div class="section">
+		    <p class="title">宣言</p>
+		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>{</i> ... <i>}</i></code></pre>
+		    <p>moduleを宣言します。moduleはネスト可能です。ネストした場合は親のモジュール以下に設定されます。</p>
+		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>=</i> &lt;values&gt;</code></pre>
+		    <p>直接値をエクスポートします。この構文でモジュールを宣言すると、'='で割り当てた値がmoduleの値になります。</p>
+		</div>
+	    </div>
+	</div>
+	<div id="let-expression" class="tab-pane">
+	    <h3>let expression</h3>
+	    <p>新しいスコープを生成します。</p>
+	    <p>実装済み処理系 : mozilla1.7以降</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>var foo = 200;
+let (foo = 300) {
+  console.assert(foo === 300);
+}</code></pre>
+		<p>変換後</p>
+		<pre class="prettyprint grammars"><code>var foo = 200;
+!function(foo) {
+  console.assert(foo === 300);
+}(300);</code></pre>
+		<div class="section">
+		    <p class="title">詳細</p>
+		    <p>スコープを生成します。let式の入り口に定義した値はlet式内のスコープでのみ有効になります。</p>
+		</div>
+	    </div>
+	</div>
+	<div id="object-literal-extras" class="tab-pane">
+	    <h3>object literal extras</h3>
+	    <p>オブジェクトリテラルの拡張構文です。</p>
+	    <p>実装済み処理系 : なし</p>
+	    <div>
+		<p>batch assignment operator</p>
+		<pre class="prettyprint grammars"><code>var namespaces = {
+      foo : {},
+      bar : {}
+    }
+namespaces.{
+  baz : {}
+}.{
+  qux : {}
+}</code></pre>
+		<p>変換後</p>
+		<pre class="prettyprint grammars"><code>var namespaces = {
+      foo : {},
+      bar : {}
+    }
+Runtime.extend(Runtime.extend(namespaces, {
+  bar : {}
+}), {
+  qux : {}
+});</code></pre>
+		<p>private property</p>
+		<pre class="prettyprint grammars"><code>var foo = 'private_name';
+var namespaces = {
+      [foo] : {},
+      bar : {}
+    }</code></pre>
+		<p>変換後</p>
+		<pre class="prettyprint grammars"><code>var foo = 'private_name';
+var namespace = {
+      bar : {}
+    }
+Runtime.createUnenumProp(namespace, 'foo', {});</code></pre>
+	    </div>
+	</div>
+	<div id="data-structure-extras" class="tab-pane">
+	    <h3>data structure extras</h3>
+	    <p>データ構造の追加構文です。</p>
+	    <p>実装済み処理系 : なし</p>
+	    <div>
+		<p>tuple</p>
+		<pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
+var tuple2 = new Tuple(0,1,2,3);</code></pre>		
+		<p>record</p>
+		<pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
+var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
+		<div class="section">
+		    <p class="title">詳細</p>
+		    <p><strong>tuple</strong></p>
+		    <p>tupleを生成します。tupleは配列に似た値の集合ですが、imutableな値であり、変更不可能です。</p>
+		    <p><strong>API</strong></p>
+		    <table>
+			<tr>
+			    <th>名前</th>
+			    <th>インターフェース</th>
+			    <th>説明</th>
+			</tr>
+			<tr>
+			    <td>equal</td><td>equal(tuple)</td><td>２つのtupleを比較します。</td>
+			</tr>
+			<tr>
+			    <td>toArray</td><td>toArray()</td><td>配列に変換します。</td>
+			</tr>
+			<tr>
+			    <td>length</td><td>Number</td><td>tupleの長さを返します。</td>
+			</tr>
+		    </table>
+		    <p><strong>record</strong></p>
+		    <p>オブジェクトに似た連想配列を生成しますが、imutableであり、変更できません。</p>
+		    <p>現在recordには特定のメソッドはありません。</p>
+		</div>
+	    </div>
+	</div>
+	<div id="generator-iterator" class="tab-pane">
+	    <h3>generator/iterator</h3>
+	    <p>コルーチンや、列挙子を定義する拡張です。</p>
+	    <p>実装済み処理系 : なし</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>//通常のjavascript
+function doCallback(num) {
+  console.log(num + "\n");
+}
+function fib() {
+  var i = 0, j = 1, n = 0;
+  while (n < 10) {
+    doCallback(i);
+    var t = i;
+    i = j;
+    j += t;
+    n++;
+  }
+}
+fib();
+//generatorを使用すると...
+function fib() {
+  var i = 0, j = 1;
+  while (true) {
+    yield i;
+    var t = i;
+    i = j;
+    j += t;
+  }
+}
+var g = fib();
+for (var i = 0; i < 10; i++) {
+  console.log(g.next() + "\n");
+}</code></pre>
+		    <p>MDNからの引用</p>
+		    <blockquote><p>yield キーワードを含む関数がジェネレータです。これを呼ぶと、ジェネレータの仮引数は実引数と結び付きますが、本体は実際には評価されません。代わりにジェネレータ・イテレータが返ってきます。ジェネレータ・イテレータの next() メソッドを呼び出すたびに、繰り返しのアルゴリズムが 1 回ずつ実行されます。それぞれのステップでの値は、yield キーワードで指定された値です。yield をアルゴリズムの繰り返しの範囲を示すジェネレータ・イテレータ版の return だと考えましょう。毎回 next() を呼び出すたび、ジェネレータのコードは yield の次の文から再開します。
+あなたはジェネレータ・イテレータを、その next() メソッドを繰り返し呼び出すことで、あなたが望んだ結果の状態にたどりつくまで反復させられます。この例では、私たちが欲しいだけの結果を手に入れるまで g.next() を呼び出し続けることで、私たちはどれだけでも多くのフィボナッチ数を得ることができます。</p>
+<small><a href="https://developer.mozilla.org/ja/New_in_JavaScript_1.7#.E3.82.B8.E3.82.A7.E3.83.8D.E3.83.AC.E3.83.BC.E3.82.BF">MDN Generator</a></small></blockquote>
+		    <p>簡単に説明すると関数をyieldキーワードの位置で一時停止し、二回目以降はその場所から実行を再開します。
+またnextだけではなく、yieldに対して、値を与えられるsendメソッドもあります。</p>
+		    <p>MDN</p>
+		    <blockquote><p>一度 next() メソッドを呼び出してジェネレータをスタートさせると、与えた特定の値を最後の yield の結果として扱わせる send() を使うことができます。その際ジェネレータはその次の yield のオペランドを返します。
+ジェネレータを勝手な時点から始めることはできません。特定の値を send() する前に必ず next() でジェネレータをスタートさせなければなりません。</p>
+<small><a href="https://developer.mozilla.org/ja/New_in_JavaScript_1.7#.E3.82.B8.E3.82.A7.E3.83.8D.E3.83.AC.E3.83.BC.E3.82.BF">MDN Generator</a></small></blockquote>
+		    <p>sendの例</p>
+		    <pre class="prettyprint grammars"><code>yieldTest()-> {
+  for ( var i = 0;i<10; i++ ) {
+    var m = yield i;
+    if ( m === true ) {
+      yield i + 1;
+    } else if ( m === false ){
+      yield i - 1;
+    } else {
+      yield i;
+    }
+  }
+}
+generator = yieldTest();
+@assert( true , generator.next() === 0 );
+@assert( true , generator.send( true ) === 1 );
+@assert( true , generator.send( false ) === 1 );
+@assert( true , generator.send( true ) === 2 );
+@assert( true , generator.send( false ) === 2 );
+@assert( true , generator.send( true ) === 3 );
+@assert( true , generator.send( true ) === 3 );
+@assert( true , generator.send( true ) === 4 );
+@assert( true , generator.send( false ) === 4 );
+@assert( true , generator.send( true ) === 5 );</code></pre>
+			<p>このようにsendに値を与えると、<code>yield i</code> の部分が引数に置き換わります。</p>
+			<p>iterator</p>
+			<pre class="prettyprint grammars"><code>import {iterator} from "iterators";
+var iter = {
+      arr : [],
+      add : function ( value ) {
+        this.arr.push( value );
+      },
+      [iterator] : function () {
+        var arr = this.arr;
+        return {
+          index : 0,
+          next : function () {
+            if ( arr.length > this.index ) {
+              var ret = arr[ this.index ];
+              this.index++;
+              return ret;
+            } else {
+              throw StopIteration;
+            }
+          }
+        }
+      }
+    }</code></pre>
+	     <div>
+		 <p class="title">詳細</p>
+		 <p>この例のように、iteratorを生成するにはiteratorsモジュールのiteratorの値を、objectのプロパティにする必要があります。
+ここで定義したiteratorはES Nextで追加されたfor of構文で使用されます。
+詳しくはfor ofを参照してください。</p>
+	     </div>
+	    </div>
+	</div>
+	<div id="for-of" class="tab-pane">
+	    <h3>for of</h3>
+	    <p>for of構文とは、Generator、あるいはiteratorのnextを呼び出して値を列挙する構文です。</p>
+	    <p>実装済み処理系 : なし</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>import {iterator} from 'iterators';
+var items = function ( obj ) {
+      return {
+        [iterator] : function () {
+          for( var i in obj ) {
+            yield [i, obj[i]];
+          }
+        }
+      }
+    },
+    iter = {
+      arr : [],
+      add : function ( value ) {
+        this.arr.push( value );
+      },
+      [iterator] : function () {
+        var arr = this.arr;
+        return {
+          index : 0,
+          next : function () {
+            if ( arr.length > this.index ) {
+              var ret = arr[ this.index ];
+              this.index++;
+              return ret;
+            } else {
+              throw StopIteration;
+            }
+          }
+        }
+      }
+    }
+    obj = {x:200,y:300}
+for of(var i in items(obj)) {
+  console.log(i[0], i[1]);
+}
+iter.add( 100 );
+iter.add( 200 );
+iter.add( 300 );
+iter.add( 400 );
+for of(var i in iter) {
+  console.log(i);//100,200,300...
+}</code></pre>
+		<div class="section">
+		    <p class="title">詳細</p>
+		    <p>generatorかiteratorの定義されたオブジェクトを与えることで、次々にnextを呼び出し、StopIterationが投げられると処理を終了します。</p>
 		</div>
 	    </div>
 	</div>

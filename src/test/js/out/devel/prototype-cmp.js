@@ -1013,11 +1013,11 @@
       }
     }
     try {
-      var __FILE__ = "-1506053293-prototype.js",
+      var __FILE__ = "-1426553882-prototype.js",
           __LINE__ = 0;
       
       __LINE__ = 2;
-      Runtime.modules.add('-1506053293-prototype.js');
+      Runtime.modules.add('-1426553882-prototype.js');
       
       __LINE__ = 9;
       var Prototype =  {
@@ -1994,8 +1994,9 @@
                     
                     __LINE__ = 511;
                      this .execute();
+                    
                     __LINE__ = 512;
-                    return  this .currentlyExecuting =  false ;
+                     this .currentlyExecuting =  false ;
                   } catch(e){
                     
                     __LINE__ = 514;
@@ -3098,8 +3099,9 @@
                 var index = 0;
                 
                 try {
+                  
                   __LINE__ = 824;
-                  return  this ._each(function (value) {
+                   this ._each(function (value) {
                     try {
                       __LINE__ = 825;
                       iterator.call(context,value,index ++ );
@@ -3935,8 +3937,9 @@
                 if (Object.isFunction(responder[callback])){
                   
                   try {
+                    
                     __LINE__ = 1458;
-                    return responder[callback].apply(responder,[request,transport,json]);
+                    responder[callback].apply(responder,[request,transport,json]);
                   } catch(e){
                     
                   }
@@ -4097,8 +4100,9 @@
               
               __LINE__ = 1534;
               if (! this .options.asynchronous &&  this .transport.overrideMimeType){
+                
                 __LINE__ = 1535;
-                return  this .onStateChange();
+                 this .onStateChange();
               }
               
             } catch(e){
@@ -4234,8 +4238,9 @@
                 
                 __LINE__ = 1600;
                  this ._complete =  true ;
+                
                 __LINE__ = 1601;
-                return ( this .options['on'+response.status] ||  this .options['on'+( this .success()?'Success' : 'Failure')] || Prototype.emptyFunction)(response,response.headerJSON);
+                ( this .options['on'+response.status] ||  this .options['on'+( this .success()?'Success' : 'Failure')] || Prototype.emptyFunction)(response,response.headerJSON);
               } catch(e){
                 __LINE__ = 1605;
                 return  this .dispatchException(e);
@@ -4257,8 +4262,9 @@
               
               __LINE__ = 1616;
               ( this .options['on'+state] || Prototype.emptyFunction)(response,response.headerJSON);
+              
               __LINE__ = 1617;
-              return Ajax.Responders.dispatch('on'+state, this ,response,response.headerJSON);
+              Ajax.Responders.dispatch('on'+state, this ,response,response.headerJSON);
             } catch(e){
               __LINE__ = 1619;
               return  this .dispatchException(e);
@@ -5085,8 +5091,9 @@
                       
                       __LINE__ = 1994;
                       s.appendChild(document.createTextNode(""));
+                      
                       __LINE__ = 1995;
-                      return isBuggy = !s.firstChild || s.firstChild && s.firstChild.nodeType !== 3;
+                      isBuggy = !s.firstChild || s.firstChild && s.firstChild.nodeType !== 3;
                     } catch(e){
                       __LINE__ = 1998;
                       return isBuggy =  true ;
@@ -6625,8 +6632,9 @@
                   
                   __LINE__ = 2762;
                   element.appendChild(n);
+                  
                   __LINE__ = 2763;
-                  return element.removeChild(n);
+                  element.removeChild(n);
                 } catch(e){
                   
                 }
@@ -10433,8 +10441,9 @@
               };
           
           try {
+            
             __LINE__ = 4643;
-            return [].slice.call(document.documentElement.childNodes,0);
+            [].slice.call(document.documentElement.childNodes,0);
           } catch(e){
             __LINE__ = 4646;
             return makeArray = function (array,results) {
@@ -11328,8 +11337,9 @@
               
               __LINE__ = 5148;
               if (element.select && (element.tagName.toLowerCase() != 'input' || !(/^(?:button|reset|submit)$/i.test(element.type)))){
+                
                 __LINE__ = 5150;
-                return element.select();
+                element.select();
               }
               
             } catch(e){
@@ -12000,8 +12010,9 @@
                 __LINE__ = 5586;
                 while (parent && parent !== element){
                   try {
+                    
                     __LINE__ = 5587;
-                    return parent = parent.parentNode;
+                    parent = parent.parentNode;
                   } catch(e){
                     __LINE__ = 5588;
                     return parent = element;
@@ -12552,8 +12563,9 @@
         function pollDoScroll() {
           try {
             try {
+              
               __LINE__ = 5832;
-              return document.documentElement.doScroll('left');
+              document.documentElement.doScroll('left');
             } catch(e){
               
               __LINE__ = 5834;

@@ -47,11 +47,10 @@ def BuildHTML(path) :
     body = html.read()
     html.close()
     body = body.replace('<table>', '<table class="table table-striped table-bordered table-condensed">')
-    html = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    html += '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-strict.dtd">\n'
+    html = '<!doctype html>\n'
     html += "<html>\n"
-    html += '<head xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">\n'
-    html += '<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />\n'
+    html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">'
+    html += '<head lang="ja">\n'
     html += "<style>\n"
     html += open('bootstrap/css/prettify.css').read()
     html += open('bootstrap/css/bootstrap.min.css').read().replace('../img', 'img')

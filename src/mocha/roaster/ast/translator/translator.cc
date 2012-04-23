@@ -513,13 +513,17 @@ VISITOR_IMPL(ThrowStmt) {
 VISITOR_IMPL(TryStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
-  builder()->SetAutoReturnFlag(ast_node->first_child());
+  if (ast_node->autoreturn()) {
+    builder()->SetAutoReturnFlag(ast_node->first_child());
+  }
   ast_node->first_child()->Accept(this);
   if (!ast_node->catch_block()->IsEmpty()) {
     builder()->SetAutoReturnFlag(ast_node->catch_block()->first_child());
     ast_node->catch_block()->first_child()->Accept(this);
   }
-  builder()->SetAutoReturnFlag(ast_node->finally_block());
+  if (ast_node->autoreturn()) {
+    builder()->SetAutoReturnFlag(ast_node->finally_block());
+  }
   ast_node->finally_block()->Accept(this);
   if (ast_node->IsContainYield()) {
     translator_data_->function()->set_try_catch_list(ast_node);
