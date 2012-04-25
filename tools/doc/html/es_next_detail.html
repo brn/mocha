@@ -25,37 +25,36 @@
     <div class="tab-content">
 	<div id="class" class="tab-pane active">
 	    <h3>class</h3>
-	    <p>現在策定されているプロポーサルではclassが組み込まれる予定です。
-		class機能自体はfunctionの糖衣構文になります。</p>
-	    <p>実装済み処理系 : 無し</p>
+	    <p>${class_title}</p>
+	    <p>${class_imp_browsers}</p>
 	    <div>
-		<p>まずは今までの書き方でクラスを生成してみます。</p>
-		<pre class="prettyprint grammars"><code>//このクラスはTHREE.Meshを継承しています。
+		<p>${class_ex1_title}</p>
+		<pre class="prettyprint grammars"><code>//${class_ex1_comment1}
 function SkinnedMesh(geometry, materials) {
-  //親クラスのコンストラクタを呼び出します。
+  //${class_ex1_comment2}
   THREE.Mesh.call(this, geometry, materials); 
   this.identityMatrix = new THREE.Matrix4();
   this.bones = [];
   this.boneMatrices = [];
 };
 
-//ecmascript5以降での継承です。
-//THREE.Mesh.prototypeを継承したprototypeオブジェクトを生成します。
+//${class_ex1_comment3}
+//${class_ex1_comment4}
 SkinnedMesh.prototype = Object.create(THREE.Mesh.prototype);
 SkinnedMesh.prototype.constructor = SkinnedMesh;
 SkinnedMesh.prototype.update = function(camera) {
-  //親クラスのupdateメソッドの呼び出し。
+  //${class_ex1_comment5}
   THREE.Mesh.prototype.update.call(this);
 };</code></pre>
-	    <p>次にES Nextで予定されているclassを使って書き換えてみます。</p>
-	    <pre class="prettyprint grammars"><code>//継承を行うためにはclass 'drived' extends 'super'という構文を使う
-//superはコンストラクタ関数か、クラスである必要がある
+	    <p>${class_ex2_title}</p>
+	    <pre class="prettyprint grammars"><code>//${class_ex2_comment1}
+//${class_ex2_comment2}
 class SkinnedMesh extends THREE.Mesh {
   constructor(geometry, materials) {
-    //親クラスのコンストラクタを呼び出す。
-    //THREE.Mesh.call(this, geometry, materials)に該当
+    //${class_ex2_comment3}
+    //${class_ex2_comment4}
     super(geometry, materials);
-    //publicなメンバはすべてpublic修飾子を宣言の前に付与する
+    //${class_ex2_comment5}
     public identityMatrix = new THREE.Matrix4();
     public bones = [];
     public boneMatrices = [];
@@ -63,45 +62,43 @@ class SkinnedMesh extends THREE.Mesh {
   }
   update(camera) {
     ...
-    //親クラスのメソッド呼び出し。
-    //THREE.Mesh.prototype.update.call(this)に該当
+    //${class_ex2_comment6}
+    //${class_ex2_comment7}
     super.update();
   }
 }</code></pre>
-		<p>次に基本的なクラスの構成要素の説明をします。</p>
+		<p>${class_ex3_title}</p>
 		<pre class="prettyprint grammars"><code>class Monster {
-  //コンストラクタは以下のように定義します。
-  //クラスのメンバはコンストラクタ内で指定します。
+  //${class_ex3_comment1}
+  //${class_ex3_comment2}
   constructor(name, health) {
     public name = name;
     private health = health;
   }
-  //クラスのメソッドはpublicかprivateのアクセス修飾が可能です。
-  //指定しない場合はprivateになります。
+  //${class_ex3_comment3}
+  //${class_ex3_comment4}
   public attack(target) {
     log('The monster attacks ' + target);
   }
-  //省略関数も利用可能です。
-  //private修飾は本来の提案だとprivate(this).value
-  //という形なのですが、無駄が多いので、一旦この形になっています。
-  public isAlive -> private.health > 0;
+  //${class_ex3_comment5}
+  public isAlive -> private(this).health > 0;
   public health(value) {
     if (value < 0) {
       throw new Error('Health must be non-negative.')
     }
     private.health = value
   }
-  //publicな関数以外のメンバはprototypenに設定され、
-  //全てのインスタンスで共通の値が使用されます。
+  //${class_ex3_comment6}
+  //${class_ex3_comment7}
   public numAttacks = 0;
-  //constなメンバはコンストラクタか、定義時に初期化しなければ
-  //値の追加はできません。
+  //${class_ex3_comment8}
+  //${class_ex3_comment9}
   public const attackMessage = 'The monster hits you!';
-  //static修飾が宣言されると変数はstaticな変数になります。
-  //static修飾にはprivate,publicは設定できません。
+  //${class_ex3_comment10}
+  //${class_ex3_comment11}
   static const DEFAULT_LIFE = 100;
 }</code></pre>
-		<p>変換後は以下のようになります。</p>
+		<p>${class_ex4_title}</p>
 		<pre class="prettyprint grammars"><code>var Monster = function () {
       function constructor(name,health) {
         this.name = name;
@@ -138,45 +135,37 @@ class SkinnedMesh extends THREE.Mesh {
       return Monster;
     }()</code></pre>
 			  <div class="section">
-			      <p class="title">詳細</p>
-			      <p>mochaではclassはコンストラクタ関数と、プロトタイプの糖衣構文として機能します。なので、既存のjavascriptのクラスと100%の互換性を持っています。またクラスを使用することによるオーバーヘッドもできるだけ抑えてありますが、privateフィールドの実現のためにやや実行時にオーバーヘッドがあります。</p>
+			      <p class="title">${class_detail_title}</p>
+			      <p>${class_detail_sub}</p>
 			  </div>
 			  <div class="section">
-			      <p class="title">インターフェース</p>
+			      <p class="title">${class_section1_title}</p>
 			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>class</i> &lt;class name&gt; <i>extends or prototype</i> &lt;base class name or literal&gt;</code></pre>
 			      <p>
-				  クラスを宣言します。class nameとbase class nameはjavascriptで使用可能な変数名を使用可能です。
-		    const修飾子がついていた場合は、すべてのメンバが変更不可能になります。
-		    継承の際にextendsを選ぶと、通常のプロトタイプの継承になります。prototypeを選ぶと、直接&lt;base class name or literal&gt;をprototypeとして使用します。
+				  ${class_section1_sub1}
 			      </p>
 			      <pre class="prettyprint grammars"><code><i>constructor(</i>&lt;arguments list&gt;<i>)</i> &lt;function body&gt;</code></pre>
 			      <p>
-				  コンストラクタを定義します。コンストラクタは必ずconstructorという関数名でなければなりません。
-				  メンバ変数の初期化を行います。コンストラクタが定義されていなければ、mochaが自動で空のコンストラクタを生成します。
+				  ${class_section1_sub2}
 			      </p>
 
 			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>public or private or static</i> &lt;name&gt; &lt;function body or '=' values&gt;(optional)</code></pre>
 			      <p>
-				  メンバを定義します。public修飾子がついていた場合はメンバは外部からアクセス可能になります。
-				  const修飾子がついていた場合は、メンバは変更不可能になります。
-				  private修飾子がついていた場合は、外部からアクセス不可なメンバになります。
-				  何も修飾子を付けなかった場合は、デフォルトでprivateになります。
-				  static修飾子が宣言された場合はメンバはインスタンス無しにアクセス可能になりますが、static以外のメンバにはアクセス出来ません。
-				  またstaticなメンバはprivate、publicといったアクセス修飾は現在は出来ません。
+				  ${class_section1_sub3}
 			      </p>
 			      <pre class="prettyprint grammars"><code><i>this.</i>&lt;name&gt;</code></pre>
-			      <p>publicメンバにアクセスします。</p>
+			      <p>${class_section1_sub4}</p>
 			      <pre class="prettyprint grammars"><code><i>private(object).</i>&lt;name&gt;</code></pre>
-			      <p>privateメンバにアクセスします。</p>
+			      <p>${class_section1_sub5}</p>
 			  </div>
 	    </div>
 	</div>
 	<div id="trait" class="tab-pane">
 	    <h3>trait</h3>
-	    <p>クラスの振る舞いのみを定義したオブジェクトです。</p>
-	    <p>実装済み処理系 : 無し</p>
+	    <p>${trait_title}</p>
+	    <p>${trait_impl_sub}</p>
 	    <div>
-		<p>traitの定義は以下のように行います。</p>
+		<p>${trait_ex1_title}</p>
 		<pre class="prettyprint grammars"><code>//traitの定義
 trait TestTrait {
   requires testReq1;
@@ -193,7 +182,7 @@ class MixinTest {
   mixin TestTrait with test1 as method1;
   mixin TestTrait2 without test1, with test2 as method2;
 }</code></pre>
-		<p>変換後は以下のようになります。</p>
+		<p>${trait_ex2_title1}</p>
 		<pre class="prettyprint grammars"><code>var TestTrait =  {
         _mochaTraitPrivate : {},
         _mochaTraitPublic :  {
@@ -249,35 +238,33 @@ class MixinTest {
         return MixinTest;
    }()</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>クラスに対して振る舞いを注入します。traitはrequireプロパティを設定することで実装しなければならないメソッドを指定できます。
-またmixin属性を設定することで、trait同士、あるいはclassとtraitを合成可能です。その際にmixin ... with &lt;method_name&gt; as &lt:new_name&gt;とすることでメソッド名の書き換えが可能です。またwithout属性を指定することで、特定のメソッドのmixinを無効化することが可能です。
-public,privateなどの指定はclassを参照してください。</p>
+		    <p class="title">${trait_detail_title}</p>
+		    <p>${trait_detail_sub1}</p>
 		</div>
 		<div class="section">
-		    <p class="title">インターフェース</p>
+		    <p class="title">${trait_interface_title}</p>
 		    <pre class="prettyprint grammars"><code><i>trait</i> &lt;trait name&gt;</code></pre>
-		    <p>traitを宣言します。</p>
+		    <p>${trait_interface_sub1}</p>
 		    <pre class="prettyprint grammars"><code><i>mixin</i> &lt;trait name&gt; <i>with(optional)</i> &lt;member name&gt; <i>as</i> &lt;new member name&gt <i>without(optional)</i> &lt;member name&gt;</code></pre>
 		</div>
 	    </div>
 	</div>
 	<div id="destructuring-assignment" class="tab-pane">
 	    <h3>destructuring assignment</h3>
-	    <p>分割代入機能です。</p>
-	    <p>実装済み処理系 : mozilla 1.6以降</p>
+	    <p>${destructuring_title}</p>
+	    <p>${destructuring_impl_sub}</p>
 	    <div>
-		<p>配列</p>
+		<p>${destructuring_ex1_title}</p>
 		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     [one,two,three,four] = array;
 console.log(one,two,three,four);</code></pre>
-		<p>変換後</p>
+		<p>${destructuring_ex2_title}</p>
 		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     one = array[0],
     two = array[1],
     three = array[2],
     four = array[3]</code></pre>
-		<p>オブジェクト</p>
+		<p>${destructuring_ex3_title}</p>
 		<pre class="prettyprint grammars"><code>var obj = {
       one : 0,
       two : 1,
@@ -285,7 +272,7 @@ console.log(one,two,three,four);</code></pre>
       four : 3
     },
     {one,two,three,four} = obj;</code></pre>
-		<p>変換後</p>
+		<p>${destructuring_ex4_title}</p>
 		<pre class="prettyprint grammars"><code>var obj = {
       one : 0,
       two : 1,
@@ -296,7 +283,7 @@ console.log(one,two,three,four);</code></pre>
     two = obj.two,
     three = obj.three,
     four = obj.four;</code></pre>
-		<p>少々複雑な例</p>
+		<p>${destructuring_ex5_title}</p>
 		<pre class="prettyprint grammars"><code>var object = {
       value1 : 100,
       value2 : {
@@ -312,7 +299,7 @@ console.log(one,two,three,four);</code></pre>
     }
 var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { value6 : [{value7}] },"@value":{strvalue}} = object;
 		</code></pre>
-		<p>変換後</p>
+		<p>${destructuring_ex6_title}</p>
 		<pre class="prettyprint grammars"><code>var object = {
       value1 : 100,
       value2 : {
@@ -337,14 +324,14 @@ var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { va
 	</div>
 	<div id="for-each" class="tab-pane">
 	    <h3>for each</h3>
-	    <p>for each構文です。</p>
-	    <p>実装済み処理系 : mozilla 1.6以降</p>
+	    <p>${for_each_title}</p>
+	    <p>${for_each_impl_sub}</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
 for each(var i in obj) {
   console.log(i);
 }</code></pre>
-		<p>変換後</p>
+		<p>${for_each_ex2_sub}</p>
 		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
 for(var i in obj) {
   i = obj[i];
@@ -354,11 +341,11 @@ for(var i in obj) {
 	</div>
 	<div id="do-expression" class="tab-pane">
 	    <h3>do expression</h3>
-	    <p>簡易スコープです。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>${do_expression_title}</p>
+	    <p>${do_expression_impl_sub}</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>var x = do { var t = f(); t * t + 1 };</code></pre>
-		<p>変換後</p>
+		<p>${do_expression_ex2_title}</p>
 		<pre class="prettyprint grammars"><code>var x = function () {
     var t = f();
     return t * t + 1;
@@ -367,27 +354,27 @@ for(var i in obj) {
 	</div>
 	<div id="short-function-syntax" class="tab-pane">
 	    <h3>short function syntax</h3>
-	    <p>関数の短縮構文です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>${short_function_title}</p>
+	    <p>${short_function_impl_sub}</p>
 	    <div>
-		<p>無名関数</p>
+		<p>${short_function_ex1_title}</p>
 		<pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
     b = (x,y,z) -> { return x + y + z; }</code></pre>
-		<p>変換後</p>
+		<p>${short_function_ex2_title}</p>
 		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
     b = function (x,y,z) { return x + y + z;}</code></pre>
-		<p>関数宣言</p>
+		<p>${short_function_ex3_title}</p>
 		<pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
 bar(x,y,z) -> { return x + y + z; }</code></pre>
-		<p>変換後</p>
+		<p>${short_function_ex4_title}</p>
 		<pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
 function bar (x,y,z) { return x + y + z;}</code></pre>
-		<p>コンテキストの束縛</p>
+		<p>${short_function_ex5_title}</p>
 		<pre class="prettyprint grammars"><code>var a = (x,y,z) => x + y + z,
     b = (x,y,z) => { return x + y + z; }
 foo(x,y,z) => console.log(this);
 bar(x,y,z) => {console.log(this) }</code></pre>
-		<p>変換後</p>
+		<p>${short_function_ex6_title}</p>
 		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
     b = function (x,y,z) { return x + y + z; }.bind(this);
 function foo (x,y,z) { return console.log(_mochaLocalTmp0);}
@@ -398,15 +385,15 @@ bar = bar.bind(this);</code></pre>
 	</div>
 	<div id="import" class="tab-pane">
 	    <h3>import</h3>
-	    <p>モジュールのインポート機能です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>${import_title}</p>
+	    <p>${import_impl_sub}</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>import module from './test';
 import {exports1,exports2} from './test2'.module;
 import [value1, value2] from './test3'.module.exports;
 import exports from './test4'.module;
 import './test5' as test5</code></pre>
-		<p>変換後</p>
+		<p>${import_ex1_title}</p>
 		<pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
     _mochaLocalTmp0 = Runtime.modules.get('564059-test2.js').module,
     exports1 = _mochaLocalTmp0.exports1,
@@ -418,18 +405,18 @@ import './test5' as test5</code></pre>
     test5 = Runtime.modules.get('455905-test5.js');
     </code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>importのルール</p>
-		    <p>ファイルのインポートは以下のルールに沿って行われます。</p>
+		    <p class="title">${import_detail}</p>
+		    <p>${import_detail_title1}</p>
+		    <p>${import_detail_sub1}</p>
 		    <table>
 			<tr>
-			    <th>記述</th><th>説明</th>
+			    <th>${import_detail_sub2}</th><th>${import_detail_sub3}</th>
 			</tr>
 			<tr>
-			    <td>'./filename'</td><td>現在のファイルがあるディレクトリから探します。</td>
+			    <td>'./filename'</td><td>${import_detail_sub4}</td>
 			</tr>
 			<tr>
-			    <td>'filename'</td><td>ランタイムモジュール、あるいはoptionのmoduleDirプロパティから探します。</td>
+			    <td>'filename'</td><td>${import_detail_sub5}</td>
 			</tr>
 		    </table>
 		</div>
@@ -437,8 +424,8 @@ import './test5' as test5</code></pre>
 	</div>
 	<div id="module" class="tab-pane">
 	    <h3>module</h3>
-	    <p>モジュール化機能です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>${module_title}</p>
+	    <p>${module_impl_sub}</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>module testModule {
   export test() -> console.log('test!!');
@@ -450,7 +437,7 @@ module testModule2 {
   }
 }
 module testModule3 = ->3</code></pre>
-		<p>変換後</p>
+		<p>${module_ex2_title}</p>
 		<pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
       function testExport1() {
         return console.log('test!!');
@@ -478,22 +465,22 @@ Runtime.modules.get('3490394-test.js').testModule3 = function () {
   return 3;
 }</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>各モジュールはファイルスコープ直下にしか置けません。モジュールに指定した名前が直接エクスポートされます。</p>
+		    <p class="title">${module_detail_title}</p>
+		    <p>${module_detail_sub1}</p>
 		</div>
 		<div class="section">
-		    <p class="title">宣言</p>
+		    <p class="title">${module_decl_title}</p>
 		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>{</i> ... <i>}</i></code></pre>
-		    <p>moduleを宣言します。moduleはネスト可能です。ネストした場合は親のモジュール以下に設定されます。</p>
+		    <p>${module_decl_sub1}</p>
 		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>=</i> &lt;values&gt;</code></pre>
-		    <p>直接値をエクスポートします。この構文でモジュールを宣言すると、'='で割り当てた値がmoduleの値になります。</p>
+		    <p>${module_decl_sub2}</p>
 		</div>
 	    </div>
 	</div>
 	<div id="let-expression" class="tab-pane">
 	    <h3>let expression</h3>
-	    <p>新しいスコープを生成します。</p>
-	    <p>実装済み処理系 : mozilla1.7以降</p>
+	    <p>${let_expression_title}</p>
+	    <p>${let_expression_impl_sub}</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>var foo = 200;
 let (foo = 300) {
@@ -505,15 +492,15 @@ let (foo = 300) {
   console.assert(foo === 300);
 }(300);</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>スコープを生成します。let式の入り口に定義した値はlet式内のスコープでのみ有効になります。</p>
+		    <p class="title">${let_expression_detail}</p>
+		    <p>${let_expression_detail_sub1}</p>
 		</div>
 	    </div>
 	</div>
 	<div id="object-literal-extras" class="tab-pane">
 	    <h3>object literal extras</h3>
-	    <p>オブジェクトリテラルの拡張構文です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>${object_literal_extras_title}</p>
+	    <p>${object_literal_impl_sub}</p>
 	    <div>
 		<p>batch assignment operator</p>
 		<pre class="prettyprint grammars"><code>var namespaces = {
@@ -525,7 +512,7 @@ namespaces.{
 }.{
   qux : {}
 }</code></pre>
-		<p>変換後</p>
+		<p>${object_literal_ex1_title}</p>
 		<pre class="prettyprint grammars"><code>var namespaces = {
       foo : {},
       bar : {}
@@ -551,8 +538,8 @@ Runtime.createUnenumProp(namespace, 'foo', {});</code></pre>
 	</div>
 	<div id="data-structure-extras" class="tab-pane">
 	    <h3>data structure extras</h3>
-	    <p>データ構造の追加構文です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>${data_structure_extras_title}</p>
+	    <p>${data_structure_extras_impl_sub}</p>
 	    <div>
 		<p>tuple</p>
 		<pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
@@ -561,38 +548,38 @@ var tuple2 = new Tuple(0,1,2,3);</code></pre>
 		<pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
 var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
+		    <p class="title">${data_structure_detail_title}</p>
 		    <p><strong>tuple</strong></p>
-		    <p>tupleを生成します。tupleは配列に似た値の集合ですが、imutableな値であり、変更不可能です。</p>
+		    <p>${data_structure_extras_detail_sub1}</p>
 		    <p><strong>API</strong></p>
 		    <table>
 			<tr>
-			    <th>名前</th>
-			    <th>インターフェース</th>
-			    <th>説明</th>
+			    <th>${data_structure_extras_detail_th1}</th>
+			    <th>${data_structure_extras_detail_th2}</th>
+			    <th>${data_structure_extras_detail_th3}</th>
 			</tr>
 			<tr>
-			    <td>equal</td><td>equal(tuple)</td><td>２つのtupleを比較します。</td>
+			    <td>equal</td><td>equal(tuple)</td>${data_structure_detail_sub2}<td></td>
 			</tr>
 			<tr>
-			    <td>toArray</td><td>toArray()</td><td>配列に変換します。</td>
+			    <td>toArray</td><td>toArray()</td><td>${data_structure_detail_sub3}</td>
 			</tr>
 			<tr>
-			    <td>length</td><td>Number</td><td>tupleの長さを返します。</td>
+			    <td>length</td><td>Number</td><td>${data_structure_detail_sub4}</td>
 			</tr>
 		    </table>
 		    <p><strong>record</strong></p>
-		    <p>オブジェクトに似た連想配列を生成しますが、imutableであり、変更できません。</p>
-		    <p>現在recordには特定のメソッドはありません。</p>
+		    <p>${data_structure_detail_sub5}</p>
+		    <p>${data_structure_detail_sub6}</p>
 		</div>
 	    </div>
 	</div>
 	<div id="generator-iterator" class="tab-pane">
 	    <h3>generator/iterator</h3>
-	    <p>コルーチンや、列挙子を定義する拡張です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>${generator_iterator_title}</p>
+	    <p>${generator_iterator_impl_sub}</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>//通常のjavascript
+		<pre class="prettyprint grammars"><code>//${generator_iterator_ex1_comment1}
 function doCallback(num) {
   console.log(num + "\n");
 }
@@ -621,17 +608,14 @@ var g = fib();
 for (var i = 0; i < 10; i++) {
   console.log(g.next() + "\n");
 }</code></pre>
-		    <p>MDNからの引用</p>
-		    <blockquote><p>yield キーワードを含む関数がジェネレータです。これを呼ぶと、ジェネレータの仮引数は実引数と結び付きますが、本体は実際には評価されません。代わりにジェネレータ・イテレータが返ってきます。ジェネレータ・イテレータの next() メソッドを呼び出すたびに、繰り返しのアルゴリズムが 1 回ずつ実行されます。それぞれのステップでの値は、yield キーワードで指定された値です。yield をアルゴリズムの繰り返しの範囲を示すジェネレータ・イテレータ版の return だと考えましょう。毎回 next() を呼び出すたび、ジェネレータのコードは yield の次の文から再開します。
-あなたはジェネレータ・イテレータを、その next() メソッドを繰り返し呼び出すことで、あなたが望んだ結果の状態にたどりつくまで反復させられます。この例では、私たちが欲しいだけの結果を手に入れるまで g.next() を呼び出し続けることで、私たちはどれだけでも多くのフィボナッチ数を得ることができます。</p>
-<small><a href="https://developer.mozilla.org/ja/New_in_JavaScript_1.7#.E3.82.B8.E3.82.A7.E3.83.8D.E3.83.AC.E3.83.BC.E3.82.BF">MDN Generator</a></small></blockquote>
-		    <p>簡単に説明すると関数をyieldキーワードの位置で一時停止し、二回目以降はその場所から実行を再開します。
-またnextだけではなく、yieldに対して、値を与えられるsendメソッドもあります。</p>
+		    <p>${generator_iterator_mdn}</p>
+		    <blockquote><p>${generator_iterator_mdn_sub1}</p>
+<small><a href="${generator_iterator_msdn_link1}">MDN Generator</a></small></blockquote>
+		    <p>${generator_iterator_mdn_sub2}</p>
 		    <p>MDN</p>
-		    <blockquote><p>一度 next() メソッドを呼び出してジェネレータをスタートさせると、与えた特定の値を最後の yield の結果として扱わせる send() を使うことができます。その際ジェネレータはその次の yield のオペランドを返します。
-ジェネレータを勝手な時点から始めることはできません。特定の値を send() する前に必ず next() でジェネレータをスタートさせなければなりません。</p>
-<small><a href="https://developer.mozilla.org/ja/New_in_JavaScript_1.7#.E3.82.B8.E3.82.A7.E3.83.8D.E3.83.AC.E3.83.BC.E3.82.BF">MDN Generator</a></small></blockquote>
-		    <p>sendの例</p>
+		    <blockquote><p>${generator_iterator_mdn_sub3}</p>
+<small><a href="${generator_iterator_mdn_link2}">MDN Generator</a></small></blockquote>
+		    <p>${generator_iterator_mdn_sub4}</p>
 		    <pre class="prettyprint grammars"><code>yieldTest()-> {
   for ( var i = 0;i<10; i++ ) {
     var m = yield i;
