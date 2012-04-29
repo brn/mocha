@@ -18,22 +18,22 @@
     <div class="tab-content">
 	<div id="running-mocha" class="tab-pane active">
 	    <h3>Running mocha</h3>
-	    <p>mochaの基本的な使用方法です。まず、ターミナル、あるいはコマンドプロンプトを起動します。その後、</p>
-	    <pre class="prettyprint grammars"><code>cd &lt;mochaの実行ファイルのあるディレクトリ&gt;</code></pre>
-	    <p>と入力し、ディレクトリを移動します。移動先のディレクトリで、</p>
-	    <pre class="prettyprint grammars"><code>mchd</code></pre>
-	    <p>と入力し、mochaを起動します。すると、</p>
+	    <p>${first_step_sub1}</p>
+	    <pre class="prettyprint grammars"><code>cd ${first_step_sub2}</code></pre>
+	    <p>${first_step_sub3}</p>
+	    <pre class="prettyprint grammars"><code>./mchd</code></pre>
+	    <p>${first_step_sub4}</p>
 	    <pre class="prettyprint grammars"><code>mocha es-next-compiler(stand-alone)
 usage -> run 'help'
 >></code></pre>
-	    <p>このようなプロンプトが表示されます。この状態で、pcのuserディレクトリを見ると、.mochaというディレクトリができているはずです。このディレクトリの中身は以下のような構成になっています。</p>
+	    <p>${first_step_sub5}</p>
 <pre class="prettyprint grammars"><code>.mocha
      |_config.js
      |_mocha.log</code></pre>
-	    <p>config.jsの中を見てみましょう。デフォルトでは以下のようになっているはずです。</p>
+	    <p>${first_step_sub6}</p>
 <pre class="prettyprint grammars"><code>config.set('compileSettingPath', './watch.js')
 config.set('logFilePath', './mocha.log')</code></pre>
-	    <p>watch.jsが実装する必要のあるファイルです。.mochaの中にwatch.jsファイルを作ります。watch.js内では監視するjsファイルを、mochaの設定に追加していきます。以下がサンプルです。</p>
+	    <p>${first_step_sub7}</p>
 
 <pre class="prettyprint grammars"><code>var script = mocha.import('script');
 script.watcher.addSetting('/home/foo/src/test.js', {
@@ -50,192 +50,191 @@ script.watcher.addSetting('/home/foo/src/test.js', {
     globalScope : true
   }
 })</code></pre>
-	    <p>上記の記述で'/home/foo/src/test.js'が監視されます。test.jsを修正するたびに、'/home/foo/src/deploy/'フォルダに、'test-deploy.js'という名前でコンパイル済みファイルが保存されます。その後、mochaのコンソールで、</p>
+	    <p>${first_step_sub8}</p>
 <pre class="prettyprint grammars"><code>>> .restart()</code></pre>
-	    <p>と入力し、watch.jsを読み込ませます。これでtest.jsの監視が始まります。</p>
-	    <p>以上が基本的なステップです。</p>
+	    <p>${first_step_sub9}</p>
+	    <p>${first_step_sub10}</p>
 	</div>
 	<div id="config-js" class="tab-pane">
 	    <h3>config.js</h3>
-	    <p>mochaが初回起動時に生成する&lt;user_home&gt;/.mocha/config.jsの解説です。</p>
-	    <p>&lt;user_home&gt;は</p>
+	    <p>${config_js_sub1}</p>
+	    <p>${config_js_sub2}</p>
 	    <dl>
 		<dt>windows xp</dt> 
-		<dd><pre class="prettyprint"><code>C:\Document and Setting\<ユーザー名>\</code></pre></dd>
+		<dd><pre class="prettyprint"><code>${config_js_sub3}</code></pre></dd>
 		<dt>windows vista or later</dt>
-		<dd><pre class="prettyprint"><code>C:\Users\<ユーザー名>\</code></pre></dd>
+		<dd><pre class="prettyprint"><code>${config_js_sub4}</code></pre></dd>
 		<dt>osx</dt>
-		<dd><pre class="prettyprint"><code>/Users/<ユーザー名></code></pre></dd>
+		<dd><pre class="prettyprint"><code>${config_js_sub5}</code></pre></dd>
 		<dt>linux</dt>
-		<dd><pre class="prettyprint"><code>/home/<ユーザー名></code></pre></dd>
+		<dd><pre class="prettyprint"><code>${config_js_sub6}</code></pre></dd>
 	    </dl>
-	    <p>になります。 </p>
-	    <p>config.js内ではグローバルスコープにconfigオブジェクトが定義されます。このconfigオブジェクトに設定を追加することで、mochaの設定を行います。</p>
-	    <p>以下にmochaの生成するデフォルトのconfig.jsを提示します。</p>
+	    <p>${config_js_sub7}</p>
+	    <p>${config_js_sub8}</p>
+	    <p>${config_js_sub9}</p>
 	    <pre class="prettyprint"><code>config.set('compileSettingPath', './compile_setting.js');
 config.set('logFilePath', './mocha.log');</code></pre>
-	    <p>mochaはcompileSettingPathとlogFilePathプロパティを設定するファイルを生成します。以下がconfigオブジェクトに設定可能な値です。</p>
+	    <p>${config_js_sub10}</p>
 	    <table>
 		<tr>
-		    <th>名前</th>
-		    <th>説明</th>
+		    <th>${config_js_sub11}</th>
+		    <th>${config_js_sub12}</th>
 		</tr>
-		<tr><td>compileSettingPath</td><td>jsファイルのコンパイル設定が記述されたファイルの場所です。</td></tr>
-		<tr><td>logFilePath</td><td>ログファイルが格納される場所です。</td></tr>
-		<tr><td>phantomInstallDir</td><td>phantomjsがインストールされている場所です。</td></tr>
+		<tr><td>compileSettingPath</td><td>${config_js_sub13}</td></tr>
+		<tr><td>logFilePath</td><td>${config_js_sub14}</td></tr>
+		<tr><td>phantomInstallDir</td><td>${config_js_sub15}</td></tr>
 	    </table>
 	</div>
 	<div id="compilation-setting" class="tab-pane">
 	    <h3>compilation setting</h3>
-	    <p>コンパイルの設定を記述するファイルです。configオブジェクトのcompileSettingPathによって場所が設定されます。このファイルは起動時に指定された場所から自動で読み込まれます。デフォルトではwatch.jsというファイル名になっています。</p>
-	    <p>サンプル</p>
- 	    <pre class="prettyprint grammars"><code>//scriptモジュールをインポート
+	    <p>${comp_setting_sub1}</p>
+	    <p>${comp_setting_sub2}</p>
+ 	    <pre class="prettyprint grammars"><code>//${comp_setting_sub3}
 var watcher = mocha.import('script').watcher;
-//設定の追加
-//対象のファイルネーム
+//${comp_setting_sub4}
+//${comp_setting_sub5}
 watcher.addSetting("src/test.js", {
-  //deployするディレクトリ
+  //${comp_setting_sub6}
   deployDir : 'src/deploy',
-  //deployする際のファイルネーム
+  //${comp_setting_sub7}
   deployName : 'test-deploy.js',
-  //ファイルのエンコーディング
+  //${comp_setting_sub8}
   inputCharset : 'utf-8',
-  //出力されるファイルのエンコーディング
+  //${comp_setting_sub9}
   outputCharset : 'utf-8',
-  //コンパイルオプション
+  //${comp_setting_sub10}
   options : {
-    //人間の読みやすい形にする
+    //${comp_setting_sub11}
     prettyPrint : true,
-    //圧縮しない
+    //${comp_setting_sub12}
     compress : false,
-    //デバッグモードでコンパイル
+    //${comp_setting_sub13}
     debug : true,
-    //各ファイル単位でスコープの生成
+    //${comp_setting_sub14}
     fileScope : true,
-    //グルーバルスコープの生成
+    //${comp_setting_sub15}
     globalScope : true
   }
 })</code></pre>
-	    <p>基本的にはscriptモジュールのwatcherオブジェクトのaddSetting関数にファイル名、設定を追加していく形になります。以下が設定のフォーマットです。</p>
+	    <p>${comp_setting_sub16}</p>
 	    <table>
 		<tr>
-		    <th>プロパティ名</th>
-		    <th>データタイプ</th>
-		    <th>説明</th>
+		    <th>${comp_setting_sub17}</th>
+		    <th>${comp_setting_sub18}</th>
+		    <th>${comp_setting_sub19}</th>
 		</tr>
 		<tr>
-		    <td>deployDir</td><td>String</td><td>コンパイル結果を出力する場所です。</td>
+		    <td>deployDir</td><td>String</td><td>${comp_setting_sub20}</td>
 		</tr>
 		<tr>
-		    <td>deployName</td><td>String</td><td>コンパイル結果のファイル名です。</td>
+		    <td>deployName</td><td>String</td><td>${comp_setting_sub21}</td>
 		</tr>
 		<tr>
-		    <td>inputCharset</td><td>String</td><td>元ファイルのエンコーディングです。</td>
+		    <td>inputCharset</td><td>String</td><td>${comp_setting_sub22}</td>
 		</tr>
 		<tr>
-		    <td>outputCharset</td><td>String</td><td>出力ファイルのエンコーディングです。</td>
+		    <td>outputCharset</td><td>String</td><td>${comp_setting_sub23}</td>
 		</tr>
 		<tr>
-		    <td>options</td><td>Object</td><td>コンパイルのオプションを指定します。</td>
+		    <td>options</td><td>Object</td><td>${comp_setting_sub24}</td>
 		</tr>
 	    </table>
-	    <p>optionsの中身です。</p>
+	    <p>${comp_setting_sub25}</p>
 	    <table>
 		<tr>
-		    <th>プロパティ名</th>
-		    <th>データタイプ</th>
-		    <th>説明</th>
+		    <th>${comp_setting_sub26}</th>
+		    <th>${comp_setting_sub27}</th>
+		    <th>${comp_setting_sub28}</th>
 		</tr>
 		<tr>
-		    <td>prettyPrint</td><td>Boolean</td><td>出力をフォーマットします。</td>
+		    <td>prettyPrint</td><td>Boolean</td><td>${comp_setting_sub29}</td>
 		</tr>
 		<tr>
-		    <td>compress</td><td>Boolean</td><td>出力を圧縮します。</td>
+		    <td>compress</td><td>Boolean</td><td>${comp_setting_sub30}</td>
 		</tr>
 		<tr>
-		    <td>debug</td><td>Boolean</td><td>デバッグモードで実行します。</td>
+		    <td>debug</td><td>Boolean</td><td>${comp_setting_sub31}</td>
 		</tr>
 		<tr>
-		    <td>moduleDir</td><td>Array</td><td>モジュールをロードするディレクトリを設定します。</td>
+		    <td>moduleDir</td><td>Array</td><td>${comp_setting_sub32}</td>
 		</tr>
 		<tr>
-		    <td>versions</td><td>Array</td><td>バージョンを指定します。</td>
+		    <td>versions</td><td>Array</td><td>${comp_setting_sub33}</td>
 		</tr>
 		<tr>
-		    <td>fileScope</td><td>Boolean</td><td>ファイル単位でスコープを生成するかどうか指定します。デフォルトではtrueです。</td>
+		    <td>fileScope</td><td>Boolean</td><td>${comp_setting_sub34}</td>
 		</tr>
 		<tr>
-		    <td>globalScope</td><td>Boolean</td><td>グローバルなスコープを生成するかどうか指定します。デフォルトではtrueです。</td>
+		    <td>globalScope</td><td>Boolean</td><td>${comp_setting_sub35}</td>
 		</tr>
 	    </table>
 	</div>
 	<div id="commands" class="tab-pane">
 	    <h3>commands</h3>
-	    <p>mochaは設定ファイルの追加の際にコマンド設定の追加も可能です。コマンドは以下の方法で追加できます。</p>
+	    <p>${command_sub1}</p>
 	    <pre class="prettyprint grammars"><code>mocha.addCommand('foo', function () {
   console.log('test');
 }, 'test command!!');</code></pre>
-	    <p>mocha.addCommandは第一引数にコマンド名、第二引数にコールバック関数、第三引数に説明を記述します。
-追加したコマンドは端末上から呼び出す事が可能になります。</p>
-	    <p>先ほどのfooコマンドを呼び出すには以下のようにします。</p>
+	    <p>${command_sub2}</p>
+	    <p>${command_sub3}</p>
 	    <pre class="prettyprint"><code>>> .foo()</code></pre>
-	    <p><strong>組み込みコマンド</strong></p>
-	    <p>mochaは以下のコマンドをデフォルトで持っています。</p>
+	    <p><strong>${command_sub4}</strong></p>
+	    <p>${command_sub5}</p>
 	    <table>
 		<tr>
-		    <th>名前</th>
-		    <th>インターフェース</th>
-		    <th>機能</th>
+		    <th>${command_sub6}</th>
+		    <th>${command_sub7}</th>
+		    <th>${command_sub8}</th>
 		</tr>
 		<tr>
-		    <td>watch</td><td>watch()</td><td>監視を再開します。|</td>
+		    <td>watch</td><td>watch()</td><td>${command_sub9}</td>
 		</tr>
 		<tr>
-		    <td>unwatch</td><td>unwatch()</td><td>監視を停止します。</td>
+		    <td>unwatch</td><td>unwatch()</td><td>${command_sub10}</td>
 		</tr>
 		<tr>
-		    <td>restart</td><td>restart()</td><td>再度設定ファイルを読み込みます。</td>
+		    <td>restart</td><td>restart()</td><td>${command_sub11}</td>
 		</tr>
 		<tr>
-		    <td>deploy</td><td>deploy([predicate], [option])</td><td>指定したファイルをコンパイルします。predicateには関数か、文字列、正規表現を指定します。</td>
+		    <td>deploy</td><td>deploy([predicate], [option])</td><td>${command_sub12}</td>
 		</tr>
 		<tr>
-		    <td>test</td><td>test([predicate], [option])</td><td>指定したファイルをテストします。predicateには関数か、文字列、正規表現を指定します。</td>
+		    <td>test</td><td>test([predicate], [option])</td><td>${command_sub13}</td>
 		</tr>
 		<tr>
-		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>mochaの監視下にあるファイルの一覧を表示します。showDeployが指定されるとdeploy情報を、showOptが指定されるとコンパイルオプションをそれぞれ追加で表示します。predicateには関数か、文字列、正規表現を指定します。</td>
+		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>${command_sub14}</td>
 		</tr>
 		<tr>
-		    <td>help</td><td>help()</td><td>コマンド一覧を表示します。</td>
+		    <td>help</td><td>help()</td><td>${command_sub15}</td>
 		</tr>
 		<tr>
-		    <td>exit</td><td>exit()</td><td>mochaを終了します。</td>
+		    <td>exit</td><td>exit()</td><td>${command_sub16}</td>
 		</tr>
 	    </table>
 	</div>
 	<div id="compiler-directive" class="tab-pane">
 	    <h3>compiler directive</h3>
-	    <p>mochaはES Nextの文法に加え以下の独自拡張を持っています。</p>
+	    <p>${comp_dir_sub1}</p>
 	    <table>
 		<tr>
-		    <th>名前</th>
-		    <th>インターフェース</th>
-		    <th>機能</th>
+		    <th>${comp_dir_sub2}</th>
+		    <th>${comp_dir_sub3}</th>
+		    <th>${comp_dir_sub4}</th>
 		</tr>
 		<tr>
-		    <td>@assert</td><td>@assert(expect, expression)</td><td>アサーションの実行です。versionにdebugが定義されている時のみコード生成されます。</td>
+		    <td>@assert</td><td>@assert(expect, expression)</td><td>${comp_dir_sub5}</td>
 		</tr>
 		<tr>
-		    <td>@version</td><td>@version(version){...}</td><td>バージョン分岐ブロックを生成します。</td>
+		    <td>@version</td><td>@version(version){...}</td><td>${comp_dir_sub6}</td>
 		</tr>
 		<tr>
-		    <td>@include</td><td>@include &lt;filename&gt;</td><td>ファイルを読み込み、その場所に展開します。いっさいのコンパイルは行われません。</td>
+		    <td>@include</td><td>@include &lt;filename&gt;</td><td>${comp_dir_sub7}</td>
 		</tr>
 	    </table>
 	    <p>@assert</p>
 	    <pre class="prettyprint grammars"><code>test(x,y) -> x + y;
 @assert(true, test(1,1) === 2);
-//このように展開される
+//${comp_dir_sub8}
 Runtime.assert(true, test(1,1) === 2, 'test(1,1) === 2', 'filename', 'linenumber')</code></pre>
 	    <p>@version</p>
 	    <pre class="prettyprint grammars"><code>var x = 0;
@@ -245,24 +244,24 @@ Runtime.assert(true, test(1,1) === 2, 'test(1,1) === 2', 'filename', 'linenumber
 @version(release) {
   x = 2;
 }
-//デバッグモードの時はx = 1
-//リリースモードの時はx = 2</code></pre>
+//${comp_dir_sub9}
+//${comp_dir_sub10}</code></pre>
 	    <p>@include</p>
 	    <pre class="prettyprint grammars"><code>@include 'jQuery-min.js'
 $(->{
 ...
 })
-//@includeの部分にjQueryのコードがそのまま挿入される</code></pre>
+//${comp_dir_sub11}</code></pre>
 	</div>
 	<div id="use-phantomjs" class="tab-pane">
 	    <h3>use phantomjs</h3>
-	    <p>mochahはphantomjsgがインストールされていれば、直接起動が可能です。phantomjsはコマンドラインから使用できるwebkitでcssやhtmlもフルで使用可能です。</p>
-	    <p><strong>phantomjsnの指定方法</strong></p>
-	    <p>config.js内に</p>
-	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '<phantomjsのインストール先>');</code></pre>
-	    <p>の記述を追加します。あとは組み込みコマンドの.test()を使うと起動できます。.test()実行時にはversionsの値にtestという値が追加されます。</p>
-	    <p><strong>テスト</strong></p>
-	    <p>mocha自体はテスト機能を持たないのですが、既存のテストフレームワークを利用できます。jasmine,JsUnitなど。</p>
+	    <p>${comp_dir_sub12}</p>
+	    <p><strong>${comp_dir_sub13}</strong></p>
+	    <p>${comp_dir_sub14}</p>
+	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '&lt;${comp_dir_sub15}&gt;');</code></pre>
+	    <p>${comp_dir_sub16}</p>
+	    <p><strong>${comp_dir_sub17}</strong></p>
+	    <p>${comp_dir_sub18}</p>
 	</div>
     </div>
 </div>

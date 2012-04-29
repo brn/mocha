@@ -1010,7 +1010,7 @@ class SkinnedMesh extends THREE.Mesh {
   update(camera) {
     ...
     //親クラスのメソッド呼び出し。
-    //THREE.Mesh.prototype.update.call(this)に該当
+    //
     super.update();
   }
 }</code></pre>
@@ -1028,9 +1028,7 @@ class SkinnedMesh extends THREE.Mesh {
     log('The monster attacks ' + target);
   }
   //省略関数も利用可能です。
-  //private修飾は本来の提案だとprivate(this).value
-  //という形なのですが、無駄が多いので、一旦この形になっています。
-  public isAlive -> private.health > 0;
+  public isAlive -> private(this).health > 0;
   public health(value) {
     if (value < 0) {
       throw new Error('Health must be non-negative.')
@@ -1139,7 +1137,7 @@ class MixinTest {
   mixin TestTrait with test1 as method1;
   mixin TestTrait2 without test1, with test2 as method2;
 }</code></pre>
-		<p>変換後は以下のようになります。</p>
+		<p></p>
 		<pre class="prettyprint grammars"><code>var TestTrait =  {
         _mochaTraitPrivate : {},
         _mochaTraitPublic :  {
@@ -1205,6 +1203,7 @@ public,privateなどの指定はclassを参照してください。</p>
 		    <pre class="prettyprint grammars"><code><i>trait</i> &lt;trait name&gt;</code></pre>
 		    <p>traitを宣言します。</p>
 		    <pre class="prettyprint grammars"><code><i>mixin</i> &lt;trait name&gt; <i>with(optional)</i> &lt;member name&gt; <i>as</i> &lt;new member name&gt <i>without(optional)</i> &lt;member name&gt;</code></pre>
+		    <p>traitをmixinします。もし同名のメンバがあった場合は上書きされます。with ~ asが指定されていた場合はmember nameをnew member nameでリネームします。without ~が指定されていた場合はそのメソッドはmixinされません。 </p>
 		</div>
 	    </div>
 	</div>
@@ -1217,7 +1216,7 @@ public,privateなどの指定はclassを参照してください。</p>
 		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     [one,two,three,four] = array;
 console.log(one,two,three,four);</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     one = array[0],
     two = array[1],
@@ -1231,7 +1230,7 @@ console.log(one,two,three,four);</code></pre>
       four : 3
     },
     {one,two,three,four} = obj;</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>var obj = {
       one : 0,
       two : 1,
@@ -1258,7 +1257,7 @@ console.log(one,two,three,four);</code></pre>
     }
 var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { value6 : [{value7}] },"@value":{strvalue}} = object;
 		</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>var object = {
       value1 : 100,
       value2 : {
@@ -1319,13 +1318,13 @@ for(var i in obj) {
 		<p>無名関数</p>
 		<pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
     b = (x,y,z) -> { return x + y + z; }</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
     b = function (x,y,z) { return x + y + z;}</code></pre>
 		<p>関数宣言</p>
 		<pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
 bar(x,y,z) -> { return x + y + z; }</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
 function bar (x,y,z) { return x + y + z;}</code></pre>
 		<p>コンテキストの束縛</p>
@@ -1333,7 +1332,7 @@ function bar (x,y,z) { return x + y + z;}</code></pre>
     b = (x,y,z) => { return x + y + z; }
 foo(x,y,z) => console.log(this);
 bar(x,y,z) => {console.log(this) }</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
     b = function (x,y,z) { return x + y + z; }.bind(this);
 function foo (x,y,z) { return console.log(_mochaLocalTmp0);}
@@ -1352,7 +1351,7 @@ import {exports1,exports2} from './test2'.module;
 import [value1, value2] from './test3'.module.exports;
 import exports from './test4'.module;
 import './test5' as test5</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
     _mochaLocalTmp0 = Runtime.modules.get('564059-test2.js').module,
     exports1 = _mochaLocalTmp0.exports1,
@@ -1396,7 +1395,7 @@ module testModule2 {
   }
 }
 module testModule3 = ->3</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
       function testExport1() {
         return console.log('test!!');
@@ -1471,7 +1470,7 @@ namespaces.{
 }.{
   qux : {}
 }</code></pre>
-		<p>変換後</p>
+		<p>変換後は以下のようになります。</p>
 		<pre class="prettyprint grammars"><code>var namespaces = {
       foo : {},
       bar : {}
@@ -1524,12 +1523,12 @@ var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
 			    <td>toArray</td><td>toArray()</td><td>配列に変換します。</td>
 			</tr>
 			<tr>
-			    <td>length</td><td>Number</td><td>tupleの長さを返します。</td>
+			    <td>length</td><td>length</td><td>tupleの長さを返します。</td>
 			</tr>
 		    </table>
 		    <p><strong>record</strong></p>
-		    <p>オブジェクトに似た連想配列を生成しますが、imutableであり、変更できません。</p>
-		    <p>現在recordには特定のメソッドはありません。</p>
+		    <p></p>
+		    <p></p>
 		</div>
 	    </div>
 	</div>
@@ -1570,9 +1569,8 @@ for (var i = 0; i < 10; i++) {
 		    <p>MDNからの引用</p>
 		    <blockquote><p>yield キーワードを含む関数がジェネレータです。これを呼ぶと、ジェネレータの仮引数は実引数と結び付きますが、本体は実際には評価されません。代わりにジェネレータ・イテレータが返ってきます。ジェネレータ・イテレータの next() メソッドを呼び出すたびに、繰り返しのアルゴリズムが 1 回ずつ実行されます。それぞれのステップでの値は、yield キーワードで指定された値です。yield をアルゴリズムの繰り返しの範囲を示すジェネレータ・イテレータ版の return だと考えましょう。毎回 next() を呼び出すたび、ジェネレータのコードは yield の次の文から再開します。
 あなたはジェネレータ・イテレータを、その next() メソッドを繰り返し呼び出すことで、あなたが望んだ結果の状態にたどりつくまで反復させられます。この例では、私たちが欲しいだけの結果を手に入れるまで g.next() を呼び出し続けることで、私たちはどれだけでも多くのフィボナッチ数を得ることができます。</p>
-<small><a href="https://developer.mozilla.org/ja/New_in_JavaScript_1.7#.E3.82.B8.E3.82.A7.E3.83.8D.E3.83.AC.E3.83.BC.E3.82.BF">MDN Generator</a></small></blockquote>
-		    <p>簡単に説明すると関数をyieldキーワードの位置で一時停止し、二回目以降はその場所から実行を再開します。
-またnextだけではなく、yieldに対して、値を与えられるsendメソッドもあります。</p>
+<small><a href="">MDN Generator</a></small></blockquote>
+		    <p>簡単に説明すると関数をyieldキーワードの位置で一時停止し、二回目以降はその場所から実行を再開します。またnextだけではなく、yieldに対して、値を与えられるsendメソッドもあります。</p>
 		    <p>MDN</p>
 		    <blockquote><p>一度 next() メソッドを呼び出してジェネレータをスタートさせると、与えた特定の値を最後の yield の結果として扱わせる send() を使うことができます。その際ジェネレータはその次の yield のオペランドを返します。
 ジェネレータを勝手な時点から始めることはできません。特定の値を send() する前に必ず next() でジェネレータをスタートさせなければなりません。</p>
@@ -1681,7 +1679,7 @@ for of(var i in iter) {
   console.log(i);//100,200,300...
 }</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
+		    <p class="title"></p>
 		    <p>generatorかiteratorの定義されたオブジェクトを与えることで、次々にnextを呼び出し、StopIterationが投げられると処理を終了します。</p>
 		</div>
 	    </div>

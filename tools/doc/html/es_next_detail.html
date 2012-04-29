@@ -246,6 +246,7 @@ class MixinTest {
 		    <pre class="prettyprint grammars"><code><i>trait</i> &lt;trait name&gt;</code></pre>
 		    <p>${trait_interface_sub1}</p>
 		    <pre class="prettyprint grammars"><code><i>mixin</i> &lt;trait name&gt; <i>with(optional)</i> &lt;member name&gt; <i>as</i> &lt;new member name&gt <i>without(optional)</i> &lt;member name&gt;</code></pre>
+		    <p>${trait_interface_sub2}</p>
 		</div>
 	    </div>
 	</div>
@@ -559,13 +560,13 @@ var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
 			    <th>${data_structure_extras_detail_th3}</th>
 			</tr>
 			<tr>
-			    <td>equal</td><td>equal(tuple)</td>${data_structure_detail_sub2}<td></td>
+			    <td>equal</td><td>equal(tuple)</td>${data_structure_detail_sub2}<td>${data_structure_extras_detail_sub2}</td>
 			</tr>
 			<tr>
-			    <td>toArray</td><td>toArray()</td><td>${data_structure_detail_sub3}</td>
+			    <td>toArray</td><td>toArray()</td><td>${data_structure_extras_detail_sub3}</td>
 			</tr>
 			<tr>
-			    <td>length</td><td>Number</td><td>${data_structure_detail_sub4}</td>
+			    <td>length</td><td>length</td><td>${data_structure_extras_detail_sub4}</td>
 			</tr>
 		    </table>
 		    <p><strong>record</strong></p>
@@ -594,7 +595,7 @@ function fib() {
   }
 }
 fib();
-//generatorを使用すると...
+//${generator_iterator_ex1_comment2}
 function fib() {
   var i = 0, j = 1;
   while (true) {
@@ -639,7 +640,7 @@ generator = yieldTest();
 @assert( true , generator.send( true ) === 4 );
 @assert( true , generator.send( false ) === 4 );
 @assert( true , generator.send( true ) === 5 );</code></pre>
-			<p>このようにsendに値を与えると、<code>yield i</code> の部分が引数に置き換わります。</p>
+			<p>${generator_iterator_ex2_comment1}</p>
 			<p>iterator</p>
 			<pre class="prettyprint grammars"><code>import {iterator} from "iterators";
 var iter = {
@@ -664,17 +665,15 @@ var iter = {
       }
     }</code></pre>
 	     <div>
-		 <p class="title">詳細</p>
-		 <p>この例のように、iteratorを生成するにはiteratorsモジュールのiteratorの値を、objectのプロパティにする必要があります。
-ここで定義したiteratorはES Nextで追加されたfor of構文で使用されます。
-詳しくはfor ofを参照してください。</p>
+		 <p class="title">${generator_iterator_detail_title}</p>
+		 <p>${generator_iterator_detail_sub1}</p>
 	     </div>
 	    </div>
 	</div>
 	<div id="for-of" class="tab-pane">
 	    <h3>for of</h3>
-	    <p>for of構文とは、Generator、あるいはiteratorのnextを呼び出して値を列挙する構文です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>${for_of_sub1}</p>
+	    <p>${for_of_impl_sub}</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>import {iterator} from 'iterators';
 var items = function ( obj ) {
@@ -719,8 +718,8 @@ for of(var i in iter) {
   console.log(i);//100,200,300...
 }</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>generatorかiteratorの定義されたオブジェクトを与えることで、次々にnextを呼び出し、StopIterationが投げられると処理を終了します。</p>
+		    <p class="title">${for_of_detail}</p>
+		    <p>${for_of_detail_sub1}</p>
 		</div>
 	    </div>
 	</div>

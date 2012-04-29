@@ -967,7 +967,7 @@ PR_NOCODE:"nocode",PR_PLAIN:"pln",PR_PUNCTUATION:"pun",PR_SOURCE:"src",PR_STRING
 	    <p>mochaの基本的な使用方法です。まず、ターミナル、あるいはコマンドプロンプトを起動します。その後、</p>
 	    <pre class="prettyprint grammars"><code>cd &lt;mochaの実行ファイルのあるディレクトリ&gt;</code></pre>
 	    <p>と入力し、ディレクトリを移動します。移動先のディレクトリで、</p>
-	    <pre class="prettyprint grammars"><code>mchd</code></pre>
+	    <pre class="prettyprint grammars"><code>./mchd</code></pre>
 	    <p>と入力し、mochaを起動します。すると、</p>
 	    <pre class="prettyprint grammars"><code>mocha es-next-compiler(stand-alone)
 usage -> run 'help'
@@ -1121,8 +1121,7 @@ watcher.addSetting("src/test.js", {
 	    <pre class="prettyprint grammars"><code>mocha.addCommand('foo', function () {
   console.log('test');
 }, 'test command!!');</code></pre>
-	    <p>mocha.addCommandは第一引数にコマンド名、第二引数にコールバック関数、第三引数に説明を記述します。
-追加したコマンドは端末上から呼び出す事が可能になります。</p>
+	    <p>mocha.addCommandは第一引数にコマンド名、第二引数にコールバック関数、第三引数に説明を記述します。追加したコマンドは端末上から呼び出す事が可能になります。</p>
 	    <p>先ほどのfooコマンドを呼び出すには以下のようにします。</p>
 	    <pre class="prettyprint"><code>>> .foo()</code></pre>
 	    <p><strong>組み込みコマンド</strong></p>
@@ -1134,7 +1133,7 @@ watcher.addSetting("src/test.js", {
 		    <th>機能</th>
 		</tr>
 		<tr>
-		    <td>watch</td><td>watch()</td><td>監視を再開します。|</td>
+		    <td>watch</td><td>watch()</td><td>監視を再開します。</td>
 		</tr>
 		<tr>
 		    <td>unwatch</td><td>unwatch()</td><td>監視を停止します。</td>
@@ -1205,7 +1204,7 @@ $(->{
 	    <p>mochahはphantomjsgがインストールされていれば、直接起動が可能です。phantomjsはコマンドラインから使用できるwebkitでcssやhtmlもフルで使用可能です。</p>
 	    <p><strong>phantomjsnの指定方法</strong></p>
 	    <p>config.js内に</p>
-	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '<phantomjsのインストール先>');</code></pre>
+	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '&lt;phantomjsのインストール先&gt;');</code></pre>
 	    <p>の記述を追加します。あとは組み込みコマンドの.test()を使うと起動できます。.test()実行時にはversionsの値にtestという値が追加されます。</p>
 	    <p><strong>テスト</strong></p>
 	    <p>mocha自体はテスト機能を持たないのですが、既存のテストフレームワークを利用できます。jasmine,JsUnitなど。</p>

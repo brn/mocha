@@ -22,95 +22,95 @@
                     <p class="title"><a href="#class-dir" data-parent="#section1" data-toggle="collapse" class="accordion-toggle">Dir</a></p>
 		</div>
 		<div id="class-dir" class="accordion-body collapse">
-		    <p>インスタンスメンバ</p>
+		    <p>${instance_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>Dir</td><td>Dir(dirname)</td><td>コンストラクタです。引数で指定したディレクトリに対する操作を行います。</td></tr>
-			<tr><td>entries</td><td>entries(recursive)</td><td>コンストラクタで指定したフォルダ内のエントリの数だけEntryクラスのインスタンスを配列で返します。</td></tr>
+			<tr><td>Dir</td><td>Dir(dirname)</td><td>${fs_dir_sub}</td></tr>
+			<tr><td>entries</td><td>entries(recursive)</td><td>${fs_dir_entries_sub}</td></tr>
 		    </table>
-		    <p>スタティックメンバ</p>
+		    <p>${static_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>mkdir</td><td>mkdir(dirname)</td><td>dirnameで指定されたディレクトリを生成します。</td></tr>
-			<tr><td>rm</td><td>rm(name)</td><td>nameで指定されたファイル、ディレクトリを削除します。</td></tr>
-			<tr><td>chdir</td><td>chdir(dirname)</td><td>dirnameで指定されたディレクトリにカレントディレクトリを変更します。</td></tr>
+			<tr><td>mkdir</td><td>mkdir(dirname)</td><td>${fs_dir_mkdir_sub}</td></tr>
+			<tr><td>rm</td><td>rm(name)</td><td>${fs_dir_rm_sub}</td></tr>
+			<tr><td>chdir</td><td>chdir(dirname)</td><td>${fs_dir_chdir_sub}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
                     <p class="title"><a href="#class-entry" data-parent="#section1" data-toggle="collapse" class="accordion-toggle">Entry</a></p>
 		</div>
 		<div id="class-entry" class="accordion-body collapse">
-		    <p>インスタンスメンバ</p>
+		    <p>${instance_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>fullpath</td><td>fullpath</td><td>エントリの絶対パスを返します。</td></tr>
-			<tr><td>name</td><td>filename</td><td>エントリの名前のみを返します。</td></tr>
-			<tr><td>dir</td><td>dir</td><td>エントリの親ディレクトリを返します。</tr>
-			<tr><td>isdir</td><td>isdir</td><td>エントリがディレクトリかどうかのフラグです。</tr>
-			<tr><td>isfile</td><td>isdir</td><td>エントリがファイルかどうかのフラグです。</tr>
+			<tr><td>fullpath</td><td>fullpath</td><td>${fs_entry_fullpath_sub}</td></tr>
+			<tr><td>name</td><td>filename</td><td>${fs_entry_filename_sub}</td></tr>
+			<tr><td>dir</td><td>dir</td><td>${fs_entry_dir_sub}</tr>
+			<tr><td>isdir</td><td>isdir</td><td>${fs_entry_isdir_sub}</tr>
+			<tr><td>isfile</td><td>isdir</td><td>${fs_entry_isfile_sub}</tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
                     <p class="title"><a href="#class-path" data-parent="#section1" data-toggle="collapse" class="accordion-toggle">Path</a></p>
 		</div>
 		<div id="class-path" class="accordion-body collapse">
-		    <p>インスタンスメンバ</p>
+		    <p>${instance_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>Path</td><td>Path(path)</td><td>コンストラクタです。引数で指定したパスに対する操作を行います。</td></tr>
-			<tr><td>filename</td><td>filename()</td><td>コンストラクタで指定したパスの名前部分を返します。</td></tr>
-			<tr><td>directory</td><td>directory</td><td>コンストラクタで指定したパスのディレクトリ部分を返します。</tr>
-			<tr><td>fullpath</td><td>fullpath</td><td>コンストラクタで指定したパスの絶対パスを返します。</tr>
+			<tr><td>Path</td><td>Path(path)</td><td>${fs_path_path_sub}</td></tr>
+			<tr><td>filename</td><td>filename()</td><td>${fs_path_filename_sub}</td></tr>
+			<tr><td>directory</td><td>directory</td><td>${fs_path_directory_sub}</tr>
+			<tr><td>fullpath</td><td>fullpath</td><td>${fs_path_fullpath_sub}</tr>
 		    </table>
-		    <p>スタティックメンバ</p>
+		    <p>${static_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>getcwd</td><td>getcwd()</td><td>現在の作業ディレクトリを返します。</td></tr>
-			<tr><td>homeDir</td><td>homeDir()</td><td>ユーザーのホームディレクトリを返します。</td></tr>
+			<tr><td>getcwd</td><td>getcwd()</td><td>${fs_getcwd_sub}</td></tr>
+			<tr><td>homeDir</td><td>homeDir()</td><td>${fs_homeDir_sub}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
                     <p class="title"><a href="#class-stat" data-parent="#section1" data-toggle="collapse" class="accordion-toggle">Stat</a></p>
 		</div>
 		<div id="class-stat" class="accordion-body collapse">
-		    <p>インスタンスメンバ</p>
+		    <p>${instance_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>Stat</td><td>Stat(path)</td><td>コンストラクタです。引数で指定したパスの情報を取得します。</td></tr>
-			<tr><td>isDir</td><td>isDir()</td><td>コンストラクタで指定したパスがディレクトリかどうかを判定します。</td></tr>
-			<tr><td>isReg</td><td>isReg()</td><td>コンストラクタで指定したパスが通常のファイルかどうかを判定します。</tr>
-			<tr><td>isChr</td><td>isChr()</td><td>コンストラクタで指定したパスがキャラクターデバイスかどうかを判定します。</tr>
-			<tr><td>isExist</td><td>isExist()</td><td>コンストラクタで指定したパスが存在するかどうかを判定します。</tr>
-			<tr><td>dev</td><td>dev()</td><td>コンストラクタで指定したパスがあるデバイスのidを返します。</tr>
-			<tr><td>ino</td><td>ino()</td><td>コンストラクタで指定したパスのinode番号を返します。</tr>
-			<tr><td>nlink</td><td>nlink()</td><td>コンストラクタで指定したパスのハードリンクの数を返します。</tr>
-			<tr><td>uid</td><td>uid()</td><td>コンストラクタで指定したパスの所有者のユーザIDを返します。</tr>
-			<tr><td>gid</td><td>gid()</td><td>コンストラクタで指定したパスの所有者のグループIDを返します。</tr>
-			<tr><td>rdev</td><td>rdev()</td><td>コンストラクタで指定したパスのデバイスIDを返します。</tr>
-			<tr><td>size</td><td>size()</td><td>コンストラクタで指定したパスのサイズをバイト単位で返します。</tr>
-			<tr><td>atime</td><td>atime()</td><td>コンストラクタで指定したパスの最終アクセス日時を文字列で返します。</tr>
-			<tr><td>mtime</td><td>mtime()</td><td>コンストラクタで指定したパスの最終更新日時を文字列で返します。</tr>
-			<tr><td>ctime</td><td>ctime()</td><td>コンストラクタで指定したパスの作成日時を文字列で返します。</tr>
+			<tr><td>Stat</td><td>Stat(path)</td><td>${fs_stat_stat_sub}</td></tr>
+			<tr><td>isDir</td><td>isDir()</td><td>${fs_stat_isDir_sub}</td></tr>
+			<tr><td>isReg</td><td>isReg()</td><td>${fs_stat_isReg_sub}</tr>
+			<tr><td>isChr</td><td>isChr()</td><td>${fs_stat_isChr_sub}</tr>
+			<tr><td>isExist</td><td>isExist()</td><td>${fs_stat_isExist_sub}</tr>
+			<tr><td>dev</td><td>dev()</td><td>${fs_stat_dev_sub}</tr>
+			<tr><td>ino</td><td>ino()</td><td>${fs_stat_ino_sub}</tr>
+			<tr><td>nlink</td><td>nlink()</td><td>${fs_stat_nlink_sub}</tr>
+			<tr><td>uid</td><td>uid()</td><td>${fs_stat_uid_sub}</tr>
+			<tr><td>gid</td><td>gid()</td><td>${fs_stat_gid_sub}</tr>
+			<tr><td>rdev</td><td>rdev()</td><td>${fs_stat_rdev_sub}</tr>
+			<tr><td>size</td><td>size()</td><td>${fs_stat_size_sub}</tr>
+			<tr><td>atime</td><td>atime()</td><td>${fs_stat_atime_sub}</tr>
+			<tr><td>mtime</td><td>mtime()</td><td>${fs_stat_mtime_sub}</tr>
+			<tr><td>ctime</td><td>ctime()</td><td>${fs_stat_ctime_sub}</tr>
 		    </table>
-		    <p>スタティックメンバ</p>
+		    <p>${static_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>isDir</td><td>isDir(path)</td><td>pathがディレクトリかどうか判定します。</td></tr>
-			<tr><td>isFile</td><td>isFile(path)</td><td>pathがファイルかどうか判定します。</td></tr>
+			<tr><td>isDir</td><td>isDir(path)</td><td>${fs_path_isDir_static_sub}</td></tr>
+			<tr><td>isFile</td><td>isFile(path)</td><td>${fs_path_isFile_static_sub}</td></tr>
 		    </table>
 		</div>
 	    </div>
@@ -124,51 +124,51 @@
 		<div id="fopen" class="accordion-body collapse">
 		    <table>
 			<tr>
-			    <th>インターフェース</th><th>説明</th>
+			    <th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>fopen(path, flags)</td><td>引数パスで指定されたファイルストリームをオープンし、Fileクラスのインスタンスを返します。引数flagsには以下のフラグを複数指定可能です。例 fopen(path , 'rw');</td></tr>
+			<tr><td>fopen(path, flags)</td><td>${fs_fopen_sub}</td></tr>
 		    </table>
 		    <dl>
 			<dt>r</dt>
-			<dd>テキストファイルを読み出すために開きます。ストリームはファイルの先頭になります。</dd>
+			<dd>${fs_fopen_flag_r_sub}</dd>
 			<dt>r+</dt>
-			<dd>テキストファイルに書きだしと読み出しの両方で開きます。ストリームはファイルの先頭になります。</dd>
+			<dd>${fs_fopen_flag_rp_sub}</dd>
 			<dt>w</dt>
-			<dd>テキストファイルに書きだすために開きます。ストリームはファイルの先頭になります。</dd>
+			<dd>${fs_fopen_flag_w_sub}</dd>
 			<dt>w+</dt>
-			<dd>テキストファイルに書きだすために開きます。ストリームはファイルの先頭になります。またファイルが存在しなければ新たに作成します。ファイルが存在していて、中身がすでにあった場合は全て消去します。</dd>
+			<dd>${fs_fopen_flag_wp_sub}</dd>
 			<dt>a</dt>
-			<dd>テキストファイルへの追記のために開きます。ストリームはファイルの末尾になります。またファイルが存在しなければ新たに作成します。</dd>
+			<dd>${fs_fopen_flag_a_sub}</dd>
 			<dt>a+</dt>
-			<dd>テキストファイルへの追記と読み出しのために開きます。ストリームはファイルの先頭になりますが、書き込みは常にファイルの末尾になります。またファイルが存在しなければ新たに作成します。</dd>
+			<dd>${fs_fopen_flag_ap_sub}</dd>
 			<dt>b</dt>
-			<dd>テキストファイルをバイナリファイルとして開きます。windowsの場合、改行が\n\rとして読まれるので注意してください。</dd>
+			<dd>${fs_fopen_flag_b_sub}</dd>
 		    </dl>
 		</div>
 		<div class="accordion-heading">
                     <p class="title"><a href="#file" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">File</a></p>
 		</div>
 		<div id="file" class="accordion-body collapse">
-		    <p>インスタンスメンバ</p>
+		    <p>${instance_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>writeTextContent</td><td>writeTextContent(str)</td><td>strをファイルに書き出します。</td></tr>
-			<tr><td>getTextContent</td><td>getTextContent()</td><td>ファイルの中身を文字列で返します。</td></tr>
+			<tr><td>writeTextContent</td><td>writeTextContent(str)</td><td>${fs_file_writeTextContent_sub}</td></tr>
+			<tr><td>getTextContent</td><td>getTextContent()</td><td>${fs_file_getTextContent_sub}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
                     <p class="title"><a href="#nativeConsole" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">nativeConsole</a></p>
 		</div>
 		<div id="nativeConsole" class="accordion-body collapse">
-		    <p>スタティックメンバ</p>
+		    <p>${static_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>printStdout</td><td>printStdout(str)</td><td>strを標準出力に書き出します。</td></tr>
-			<tr><td>printStderr</td><td>printStderr(str)</td><td>strを標準エラー出力に書き出します。</td></tr>
+			<tr><td>printStdout</td><td>printStdout(str)</td><td>${fs_nativeConsole_printStdout_sub}</td></tr>
+			<tr><td>printStderr</td><td>printStderr(str)</td><td>${fs_nativeConsole_printStderr_sub}</td></tr>
 		    </table>
 		</div>
 	    </div>
@@ -180,31 +180,31 @@
                     <p class="title"><a href="#watcher" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">watcher</a></p>
 		</div>
 		<div id="watcher" class="accordion-body collapse">
-		    <p>スタティックメンバ</p>
+		    <p>${static_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>run</td><td>run()</td><td>ファイル監視をスタートします。</td></tr>
-			<tr><td>exit</td><td>exit()</td><td>ファイル監視を終了し、mochaを終了します。</td></tr>
-			<tr><td>isRunning</td><td>isRunning()</td><td>ファイル監視が行われているかどうかを判定します。</td></tr>
-			<tr><td>addSetting</td><td>addSetting(path, options)</td><td>新たにファイルを監視対象に加えます。</td></tr>
-			<tr><td>removeSetting</td><td>removeSetting(path)</td><td>ファイルを監視対象から外します。</td></tr>
+			<tr><td>run</td><td>run()</td><td>${script_watcher_run_sub}</td></tr>
+			<tr><td>exit</td><td>exit()</td><td>${script_watcher_exit_sub}</td></tr>
+			<tr><td>isRunning</td><td>isRunning()</td><td>${script_watcher_isRunning_sub}</td></tr>
+			<tr><td>addSetting</td><td>addSetting(path, options)</td><td>${script_watcher_addSetting_sub}</td></tr>
+			<tr><td>removeSetting</td><td>removeSetting(path)</td><td>${script_watcher_removeSetting_sub}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
                     <p class="title"><a href="#roaster" data-parent="#section2" data-toggle="collapse" class="accordion-toggle">Roaster</a></p>
 		</div>
 		<div id="roaster" class="accordion-body collapse">
-		    <p>スタティックメンバ</p>
+		    <p>${static_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>compile</td><td>compile(str, charset, option)</td><td>文字列strをコンパイルし、結果を返します。</td></tr>
-			<tr><td>compileFile</td><td>compileFile(path, charset, option)</td><td>ファイルをコンパイルし、結果を返します。</td></tr>
-			<tr><td>deploy</td><td>deploy(pred, option)</td><td>設定ファイルに従って、登録されたファイルをコンパイルします。引数predでファイルを絞り込むことが可能です。predには関数か、正規表現、文字列のいずれかを指定してください。predに関数が渡された場合、引数として各option+ファイル名をプロパティに持つオブジェクトが渡されます。</td></tr>
-			<tr><td>checkDependencies</td><td>checkDependencies(path)</td><td>引数pathで指定されたファイルの依存関係を調べ、依存しているファイルを配列で返します。</td></tr>
+			<tr><td>compile</td><td>compile(str, charset, option)</td><td>${script_roaster_compile_sub}</td></tr>
+			<tr><td>compileFile</td><td>compileFile(path, charset, option)</td><td>${script_roaster_compileFile_sub}</td></tr>
+			<tr><td>deploy</td><td>deploy(pred, option)</td><td>${script_roaster_deploy_sub}</td></tr>
+			<tr><td>checkDependencies</td><td>checkDependencies(path)</td><td>${script_roaster_checkDependencies_sub}</td></tr>
 		    </table>
 		</div>
 	    </div>
@@ -216,12 +216,12 @@
                     <p class="title"><a href="#process" data-parent="#section4" data-toggle="collapse" class="accordion-toggle">process</a></p>
 		</div>
 		<div id="process" class="accordion-body collapse">
-		    <p>スタティックメンバ</p>
+		    <p>${static_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>spawn</td><td>spawn(path, args)</td><td>引数pathで指定された実行ファイルを引数argと共に実行し、実行結果を文字列で返します。</td></tr>
+			<tr><td>spawn</td><td>spawn(path, args)</td><td>${os_process_spawn_sub}</td></tr>
 		    </table>
 		</div>
 	    </div>
@@ -233,13 +233,13 @@
                     <p class="title"><a href="#config" data-parent="#section5" data-toggle="collapse" class="accordion-toggle">config</a></p>
 		</div>
 		<div id="config" class="accordion-body collapse">
-		    <p>スタティックメンバ</p>
+		    <p>${static_member}</p>
 		    <table>
 			<tr>
-			    <th>メンバ</th><th>インターフェース</th><th>説明</th>
+			    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>add</td><td>add(key, value)</td><td>引数keyで指定された設定に対してvalueを設定します。</td></tr>
-			<tr><td>get</td><td>add(key)</td><td>引数keyで指定された設定を取得します。</td></tr>
+			<tr><td>add</td><td>add(key, value)</td><td>${mocha_config_add_sub}</td></tr>
+			<tr><td>get</td><td>get(key)</td><td>${mocha_config_get_sub}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
@@ -248,16 +248,16 @@
 		<div id="import" class="accordion-body collapse">
 		    <table>
 			<tr>
-			    <th>インターフェース</th><th>説明</th>
+			    <th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>import(path)</td><td>引数pathで指定されたjsファイルを読み込みます。読み込みは以下の順で行われます。</td></tr>
+			<tr><td>import(path)</td><td>${import_sub}</td></tr>
 		    </table>
 		    <table>
 			<tr>
-			    <th>記述</th><th>説明</th>
+			    <th>${desc}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>import('./path') or import('../path')</td><td>現在のディレクトリからの相対パスでファイルを探します。</td></tr>
-			<tr><td>import('path')</td><td>最初にネイティブモジュールを検索し、なければ現在のディレクトリからの相対パスでファイルを探します。</td></tr>
+			<tr><td>import('./path') or import('../path')</td><td>${import_sub2}</td></tr>
+			<tr><td>import('path')</td><td>${import_sub3}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
@@ -266,9 +266,9 @@
 		<div id="export" class="accordion-body collapse">
 		    <table>
 			<tr>
-			    <th>インターフェース</th><th>説明</th>
+			    <th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>export(name, value)</td><td>引数nameで指定された名前でvalueをエクスポートします。エクスポートした値はimportから取得可能です。</td></tr>
+			<tr><td>export(name, value)</td><td>${export_sub}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
@@ -277,9 +277,9 @@
 		<div id="addCommand" class="accordion-body collapse">
 		    <table>
 			<tr>
-			    <th>インターフェース</th><th>説明</th>
+			    <th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>addCommand(name, value, help)</td><td>引数nameで指定された名前のコマンドを追加します。</td></tr>
+			<tr><td>addCommand(name, value, help)</td><td>${mocha_command_addCommand_sub}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
@@ -288,9 +288,9 @@
 		<div id="getCommand" class="accordion-body collapse">
 		    <table>
 			<tr>
-			    <th>インターフェース</th><th>説明</th>
+			    <th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>getCommand(name)</td><td>引数nameで指定された名前のコマンドを取得します。</td></tr>
+			<tr><td>getCommand(name)</td><td>${mocha_command_getCommand_sub}</td></tr>
 		    </table>
 		</div>
 		<div class="accordion-heading">
@@ -299,9 +299,9 @@
 		<div id="callCommand" class="accordion-body collapse">
 		    <table>
 			<tr>
-			    <th>インターフェース</th><th>説明</th>
+			    <th>${interface}</th><th>${explanation}</th>
 			</tr>
-			<tr><td>callCommand(name, ...args)</td><td>引数nameで指定された名前のコマンドをargsを引数に呼び出します。</td></tr>
+			<tr><td>callCommand(name, ...args)</td><td>${mocha_command_callCommand_sub}</td></tr>
 		    </table>
 		</div>
 	    </div>

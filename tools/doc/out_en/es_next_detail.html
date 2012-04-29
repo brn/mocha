@@ -971,37 +971,36 @@ PR_NOCODE:"nocode",PR_PLAIN:"pln",PR_PUNCTUATION:"pun",PR_SOURCE:"src",PR_STRING
     <div class="tab-content">
 	<div id="class" class="tab-pane active">
 	    <h3>class</h3>
-	    <p>現在策定されているプロポーサルではclassが組み込まれる予定です。
-		class機能自体はfunctionの糖衣構文になります。</p>
-	    <p>実装済み処理系 : 無し</p>
+	    <p>The class is going to be included in current proposal. The class is syntax sugar of the function and prototype definition.</p>
+	    <p>implementation : none</p>
 	    <div>
-		<p>まずは今までの書き方でクラスを生成してみます。</p>
-		<pre class="prettyprint grammars"><code>//このクラスはTHREE.Meshを継承しています。
+		<p>In any case, we create class with function and prototype.</p>
+		<pre class="prettyprint grammars"><code>//This class inherit from THREE.Mesh.
 function SkinnedMesh(geometry, materials) {
-  //親クラスのコンストラクタを呼び出します。
+  //Call the parent constructor.
   THREE.Mesh.call(this, geometry, materials); 
   this.identityMatrix = new THREE.Matrix4();
   this.bones = [];
   this.boneMatrices = [];
 };
 
-//ecmascript5以降での継承です。
-//THREE.Mesh.prototypeを継承したprototypeオブジェクトを生成します。
+//Ecmascript5 inheritance.
+//Make prototype object that inherit from THREE.Mesh.prototype
 SkinnedMesh.prototype = Object.create(THREE.Mesh.prototype);
 SkinnedMesh.prototype.constructor = SkinnedMesh;
 SkinnedMesh.prototype.update = function(camera) {
-  //親クラスのupdateメソッドの呼び出し。
+  //Call super class's update member function.
   THREE.Mesh.prototype.update.call(this);
 };</code></pre>
-	    <p>次にES Nextで予定されているclassを使って書き換えてみます。</p>
-	    <pre class="prettyprint grammars"><code>//継承を行うためにはclass 'drived' extends 'super'という構文を使う
-//superはコンストラクタ関数か、クラスである必要がある
+	    <p>Then, rewrite above code by ES Next's class.</p>
+	    <pre class="prettyprint grammars"><code>//To inherit, we use syntax like class 'derived' extends 'super'
+//The super is must be a constructor function or ES Next class.
 class SkinnedMesh extends THREE.Mesh {
   constructor(geometry, materials) {
-    //親クラスのコンストラクタを呼び出す。
-    //THREE.Mesh.call(this, geometry, materials)に該当
+    //Call the super class constructor.
+    //This correspond to THREE.Mesh.call(this, geometry, materials).
     super(geometry, materials);
-    //publicなメンバはすべてpublic修飾子を宣言の前に付与する
+    //A public member need public modifier before declaration. 
     public identityMatrix = new THREE.Matrix4();
     public bones = [];
     public boneMatrices = [];
@@ -1009,45 +1008,43 @@ class SkinnedMesh extends THREE.Mesh {
   }
   update(camera) {
     ...
-    //親クラスのメソッド呼び出し。
-    //THREE.Mesh.prototype.update.call(this)に該当
+    //A call of super class's method.
+    //
     super.update();
   }
 }</code></pre>
-		<p>次に基本的なクラスの構成要素の説明をします。</p>
+		<p>Next, we explain basic component of class.</p>
 		<pre class="prettyprint grammars"><code>class Monster {
-  //コンストラクタは以下のように定義します。
-  //クラスのメンバはコンストラクタ内で指定します。
+  //The constructor definition is like below.
+  //The instance member define in the constructor.
   constructor(name, health) {
     public name = name;
     private health = health;
   }
-  //クラスのメソッドはpublicかprivateのアクセス修飾が可能です。
-  //指定しない場合はprivateになります。
+  //The prototype method is qualifiable as public or private.
+  //If you do not specify the modifiers, the modifiers is set as private by default.
   public attack(target) {
     log('The monster attacks ' + target);
   }
-  //省略関数も利用可能です。
-  //private修飾は本来の提案だとprivate(this).value
-  //という形なのですが、無駄が多いので、一旦この形になっています。
-  public isAlive -> private.health > 0;
+  //The short function syntax can use too.
+  public isAlive -> private(this).health > 0;
   public health(value) {
     if (value < 0) {
       throw new Error('Health must be non-negative.')
     }
     private.health = value
   }
-  //publicな関数以外のメンバはprototypenに設定され、
-  //全てのインスタンスで共通の値が使用されます。
+  //The member except for the public method and the instance member, all member set to prototype,
+  //and all instance use the same value.
   public numAttacks = 0;
-  //constなメンバはコンストラクタか、定義時に初期化しなければ
-  //値の追加はできません。
+  //If you do not initialize the const member in constructor or definition time,
+  //could not set value.
   public const attackMessage = 'The monster hits you!';
-  //static修飾が宣言されると変数はstaticな変数になります。
-  //static修飾にはprivate,publicは設定できません。
+  //Decalred as the static, member is set to class static member.
+  //The static modifier can not set private or public, and all static member is treat as public.
   static const DEFAULT_LIFE = 100;
 }</code></pre>
-		<p>変換後は以下のようになります。</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var Monster = function () {
       function constructor(name,health) {
         this.name = name;
@@ -1084,45 +1081,45 @@ class SkinnedMesh extends THREE.Mesh {
       return Monster;
     }()</code></pre>
 			  <div class="section">
-			      <p class="title">詳細</p>
-			      <p>mochaではclassはコンストラクタ関数と、プロトタイプの糖衣構文として機能します。なので、既存のjavascriptのクラスと100%の互換性を持っています。またクラスを使用することによるオーバーヘッドもできるだけ抑えてありますが、privateフィールドの実現のためにやや実行時にオーバーヘッドがあります。</p>
+			      <p class="title">Detail</p>
+			      <p>In mocha. the class is behave as syntax sugar of the constructor function and the prototype, so it has 100% compatibility to existing javascript's class that declared as function and prototype. And the overhead of class is supressed as much as possible, but to realize private field, the class syntax has a little overhead.</p>
 			  </div>
 			  <div class="section">
-			      <p class="title">インターフェース</p>
+			      <p class="title">Interface</p>
 			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>class</i> &lt;class name&gt; <i>extends or prototype</i> &lt;base class name or literal&gt;</code></pre>
 			      <p>
-				  クラスを宣言します。class nameとbase class nameはjavascriptで使用可能な変数名を使用可能です。
-		    const修飾子がついていた場合は、すべてのメンバが変更不可能になります。
-		    継承の際にextendsを選ぶと、通常のプロトタイプの継承になります。prototypeを選ぶと、直接&lt;base class name or literal&gt;をprototypeとして使用します。
+				  Declare class. A class name and a base class name is able to use javascript identifier.
+		    If const modifier is set to before class declaration, all class member is become immutable.
+		    If you select extends keyword as the inheritance, the inheritance is the normal prototype, if you select the prototype keyword, use the &lt;base class name or literal&gt; prototype as the direct prototype.
 			      </p>
 			      <pre class="prettyprint grammars"><code><i>constructor(</i>&lt;arguments list&gt;<i>)</i> &lt;function body&gt;</code></pre>
 			      <p>
-				  コンストラクタを定義します。コンストラクタは必ずconstructorという関数名でなければなりません。
-				  メンバ変数の初期化を行います。コンストラクタが定義されていなければ、mochaが自動で空のコンストラクタを生成します。
+				  Define constructor. The constructor name must be 'constructor'.
+				  Initialize instance member. If you do not define the constructor, mocha create default constructor.
 			      </p>
 
 			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>public or private or static</i> &lt;name&gt; &lt;function body or '=' values&gt;(optional)</code></pre>
 			      <p>
-				  メンバを定義します。public修飾子がついていた場合はメンバは外部からアクセス可能になります。
-				  const修飾子がついていた場合は、メンバは変更不可能になります。
-				  private修飾子がついていた場合は、外部からアクセス不可なメンバになります。
-				  何も修飾子を付けなかった場合は、デフォルトでprivateになります。
-				  static修飾子が宣言された場合はメンバはインスタンス無しにアクセス可能になりますが、static以外のメンバにはアクセス出来ません。
-				  またstaticなメンバはprivate、publicといったアクセス修飾は現在は出来ません。
+				  Define member. If public modifier is set, the member is accessible from caller.
+				  If const modifier is set, that treat as immutable, and 
+				  private modifier is set, that unaccessible from caller,
+				  and if you do not specify the modifiers, the private modifier is set by default.
+				  The member that has static modifier is able to access without instance, but can not access member except for static member,
+				  and static member can not set modifier, it treat as public.
 			      </p>
 			      <pre class="prettyprint grammars"><code><i>this.</i>&lt;name&gt;</code></pre>
-			      <p>publicメンバにアクセスします。</p>
+			      <p>Access to the public member.</p>
 			      <pre class="prettyprint grammars"><code><i>private(object).</i>&lt;name&gt;</code></pre>
-			      <p>privateメンバにアクセスします。</p>
+			      <p>Access to the private member.</p>
 			  </div>
 	    </div>
 	</div>
 	<div id="trait" class="tab-pane">
 	    <h3>trait</h3>
-	    <p>クラスの振る舞いのみを定義したオブジェクトです。</p>
-	    <p>実装済み処理系 : 無し</p>
+	    <p>The object that define the class behaver.</p>
+	    <p>implementation : none</p>
 	    <div>
-		<p>traitの定義は以下のように行います。</p>
+		<p>The define trait is like below.</p>
 		<pre class="prettyprint grammars"><code>//traitの定義
 trait TestTrait {
   requires testReq1;
@@ -1139,7 +1136,7 @@ class MixinTest {
   mixin TestTrait with test1 as method1;
   mixin TestTrait2 without test1, with test2 as method2;
 }</code></pre>
-		<p>変換後は以下のようになります。</p>
+		<p></p>
 		<pre class="prettyprint grammars"><code>var TestTrait =  {
         _mochaTraitPrivate : {},
         _mochaTraitPublic :  {
@@ -1195,35 +1192,36 @@ class MixinTest {
         return MixinTest;
    }()</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>クラスに対して振る舞いを注入します。traitはrequireプロパティを設定することで実装しなければならないメソッドを指定できます。
-またmixin属性を設定することで、trait同士、あるいはclassとtraitを合成可能です。その際にmixin ... with &lt;method_name&gt; as &lt:new_name&gt;とすることでメソッド名の書き換えが可能です。またwithout属性を指定することで、特定のメソッドのmixinを無効化することが可能です。
-public,privateなどの指定はclassを参照してください。</p>
+		    <p class="title">Detail</p>
+		    <p>Inject dehaver into class. The trait can define requirements to set require property.
+And The trait can composite the each trait or the trait and class, to set mixin property, and can rewrite member name or disable member to set with or without in the mixin property, like mixin ... with &lt;method_name&gt; as &lt:new_name&gt;
+The modifier like public, private is see class.</p>
 		</div>
 		<div class="section">
-		    <p class="title">インターフェース</p>
+		    <p class="title">Interface</p>
 		    <pre class="prettyprint grammars"><code><i>trait</i> &lt;trait name&gt;</code></pre>
-		    <p>traitを宣言します。</p>
+		    <p>Declare trait.</p>
 		    <pre class="prettyprint grammars"><code><i>mixin</i> &lt;trait name&gt; <i>with(optional)</i> &lt;member name&gt; <i>as</i> &lt;new member name&gt <i>without(optional)</i> &lt;member name&gt;</code></pre>
+		    <p>Mixin trait. If member same name is there, it overwrite by after definition. And If with ~ as is set, member name is rewrite as new member name, and If without ~ is set, the specific member is not mixined.</p>
 		</div>
 	    </div>
 	</div>
 	<div id="destructuring-assignment" class="tab-pane">
 	    <h3>destructuring assignment</h3>
-	    <p>分割代入機能です。</p>
-	    <p>実装済み処理系 : mozilla 1.6以降</p>
+	    <p>The destructuring assignment.</p>
+	    <p>implementation : mozilla 1.6 or later</p>
 	    <div>
-		<p>配列</p>
+		<p>The Array</p>
 		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     [one,two,three,four] = array;
 console.log(one,two,three,four);</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     one = array[0],
     two = array[1],
     three = array[2],
     four = array[3]</code></pre>
-		<p>オブジェクト</p>
+		<p>The Object.</p>
 		<pre class="prettyprint grammars"><code>var obj = {
       one : 0,
       two : 1,
@@ -1231,7 +1229,7 @@ console.log(one,two,three,four);</code></pre>
       four : 3
     },
     {one,two,three,four} = obj;</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var obj = {
       one : 0,
       two : 1,
@@ -1242,7 +1240,7 @@ console.log(one,two,three,four);</code></pre>
     two = obj.two,
     three = obj.three,
     four = obj.four;</code></pre>
-		<p>少々複雑な例</p>
+		<p>A little complex example.</p>
 		<pre class="prettyprint grammars"><code>var object = {
       value1 : 100,
       value2 : {
@@ -1258,7 +1256,7 @@ console.log(one,two,three,four);</code></pre>
     }
 var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { value6 : [{value7}] },"@value":{strvalue}} = object;
 		</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var object = {
       value1 : 100,
       value2 : {
@@ -1283,14 +1281,14 @@ var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { va
 	</div>
 	<div id="for-each" class="tab-pane">
 	    <h3>for each</h3>
-	    <p>for each構文です。</p>
-	    <p>実装済み処理系 : mozilla 1.6以降</p>
+	    <p>for each statement.</p>
+	    <p>implementation : mozilla 1.6 or later.</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
 for each(var i in obj) {
   console.log(i);
 }</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
 for(var i in obj) {
   i = obj[i];
@@ -1300,11 +1298,11 @@ for(var i in obj) {
 	</div>
 	<div id="do-expression" class="tab-pane">
 	    <h3>do expression</h3>
-	    <p>簡易スコープです。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>The easy scope.</p>
+	    <p>implementation : none</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>var x = do { var t = f(); t * t + 1 };</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var x = function () {
     var t = f();
     return t * t + 1;
@@ -1313,27 +1311,27 @@ for(var i in obj) {
 	</div>
 	<div id="short-function-syntax" class="tab-pane">
 	    <h3>short function syntax</h3>
-	    <p>関数の短縮構文です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>The shorter function syntax.</p>
+	    <p>implementation : none</p>
 	    <div>
-		<p>無名関数</p>
+		<p>Lambda.</p>
 		<pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
     b = (x,y,z) -> { return x + y + z; }</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
     b = function (x,y,z) { return x + y + z;}</code></pre>
-		<p>関数宣言</p>
+		<p>Decalaration.</p>
 		<pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
 bar(x,y,z) -> { return x + y + z; }</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
 function bar (x,y,z) { return x + y + z;}</code></pre>
-		<p>コンテキストの束縛</p>
+		<p>The context bindings.</p>
 		<pre class="prettyprint grammars"><code>var a = (x,y,z) => x + y + z,
     b = (x,y,z) => { return x + y + z; }
 foo(x,y,z) => console.log(this);
 bar(x,y,z) => {console.log(this) }</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
     b = function (x,y,z) { return x + y + z; }.bind(this);
 function foo (x,y,z) { return console.log(_mochaLocalTmp0);}
@@ -1344,15 +1342,15 @@ bar = bar.bind(this);</code></pre>
 	</div>
 	<div id="import" class="tab-pane">
 	    <h3>import</h3>
-	    <p>モジュールのインポート機能です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>The module import system.</p>
+	    <p>implementation : none</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>import module from './test';
 import {exports1,exports2} from './test2'.module;
 import [value1, value2] from './test3'.module.exports;
 import exports from './test4'.module;
 import './test5' as test5</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
     _mochaLocalTmp0 = Runtime.modules.get('564059-test2.js').module,
     exports1 = _mochaLocalTmp0.exports1,
@@ -1364,18 +1362,18 @@ import './test5' as test5</code></pre>
     test5 = Runtime.modules.get('455905-test5.js');
     </code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>importのルール</p>
-		    <p>ファイルのインポートは以下のルールに沿って行われます。</p>
+		    <p class="title">Detail</p>
+		    <p>The rule of import syntax.</p>
+		    <p>The import of file is based on below rule.</p>
 		    <table class="table table-striped table-bordered table-condensed">
 			<tr>
-			    <th>記述</th><th>説明</th>
+			    <th>subscription</th><th>explain</th>
 			</tr>
 			<tr>
-			    <td>'./filename'</td><td>現在のファイルがあるディレクトリから探します。</td>
+			    <td>'./filename'</td><td>Search the file from current directory.</td>
 			</tr>
 			<tr>
-			    <td>'filename'</td><td>ランタイムモジュール、あるいはoptionのmoduleDirプロパティから探します。</td>
+			    <td>'filename'</td><td>Search the runtime module, or search the file from directory that specified by option's moduleDir property.</td>
 			</tr>
 		    </table>
 		</div>
@@ -1383,8 +1381,8 @@ import './test5' as test5</code></pre>
 	</div>
 	<div id="module" class="tab-pane">
 	    <h3>module</h3>
-	    <p>モジュール化機能です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>Module system.</p>
+	    <p>implementation : none</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>module testModule {
   export test() -> console.log('test!!');
@@ -1396,7 +1394,7 @@ module testModule2 {
   }
 }
 module testModule3 = ->3</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
       function testExport1() {
         return console.log('test!!');
@@ -1424,22 +1422,22 @@ Runtime.modules.get('3490394-test.js').testModule3 = function () {
   return 3;
 }</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>各モジュールはファイルスコープ直下にしか置けません。モジュールに指定した名前が直接エクスポートされます。</p>
+		    <p class="title">Detail</p>
+		    <p>Each module only allowed direct child of the file scope. The module is directly export as name that specified as module name.</p>
 		</div>
 		<div class="section">
-		    <p class="title">宣言</p>
+		    <p class="title">Declaration</p>
 		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>{</i> ... <i>}</i></code></pre>
-		    <p>moduleを宣言します。moduleはネスト可能です。ネストした場合は親のモジュール以下に設定されます。</p>
+		    <p>Decalare module. The module is able to nested, and the nested module is set as parent module's child.</p>
 		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>=</i> &lt;values&gt;</code></pre>
-		    <p>直接値をエクスポートします。この構文でモジュールを宣言すると、'='で割り当てた値がmoduleの値になります。</p>
+		    <p>Export the value directly.</p>
 		</div>
 	    </div>
 	</div>
 	<div id="let-expression" class="tab-pane">
 	    <h3>let expression</h3>
-	    <p>新しいスコープを生成します。</p>
-	    <p>実装済み処理系 : mozilla1.7以降</p>
+	    <p>Create the new scope.</p>
+	    <p>implementation : mozilla1.7 or later</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>var foo = 200;
 let (foo = 300) {
@@ -1451,15 +1449,15 @@ let (foo = 300) {
   console.assert(foo === 300);
 }(300);</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>スコープを生成します。let式の入り口に定義した値はlet式内のスコープでのみ有効になります。</p>
+		    <p class="title">Detail</p>
+		    <p>Create the scope. The values that define at the entrance of the let expression is enabled in the let expression scope.</p>
 		</div>
 	    </div>
 	</div>
 	<div id="object-literal-extras" class="tab-pane">
 	    <h3>object literal extras</h3>
-	    <p>オブジェクトリテラルの拡張構文です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>The extensions of object literal.</p>
+	    <p>implementation : none</p>
 	    <div>
 		<p>batch assignment operator</p>
 		<pre class="prettyprint grammars"><code>var namespaces = {
@@ -1471,7 +1469,7 @@ namespaces.{
 }.{
   qux : {}
 }</code></pre>
-		<p>変換後</p>
+		<p>After compilation.</p>
 		<pre class="prettyprint grammars"><code>var namespaces = {
       foo : {},
       bar : {}
@@ -1497,8 +1495,8 @@ Runtime.createUnenumProp(namespace, 'foo', {});</code></pre>
 	</div>
 	<div id="data-structure-extras" class="tab-pane">
 	    <h3>data structure extras</h3>
-	    <p>データ構造の追加構文です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>The extension of the data structures.</p>
+	    <p>implementation : none</p>
 	    <div>
 		<p>tuple</p>
 		<pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
@@ -1507,38 +1505,38 @@ var tuple2 = new Tuple(0,1,2,3);</code></pre>
 		<pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
 var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
+		    <p class="title">Detail</p>
 		    <p><strong>tuple</strong></p>
-		    <p>tupleを生成します。tupleは配列に似た値の集合ですが、imutableな値であり、変更不可能です。</p>
+		    <p>Create the tuple. The tuple is like the array, but imutable.</p>
 		    <p><strong>API</strong></p>
 		    <table class="table table-striped table-bordered table-condensed">
 			<tr>
-			    <th>名前</th>
-			    <th>インターフェース</th>
-			    <th>説明</th>
+			    <th>name</th>
+			    <th>interface</th>
+			    <th>explanation</th>
 			</tr>
 			<tr>
-			    <td>equal</td><td>equal(tuple)</td><td>２つのtupleを比較します。</td>
+			    <td>equal</td><td>equal(tuple)</td><td>Compare the two tuple.</td>
 			</tr>
 			<tr>
-			    <td>toArray</td><td>toArray()</td><td>配列に変換します。</td>
+			    <td>toArray</td><td>toArray()</td><td>Convert the tuple to array.</td>
 			</tr>
 			<tr>
-			    <td>length</td><td>Number</td><td>tupleの長さを返します。</td>
+			    <td>length</td><td>length</td><td>Get the tuple length.</td>
 			</tr>
 		    </table>
 		    <p><strong>record</strong></p>
-		    <p>オブジェクトに似た連想配列を生成しますが、imutableであり、変更できません。</p>
-		    <p>現在recordには特定のメソッドはありません。</p>
+		    <p></p>
+		    <p></p>
 		</div>
 	    </div>
 	</div>
 	<div id="generator-iterator" class="tab-pane">
 	    <h3>generator/iterator</h3>
-	    <p>コルーチンや、列挙子を定義する拡張です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>Define corutine and enumrator.</p>
+	    <p>implementation : none</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>//通常のjavascript
+		<pre class="prettyprint grammars"><code>//Ecam262
 function doCallback(num) {
   console.log(num + "\n");
 }
@@ -1553,7 +1551,7 @@ function fib() {
   }
 }
 fib();
-//generatorを使用すると...
+//If use generator...
 function fib() {
   var i = 0, j = 1;
   while (true) {
@@ -1567,17 +1565,16 @@ var g = fib();
 for (var i = 0; i < 10; i++) {
   console.log(g.next() + "\n");
 }</code></pre>
-		    <p>MDNからの引用</p>
-		    <blockquote><p>yield キーワードを含む関数がジェネレータです。これを呼ぶと、ジェネレータの仮引数は実引数と結び付きますが、本体は実際には評価されません。代わりにジェネレータ・イテレータが返ってきます。ジェネレータ・イテレータの next() メソッドを呼び出すたびに、繰り返しのアルゴリズムが 1 回ずつ実行されます。それぞれのステップでの値は、yield キーワードで指定された値です。yield をアルゴリズムの繰り返しの範囲を示すジェネレータ・イテレータ版の return だと考えましょう。毎回 next() を呼び出すたび、ジェネレータのコードは yield の次の文から再開します。
-あなたはジェネレータ・イテレータを、その next() メソッドを繰り返し呼び出すことで、あなたが望んだ結果の状態にたどりつくまで反復させられます。この例では、私たちが欲しいだけの結果を手に入れるまで g.next() を呼び出し続けることで、私たちはどれだけでも多くのフィボナッチ数を得ることができます。</p>
-<small><a href="https://developer.mozilla.org/ja/New_in_JavaScript_1.7#.E3.82.B8.E3.82.A7.E3.83.8D.E3.83.AC.E3.83.BC.E3.82.BF">MDN Generator</a></small></blockquote>
-		    <p>簡単に説明すると関数をyieldキーワードの位置で一時停止し、二回目以降はその場所から実行を再開します。
-またnextだけではなく、yieldに対して、値を与えられるsendメソッドもあります。</p>
+		    <p>Quotation from MDN.</p>
+		    <blockquote><p>The function containing the yield keyword is a generator. When you call it, its formal parameters are bound to actual arguments, but its body isn't actually evaluated. Instead, a generator-iterator is returned. Each call to the generator-iterator's next() method performs another pass through the iterative algorithm. Each step's value is the value specified by the yield keyword. Think of yield as the generator-iterator version of return, indicating the boundary between each iteration of the algorithm. Each time you call next(), the generator code resumes from the statement following the yield.
+You cycle a generator-iterator by repeatedly calling its next() method until you reach your desired result condition. In this example, we can obtain however many Fibonacci numbers we want by continuing to call g.next() until we have the number of results we want.</p>
+<small><a href="">MDN Generator</a></small></blockquote>
+		    <p>To explain it briefly, the generator function is called first time, yield is stop the function at the yield keyword, and second time or after, function start execution at this point. And the there are methods not only next, but also send that give the value to yield keyword.</p>
 		    <p>MDN</p>
-		    <blockquote><p>一度 next() メソッドを呼び出してジェネレータをスタートさせると、与えた特定の値を最後の yield の結果として扱わせる send() を使うことができます。その際ジェネレータはその次の yield のオペランドを返します。
-ジェネレータを勝手な時点から始めることはできません。特定の値を send() する前に必ず next() でジェネレータをスタートさせなければなりません。</p>
-<small><a href="https://developer.mozilla.org/ja/New_in_JavaScript_1.7#.E3.82.B8.E3.82.A7.E3.83.8D.E3.83.AC.E3.83.BC.E3.82.BF">MDN Generator</a></small></blockquote>
-		    <p>sendの例</p>
+		    <blockquote><p>Once a generator has been started by calling its next() method, you can use send(), passing a specific value that will be treated as the result of the last yield. The generator will then return the operand of the subsequent yield.
+You can't start a generator at an arbitrary point; you must start it with next() before you can send() it a specific value.</p>
+<small><a href="https://developer.mozilla.org/en/New_in_JavaScript_1.7#Resuming_a_generator_at_a_specific_point">MDN Generator</a></small></blockquote>
+		    <p>The example of send.</p>
 		    <pre class="prettyprint grammars"><code>yieldTest()-> {
   for ( var i = 0;i<10; i++ ) {
     var m = yield i;
@@ -1601,7 +1598,7 @@ generator = yieldTest();
 @assert( true , generator.send( true ) === 4 );
 @assert( true , generator.send( false ) === 4 );
 @assert( true , generator.send( true ) === 5 );</code></pre>
-			<p>このようにsendに値を与えると、<code>yield i</code> の部分が引数に置き換わります。</p>
+			<p>Give the value to send like this, The part of <code>yield i</code> is replaced by arguments.</p>
 			<p>iterator</p>
 			<pre class="prettyprint grammars"><code>import {iterator} from "iterators";
 var iter = {
@@ -1626,17 +1623,17 @@ var iter = {
       }
     }</code></pre>
 	     <div>
-		 <p class="title">詳細</p>
-		 <p>この例のように、iteratorを生成するにはiteratorsモジュールのiteratorの値を、objectのプロパティにする必要があります。
-ここで定義したiteratorはES Nextで追加されたfor of構文で使用されます。
-詳しくはfor ofを参照してください。</p>
+		 <p class="title">Detail</p>
+		 <p>Like this example, to create iterator, you need to set key to iterators of iterators module.
+The iterator is also used by for of statement,
+see for of.</p>
 	     </div>
 	    </div>
 	</div>
 	<div id="for-of" class="tab-pane">
 	    <h3>for of</h3>
-	    <p>for of構文とは、Generator、あるいはiteratorのnextを呼び出して値を列挙する構文です。</p>
-	    <p>実装済み処理系 : なし</p>
+	    <p>The for of statement is enumerator of generator or iterator.</p>
+	    <p>implementation : none</p>
 	    <div>
 		<pre class="prettyprint grammars"><code>import {iterator} from 'iterators';
 var items = function ( obj ) {
@@ -1681,8 +1678,8 @@ for of(var i in iter) {
   console.log(i);//100,200,300...
 }</code></pre>
 		<div class="section">
-		    <p class="title">詳細</p>
-		    <p>generatorかiteratorの定義されたオブジェクトを与えることで、次々にnextを呼び出し、StopIterationが投げられると処理を終了します。</p>
+		    <p class="title"></p>
+		    <p>The for of statement is gived generator or iterator, this call next method one by one, until throws StopIteration.</p>
 		</div>
 	    </div>
 	</div>

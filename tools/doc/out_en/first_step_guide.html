@@ -964,22 +964,22 @@ PR_NOCODE:"nocode",PR_PLAIN:"pln",PR_PUNCTUATION:"pun",PR_SOURCE:"src",PR_STRING
     <div class="tab-content">
 	<div id="running-mocha" class="tab-pane active">
 	    <h3>Running mocha</h3>
-	    <p>mochaの基本的な使用方法です。まず、ターミナル、あるいはコマンドプロンプトを起動します。その後、</p>
-	    <pre class="prettyprint grammars"><code>cd &lt;mochaの実行ファイルのあるディレクトリ&gt;</code></pre>
-	    <p>と入力し、ディレクトリを移動します。移動先のディレクトリで、</p>
-	    <pre class="prettyprint grammars"><code>mchd</code></pre>
-	    <p>と入力し、mochaを起動します。すると、</p>
+	    <p>The basic guide for mocha. In the beginning, Run terminal or command prompt, and type like below,</p>
+	    <pre class="prettyprint grammars"><code>cd &lt;mocha binary file directory&gt;</code></pre>
+	    <p>and change directory, and in the target directory type like below and execute mocha,</p>
+	    <pre class="prettyprint grammars"><code>./mchd</code></pre>
+	    <p>so</p>
 	    <pre class="prettyprint grammars"><code>mocha es-next-compiler(stand-alone)
 usage -> run 'help'
 >></code></pre>
-	    <p>このようなプロンプトが表示されます。この状態で、pcのuserディレクトリを見ると、.mochaというディレクトリができているはずです。このディレクトリの中身は以下のような構成になっています。</p>
+	    <p>mocha show the prompt like this, and see the user home directory, the directory .mocha maybe created, this directory contents is like below.</p>
 <pre class="prettyprint grammars"><code>.mocha
      |_config.js
      |_mocha.log</code></pre>
-	    <p>config.jsの中を見てみましょう。デフォルトでは以下のようになっているはずです。</p>
+	    <p>Let's see config.js. The config.js file contents maybe like below by default.</p>
 <pre class="prettyprint grammars"><code>config.set('compileSettingPath', './watch.js')
 config.set('logFilePath', './mocha.log')</code></pre>
-	    <p>watch.jsが実装する必要のあるファイルです。.mochaの中にwatch.jsファイルを作ります。watch.js内では監視するjsファイルを、mochaの設定に追加していきます。以下がサンプルです。</p>
+	    <p>The watch.js is file that need to implements. So we create watch.js in the directory .mocha, in watch.js, add files which want to observe to the mocha setting. See the below example.</p>
 
 <pre class="prettyprint grammars"><code>var script = mocha.import('script');
 script.watcher.addSetting('/home/foo/src/test.js', {
@@ -996,192 +996,191 @@ script.watcher.addSetting('/home/foo/src/test.js', {
     globalScope : true
   }
 })</code></pre>
-	    <p>上記の記述で'/home/foo/src/test.js'が監視されます。test.jsを修正するたびに、'/home/foo/src/deploy/'フォルダに、'test-deploy.js'という名前でコンパイル済みファイルが保存されます。その後、mochaのコンソールで、</p>
+	    <p>When the above script is execute, the '/home/foo/src/test.js' file is observed by mocha. The mocha compile and save file to '/home/foo/src/deploy/' as 'test-deploy.js' if test.js is modified. And after, in the mocha's console, input like below.</p>
 <pre class="prettyprint grammars"><code>>> .restart()</code></pre>
-	    <p>と入力し、watch.jsを読み込ませます。これでtest.jsの監視が始まります。</p>
-	    <p>以上が基本的なステップです。</p>
+	    <p>mocha reload watch.js and begin observing.</p>
+	    <p>It's the basic steps.</p>
 	</div>
 	<div id="config-js" class="tab-pane">
 	    <h3>config.js</h3>
-	    <p>mochaが初回起動時に生成する&lt;user_home&gt;/.mocha/config.jsの解説です。</p>
-	    <p>&lt;user_home&gt;は</p>
+	    <p>The explanation of the file &lt;user_home&gt;/.mocha/config.js which is created by mocha first time.</p>
+	    <p>The &lt;user_home&gt; is</p>
 	    <dl>
 		<dt>windows xp</dt> 
-		<dd><pre class="prettyprint"><code>C:\Document and Setting\<ユーザー名>\</code></pre></dd>
+		<dd><pre class="prettyprint"><code>C:\Document and Setting\&lt;user name&gt;\</code></pre></dd>
 		<dt>windows vista or later</dt>
-		<dd><pre class="prettyprint"><code>C:\Users\<ユーザー名>\</code></pre></dd>
+		<dd><pre class="prettyprint"><code>C:\Users\&lt;user name&gt;\</code></pre></dd>
 		<dt>osx</dt>
-		<dd><pre class="prettyprint"><code>/Users/<ユーザー名></code></pre></dd>
+		<dd><pre class="prettyprint"><code>/Users/&lt;user name&gt;</code></pre></dd>
 		<dt>linux</dt>
-		<dd><pre class="prettyprint"><code>/home/<ユーザー名></code></pre></dd>
+		<dd><pre class="prettyprint"><code>/home/&lt;user name&gt;</code></pre></dd>
 	    </dl>
-	    <p>になります。 </p>
-	    <p>config.js内ではグローバルスコープにconfigオブジェクトが定義されます。このconfigオブジェクトに設定を追加することで、mochaの設定を行います。</p>
-	    <p>以下にmochaの生成するデフォルトのconfig.jsを提示します。</p>
+	    <p></p>
+	    <p>In the config.js, the config object is defined in the global object, so you can set setting by add setting to that config object.</p>
+	    <p>The example of config.js is below.</p>
 	    <pre class="prettyprint"><code>config.set('compileSettingPath', './compile_setting.js');
 config.set('logFilePath', './mocha.log');</code></pre>
-	    <p>mochaはcompileSettingPathとlogFilePathプロパティを設定するファイルを生成します。以下がconfigオブジェクトに設定可能な値です。</p>
+	    <p>The mocha create files that set compileSettingPath and logFilePath properties by default. The values which is able to set to the config object is below list.</p>
 	    <table class="table table-striped table-bordered table-condensed">
 		<tr>
-		    <th>名前</th>
-		    <th>説明</th>
+		    <th>name</th>
+		    <th>explanation</th>
 		</tr>
-		<tr><td>compileSettingPath</td><td>jsファイルのコンパイル設定が記述されたファイルの場所です。</td></tr>
-		<tr><td>logFilePath</td><td>ログファイルが格納される場所です。</td></tr>
-		<tr><td>phantomInstallDir</td><td>phantomjsがインストールされている場所です。</td></tr>
+		<tr><td>compileSettingPath</td><td>The location which is the compile setting file.</td></tr>
+		<tr><td>logFilePath</td><td>The location which is the log file is there.</td></tr>
+		<tr><td>phantomInstallDir</td><td>The location which phantomjs is installed.</td></tr>
 	    </table>
 	</div>
 	<div id="compilation-setting" class="tab-pane">
 	    <h3>compilation setting</h3>
-	    <p>コンパイルの設定を記述するファイルです。configオブジェクトのcompileSettingPathによって場所が設定されます。このファイルは起動時に指定された場所から自動で読み込まれます。デフォルトではwatch.jsというファイル名になっています。</p>
-	    <p>サンプル</p>
- 	    <pre class="prettyprint grammars"><code>//scriptモジュールをインポート
+	    <p>The file that descript the compilation setting. The location of this file is decided by the config object's compileSettingPath property. This file is auto load by mocha at startup. By default, mocha set watch.js to this file's name.</p>
+	    <p>example</p>
+ 	    <pre class="prettyprint grammars"><code>//Import the script module.
 var watcher = mocha.import('script').watcher;
-//設定の追加
-//対象のファイルネーム
+//Add the setting.
+//Subject file name.
 watcher.addSetting("src/test.js", {
-  //deployするディレクトリ
+  //The directory which put the compiled file.
   deployDir : 'src/deploy',
-  //deployする際のファイルネーム
+  //The name of compiled file.
   deployName : 'test-deploy.js',
-  //ファイルのエンコーディング
+  //The encoding of source file.
   inputCharset : 'utf-8',
-  //出力されるファイルのエンコーディング
+  //The encoding of output file.
   outputCharset : 'utf-8',
-  //コンパイルオプション
+  //Compilation options.
   options : {
-    //人間の読みやすい形にする
+    //Output human readable source.
     prettyPrint : true,
-    //圧縮しない
+    //Do not compress.
     compress : false,
-    //デバッグモードでコンパイル
+    //Compile in the debug mode.
     debug : true,
-    //各ファイル単位でスコープの生成
+    //Create the scope per file.
     fileScope : true,
-    //グルーバルスコープの生成
+    //Create the global scope.
     globalScope : true
   }
 })</code></pre>
-	    <p>基本的にはscriptモジュールのwatcherオブジェクトのaddSetting関数にファイル名、設定を追加していく形になります。以下が設定のフォーマットです。</p>
+	    <p>In basis, the watch.js is call addSetting method of script module's watcher object, and pass the file name and options to the arguments.</p>
 	    <table class="table table-striped table-bordered table-condensed">
 		<tr>
-		    <th>プロパティ名</th>
-		    <th>データタイプ</th>
-		    <th>説明</th>
+		    <th>property name</th>
+		    <th>data type.</th>
+		    <th>explanation</th>
 		</tr>
 		<tr>
-		    <td>deployDir</td><td>String</td><td>コンパイル結果を出力する場所です。</td>
+		    <td>deployDir</td><td>String</td><td>The location that ouput the compilation result.</td>
 		</tr>
 		<tr>
-		    <td>deployName</td><td>String</td><td>コンパイル結果のファイル名です。</td>
+		    <td>deployName</td><td>String</td><td>The compilation result's file name.</td>
 		</tr>
 		<tr>
-		    <td>inputCharset</td><td>String</td><td>元ファイルのエンコーディングです。</td>
+		    <td>inputCharset</td><td>String</td><td>The encoding of the source file.</td>
 		</tr>
 		<tr>
-		    <td>outputCharset</td><td>String</td><td>出力ファイルのエンコーディングです。</td>
+		    <td>outputCharset</td><td>String</td><td>The encoding of the output file.</td>
 		</tr>
 		<tr>
-		    <td>options</td><td>Object</td><td>コンパイルのオプションを指定します。</td>
+		    <td>options</td><td>Object</td><td>Specify the compilation options.</td>
 		</tr>
 	    </table>
-	    <p>optionsの中身です。</p>
+	    <p>The contents of the options.</p>
 	    <table class="table table-striped table-bordered table-condensed">
 		<tr>
-		    <th>プロパティ名</th>
-		    <th>データタイプ</th>
-		    <th>説明</th>
+		    <th>property name</th>
+		    <th>data type.</th>
+		    <th>explanation.</th>
 		</tr>
 		<tr>
-		    <td>prettyPrint</td><td>Boolean</td><td>出力をフォーマットします。</td>
+		    <td>prettyPrint</td><td>Boolean</td><td>Format the output.</td>
 		</tr>
 		<tr>
-		    <td>compress</td><td>Boolean</td><td>出力を圧縮します。</td>
+		    <td>compress</td><td>Boolean</td><td>Compress the output.</td>
 		</tr>
 		<tr>
-		    <td>debug</td><td>Boolean</td><td>デバッグモードで実行します。</td>
+		    <td>debug</td><td>Boolean</td><td>Add the line number and the file name to output file.</td>
 		</tr>
 		<tr>
-		    <td>moduleDir</td><td>Array</td><td>モジュールをロードするディレクトリを設定します。</td>
+		    <td>moduleDir</td><td>Array</td><td>Specify the directories that search modules.</td>
 		</tr>
 		<tr>
-		    <td>versions</td><td>Array</td><td>バージョンを指定します。</td>
+		    <td>versions</td><td>Array</td><td>Specify the versions.</td>
 		</tr>
 		<tr>
-		    <td>fileScope</td><td>Boolean</td><td>ファイル単位でスコープを生成するかどうか指定します。デフォルトではtrueです。</td>
+		    <td>fileScope</td><td>Boolean</td><td>Specify create the per file's scope or not. This value is true by default.</td>
 		</tr>
 		<tr>
-		    <td>globalScope</td><td>Boolean</td><td>グローバルなスコープを生成するかどうか指定します。デフォルトではtrueです。</td>
+		    <td>globalScope</td><td>Boolean</td><td>Specify create the global scope or not. This value is false. by default</td>
 		</tr>
 	    </table>
 	</div>
 	<div id="commands" class="tab-pane">
 	    <h3>commands</h3>
-	    <p>mochaは設定ファイルの追加の際にコマンド設定の追加も可能です。コマンドは以下の方法で追加できます。</p>
+	    <p>The mocha is able to add user definition commands, to add the commands, do like below.</p>
 	    <pre class="prettyprint grammars"><code>mocha.addCommand('foo', function () {
   console.log('test');
 }, 'test command!!');</code></pre>
-	    <p>mocha.addCommandは第一引数にコマンド名、第二引数にコールバック関数、第三引数に説明を記述します。
-追加したコマンドは端末上から呼び出す事が可能になります。</p>
-	    <p>先ほどのfooコマンドを呼び出すには以下のようにします。</p>
+	    <p>The first arguments of mocha.addCommand is command name, second arguments is callback function and third arguments is the explanation. The command added by user is callable in the mocha's terminal.</p>
+	    <p>To call the above foo command, do like below.</p>
 	    <pre class="prettyprint"><code>>> .foo()</code></pre>
-	    <p><strong>組み込みコマンド</strong></p>
-	    <p>mochaは以下のコマンドをデフォルトで持っています。</p>
+	    <p><strong>The builtin command.</strong></p>
+	    <p>The mocha has command below by default.</p>
 	    <table class="table table-striped table-bordered table-condensed">
 		<tr>
-		    <th>名前</th>
-		    <th>インターフェース</th>
-		    <th>機能</th>
+		    <th>name</th>
+		    <th>interface</th>
+		    <th>explanation</th>
 		</tr>
 		<tr>
-		    <td>watch</td><td>watch()</td><td>監視を再開します。|</td>
+		    <td>watch</td><td>watch()</td><td>Restart file observing.</td>
 		</tr>
 		<tr>
-		    <td>unwatch</td><td>unwatch()</td><td>監視を停止します。</td>
+		    <td>unwatch</td><td>unwatch()</td><td>Stop file observing.</td>
 		</tr>
 		<tr>
-		    <td>restart</td><td>restart()</td><td>再度設定ファイルを読み込みます。</td>
+		    <td>restart</td><td>restart()</td><td>Reload setting file.</td>
 		</tr>
 		<tr>
-		    <td>deploy</td><td>deploy([predicate], [option])</td><td>指定したファイルをコンパイルします。predicateには関数か、文字列、正規表現を指定します。</td>
+		    <td>deploy</td><td>deploy([predicate], [option])</td><td>Compile the specified file. A predicate must be a function or string or regular expression.</td>
 		</tr>
 		<tr>
-		    <td>test</td><td>test([predicate], [option])</td><td>指定したファイルをテストします。predicateには関数か、文字列、正規表現を指定します。</td>
+		    <td>test</td><td>test([predicate], [option])</td><td>Test the specfied file. A predicate must be a function or string or regular expression.</td>
 		</tr>
 		<tr>
-		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>mochaの監視下にあるファイルの一覧を表示します。showDeployが指定されるとdeploy情報を、showOptが指定されるとコンパイルオプションをそれぞれ追加で表示します。predicateには関数か、文字列、正規表現を指定します。</td>
+		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>Show the list of file which observed by mocha. If showDeploy is truesy value, show deploy information, If showOpt is truesy value, show compilation option. A predicate must be a function or string or regular expression.</td>
 		</tr>
 		<tr>
-		    <td>help</td><td>help()</td><td>コマンド一覧を表示します。</td>
+		    <td>help</td><td>help()</td><td>Show all commands.</td>
 		</tr>
 		<tr>
-		    <td>exit</td><td>exit()</td><td>mochaを終了します。</td>
+		    <td>exit</td><td>exit()</td><td>Exit mocha.</td>
 		</tr>
 	    </table>
 	</div>
 	<div id="compiler-directive" class="tab-pane">
 	    <h3>compiler directive</h3>
-	    <p>mochaはES Nextの文法に加え以下の独自拡張を持っています。</p>
+	    <p>The mocha has the extensions below.</p>
 	    <table class="table table-striped table-bordered table-condensed">
 		<tr>
-		    <th>名前</th>
-		    <th>インターフェース</th>
-		    <th>機能</th>
+		    <th>name</th>
+		    <th>interface</th>
+		    <th>explanation</th>
 		</tr>
 		<tr>
-		    <td>@assert</td><td>@assert(expect, expression)</td><td>アサーションの実行です。versionにdebugが定義されている時のみコード生成されます。</td>
+		    <td>@assert</td><td>@assert(expect, expression)</td><td>Do assertion. The code is generated only the versions option has a debug version.</td>
 		</tr>
 		<tr>
-		    <td>@version</td><td>@version(version){...}</td><td>バージョン分岐ブロックを生成します。</td>
+		    <td>@version</td><td>@version(version){...}</td><td>Create a junction block that depends on the versions option.</td>
 		</tr>
 		<tr>
-		    <td>@include</td><td>@include &lt;filename&gt;</td><td>ファイルを読み込み、その場所に展開します。いっさいのコンパイルは行われません。</td>
+		    <td>@include</td><td>@include &lt;filename&gt;</td><td>Load a file and extract at this point, that file is not compiled.</td>
 		</tr>
 	    </table>
 	    <p>@assert</p>
 	    <pre class="prettyprint grammars"><code>test(x,y) -> x + y;
 @assert(true, test(1,1) === 2);
-//このように展開される
+//Extract like this.
 Runtime.assert(true, test(1,1) === 2, 'test(1,1) === 2', 'filename', 'linenumber')</code></pre>
 	    <p>@version</p>
 	    <pre class="prettyprint grammars"><code>var x = 0;
@@ -1191,24 +1190,24 @@ Runtime.assert(true, test(1,1) === 2, 'test(1,1) === 2', 'filename', 'linenumber
 @version(release) {
   x = 2;
 }
-//デバッグモードの時はx = 1
-//リリースモードの時はx = 2</code></pre>
+//In the debug mode, x = 1
+//In the release mode, x = 2</code></pre>
 	    <p>@include</p>
 	    <pre class="prettyprint grammars"><code>@include 'jQuery-min.js'
 $(->{
 ...
 })
-//@includeの部分にjQueryのコードがそのまま挿入される</code></pre>
+//The code of jQuery is inserted In the position of @include.</code></pre>
 	</div>
 	<div id="use-phantomjs" class="tab-pane">
 	    <h3>use phantomjs</h3>
-	    <p>mochahはphantomjsgがインストールされていれば、直接起動が可能です。phantomjsはコマンドラインから使用できるwebkitでcssやhtmlもフルで使用可能です。</p>
-	    <p><strong>phantomjsnの指定方法</strong></p>
-	    <p>config.js内に</p>
-	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '<phantomjsのインストール先>');</code></pre>
-	    <p>の記述を追加します。あとは組み込みコマンドの.test()を使うと起動できます。.test()実行時にはversionsの値にtestという値が追加されます。</p>
-	    <p><strong>テスト</strong></p>
-	    <p>mocha自体はテスト機能を持たないのですが、既存のテストフレームワークを利用できます。jasmine,JsUnitなど。</p>
+	    <p>The mocha is able to excute phantomjs directly, if installed.</p>
+	    <p><strong>How to specify the location of the phantomjs.</strong></p>
+	    <p>In config.js, add statement below.</p>
+	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '&lt;the location of phantomjs&gt;');</code></pre>
+	    <p>And call .test(), and running .test(), the test value is added to versions.</p>
+	    <p><strong>The test</strong></p>
+	    <p>The mocha has not the test functions, but the existing frameworks like jasmine, jsunit are usable.</p>
 	</div>
     </div>
 </div>
