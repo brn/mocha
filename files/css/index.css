@@ -1,5 +1,5 @@
 #trademarkWrapper {
-background : #333 url(../images/stripes.gif);
+background : #333 url(images/stripes.gif);
 border-bottom : 1px solid #ffffff;
 }
 #trademarkArea {
@@ -79,5 +79,5 @@ width : 1000px;
 height : 400px;
 position : absolute;
 display : none;
-background : url(../images/spot.png) no-repeat;
+background : url(images/spot.png) no-repeat;
 }
