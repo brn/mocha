@@ -1,1 +1,0 @@
-(function () {var _LINE_=0;window.onerror=function (error){try{throw new SyntaxError(error + ' in : ' + _LINE_)}catch(e){throw (e.description)?e.description : e.message;}};try{throw new SyntaxError( "syntax error, unexpected IDENTIFIER, expecting JPM_PACKAGE in file sample/short3.js line : 1" )}catch(e){throw (e.description)?e.description:e.message;};})();

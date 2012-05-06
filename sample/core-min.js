@@ -1,1 +1,0 @@
-(function (undefined) {var _LINE_ = 1;window.onerror=function () {try{throw new Error ( arguments [ 0 ] + ' in line : ' + _LINE_ )}catch(e){throw e}};try{throw new SyntaxError( "syntax error, unexpected '/' in file sample/core.js line : 71" )}catch(e){throw (e.description)?e.description:e.message;};})();

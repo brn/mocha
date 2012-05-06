@@ -1,0 +1,38 @@
+#header {
+width : 1000px;
+margin : 0 auto;
+border-bottom : 1px solid #fff;
+}
+#logo {
+display : block;
+float : left;
+}
+#navWrapper {
+float : left;
+height : 46px;
+width : 900px;
+}
+#nav {
+float : right;
+margin-left : 150px;
+list-style : none;
+}
+#nav li {
+float : left;
+margin-left : 20px;
+}
+
+#nav a{
+display : block;
+margin-top : 20px;
+text-decoration : none;
+color : white;
+}
+
+#nav a:hover{
+color : #eedd00;
+}
+
+#nav a.active{
+color : #eedd00;
+}

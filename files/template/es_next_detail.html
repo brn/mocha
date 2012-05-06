@@ -1,0 +1,763 @@
+<!doctype html>
+<html>
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>mocha</title>
+	$css{css/main.css}
+	$css{css/api.css}
+	$css{css/button.css}
+	$css{css/prettify.css}
+	$css{css/prettify_theme.css}
+	<!--[if IE 6]>
+	$script{js/lib/dd_belatedpng.js}
+	<![endif]-->
+	$script{js/source/api-cmp.js}
+    </head>
+    <body>
+	$include{template/_header.html}
+	<div id="contents" class="clearfix">
+	    <div id="leftBlock">
+		<ul class="text12">
+		    <li class="active"><div class="togglableBg"></div><a data-toggle="class" href="javascript:void(0)">class</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="trait" href="javascript:void(0)">trait</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="destructuring-assignment" href="javascript:void(0)">destructuring assignment</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="for-each" href="javascript:void(0)">for each</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="do-expression" href="javascript:void(0)">do expressions</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="short-function-syntax" href="javascript:void(0)">short function syntax</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="import" href="javascript:void(0)">import</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="module" href="javascript:void(0)">module</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="let-expression" href="javascript:void(0)">let expression</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="object-literal-extras" href="javascript:void(0)">object literal extras</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="data-structure-extras" href="javascript:void(0)">data structur extras</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="generator-iterator" href="javascript:void(0)">generator/iterator</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="for-of" href="javascript:void(0)">for of</a></li>
+		</ul>
+	    </div>
+	    <div id="rightBlock">
+		<div class="tab-content">
+		    <div id="class" class="tab-pane active">
+			<h3>class</h3>
+			<p>${class_title}</p>
+			<p>${class_imp_browsers}</p>
+			<div>
+			    <p>${class_ex1_title}</p>
+			    <pre class="prettyprint grammars"><code>//${class_ex1_comment1}
+function SkinnedMesh(geometry, materials) {
+  //${class_ex1_comment2}
+  THREE.Mesh.call(this, geometry, materials); 
+  this.identityMatrix = new THREE.Matrix4();
+  this.bones = [];
+  this.boneMatrices = [];
+};
+
+//${class_ex1_comment3}
+//${class_ex1_comment4}
+SkinnedMesh.prototype = Object.create(THREE.Mesh.prototype);
+SkinnedMesh.prototype.constructor = SkinnedMesh;
+SkinnedMesh.prototype.update = function(camera) {
+  //${class_ex1_comment5}
+  THREE.Mesh.prototype.update.call(this);
+};</code></pre>
+	    <p>${class_ex2_title}</p>
+	    <pre class="prettyprint grammars"><code>//${class_ex2_comment1}
+//${class_ex2_comment2}
+class SkinnedMesh extends THREE.Mesh {
+  constructor(geometry, materials) {
+    //${class_ex2_comment3}
+    //${class_ex2_comment4}
+    super(geometry, materials);
+    //${class_ex2_comment5}
+    public identityMatrix = new THREE.Matrix4();
+    public bones = [];
+    public boneMatrices = [];
+    ...
+  }
+  update(camera) {
+    ...
+    //${class_ex2_comment6}
+    //${class_ex2_comment7}
+    super.update();
+  }
+}</code></pre>
+		<p>${class_ex3_title}</p>
+		<pre class="prettyprint grammars"><code>class Monster {
+  //${class_ex3_comment1}
+  //${class_ex3_comment2}
+  constructor(name, health) {
+    public name = name;
+    private health = health;
+  }
+  //${class_ex3_comment3}
+  //${class_ex3_comment4}
+  public attack(target) {
+    log('The monster attacks ' + target);
+  }
+  //${class_ex3_comment5}
+  public isAlive -> private(this).health > 0;
+  public health(value) {
+    if (value < 0) {
+      throw new Error('Health must be non-negative.')
+    }
+    private.health = value
+  }
+  //${class_ex3_comment6}
+  //${class_ex3_comment7}
+  public numAttacks = 0;
+  //${class_ex3_comment8}
+  //${class_ex3_comment9}
+  public const attackMessage = 'The monster hits you!';
+  //${class_ex3_comment10}
+  //${class_ex3_comment11}
+  static const DEFAULT_LIFE = 100;
+}</code></pre>
+		<p>${class_ex4_title}</p>
+		<pre class="prettyprint grammars"><code>var Monster = function () {
+      function constructor(name,health) {
+        this.name = name;
+        Runtime.getPrivateRecord(this).health = health;
+      }
+      function Monster() {
+        Runtime.initializeClass(this, Monster, _mochaPrivateHolder, constructor, arguments, "Monster", 1);
+      }
+      var _mochaPrivateHolder = function (){};
+      
+      Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+      
+      Monster.prototype.attack = function (target) {
+        log('The monster attacks '+target);
+      };
+      
+      Monster.prototype.isAlive = function () {
+        return Runtime.getPrivateRecord(this).health>0;
+      };
+      
+      Monster.prototype.health = function (value) {
+        if (value<0)throw new Error('Health must be non-negative.')
+        
+        Runtime.getPrivateRecord(this).health = value;
+      };
+      
+      Monster.prototype.numAttacks = 0;
+      
+      Runtime.constant(Monster.prototype,'attackMessage','The monster hits you!');
+      
+      Runtime.constant(Monster,'DEFAULT_LIFE',100);
+      
+      Runtime.createUnenumProp(Monster.prototype,"constructor",constructor);
+      return Monster;
+    }()</code></pre>
+			  <div class="section">
+			      <p class="title">${class_detail_title}</p>
+			      <p>${class_detail_sub}</p>
+			  </div>
+			  <div class="section">
+			      <p class="title">${class_section1_title}</p>
+			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>class</i> &lt;class name&gt; <i>extends or prototype</i> &lt;base class name or literal&gt;</code></pre>
+			      <p>
+				  ${class_section1_sub1}
+			      </p>
+			      <pre class="prettyprint grammars"><code><i>constructor(</i>&lt;arguments list&gt;<i>)</i> &lt;function body&gt;</code></pre>
+			      <p>
+				  ${class_section1_sub2}
+			      </p>
+
+			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>public or private or static</i> &lt;name&gt; &lt;function body or '=' values&gt;(optional)</code></pre>
+			      <p>
+				  ${class_section1_sub3}
+			      </p>
+			      <pre class="prettyprint grammars"><code><i>this.</i>&lt;name&gt;</code></pre>
+			      <p>${class_section1_sub4}</p>
+			      <pre class="prettyprint grammars"><code><i>private(object).</i>&lt;name&gt;</code></pre>
+			      <p>${class_section1_sub5}</p>
+			  </div>
+	    </div>
+	</div>
+	<div id="trait" class="tab-pane">
+	    <h3>trait</h3>
+	    <p>${trait_title}</p>
+	    <p>${trait_impl_sub}</p>
+	    <div>
+		<p>${trait_ex1_title}</p>
+		<pre class="prettyprint grammars"><code>//traitの定義
+trait TestTrait {
+  requires testReq1;
+  public test1( ...arg )->this.testReq1(arg[0]);
+}
+trait TestTrait2 {
+  requires testReq2;
+  public test1( ...arg )->this.testReq2(arg[0]);
+  public test2->console.log('ok');
+}
+class MixinTest {
+  public testReq1(arg) -> console.log(arg);
+  public testReq2(arg) -> console.log(arg);
+  mixin TestTrait with test1 as method1;
+  mixin TestTrait2 without test1, with test2 as method2;
+}</code></pre>
+		<p>${trait_ex2_title1}</p>
+		<pre class="prettyprint grammars"><code>var TestTrait =  {
+        _mochaTraitPrivate : {},
+        _mochaTraitPublic :  {
+          test1 : function testm1() {
+            var arg = Runtime.toArray(arguments,0);
+            this.testReq1(arg[0]);
+          }
+        },
+        _mochaRequires :  {
+          testReq1 : true
+        },
+        _mochaTraitMark : true
+      },
+      TestTrait2 =  {
+        _mochaTraitPrivate : {},
+        _mochaTraitPublic :  {
+          test1 : function testm2() {
+            var arg = Runtime.toArray(arguments,0);
+            this.testReq2(arg[0]);
+          },
+          test2 : function testm3() {
+            console.log('ok');
+          }
+        },
+        _mochaRequires :  {
+          testReq2 : true
+        },
+        _mochaTraitMark : true
+      },
+      MixinTest = function () {
+        function constructor(){}
+        function MixinTest() {
+          Runtime.initializeClass(this,MixinTest,_mochaPrivateHolder,constructor,arguments,'MixinTest',101);
+        }
+        var _mochaPrivateHolder = function (){};
+        Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+        MixinTest.prototype.testReq1 = function (arg) {
+          return console.log(arg)
+        };
+        MixinTest.prototype.testReq2 = function (arg) {
+          return console.log(arg)
+        };
+        Runtime.classMixin(MixinTest,_mochaPrivateHolder,TestTrait, {
+          test1 : "method1"
+        },{});
+        Runtime.classMixin(MixinTest,_mochaPrivateHolder,TestTrait2,{
+          test2 : "method2"
+        }, {
+          test1 : true
+        });
+        Runtime.checkRequirements(MixinTest,_mochaPrivateHolder,[TestTrait,TestTrait2],'class_test.js',105);
+        Runtime.createUnenumProp(MixinTest.prototype,"constructor",constructor);
+        return MixinTest;
+   }()</code></pre>
+		<div class="section">
+		    <p class="title">${trait_detail_title}</p>
+		    <p>${trait_detail_sub1}</p>
+		</div>
+		<div class="section">
+		    <p class="title">${trait_interface_title}</p>
+		    <pre class="prettyprint grammars"><code><i>trait</i> &lt;trait name&gt;</code></pre>
+		    <p>${trait_interface_sub1}</p>
+		    <pre class="prettyprint grammars"><code><i>mixin</i> &lt;trait name&gt; <i>with(optional)</i> &lt;member name&gt; <i>as</i> &lt;new member name&gt <i>without(optional)</i> &lt;member name&gt;</code></pre>
+		    <p>${trait_interface_sub2}</p>
+		</div>
+	    </div>
+	</div>
+	<div id="destructuring-assignment" class="tab-pane">
+	    <h3>destructuring assignment</h3>
+	    <p>${destructuring_title}</p>
+	    <p>${destructuring_impl_sub}</p>
+	    <div>
+		<p>${destructuring_ex1_title}</p>
+		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
+    [one,two,three,four] = array;
+console.log(one,two,three,four);</code></pre>
+		<p>${destructuring_ex2_title}</p>
+		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
+    one = array[0],
+    two = array[1],
+    three = array[2],
+    four = array[3]</code></pre>
+		<p>${destructuring_ex3_title}</p>
+		<pre class="prettyprint grammars"><code>var obj = {
+      one : 0,
+      two : 1,
+      three : 2,
+      four : 3
+    },
+    {one,two,three,four} = obj;</code></pre>
+		<p>${destructuring_ex4_title}</p>
+		<pre class="prettyprint grammars"><code>var obj = {
+      one : 0,
+      two : 1,
+      three : 2,
+      four : 3
+    },
+    one = obj.one,
+    two = obj.two,
+    three = obj.three,
+    four = obj.four;</code></pre>
+		<p>${destructuring_ex5_title}</p>
+		<pre class="prettyprint grammars"><code>var object = {
+      value1 : 100,
+      value2 : {
+        value3 : 100
+      },
+      value4 : [100,200,300],
+      value5 : {
+        value6 : [{value7 : 100}]
+      },
+      "@value" : {
+        strvalue : 100
+      }
+    }
+var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { value6 : [{value7}] },"@value":{strvalue}} = object;
+		</code></pre>
+		<p>${destructuring_ex6_title}</p>
+		<pre class="prettyprint grammars"><code>var object = {
+      value1 : 100,
+      value2 : {
+        value3 : 100
+      },
+      value4 : [100,200,300],
+      value5 : {
+        value6 : [{value7 : 100}]
+      },
+      "@value" : {
+        strvalue : 100
+      }
+    },
+    value1 = object.value1,
+    value3 = object.value2 && object.value2.value3?object.value2.value3 : undefined,
+    value5_ = object.value4 && object.value4[0]?object.value4[0] : undefined,
+    value6_ = object.value4 && object.value4[1]?object.value4[1] : undefined,
+    value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined,
+    value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined,
+    strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;</code></pre>
+	    </div>
+	</div>
+	<div id="for-each" class="tab-pane">
+	    <h3>for each</h3>
+	    <p>${for_each_title}</p>
+	    <p>${for_each_impl_sub}</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
+for each(var i in obj) {
+  console.log(i);
+}</code></pre>
+		<p>${for_each_ex2_sub}</p>
+		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
+for(var i in obj) {
+  i = obj[i];
+  console.log(i);
+}</code></pre>
+	    </div>
+	</div>
+	<div id="do-expression" class="tab-pane">
+	    <h3>do expression</h3>
+	    <p>${do_expression_title}</p>
+	    <p>${do_expression_impl_sub}</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>var x = do { var t = f(); t * t + 1 };</code></pre>
+		<p>${do_expression_ex2_title}</p>
+		<pre class="prettyprint grammars"><code>var x = function () {
+    var t = f();
+    return t * t + 1;
+}();</code></pre>
+	    </div>
+	</div>
+	<div id="short-function-syntax" class="tab-pane">
+	    <h3>short function syntax</h3>
+	    <p>${short_function_title}</p>
+	    <p>${short_function_impl_sub}</p>
+	    <div>
+		<p>${short_function_ex1_title}</p>
+		<pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
+    b = (x,y,z) -> { return x + y + z; }</code></pre>
+		<p>${short_function_ex2_title}</p>
+		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
+    b = function (x,y,z) { return x + y + z;}</code></pre>
+		<p>${short_function_ex3_title}</p>
+		<pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
+bar(x,y,z) -> { return x + y + z; }</code></pre>
+		<p>${short_function_ex4_title}</p>
+		<pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
+function bar (x,y,z) { return x + y + z;}</code></pre>
+		<p>${short_function_ex5_title}</p>
+		<pre class="prettyprint grammars"><code>var a = (x,y,z) => x + y + z,
+    b = (x,y,z) => { return x + y + z; }
+foo(x,y,z) => console.log(this);
+bar(x,y,z) => {console.log(this) }</code></pre>
+		<p>${short_function_ex6_title}</p>
+		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
+    b = function (x,y,z) { return x + y + z; }.bind(this);
+function foo (x,y,z) { return console.log(_mochaLocalTmp0);}
+foo = foo.bind(this);
+function bar (x,y,z) { return console.log(_mochaLocalTmp1);}
+bar = bar.bind(this);</code></pre>
+	    </div>
+	</div>
+	<div id="import" class="tab-pane">
+	    <h3>import</h3>
+	    <p>${import_title}</p>
+	    <p>${import_impl_sub}</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>import module from './test';
+import {exports1,exports2} from './test2'.module;
+import [value1, value2] from './test3'.module.exports;
+import exports from './test4'.module;
+import './test5' as test5</code></pre>
+		<p>${import_ex1_title}</p>
+		<pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
+    _mochaLocalTmp0 = Runtime.modules.get('564059-test2.js').module,
+    exports1 = _mochaLocalTmp0.exports1,
+    exports2 = _mochaLocalTmp0.exports2,
+    _mochaLocalTmp1 = Runtime.modules.get('906045-test3.js').module.exports,
+    value1 = _mochaLocalTmp1[0],
+    value2 = _mochaLocalTmp1[1],
+    exports = Runtime.modules.get('945095-test4.js').module.exports,
+    test5 = Runtime.modules.get('455905-test5.js');
+    </code></pre>
+		<div class="section">
+		    <p class="title">${import_detail}</p>
+		    <p>${import_detail_title1}</p>
+		    <p>${import_detail_sub1}</p>
+		    <table>
+			<tr>
+			    <th>${import_detail_sub2}</th><th>${import_detail_sub3}</th>
+			</tr>
+			<tr>
+			    <td>'./filename'</td><td>${import_detail_sub4}</td>
+			</tr>
+			<tr>
+			    <td>'filename'</td><td>${import_detail_sub5}</td>
+			</tr>
+		    </table>
+		</div>
+	    </div>
+	</div>
+	<div id="module" class="tab-pane">
+	    <h3>module</h3>
+	    <p>${module_title}</p>
+	    <p>${module_impl_sub}</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>module testModule {
+  export test() -> console.log('test!!');
+}
+module testModule2 {
+  module testInnerModule3 {
+    export testExport2()->2;
+    export testExport3 = {test:200};
+  }
+}
+module testModule3 = ->3</code></pre>
+		<p>${module_ex2_title}</p>
+		<pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
+      function testExport1() {
+        return console.log('test!!');
+      }
+      var _mochaLocalExport = {};
+      _mochaLocalExport.testExport1 = testExport1;
+      return _mochaLocalExport;
+    }();
+var testModule2 = Runtime.modules.get('3490394-test.js').testModule2 = function () {
+  var _mochaLocalExport = {},
+    testInnerModule3 = _mochaLocalExport.testInnerModule3 = function () {
+      function testExport2() {
+        return 2;
+      }
+      var _mochaLocalExport = {};
+      _mochaLocalExport.testExport2 = testExport2;
+      var testExport3 = _mochaLocalExport.testExport3 =  {
+          test : 200
+        };
+      return _mochaLocalExport;
+    }();
+  return _mochaLocalExport;
+}();
+Runtime.modules.get('3490394-test.js').testModule3 = function () {
+  return 3;
+}</code></pre>
+		<div class="section">
+		    <p class="title">${module_detail_title}</p>
+		    <p>${module_detail_sub1}</p>
+		</div>
+		<div class="section">
+		    <p class="title">${module_decl_title}</p>
+		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>{</i> ... <i>}</i></code></pre>
+		    <p>${module_decl_sub1}</p>
+		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>=</i> &lt;values&gt;</code></pre>
+		    <p>${module_decl_sub2}</p>
+		</div>
+	    </div>
+	</div>
+	<div id="let-expression" class="tab-pane">
+	    <h3>let expression</h3>
+	    <p>${let_expression_title}</p>
+	    <p>${let_expression_impl_sub}</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>var foo = 200;
+let (foo = 300) {
+  console.assert(foo === 300);
+}</code></pre>
+		<p>変換後</p>
+		<pre class="prettyprint grammars"><code>var foo = 200;
+!function(foo) {
+  console.assert(foo === 300);
+}(300);</code></pre>
+		<div class="section">
+		    <p class="title">${let_expression_detail}</p>
+		    <p>${let_expression_detail_sub1}</p>
+		</div>
+	    </div>
+	</div>
+	<div id="object-literal-extras" class="tab-pane">
+	    <h3>object literal extras</h3>
+	    <p>${object_literal_extras_title}</p>
+	    <p>${object_literal_impl_sub}</p>
+	    <div>
+		<p>batch assignment operator</p>
+		<pre class="prettyprint grammars"><code>var namespaces = {
+      foo : {},
+      bar : {}
+    }
+namespaces.{
+  baz : {}
+}.{
+  qux : {}
+}</code></pre>
+		<p>${object_literal_ex1_title}</p>
+		<pre class="prettyprint grammars"><code>var namespaces = {
+      foo : {},
+      bar : {}
+    }
+Runtime.extend(Runtime.extend(namespaces, {
+  bar : {}
+}), {
+  qux : {}
+});</code></pre>
+		<p>private property</p>
+		<pre class="prettyprint grammars"><code>var foo = 'private_name';
+var namespaces = {
+      [foo] : {},
+      bar : {}
+    }</code></pre>
+		<p>変換後</p>
+		<pre class="prettyprint grammars"><code>var foo = 'private_name';
+var namespace = {
+      bar : {}
+    }
+Runtime.createUnenumProp(namespace, 'foo', {});</code></pre>
+	    </div>
+	</div>
+	<div id="data-structure-extras" class="tab-pane">
+	    <h3>data structure extras</h3>
+	    <p>${data_structure_extras_title}</p>
+	    <p>${data_structure_extras_impl_sub}</p>
+	    <div>
+		<p>tuple</p>
+		<pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
+var tuple2 = new Tuple(0,1,2,3);</code></pre>		
+		<p>record</p>
+		<pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
+var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
+		<div class="section">
+		    <p class="title">${data_structure_detail_title}</p>
+		    <p><strong>tuple</strong></p>
+		    <p>${data_structure_extras_detail_sub1}</p>
+		    <p><strong>API</strong></p>
+		    <table>
+			<tr>
+			    <th>${data_structure_extras_detail_th1}</th>
+			    <th>${data_structure_extras_detail_th2}</th>
+			    <th>${data_structure_extras_detail_th3}</th>
+			</tr>
+			<tr>
+			    <td>equal</td><td>equal(tuple)</td>${data_structure_detail_sub2}<td>${data_structure_extras_detail_sub2}</td>
+			</tr>
+			<tr>
+			    <td>toArray</td><td>toArray()</td><td>${data_structure_extras_detail_sub3}</td>
+			</tr>
+			<tr>
+			    <td>length</td><td>length</td><td>${data_structure_extras_detail_sub4}</td>
+			</tr>
+		    </table>
+		    <p><strong>record</strong></p>
+		    <p>${data_structure_detail_sub5}</p>
+		    <p>${data_structure_detail_sub6}</p>
+		</div>
+	    </div>
+	</div>
+	<div id="generator-iterator" class="tab-pane">
+	    <h3>generator/iterator</h3>
+	    <p>${generator_iterator_title}</p>
+	    <p>${generator_iterator_impl_sub}</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>//${generator_iterator_ex1_comment1}
+function doCallback(num) {
+  console.log(num + "\n");
+}
+function fib() {
+  var i = 0, j = 1, n = 0;
+  while (n < 10) {
+    doCallback(i);
+    var t = i;
+    i = j;
+    j += t;
+    n++;
+  }
+}
+fib();
+//${generator_iterator_ex1_comment2}
+function fib() {
+  var i = 0, j = 1;
+  while (true) {
+    yield i;
+    var t = i;
+    i = j;
+    j += t;
+  }
+}
+var g = fib();
+for (var i = 0; i < 10; i++) {
+  console.log(g.next() + "\n");
+}</code></pre>
+		    <p>${generator_iterator_mdn}</p>
+		    <blockquote><p>${generator_iterator_mdn_sub1}</p>
+<small><a href="${generator_iterator_msdn_link1}">MDN Generator</a></small></blockquote>
+		    <p>${generator_iterator_mdn_sub2}</p>
+		    <p>MDN</p>
+		    <blockquote><p>${generator_iterator_mdn_sub3}</p>
+<small><a href="${generator_iterator_mdn_link2}">MDN Generator</a></small></blockquote>
+		    <p>${generator_iterator_mdn_sub4}</p>
+		    <pre class="prettyprint grammars"><code>yieldTest()-> {
+  for ( var i = 0;i<10; i++ ) {
+    var m = yield i;
+    if ( m === true ) {
+      yield i + 1;
+    } else if ( m === false ){
+      yield i - 1;
+    } else {
+      yield i;
+    }
+  }
+}
+generator = yieldTest();
+@assert( true , generator.next() === 0 );
+@assert( true , generator.send( true ) === 1 );
+@assert( true , generator.send( false ) === 1 );
+@assert( true , generator.send( true ) === 2 );
+@assert( true , generator.send( false ) === 2 );
+@assert( true , generator.send( true ) === 3 );
+@assert( true , generator.send( true ) === 3 );
+@assert( true , generator.send( true ) === 4 );
+@assert( true , generator.send( false ) === 4 );
+@assert( true , generator.send( true ) === 5 );</code></pre>
+			<p>${generator_iterator_ex2_comment1}</p>
+			<p>iterator</p>
+			<pre class="prettyprint grammars"><code>import {iterator} from "iterators";
+var iter = {
+      arr : [],
+      add : function ( value ) {
+        this.arr.push( value );
+      },
+      [iterator] : function () {
+        var arr = this.arr;
+        return {
+          index : 0,
+          next : function () {
+            if ( arr.length > this.index ) {
+              var ret = arr[ this.index ];
+              this.index++;
+              return ret;
+            } else {
+              throw StopIteration;
+            }
+          }
+        }
+      }
+    }</code></pre>
+	     <div>
+		 <p class="title">${generator_iterator_detail_title}</p>
+		 <p>${generator_iterator_detail_sub1}</p>
+	     </div>
+	    </div>
+	</div>
+	<div id="for-of" class="tab-pane">
+	    <h3>for of</h3>
+	    <p>${for_of_sub1}</p>
+	    <p>${for_of_impl_sub}</p>
+	    <div>
+		<pre class="prettyprint grammars"><code>import {iterator} from 'iterators';
+var items = function ( obj ) {
+      return {
+        [iterator] : function () {
+          for( var i in obj ) {
+            yield [i, obj[i]];
+          }
+        }
+      }
+    },
+    iter = {
+      arr : [],
+      add : function ( value ) {
+        this.arr.push( value );
+      },
+      [iterator] : function () {
+        var arr = this.arr;
+        return {
+          index : 0,
+          next : function () {
+            if ( arr.length > this.index ) {
+              var ret = arr[ this.index ];
+              this.index++;
+              return ret;
+            } else {
+              throw StopIteration;
+            }
+          }
+        }
+      }
+    }
+    obj = {x:200,y:300}
+for of(var i in items(obj)) {
+  console.log(i[0], i[1]);
+}
+iter.add( 100 );
+iter.add( 200 );
+iter.add( 300 );
+iter.add( 400 );
+for of(var i in iter) {
+  console.log(i);//100,200,300...
+}</code></pre>
+		<div class="section">
+		    <p class="title">${for_of_detail}</p>
+		    <p>${for_of_detail_sub1}</p>
+		</div>
+	    </div>
+	</div>
+		</div>
+	    </div>
+	</div>
+	<!--[if lt IE 9]>
+	    <style>
+		.button{
+		background : #FFFF00;
+		display : block;
+		}
+		.button:hover{
+		background : #AAAA00;
+		}
+		.blueButton{
+		background : #69b7ff;
+		display : block;
+		}
+		.blueButton:hover{
+		background : #4795dd;
+		}
+		.fixed {
+		width : 300px;
+		}
+	    </style>
+	    <![endif]-->
+    </body>
+</html>

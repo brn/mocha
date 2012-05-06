@@ -1,0 +1,69 @@
+pre {
+font-family: Menlo, Monaco, "Courier New", monospace;
+line-height : 1.5em;
+  white-space: -moz-pre-wrap; /* Mozilla */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    white-space: pre-wrap;      /* CSS3 */
+    word-wrap: break-word;      /* IE 5.5+ */
+}
+body{
+background : #333 url(../images/stripes.gif);
+}
+#contents{
+width : 1000px;
+margin : 30px auto;
+}
+#leftBlock {
+float : left;
+width : 300px;
+overflow : hidden;
+}
+#rightBlock {
+float : left;
+width : 620px;
+margin-left : 50px;
+padding : 15px;
+background : #111111;
+}
+#leftBlock li{
+position : relative;
+list-style : none;
+}
+#leftBlock li div.togglableBg{
+position : absolute;
+width : 295px;
+height : 3em;
+border-right : 5px solid #FFFFFF;
+}
+#leftBlock li a{
+color : #FFFFFF;
+position : relative;
+display : block;
+height : 2em;
+padding : 1em 0 0 10px;
+}
+div.tab-pane {
+display : none;
+}
+div.active {
+display : block;
+}
+#rightBlock h3{
+border-bottom : 1px solid #666666;
+margin : 10px 0;
+font-weight : bold;
+font-size : 130%;
+}
+#rightBlock p{
+line-height : 1.5em;
+}
+#rightBlock .title {
+border-bottom : 1px solid #666666;
+font-weight : bold;
+font-size : 116%;
+margin : 5px 0;
+}
+#rightBlock div.section {
+margin : 20px 0;
+}
