@@ -17,6 +17,12 @@ values = {
             },
         'api_guide.html' : {
             'active_api' : active_class
+            },
+        'ja' : {
+            'overview' : '概要'
+            },
+        'en' : {
+            'overview' : 'Overview'
             }
         },
 'index.html' : {
@@ -36,19 +42,19 @@ values = {
             'sp_test_sub' : 'phantomjsなどのテスト用ツールを利用したテストも可能です。'
             },
         'en' : {
-            'hero_sub' : 'mocha is the translator to translate the Ecmascript262 5th edition, the Ecmascript harmony that is now working out and, some extensions to a browser executable javascript.',
-            'sp_translate' : 'Converte ES Next to javascript.',
-            'sp_translate_sub' : 'Translate files that written by ES Next to the browser executable javascript.',
-            'sp_cmp' : 'The compress',
-            'sp_cmp_sub' : 'The mocha compress a translated javascript, and this done by seamless. So don\'t need to execute other tools.',
-            'sp_module' : 'modules',
-            'sp_module_sub' : 'The mocha support modules, by the ES Next\'s \'import\' and \'module statement\' and mocha\'s @include extension. That combined at the compilation time.',
-            'sp_version' : 'versions',
-            'sp_version_sub' : 'The mocha has version operator, so you can delete code block from compiled file by the version identifier that defined before the compilation.',
-            'sp_error_handler' : 'The Error handler insertion.',
-            'sp_error_handler_sub' : 'To easy debug, the mocha insert file name and line numbers, per statement or scope.',
-            'sp_test' : 'The test.',
-            'sp_test_sub' : 'You can use the phantomjs or other test libraries.'
+            'hero_sub' : 'mocha is the translator to translate the Ecmascript262 5th edition, the Ecmascript harmony which is now working out and, some extensions to a browser executable javascript.',
+            'sp_translate' : 'Translate',
+            'sp_translate_sub' : 'Translate files which are written by \'ES Next\' to the browser executable javascript.',
+            'sp_cmp' : 'Compress',
+            'sp_cmp_sub' : 'mocha compress a translated javascript, and this done by seamless. So you don\'t need to execute other tools.',
+            'sp_module' : 'Modules',
+            'sp_module_sub' : 'The module systems is supported by the ES Next\'s \'import\' and \'module statement\' and mocha\'s @include extension. That combine files at the compilation time.',
+            'sp_version' : 'Versions',
+            'sp_version_sub' : 'mocha has a version operator, so you can delete the code blocks from a compiled file by the version identifier which is defined before the compilation.',
+            'sp_error_handler' : 'Debugging',
+            'sp_error_handler_sub' : 'To easy debug, mocha insert each file names and line number per statement or scope.',
+            'sp_test' : 'Testing.',
+            'sp_test_sub' : 'You can use the phantomjs or other test libraries easily.'
             }
         },
 'es_next_detail.html' : {
@@ -192,54 +198,54 @@ public,privateなどの指定はclassを参照してください。""",
             'for_of_detail_sub1' : 'generatorかiteratorの定義されたオブジェクトを与えることで、次々にnextを呼び出し、StopIterationが投げられると処理を終了します。'
             },
         'en' : {
-            'class_title' : 'The class is going to be included in current proposal. The class is syntax sugar of the function and prototype definition.',
+            'class_title' : 'The class is new syntax which is included in current harmony proposal. That is syntax sugar of the function and prototype definitions.',
             'class_imp_browsers' : 'implementation : none',
-            'class_ex1_title' : 'In any case, we create class with function and prototype.',
+            'class_ex1_title' : 'In any case, we create a class with the function and prototypes.',
             'class_ex1_comment1' : 'This class inherit from THREE.Mesh.',
-            'class_ex1_comment2' : 'Call the parent constructor.',
-            'class_ex1_comment3' : 'Ecmascript5 inheritance.',
-            'class_ex1_comment4' : 'Make prototype object that inherit from THREE.Mesh.prototype',
-            'class_ex1_comment5' : 'Call super class\'s update member function.',
-            'class_ex2_title' : 'Then, rewrite above code by ES Next\'s class.',
-            'class_ex2_comment1' : 'To inherit, we use syntax like class \'derived\' extends \'super\'',
-            'class_ex2_comment2' : 'The super is must be a constructor function or ES Next class.',
+            'class_ex1_comment2' : 'Call a base class constructor.',
+            'class_ex1_comment3' : 'ES5 inheritance.',
+            'class_ex1_comment4' : 'Make a prototype object that inherit from the THREE.Mesh.prototype',
+            'class_ex1_comment5' : 'Call the super class\'s update member function.',
+            'class_ex2_title' : 'Then, rewrite above code by the ES Next\'s class.',
+            'class_ex2_comment1' : 'To inherit, we use a syntax like class \'derived\' extends \'super\'',
+            'class_ex2_comment2' : 'The super is must be a constructor function or a ES Next class.',
             'class_ex2_comment3' : 'Call the super class constructor.',
-            'class_ex2_comment4' : 'This correspond to THREE.Mesh.call(this, geometry, materials).',
-            'class_ex2_comment5' : 'A public member need public modifier before declaration. ',
+            'class_ex2_comment4' : 'This statement correspond to THREE.Mesh.call(this, geometry, materials).',
+            'class_ex2_comment5' : 'A public member need a public modifier before declaration. ',
             'class_ex2_comment6' : 'A call of super class\'s method.',
-            'class_ex2_commnet7' : 'This correspond to THREE.Metsh.prototype.update.call(this).',
-            'class_ex3_title' : 'Next, we explain basic component of class.',
+            'class_ex2_commnet7' : 'This statement correspond to THREE.Metsh.prototype.update.call(this).',
+            'class_ex3_title' : 'Next, we explain the basic components of class.',
             'class_ex3_comment1' : 'The constructor definition is like below.',
-            'class_ex3_comment2' : 'The instance member define in the constructor.',
+            'class_ex3_comment2' : 'The instance member is defined in the constructor.',
             'class_ex3_comment3' : 'The prototype method is qualifiable as public or private.',
-            'class_ex3_comment4' : 'If you do not specify the modifiers, the modifiers is set as private by default.',
+            'class_ex3_comment4' : 'If you do not specify a modifier, the modifier is set as private by default.',
             'class_ex3_comment5' : 'The short function syntax can use too.',
-            'class_ex3_comment6' : 'The member except for the public method and the instance member, all member set to prototype,',
-            'class_ex3_comment7' : 'and all instance use the same value.',
-            'class_ex3_comment8' : 'If you do not initialize the const member in constructor or definition time,',
-            'class_ex3_comment9' : 'could not set value.',
-            'class_ex3_comment10' : 'Decalred as the static, member is set to class static member.',
-            'class_ex3_comment11' : 'The static modifier can not set private or public, and all static member is treat as public.',
+            'class_ex3_comment6' : 'The member except for the public methods and the instance members, all member set to prototype,',
+            'class_ex3_comment7' : 'and all instance use a same value.',
+            'class_ex3_comment8' : 'If you do not initialize the const member in the constructor or the definition time,',
+            'class_ex3_comment9' : 'const member can not set value.',
+            'class_ex3_comment10' : 'Decalred as a static, that member is set to class static member.',
+            'class_ex3_comment11' : 'The static modifier can not set with the private or public, and all static members are treated as public.',
             'class_ex4_title' : after_compilation_en,
             'class_detail_title' : 'Detail',
-            'class_detail_sub' : 'In mocha. the class is behave as syntax sugar of the constructor function and the prototype, so it has 100% compatibility to existing javascript\'s class that declared as function and prototype. And the overhead of class is supressed as much as possible, but to realize private field, the class syntax has a little overhead.',
+            'class_detail_sub' : 'In mocha, the class is behave as syntax sugar of the definition of the constructor function and prototype, so it has 100% compatibility to existing javascript\'s class which declared as a function and prototypes. And the overhead of a class is supressed as much as possible, but to realize the private field, the class syntax has a little overhead.',
             'class_section1_title' : 'Interface',
-            'class_section1_sub1' : """Declare class. A class name and a base class name is able to use javascript identifier.
-		    If const modifier is set to before class declaration, all class member is become immutable.
-		    If you select extends keyword as the inheritance, the inheritance is the normal prototype, if you select the prototype keyword, use the &lt;base class name or literal&gt; prototype as the direct prototype.""",
+            'class_section1_sub1' : """Declare class. A class name and base a class name is able to use javascript identifier.
+		    If const modifier is set to before the class declaration, all class members are become immutable.
+		    If you select extends keyword as the inheritance, the inheritance is the normal prototype, if you select the prototype keyword, use the &lt;base class name or literal&gt; prototype as the direct prototype of the derived class.""",
             'class_section1_sub2' : """Define constructor. The constructor name must be \'constructor\'.
-				  Initialize instance member. If you do not define the constructor, mocha create default constructor.""",
+				  Initialize instance member. If you do not define the constructor, mocha create default empty constructor.""",
             'class_section1_sub3' : """Define member. If public modifier is set, the member is accessible from caller.
-				  If const modifier is set, that treat as immutable, and 
+				  If const modifier is set, that is treated as immutable, and 
 				  private modifier is set, that unaccessible from caller,
 				  and if you do not specify the modifiers, the private modifier is set by default.
-				  The member that has static modifier is able to access without instance, but can not access member except for static member,
-				  and static member can not set modifier, it treat as public.""",
-            'class_section1_sub4' : 'Access to the public member.',
-            'class_section1_sub5' : 'Access to the private member.',
-            'trait_title' : 'The object that define the class behaver.',
+				  The member that has static modifier is able to access without instance, but can not access members except for the static members,
+				  and static member can not set a modifier, it\'s treated as public.""",
+            'class_section1_sub4' : 'Access to a public member.',
+            'class_section1_sub5' : 'Access to a private member.',
+            'trait_title' : 'The object which define the class behavior.',
             'trait_impl_sub' : 'implementation : none',
-            'trait_ex1_title' : 'The define trait is like below.',
+            'trait_ex1_title' : 'The definition of a trait is like below.',
             'trait_ex2_title' : after_compilation_en,
             'trait_detail_title' : 'Detail',
             'trait_detail_sub1' : """Inject dehaver into class. The trait can define requirements to set require property.

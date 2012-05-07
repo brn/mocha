@@ -8,6 +8,7 @@
 	$css{css/button.css}
 	$css{css/prettify.css}
 	$css{css/prettify_theme.css}
+	<link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css">
 	<!--[if IE 6]>
 	$script{js/lib/dd_belatedpng.js}
 	<![endif]-->
@@ -38,9 +39,11 @@
 		    <div id="class" class="tab-pane active">
 			<h3>class</h3>
 			<p>${class_title}</p>
-			<p>${class_imp_browsers}</p>
+			<p class="browserImp">${class_imp_browsers}</p>
 			<div>
-			    <p>${class_ex1_title}</p>
+					<div class="section">
+							<p class="title">${overview}</p>
+							<p>${class_ex1_title}</p>
 			    <pre class="prettyprint grammars"><code>//${class_ex1_comment1}
 function SkinnedMesh(geometry, materials) {
   //${class_ex1_comment2}
@@ -146,6 +149,7 @@ class SkinnedMesh extends THREE.Mesh {
       Runtime.createUnenumProp(Monster.prototype,"constructor",constructor);
       return Monster;
     }()</code></pre>
+													</div>
 			  <div class="section">
 			      <p class="title">${class_detail_title}</p>
 			      <p>${class_detail_sub}</p>

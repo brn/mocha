@@ -117,7 +117,7 @@ visibility: hidden;
 body {
 background : #222222;
 color : #ffffff;
-font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+font-family:'Oxygen','ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
 *font-size:small;
 *font:x-small;
 }
@@ -231,7 +231,17 @@ line-height : 1.5em;
 #rightBlock table th {
 background : #333333;
 }
-</style>
+
+a.active,
+a:hover{
+text-shadow : 0px 0px 6px rgba(255,255,0,0.6)
+}
+p.browserImp {
+border-top : 1px dotted #ffffff;
+border-bottom : 1px dotted #ffffff;
+margin : 10px 0;
+color : #eedd00;
+}</style>
 	<style>.button {
 color: #000000;
 padding: 10px 20px;
@@ -339,6 +349,7 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
   pre .atn, code .atn { color: #404; }
   pre .atv, code .atv { color: #060; }
 }</style>
+	<link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css">
 	<!--[if IE 6]>
 	
 <script type="text/javascript">
@@ -592,9 +603,11 @@ color : #eedd00;
 			<h3>class</h3>
 			<p>現在策定されているプロポーサルではclassが組み込まれる予定です。
 		class機能自体はfunctionの糖衣構文になります。</p>
-			<p>実装済み処理系 : 無し</p>
+			<p class="browserImp">実装済み処理系 : 無し</p>
 			<div>
-			    <p>まずは今までの書き方でクラスを生成してみます。</p>
+					<div class="section">
+							<p class="title">概要</p>
+							<p>まずは今までの書き方でクラスを生成してみます。</p>
 			    <pre class="prettyprint grammars"><code>//このクラスはTHREE.Meshを継承しています。
 function SkinnedMesh(geometry, materials) {
   //親クラスのコンストラクタを呼び出します。
@@ -700,6 +713,7 @@ class SkinnedMesh extends THREE.Mesh {
       Runtime.createUnenumProp(Monster.prototype,"constructor",constructor);
       return Monster;
     }()</code></pre>
+													</div>
 			  <div class="section">
 			      <p class="title">詳細</p>
 			      <p>mochaではclassはコンストラクタ関数と、プロトタイプの糖衣構文として機能します。なので、既存のjavascriptのクラスと100%の互換性を持っています。またクラスを使用することによるオーバーヘッドもできるだけ抑えてありますが、privateフィールドの実現のためにやや実行時にオーバーヘッドがあります。</p>

@@ -85,3 +85,14 @@ line-height : 1.5em;
 #rightBlock table th {
 background : #333333;
 }
+
+a.active,
+a:hover{
+text-shadow : 0px 0px 6px rgba(255,255,0,0.6)
+}
+p.browserImp {
+border-top : 1px dotted #ffffff;
+border-bottom : 1px dotted #ffffff;
+margin : 10px 0;
+color : #eedd00;
+}
