@@ -67,3 +67,21 @@ margin : 5px 0;
 #rightBlock div.section {
 margin : 20px 0;
 }
+
+#rightBlock table {
+border : 1px solid #666666;
+border-collapse : collapse;
+width : 100%;
+margin-top : 15px;
+}
+
+#rightBlock table th,
+#rightBlock table td {
+border : 1px solid #666666;
+padding : 10px;
+line-height : 1.5em;
+}
+
+#rightBlock table th {
+background : #333333;
+}

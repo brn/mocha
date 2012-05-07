@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
     <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>mocha</title>
-	<style>/*
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+				<title>mocha</title>
+				<style>/*
 html5doctor.com Reset Stylesheet
 v1.4
 2009-07-27
@@ -144,7 +144,7 @@ font:100%;
 .text26 { font-size:197%; }
 
 </style>
-	<style>pre {
+				<style>pre {
 font-family: Menlo, Monaco, "Courier New", monospace;
 line-height : 1.5em;
   white-space: -moz-pre-wrap; /* Mozilla */
@@ -212,8 +212,27 @@ margin : 5px 0;
 }
 #rightBlock div.section {
 margin : 20px 0;
-}</style>
-	<style>.button {
+}
+
+#rightBlock table {
+border : 1px solid #666666;
+border-collapse : collapse;
+width : 100%;
+margin-top : 15px;
+}
+
+#rightBlock table th,
+#rightBlock table td {
+border : 1px solid #666666;
+padding : 10px;
+line-height : 1.5em;
+}
+
+#rightBlock table th {
+background : #333333;
+}
+</style>
+				<style>.button {
 color: #000000;
 padding: 10px 20px;
 background: -moz-linear-gradient(top, #00ff1e 0%, #e1ff00 50%, #89f227 50%, #ebdb2f 65%, #37ff05);
@@ -271,9 +290,9 @@ background: -webkit-gradient(linear, left top, left bottom, from(#00dd0a), color
 	to(#176184));
 }
 </style>
-	<style>.pln{color:#000}@media screen{.str{color:#080}.kwd{color:#008}.com{color:#800}.typ{color:#606}.lit{color:#066}.pun,.opn,.clo{color:#660}.tag{color:#008}.atn{color:#606}.atv{color:#080}.dec,.var{color:#606}.fun{color:red}}@media print,projection{.str{color:#060}.kwd{color:#006;font-weight:bold}.com{color:#600;font-style:italic}.typ{color:#404;font-weight:bold}.lit{color:#044}.pun,.opn,.clo{color:#440}.tag{color:#006;font-weight:bold}.atn{color:#404}.atv{color:#060}}pre.prettyprint{padding:2px;border:1px solid #888}ol.linenums{margin-top:0;margin-bottom:0}li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:none}li.L1,li.L3,li.L5,li.L7,li.L9{background:#eee}
+				<style>.pln{color:#000}@media screen{.str{color:#080}.kwd{color:#008}.com{color:#800}.typ{color:#606}.lit{color:#066}.pun,.opn,.clo{color:#660}.tag{color:#008}.atn{color:#606}.atv{color:#080}.dec,.var{color:#606}.fun{color:red}}@media print,projection{.str{color:#060}.kwd{color:#006;font-weight:bold}.com{color:#600;font-style:italic}.typ{color:#404;font-weight:bold}.lit{color:#044}.pun,.opn,.clo{color:#440}.tag{color:#006;font-weight:bold}.atn{color:#404}.atv{color:#060}}pre.prettyprint{padding:2px;border:1px solid #888}ol.linenums{margin-top:0;margin-bottom:0}li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:none}li.L1,li.L3,li.L5,li.L7,li.L9{background:#eee}
 </style>
-	<style>/* Pretty printing styles. Used with prettify.js. */
+				<style>/* Pretty printing styles. Used with prettify.js. */
 /* Vim sunburst theme by David Leibovic */
 
 pre .str, code .str { color: #65B042; } /* string  - green */
@@ -320,8 +339,8 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
   pre .atn, code .atn { color: #404; }
   pre .atv, code .atv { color: #060; }
 }</style>
-	<!--[if IE 6]>
-	
+				<!--[if IE 6]>
+						
 <script type="text/javascript">
 //<![CDATA[
 /**
@@ -338,8 +357,8 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
 **/
 var DD_belatedPNG={ns:"DD_belatedPNG",imgSize:{},delay:10,nodesFixed:0,createVmlNameSpace:function(){if(document.namespaces&&!document.namespaces[this.ns]){document.namespaces.add(this.ns,"urn:schemas-microsoft-com:vml")}},createVmlStyleSheet:function(){var b,a;b=document.createElement("style");b.setAttribute("media","screen");document.documentElement.firstChild.insertBefore(b,document.documentElement.firstChild.firstChild);if(b.styleSheet){b=b.styleSheet;b.addRule(this.ns+"\\:*","{behavior:url(#default#VML)}");b.addRule(this.ns+"\\:shape","position:absolute;");b.addRule("img."+this.ns+"_sizeFinder","behavior:none; border:none; position:absolute; z-index:-1; top:-10000px; visibility:hidden;");this.screenStyleSheet=b;a=document.createElement("style");a.setAttribute("media","print");document.documentElement.firstChild.insertBefore(a,document.documentElement.firstChild.firstChild);a=a.styleSheet;a.addRule(this.ns+"\\:*","{display: none !important;}");a.addRule("img."+this.ns+"_sizeFinder","{display: none !important;}")}},readPropertyChange:function(){var b,c,a;b=event.srcElement;if(!b.vmlInitiated){return}if(event.propertyName.search("background")!=-1||event.propertyName.search("border")!=-1){DD_belatedPNG.applyVML(b)}if(event.propertyName=="style.display"){c=(b.currentStyle.display=="none")?"none":"block";for(a in b.vml){if(b.vml.hasOwnProperty(a)){b.vml[a].shape.style.display=c}}}if(event.propertyName.search("filter")!=-1){DD_belatedPNG.vmlOpacity(b)}},vmlOpacity:function(b){if(b.currentStyle.filter.search("lpha")!=-1){var a=b.currentStyle.filter;a=parseInt(a.substring(a.lastIndexOf("=")+1,a.lastIndexOf(")")),10)/100;b.vml.color.shape.style.filter=b.currentStyle.filter;b.vml.image.fill.opacity=a}},handlePseudoHover:function(a){setTimeout(function(){DD_belatedPNG.applyVML(a)},1)},fix:function(a){if(this.screenStyleSheet){var c,b;c=a.split(",");for(b=0;b<c.length;b++){this.screenStyleSheet.addRule(c[b],"behavior:expression(DD_belatedPNG.fixPng(this))")}}},applyVML:function(a){a.runtimeStyle.cssText="";this.vmlFill(a);this.vmlOffsets(a);this.vmlOpacity(a);if(a.isImg){this.copyImageBorders(a)}},attachHandlers:function(i){var d,c,g,e,b,f;d=this;c={resize:"vmlOffsets",move:"vmlOffsets"};if(i.nodeName=="A"){e={mouseleave:"handlePseudoHover",mouseenter:"handlePseudoHover",focus:"handlePseudoHover",blur:"handlePseudoHover"};for(b in e){if(e.hasOwnProperty(b)){c[b]=e[b]}}}for(f in c){if(c.hasOwnProperty(f)){g=function(){d[c[f]](i)};i.attachEvent("on"+f,g)}}i.attachEvent("onpropertychange",this.readPropertyChange)},giveLayout:function(a){a.style.zoom=1;if(a.currentStyle.position=="static"){a.style.position="relative"}},copyImageBorders:function(b){var c,a;c={borderStyle:true,borderWidth:true,borderColor:true};for(a in c){if(c.hasOwnProperty(a)){b.vml.color.shape.style[a]=b.currentStyle[a]}}},vmlFill:function(e){if(!e.currentStyle){return}else{var d,f,g,b,a,c;d=e.currentStyle}for(b in e.vml){if(e.vml.hasOwnProperty(b)){e.vml[b].shape.style.zIndex=d.zIndex}}e.runtimeStyle.backgroundColor="";e.runtimeStyle.backgroundImage="";f=true;if(d.backgroundImage!="none"||e.isImg){if(!e.isImg){e.vmlBg=d.backgroundImage;e.vmlBg=e.vmlBg.substr(5,e.vmlBg.lastIndexOf('")')-5)}else{e.vmlBg=e.src}g=this;if(!g.imgSize[e.vmlBg]){a=document.createElement("img");g.imgSize[e.vmlBg]=a;a.className=g.ns+"_sizeFinder";a.runtimeStyle.cssText="behavior:none; position:absolute; left:-10000px; top:-10000px; border:none; margin:0; padding:0;";c=function(){this.width=this.offsetWidth;this.height=this.offsetHeight;g.vmlOffsets(e)};a.attachEvent("onload",c);a.src=e.vmlBg;a.removeAttribute("width");a.removeAttribute("height");document.body.insertBefore(a,document.body.firstChild)}e.vml.image.fill.src=e.vmlBg;f=false}e.vml.image.fill.on=!f;e.vml.image.fill.color="none";e.vml.color.shape.style.backgroundColor=d.backgroundColor;e.runtimeStyle.backgroundImage="none";e.runtimeStyle.backgroundColor="transparent"},vmlOffsets:function(d){var h,n,a,e,g,m,f,l,j,i,k;h=d.currentStyle;n={W:d.clientWidth+1,H:d.clientHeight+1,w:this.imgSize[d.vmlBg].width,h:this.imgSize[d.vmlBg].height,L:d.offsetLeft,T:d.offsetTop,bLW:d.clientLeft,bTW:d.clientTop};a=(n.L+n.bLW==1)?1:0;e=function(b,p,q,c,s,u){b.coordsize=c+","+s;b.coordorigin=u+","+u;b.path="m0,0l"+c+",0l"+c+","+s+"l0,"+s+" xe";b.style.width=c+"px";b.style.height=s+"px";b.style.left=p+"px";b.style.top=q+"px"};e(d.vml.color.shape,(n.L+(d.isImg?0:n.bLW)),(n.T+(d.isImg?0:n.bTW)),(n.W-1),(n.H-1),0);e(d.vml.image.shape,(n.L+n.bLW),(n.T+n.bTW),(n.W),(n.H),1);g={X:0,Y:0};if(d.isImg){g.X=parseInt(h.paddingLeft,10)+1;g.Y=parseInt(h.paddingTop,10)+1}else{for(j in g){if(g.hasOwnProperty(j)){this.figurePercentage(g,n,j,h["backgroundPosition"+j])}}}d.vml.image.fill.position=(g.X/n.W)+","+(g.Y/n.H);m=h.backgroundRepeat;f={T:1,R:n.W+a,B:n.H,L:1+a};l={X:{b1:"L",b2:"R",d:"W"},Y:{b1:"T",b2:"B",d:"H"}};if(m!="repeat"||d.isImg){i={T:(g.Y),R:(g.X+n.w),B:(g.Y+n.h),L:(g.X)};if(m.search("repeat-")!=-1){k=m.split("repeat-")[1].toUpperCase();i[l[k].b1]=1;i[l[k].b2]=n[l[k].d]}if(i.B>n.H){i.B=n.H}d.vml.image.shape.style.clip="rect("+i.T+"px "+(i.R+a)+"px "+i.B+"px "+(i.L+a)+"px)"}else{d.vml.image.shape.style.clip="rect("+f.T+"px "+f.R+"px "+f.B+"px "+f.L+"px)"}},figurePercentage:function(d,c,f,a){var b,e;e=true;b=(f=="X");switch(a){case"left":case"top":d[f]=0;break;case"center":d[f]=0.5;break;case"right":case"bottom":d[f]=1;break;default:if(a.search("%")!=-1){d[f]=parseInt(a,10)/100}else{e=false}}d[f]=Math.ceil(e?((c[b?"W":"H"]*d[f])-(c[b?"w":"h"]*d[f])):parseInt(a,10));if(d[f]%2===0){d[f]++}return d[f]},fixPng:function(c){c.style.behavior="none";var g,b,f,a,d;if(c.nodeName=="BODY"||c.nodeName=="TD"||c.nodeName=="TR"){return}c.isImg=false;if(c.nodeName=="IMG"){if(c.src.toLowerCase().search(/\.png$/)!=-1){c.isImg=true;c.style.visibility="hidden"}else{return}}else{if(c.currentStyle.backgroundImage.toLowerCase().search(".png")==-1){return}}g=DD_belatedPNG;c.vml={color:{},image:{}};b={shape:{},fill:{}};for(a in c.vml){if(c.vml.hasOwnProperty(a)){for(d in b){if(b.hasOwnProperty(d)){f=g.ns+":"+d;c.vml[a][d]=document.createElement(f)}}c.vml[a].shape.stroked=false;c.vml[a].shape.appendChild(c.vml[a].fill);c.parentNode.insertBefore(c.vml[a].shape,c)}}c.vml.image.shape.fillcolor="none";c.vml.image.fill.type="tile";c.vml.color.fill.on=false;g.attachHandlers(c);g.giveLayout(c);g.giveLayout(c.offsetParent);c.vmlInitiated=true;g.applyVML(c)}};try{document.execCommand("BackgroundImageCache",false,true)}catch(r){}DD_belatedPNG.createVmlNameSpace();DD_belatedPNG.createVmlStyleSheet();//]]>
 </script>
-	<![endif]-->
-	
+						<![endif]-->
+				
 <script type="text/javascript">
 //<![CDATA[
 !function() {
@@ -1807,7 +1826,7 @@ PR_NOCODE:"nocode",PR_PLAIN:"pln",PR_PUNCTUATION:"pun",PR_SOURCE:"src",PR_STRING
 </script>
     </head>
     <body>
-	<style>#header {
+				<style>#header {
 width : 1000px;
 margin : 0 auto;
 border-bottom : 1px solid #fff;
@@ -1856,749 +1875,289 @@ color : #eedd00;
     </div>
 </div>
 
-	<div id="contents" class="clearfix">
-	    <div id="leftBlock">
-		<ul class="text12">
-		    <li class="active"><div class="togglableBg"></div><a data-toggle="class" href="javascript:void(0)">class</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="trait" href="javascript:void(0)">trait</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="destructuring-assignment" href="javascript:void(0)">destructuring assignment</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="for-each" href="javascript:void(0)">for each</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="do-expression" href="javascript:void(0)">do expressions</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="short-function-syntax" href="javascript:void(0)">short function syntax</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="import" href="javascript:void(0)">import</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="module" href="javascript:void(0)">module</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="let-expression" href="javascript:void(0)">let expression</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="object-literal-extras" href="javascript:void(0)">object literal extras</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="data-structure-extras" href="javascript:void(0)">data structur extras</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="generator-iterator" href="javascript:void(0)">generator/iterator</a></li>
-		    <li><div class="togglableBg"></div><a data-toggle="for-of" href="javascript:void(0)">for of</a></li>
-		</ul>
-	    </div>
-	    <div id="rightBlock" class="text12">
-		<div class="tab-content">
-		    <div id="class" class="tab-pane active">
-			<h3>class</h3>
-			<p></p>
-			<p></p>
-			<div>
-			    <p></p>
-			    <pre class="prettyprint grammars"><code>//
-function SkinnedMesh(geometry, materials) {
-  //
-  THREE.Mesh.call(this, geometry, materials); 
-  this.identityMatrix = new THREE.Matrix4();
-  this.bones = [];
-  this.boneMatrices = [];
-};
+				<div id="contents" class="clearfix">
+						<div id="leftBlock">
+								<ul class="text12">
+										<li class="active"><div class="togglableBg"></div><a data-toggle="running-mocha" href="javascript:void(0)">Runnning mocha</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="config-js" href="javascript:void(0)">config.js</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="compilation-setting" href="javascript:void(0)">compilation setting</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="commands" href="javascript:void(0)">commands</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="compiler-directive" href="javascript:void(0)">compiler directive</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="use-phantomjs" href="javascript:void(0)">use phantomjs</a></li>
+								</ul>
+						</div>
+						<div id="rightBlock" class="text12">
+								<div class="tab-content">
+	<div id="running-mocha" class="tab-pane active">
+	    <h3>Running mocha</h3>
+	    <p>mochaの基本的な使用方法です。まず、ターミナル、あるいはコマンドプロンプトを起動します。その後、</p>
+	    <pre class="prettyprint grammars"><code>cd &lt;mochaの実行ファイルのあるディレクトリ&gt;</code></pre>
+	    <p>と入力し、ディレクトリを移動します。移動先のディレクトリで、</p>
+	    <pre class="prettyprint grammars"><code>./mchd</code></pre>
+	    <p>と入力し、mochaを起動します。すると、</p>
+	    <pre class="prettyprint grammars"><code>mocha es-next-compiler(stand-alone)
+usage -> run 'help'
+>></code></pre>
+	    <p>このようなプロンプトが表示されます。この状態で、pcのuserディレクトリを見ると、.mochaというディレクトリができているはずです。このディレクトリの中身は以下のような構成になっています。</p>
+<pre class="prettyprint grammars"><code>.mocha
+     |_config.js
+     |_mocha.log</code></pre>
+	    <p>config.jsの中を見てみましょう。デフォルトでは以下のようになっているはずです。</p>
+<pre class="prettyprint grammars"><code>config.set('compileSettingPath', './watch.js')
+config.set('logFilePath', './mocha.log')</code></pre>
+	    <p>watch.jsが実装する必要のあるファイルです。.mochaの中にwatch.jsファイルを作ります。watch.js内では監視するjsファイルを、mochaの設定に追加していきます。以下がサンプルです。</p>
 
-//
-//
-SkinnedMesh.prototype = Object.create(THREE.Mesh.prototype);
-SkinnedMesh.prototype.constructor = SkinnedMesh;
-SkinnedMesh.prototype.update = function(camera) {
-  //
-  THREE.Mesh.prototype.update.call(this);
-};</code></pre>
-	    <p></p>
-	    <pre class="prettyprint grammars"><code>//
-//
-class SkinnedMesh extends THREE.Mesh {
-  constructor(geometry, materials) {
-    //
-    //
-    super(geometry, materials);
-    //
-    public identityMatrix = new THREE.Matrix4();
-    public bones = [];
-    public boneMatrices = [];
-    ...
+<pre class="prettyprint grammars"><code>var script = mocha.import('script');
+script.watcher.addSetting('/home/foo/src/test.js', {
+  deployDir : '/home/foo/src/deploy',
+  deployName : 'test-deploy.js',
+  outputCharset : 'utf8',
+  inputCharset : 'utf8',
+  options : {
+    compress : false,
+    prettyPrint : true,
+    debug : true,
+    versions : [],
+    fileScope : true,
+    globalScope : true
   }
-  update(camera) {
-    ...
-    //
-    //
-    super.update();
+})</code></pre>
+	    <p>上記の記述で'/home/foo/src/test.js'が監視されます。test.jsを修正するたびに、'/home/foo/src/deploy/'フォルダに、'test-deploy.js'という名前でコンパイル済みファイルが保存されます。その後、mochaのコンソールで、</p>
+<pre class="prettyprint grammars"><code>>> .restart()</code></pre>
+	    <p>と入力し、watch.jsを読み込ませます。これでtest.jsの監視が始まります。</p>
+	    <p>以上が基本的なステップです。</p>
+	</div>
+	<div id="config-js" class="tab-pane">
+	    <h3>config.js</h3>
+	    <p>mochaが初回起動時に生成する&lt;user_home&gt;/.mocha/config.jsの解説です。</p>
+	    <p>&lt;user_home&gt;は</p>
+	    <dl>
+		<dt>windows xp</dt> 
+		<dd><pre class="prettyprint"><code>C:\Document and Setting\<ユーザー名>\</code></pre></dd>
+		<dt>windows vista or later</dt>
+		<dd><pre class="prettyprint"><code>C:\Users\<ユーザー名>\</code></pre></dd>
+		<dt>osx</dt>
+		<dd><pre class="prettyprint"><code>/Users/<ユーザー名></code></pre></dd>
+		<dt>linux</dt>
+		<dd><pre class="prettyprint"><code>/home/<ユーザー名></code></pre></dd>
+	    </dl>
+	    <p>になります。 </p>
+	    <p>config.js内ではグローバルスコープにconfigオブジェクトが定義されます。このconfigオブジェクトに設定を追加することで、mochaの設定を行います。</p>
+	    <p>以下にmochaの生成するデフォルトのconfig.jsを提示します。</p>
+	    <pre class="prettyprint"><code>config.set('compileSettingPath', './compile_setting.js');
+config.set('logFilePath', './mocha.log');</code></pre>
+	    <p>mochaはcompileSettingPathとlogFilePathプロパティを設定するファイルを生成します。以下がconfigオブジェクトに設定可能な値です。</p>
+	    <table>
+		<tr>
+		    <th>名前</th>
+		    <th>説明</th>
+		</tr>
+		<tr><td>compileSettingPath</td><td>jsファイルのコンパイル設定が記述されたファイルの場所です。</td></tr>
+		<tr><td>logFilePath</td><td>ログファイルが格納される場所です。</td></tr>
+		<tr><td>phantomInstallDir</td><td>phantomjsがインストールされている場所です。</td></tr>
+	    </table>
+	</div>
+	<div id="compilation-setting" class="tab-pane">
+	    <h3>compilation setting</h3>
+	    <p>コンパイルの設定を記述するファイルです。configオブジェクトのcompileSettingPathによって場所が設定されます。このファイルは起動時に指定された場所から自動で読み込まれます。デフォルトではwatch.jsというファイル名になっています。</p>
+	    <p>サンプル</p>
+ 	    <pre class="prettyprint grammars"><code>//scriptモジュールをインポート
+var watcher = mocha.import('script').watcher;
+//設定の追加
+//対象のファイルネーム
+watcher.addSetting("src/test.js", {
+  //deployするディレクトリ
+  deployDir : 'src/deploy',
+  //deployする際のファイルネーム
+  deployName : 'test-deploy.js',
+  //ファイルのエンコーディング
+  inputCharset : 'utf-8',
+  //出力されるファイルのエンコーディング
+  outputCharset : 'utf-8',
+  //コンパイルオプション
+  options : {
+    //人間の読みやすい形にする
+    prettyPrint : true,
+    //圧縮しない
+    compress : false,
+    //デバッグモードでコンパイル
+    debug : true,
+    //各ファイル単位でスコープの生成
+    fileScope : true,
+    //グルーバルスコープの生成
+    globalScope : true
   }
-}</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>class Monster {
-  //
-  //
-  constructor(name, health) {
-    public name = name;
-    private health = health;
-  }
-  //
-  //
-  public attack(target) {
-    log('The monster attacks ' + target);
-  }
-  //
-  public isAlive -> private(this).health > 0;
-  public health(value) {
-    if (value < 0) {
-      throw new Error('Health must be non-negative.')
-    }
-    private.health = value
-  }
-  //
-  //
-  public numAttacks = 0;
-  //
-  //
-  public const attackMessage = 'The monster hits you!';
-  //
-  //
-  static const DEFAULT_LIFE = 100;
-}</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var Monster = function () {
-      function constructor(name,health) {
-        this.name = name;
-        Runtime.getPrivateRecord(this).health = health;
-      }
-      function Monster() {
-        Runtime.initializeClass(this, Monster, _mochaPrivateHolder, constructor, arguments, "Monster", 1);
-      }
-      var _mochaPrivateHolder = function (){};
-      
-      Runtime.createUnenumProp(constructor,"__harmony_class__",1);
-      
-      Monster.prototype.attack = function (target) {
-        log('The monster attacks '+target);
-      };
-      
-      Monster.prototype.isAlive = function () {
-        return Runtime.getPrivateRecord(this).health>0;
-      };
-      
-      Monster.prototype.health = function (value) {
-        if (value<0)throw new Error('Health must be non-negative.')
-        
-        Runtime.getPrivateRecord(this).health = value;
-      };
-      
-      Monster.prototype.numAttacks = 0;
-      
-      Runtime.constant(Monster.prototype,'attackMessage','The monster hits you!');
-      
-      Runtime.constant(Monster,'DEFAULT_LIFE',100);
-      
-      Runtime.createUnenumProp(Monster.prototype,"constructor",constructor);
-      return Monster;
-    }()</code></pre>
-			  <div class="section">
-			      <p class="title"></p>
-			      <p></p>
-			  </div>
-			  <div class="section">
-			      <p class="title"></p>
-			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>class</i> &lt;class name&gt; <i>extends or prototype</i> &lt;base class name or literal&gt;</code></pre>
-			      <p>
-				  
-			      </p>
-			      <pre class="prettyprint grammars"><code><i>constructor(</i>&lt;arguments list&gt;<i>)</i> &lt;function body&gt;</code></pre>
-			      <p>
-				  
-			      </p>
-
-			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>public or private or static</i> &lt;name&gt; &lt;function body or '=' values&gt;(optional)</code></pre>
-			      <p>
-				  
-			      </p>
-			      <pre class="prettyprint grammars"><code><i>this.</i>&lt;name&gt;</code></pre>
-			      <p></p>
-			      <pre class="prettyprint grammars"><code><i>private(object).</i>&lt;name&gt;</code></pre>
-			      <p></p>
-			  </div>
-	    </div>
+})</code></pre>
+	    <p>基本的にはscriptモジュールのwatcherオブジェクトのaddSetting関数にファイル名、設定を追加していく形になります。以下が設定のフォーマットです。</p>
+	    <table>
+		<tr>
+		    <th>プロパティ名</th>
+		    <th>データタイプ</th>
+		    <th>説明</th>
+		</tr>
+		<tr>
+		    <td>deployDir</td><td>String</td><td>コンパイル結果を出力する場所です。</td>
+		</tr>
+		<tr>
+		    <td>deployName</td><td>String</td><td>コンパイル結果のファイル名です。</td>
+		</tr>
+		<tr>
+		    <td>inputCharset</td><td>String</td><td>元ファイルのエンコーディングです。</td>
+		</tr>
+		<tr>
+		    <td>outputCharset</td><td>String</td><td>出力ファイルのエンコーディングです。</td>
+		</tr>
+		<tr>
+		    <td>options</td><td>Object</td><td>コンパイルのオプションを指定します。</td>
+		</tr>
+	    </table>
+	    <p>optionsの中身です。</p>
+	    <table>
+		<tr>
+		    <th>プロパティ名</th>
+		    <th>データタイプ</th>
+		    <th>説明</th>
+		</tr>
+		<tr>
+		    <td>prettyPrint</td><td>Boolean</td><td>出力をフォーマットします。</td>
+		</tr>
+		<tr>
+		    <td>compress</td><td>Boolean</td><td>出力を圧縮します。</td>
+		</tr>
+		<tr>
+		    <td>debug</td><td>Boolean</td><td>デバッグモードで実行します。</td>
+		</tr>
+		<tr>
+		    <td>moduleDir</td><td>Array</td><td>モジュールをロードするディレクトリを設定します。</td>
+		</tr>
+		<tr>
+		    <td>versions</td><td>Array</td><td>バージョンを指定します。</td>
+		</tr>
+		<tr>
+		    <td>fileScope</td><td>Boolean</td><td>ファイル単位でスコープを生成するかどうか指定します。デフォルトではtrueです。</td>
+		</tr>
+		<tr>
+		    <td>globalScope</td><td>Boolean</td><td>グローバルなスコープを生成するかどうか指定します。デフォルトではtrueです。</td>
+		</tr>
+	    </table>
 	</div>
-	<div id="trait" class="tab-pane">
-	    <h3>trait</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<p></p>
-		<pre class="prettyprint grammars"><code>//traitの定義
-trait TestTrait {
-  requires testReq1;
-  public test1( ...arg )->this.testReq1(arg[0]);
+	<div id="commands" class="tab-pane">
+	    <h3>commands</h3>
+	    <p>mochaは設定ファイルの追加の際にコマンド設定の追加も可能です。コマンドは以下の方法で追加できます。</p>
+	    <pre class="prettyprint grammars"><code>mocha.addCommand('foo', function () {
+  console.log('test');
+}, 'test command!!');</code></pre>
+	    <p>mocha.addCommandは第一引数にコマンド名、第二引数にコールバック関数、第三引数に説明を記述します。追加したコマンドは端末上から呼び出す事が可能になります。</p>
+	    <p>先ほどのfooコマンドを呼び出すには以下のようにします。</p>
+	    <pre class="prettyprint"><code>>> .foo()</code></pre>
+	    <p><strong>組み込みコマンド</strong></p>
+	    <p>mochaは以下のコマンドをデフォルトで持っています。</p>
+	    <table>
+		<tr>
+		    <th>名前</th>
+		    <th>インターフェース</th>
+		    <th>機能</th>
+		</tr>
+		<tr>
+		    <td>watch</td><td>watch()</td><td>監視を再開します。</td>
+		</tr>
+		<tr>
+		    <td>unwatch</td><td>unwatch()</td><td>監視を停止します。</td>
+		</tr>
+		<tr>
+		    <td>restart</td><td>restart()</td><td>再度設定ファイルを読み込みます。</td>
+		</tr>
+		<tr>
+		    <td>deploy</td><td>deploy([predicate], [option])</td><td>指定したファイルをコンパイルします。predicateには関数か、文字列、正規表現を指定します。</td>
+		</tr>
+		<tr>
+		    <td>test</td><td>test([predicate], [option])</td><td>指定したファイルをテストします。predicateには関数か、文字列、正規表現を指定します。</td>
+		</tr>
+		<tr>
+		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>mochaの監視下にあるファイルの一覧を表示します。showDeployが指定されるとdeploy情報を、showOptが指定されるとコンパイルオプションをそれぞれ追加で表示します。predicateには関数か、文字列、正規表現を指定します。</td>
+		</tr>
+		<tr>
+		    <td>help</td><td>help()</td><td>コマンド一覧を表示します。</td>
+		</tr>
+		<tr>
+		    <td>exit</td><td>exit()</td><td>mochaを終了します。</td>
+		</tr>
+	    </table>
+	</div>
+	<div id="compiler-directive" class="tab-pane">
+	    <h3>compiler directive</h3>
+	    <p>mochaはES Nextの文法に加え以下の独自拡張を持っています。</p>
+	    <table>
+		<tr>
+		    <th>名前</th>
+		    <th>インターフェース</th>
+		    <th>機能</th>
+		</tr>
+		<tr>
+		    <td>@assert</td><td>@assert(expect, expression)</td><td>アサーションの実行です。versionにdebugが定義されている時のみコード生成されます。</td>
+		</tr>
+		<tr>
+		    <td>@version</td><td>@version(version){...}</td><td>バージョン分岐ブロックを生成します。</td>
+		</tr>
+		<tr>
+		    <td>@include</td><td>@include &lt;filename&gt;</td><td>ファイルを読み込み、その場所に展開します。いっさいのコンパイルは行われません。</td>
+		</tr>
+	    </table>
+	    <p>@assert</p>
+	    <pre class="prettyprint grammars"><code>test(x,y) -> x + y;
+@assert(true, test(1,1) === 2);
+//このように展開される
+Runtime.assert(true, test(1,1) === 2, 'test(1,1) === 2', 'filename', 'linenumber')</code></pre>
+	    <p>@version</p>
+	    <pre class="prettyprint grammars"><code>var x = 0;
+@version(debug) {
+  x = 1;
 }
-trait TestTrait2 {
-  requires testReq2;
-  public test1( ...arg )->this.testReq2(arg[0]);
-  public test2->console.log('ok');
+@version(release) {
+  x = 2;
 }
-class MixinTest {
-  public testReq1(arg) -> console.log(arg);
-  public testReq2(arg) -> console.log(arg);
-  mixin TestTrait with test1 as method1;
-  mixin TestTrait2 without test1, with test2 as method2;
-}</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var TestTrait =  {
-        _mochaTraitPrivate : {},
-        _mochaTraitPublic :  {
-          test1 : function testm1() {
-            var arg = Runtime.toArray(arguments,0);
-            this.testReq1(arg[0]);
-          }
-        },
-        _mochaRequires :  {
-          testReq1 : true
-        },
-        _mochaTraitMark : true
-      },
-      TestTrait2 =  {
-        _mochaTraitPrivate : {},
-        _mochaTraitPublic :  {
-          test1 : function testm2() {
-            var arg = Runtime.toArray(arguments,0);
-            this.testReq2(arg[0]);
-          },
-          test2 : function testm3() {
-            console.log('ok');
-          }
-        },
-        _mochaRequires :  {
-          testReq2 : true
-        },
-        _mochaTraitMark : true
-      },
-      MixinTest = function () {
-        function constructor(){}
-        function MixinTest() {
-          Runtime.initializeClass(this,MixinTest,_mochaPrivateHolder,constructor,arguments,'MixinTest',101);
-        }
-        var _mochaPrivateHolder = function (){};
-        Runtime.createUnenumProp(constructor,"__harmony_class__",1);
-        MixinTest.prototype.testReq1 = function (arg) {
-          return console.log(arg)
-        };
-        MixinTest.prototype.testReq2 = function (arg) {
-          return console.log(arg)
-        };
-        Runtime.classMixin(MixinTest,_mochaPrivateHolder,TestTrait, {
-          test1 : "method1"
-        },{});
-        Runtime.classMixin(MixinTest,_mochaPrivateHolder,TestTrait2,{
-          test2 : "method2"
-        }, {
-          test1 : true
-        });
-        Runtime.checkRequirements(MixinTest,_mochaPrivateHolder,[TestTrait,TestTrait2],'class_test.js',105);
-        Runtime.createUnenumProp(MixinTest.prototype,"constructor",constructor);
-        return MixinTest;
-   }()</code></pre>
-		<div class="section">
-		    <p class="title"></p>
-		    <p></p>
-		</div>
-		<div class="section">
-		    <p class="title"></p>
-		    <pre class="prettyprint grammars"><code><i>trait</i> &lt;trait name&gt;</code></pre>
-		    <p></p>
-		    <pre class="prettyprint grammars"><code><i>mixin</i> &lt;trait name&gt; <i>with(optional)</i> &lt;member name&gt; <i>as</i> &lt;new member name&gt <i>without(optional)</i> &lt;member name&gt;</code></pre>
-		    <p></p>
-		</div>
-	    </div>
+//デバッグモードの時はx = 1
+//リリースモードの時はx = 2</code></pre>
+	    <p>@include</p>
+	    <pre class="prettyprint grammars"><code>@include 'jQuery-min.js'
+$(->{
+...
+})
+//@includeの部分にjQueryのコードがそのまま挿入される</code></pre>
 	</div>
-	<div id="destructuring-assignment" class="tab-pane">
-	    <h3>destructuring assignment</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
-    [one,two,three,four] = array;
-console.log(one,two,three,four);</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
-    one = array[0],
-    two = array[1],
-    three = array[2],
-    four = array[3]</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var obj = {
-      one : 0,
-      two : 1,
-      three : 2,
-      four : 3
-    },
-    {one,two,three,four} = obj;</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var obj = {
-      one : 0,
-      two : 1,
-      three : 2,
-      four : 3
-    },
-    one = obj.one,
-    two = obj.two,
-    three = obj.three,
-    four = obj.four;</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var object = {
-      value1 : 100,
-      value2 : {
-        value3 : 100
-      },
-      value4 : [100,200,300],
-      value5 : {
-        value6 : [{value7 : 100}]
-      },
-      "@value" : {
-        strvalue : 100
-      }
-    }
-var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { value6 : [{value7}] },"@value":{strvalue}} = object;
-		</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var object = {
-      value1 : 100,
-      value2 : {
-        value3 : 100
-      },
-      value4 : [100,200,300],
-      value5 : {
-        value6 : [{value7 : 100}]
-      },
-      "@value" : {
-        strvalue : 100
-      }
-    },
-    value1 = object.value1,
-    value3 = object.value2 && object.value2.value3?object.value2.value3 : undefined,
-    value5_ = object.value4 && object.value4[0]?object.value4[0] : undefined,
-    value6_ = object.value4 && object.value4[1]?object.value4[1] : undefined,
-    value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined,
-    value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined,
-    strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;</code></pre>
-	    </div>
+	<div id="use-phantomjs" class="tab-pane">
+	    <h3>use phantomjs</h3>
+	    <p>mochahはphantomjsgがインストールされていれば、直接起動が可能です。phantomjsはコマンドラインから使用できるwebkitでcssやhtmlもフルで使用可能です。</p>
+	    <p><strong>phantomjsnの指定方法</strong></p>
+	    <p>config.js内に</p>
+	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '&lt;phantomjsのインストール先&gt;');</code></pre>
+	    <p>の記述を追加します。あとは組み込みコマンドの.test()を使うと起動できます。.test()実行時にはversionsの値にtestという値が追加されます。</p>
+	    <p><strong>テスト</strong></p>
+	    <p>mocha自体はテスト機能を持たないのですが、既存のテストフレームワークを利用できます。jasmine,JsUnitなど。</p>
 	</div>
-	<div id="for-each" class="tab-pane">
-	    <h3>for each</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
-for each(var i in obj) {
-  console.log(i);
-}</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
-for(var i in obj) {
-  i = obj[i];
-  console.log(i);
-}</code></pre>
-	    </div>
-	</div>
-	<div id="do-expression" class="tab-pane">
-	    <h3>do expression</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<pre class="prettyprint grammars"><code>var x = do { var t = f(); t * t + 1 };</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var x = function () {
-    var t = f();
-    return t * t + 1;
-}();</code></pre>
-	    </div>
-	</div>
-	<div id="short-function-syntax" class="tab-pane">
-	    <h3>short function syntax</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
-    b = (x,y,z) -> { return x + y + z; }</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
-    b = function (x,y,z) { return x + y + z;}</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
-bar(x,y,z) -> { return x + y + z; }</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
-function bar (x,y,z) { return x + y + z;}</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var a = (x,y,z) => x + y + z,
-    b = (x,y,z) => { return x + y + z; }
-foo(x,y,z) => console.log(this);
-bar(x,y,z) => {console.log(this) }</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
-    b = function (x,y,z) { return x + y + z; }.bind(this);
-function foo (x,y,z) { return console.log(_mochaLocalTmp0);}
-foo = foo.bind(this);
-function bar (x,y,z) { return console.log(_mochaLocalTmp1);}
-bar = bar.bind(this);</code></pre>
-	    </div>
-	</div>
-	<div id="import" class="tab-pane">
-	    <h3>import</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<pre class="prettyprint grammars"><code>import module from './test';
-import {exports1,exports2} from './test2'.module;
-import [value1, value2] from './test3'.module.exports;
-import exports from './test4'.module;
-import './test5' as test5</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
-    _mochaLocalTmp0 = Runtime.modules.get('564059-test2.js').module,
-    exports1 = _mochaLocalTmp0.exports1,
-    exports2 = _mochaLocalTmp0.exports2,
-    _mochaLocalTmp1 = Runtime.modules.get('906045-test3.js').module.exports,
-    value1 = _mochaLocalTmp1[0],
-    value2 = _mochaLocalTmp1[1],
-    exports = Runtime.modules.get('945095-test4.js').module.exports,
-    test5 = Runtime.modules.get('455905-test5.js');
-    </code></pre>
-		<div class="section">
-		    <p class="title"></p>
-		    <p></p>
-		    <p></p>
-		    <table>
-			<tr>
-			    <th></th><th></th>
-			</tr>
-			<tr>
-			    <td>'./filename'</td><td></td>
-			</tr>
-			<tr>
-			    <td>'filename'</td><td></td>
-			</tr>
-		    </table>
-		</div>
-	    </div>
-	</div>
-	<div id="module" class="tab-pane">
-	    <h3>module</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<pre class="prettyprint grammars"><code>module testModule {
-  export test() -> console.log('test!!');
-}
-module testModule2 {
-  module testInnerModule3 {
-    export testExport2()->2;
-    export testExport3 = {test:200};
-  }
-}
-module testModule3 = ->3</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
-      function testExport1() {
-        return console.log('test!!');
-      }
-      var _mochaLocalExport = {};
-      _mochaLocalExport.testExport1 = testExport1;
-      return _mochaLocalExport;
-    }();
-var testModule2 = Runtime.modules.get('3490394-test.js').testModule2 = function () {
-  var _mochaLocalExport = {},
-    testInnerModule3 = _mochaLocalExport.testInnerModule3 = function () {
-      function testExport2() {
-        return 2;
-      }
-      var _mochaLocalExport = {};
-      _mochaLocalExport.testExport2 = testExport2;
-      var testExport3 = _mochaLocalExport.testExport3 =  {
-          test : 200
-        };
-      return _mochaLocalExport;
-    }();
-  return _mochaLocalExport;
-}();
-Runtime.modules.get('3490394-test.js').testModule3 = function () {
-  return 3;
-}</code></pre>
-		<div class="section">
-		    <p class="title"></p>
-		    <p></p>
-		</div>
-		<div class="section">
-		    <p class="title"></p>
-		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>{</i> ... <i>}</i></code></pre>
-		    <p></p>
-		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>=</i> &lt;values&gt;</code></pre>
-		    <p></p>
-		</div>
-	    </div>
-	</div>
-	<div id="let-expression" class="tab-pane">
-	    <h3>let expression</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<pre class="prettyprint grammars"><code>var foo = 200;
-let (foo = 300) {
-  console.assert(foo === 300);
-}</code></pre>
-		<p>変換後</p>
-		<pre class="prettyprint grammars"><code>var foo = 200;
-!function(foo) {
-  console.assert(foo === 300);
-}(300);</code></pre>
-		<div class="section">
-		    <p class="title"></p>
-		    <p></p>
-		</div>
-	    </div>
-	</div>
-	<div id="object-literal-extras" class="tab-pane">
-	    <h3>object literal extras</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<p>batch assignment operator</p>
-		<pre class="prettyprint grammars"><code>var namespaces = {
-      foo : {},
-      bar : {}
-    }
-namespaces.{
-  baz : {}
-}.{
-  qux : {}
-}</code></pre>
-		<p></p>
-		<pre class="prettyprint grammars"><code>var namespaces = {
-      foo : {},
-      bar : {}
-    }
-Runtime.extend(Runtime.extend(namespaces, {
-  bar : {}
-}), {
-  qux : {}
-});</code></pre>
-		<p>private property</p>
-		<pre class="prettyprint grammars"><code>var foo = 'private_name';
-var namespaces = {
-      [foo] : {},
-      bar : {}
-    }</code></pre>
-		<p>変換後</p>
-		<pre class="prettyprint grammars"><code>var foo = 'private_name';
-var namespace = {
-      bar : {}
-    }
-Runtime.createUnenumProp(namespace, 'foo', {});</code></pre>
-	    </div>
-	</div>
-	<div id="data-structure-extras" class="tab-pane">
-	    <h3>data structure extras</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<p>tuple</p>
-		<pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
-var tuple2 = new Tuple(0,1,2,3);</code></pre>		
-		<p>record</p>
-		<pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
-var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
-		<div class="section">
-		    <p class="title"></p>
-		    <p><strong>tuple</strong></p>
-		    <p></p>
-		    <p><strong>API</strong></p>
-		    <table>
-			<tr>
-			    <th></th>
-			    <th></th>
-			    <th></th>
-			</tr>
-			<tr>
-			    <td>equal</td><td>equal(tuple)</td><td></td>
-			</tr>
-			<tr>
-			    <td>toArray</td><td>toArray()</td><td></td>
-			</tr>
-			<tr>
-			    <td>length</td><td>length</td><td></td>
-			</tr>
-		    </table>
-		    <p><strong>record</strong></p>
-		    <p></p>
-		    <p></p>
-		</div>
-	    </div>
-	</div>
-	<div id="generator-iterator" class="tab-pane">
-	    <h3>generator/iterator</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<pre class="prettyprint grammars"><code>//
-function doCallback(num) {
-  console.log(num + "\n");
-}
-function fib() {
-  var i = 0, j = 1, n = 0;
-  while (n < 10) {
-    doCallback(i);
-    var t = i;
-    i = j;
-    j += t;
-    n++;
-  }
-}
-fib();
-//
-function fib() {
-  var i = 0, j = 1;
-  while (true) {
-    yield i;
-    var t = i;
-    i = j;
-    j += t;
-  }
-}
-var g = fib();
-for (var i = 0; i < 10; i++) {
-  console.log(g.next() + "\n");
-}</code></pre>
-		    <p></p>
-		    <blockquote><p></p>
-<small><a href="">MDN Generator</a></small></blockquote>
-		    <p></p>
-		    <p>MDN</p>
-		    <blockquote><p></p>
-<small><a href="">MDN Generator</a></small></blockquote>
-		    <p></p>
-		    <pre class="prettyprint grammars"><code>yieldTest()-> {
-  for ( var i = 0;i<10; i++ ) {
-    var m = yield i;
-    if ( m === true ) {
-      yield i + 1;
-    } else if ( m === false ){
-      yield i - 1;
-    } else {
-      yield i;
-    }
-  }
-}
-generator = yieldTest();
-@assert( true , generator.next() === 0 );
-@assert( true , generator.send( true ) === 1 );
-@assert( true , generator.send( false ) === 1 );
-@assert( true , generator.send( true ) === 2 );
-@assert( true , generator.send( false ) === 2 );
-@assert( true , generator.send( true ) === 3 );
-@assert( true , generator.send( true ) === 3 );
-@assert( true , generator.send( true ) === 4 );
-@assert( true , generator.send( false ) === 4 );
-@assert( true , generator.send( true ) === 5 );</code></pre>
-			<p></p>
-			<p>iterator</p>
-			<pre class="prettyprint grammars"><code>import {iterator} from "iterators";
-var iter = {
-      arr : [],
-      add : function ( value ) {
-        this.arr.push( value );
-      },
-      [iterator] : function () {
-        var arr = this.arr;
-        return {
-          index : 0,
-          next : function () {
-            if ( arr.length > this.index ) {
-              var ret = arr[ this.index ];
-              this.index++;
-              return ret;
-            } else {
-              throw StopIteration;
-            }
-          }
-        }
-      }
-    }</code></pre>
-	     <div>
-		 <p class="title"></p>
-		 <p></p>
-	     </div>
-	    </div>
-	</div>
-	<div id="for-of" class="tab-pane">
-	    <h3>for of</h3>
-	    <p></p>
-	    <p></p>
-	    <div>
-		<pre class="prettyprint grammars"><code>import {iterator} from 'iterators';
-var items = function ( obj ) {
-      return {
-        [iterator] : function () {
-          for( var i in obj ) {
-            yield [i, obj[i]];
-          }
-        }
-      }
-    },
-    iter = {
-      arr : [],
-      add : function ( value ) {
-        this.arr.push( value );
-      },
-      [iterator] : function () {
-        var arr = this.arr;
-        return {
-          index : 0,
-          next : function () {
-            if ( arr.length > this.index ) {
-              var ret = arr[ this.index ];
-              this.index++;
-              return ret;
-            } else {
-              throw StopIteration;
-            }
-          }
-        }
-      }
-    }
-    obj = {x:200,y:300}
-for of(var i in items(obj)) {
-  console.log(i[0], i[1]);
-}
-iter.add( 100 );
-iter.add( 200 );
-iter.add( 300 );
-iter.add( 400 );
-for of(var i in iter) {
-  console.log(i);//100,200,300...
-}</code></pre>
-		<div class="section">
-		    <p class="title"></p>
-		    <p></p>
-		</div>
-	    </div>
-	</div>
-		</div>
-	    </div>
-	</div>
-	<!--[if lt IE 9]>
-	    <style>
-		.button{
-		background : #FFFF00;
-		display : block;
-		}
-		.button:hover{
-		background : #AAAA00;
-		}
-		.blueButton{
-		background : #69b7ff;
-		display : block;
-		}
-		.blueButton:hover{
-		background : #4795dd;
-		}
-		.fixed {
-		width : 300px;
-		}
-	    </style>
-	    <![endif]-->
-    </body>
+    </div>
+						</div>
+				</div>
+				<!--[if lt IE 9]>
+						<style>
+								.button{
+								background : #FFFF00;
+								display : block;
+								}
+								.button:hover{
+								background : #AAAA00;
+								}
+								.blueButton{
+								background : #69b7ff;
+								display : block;
+								}
+								.blueButton:hover{
+								background : #4795dd;
+								}
+								.fixed {
+								width : 300px;
+								}
+						</style>
+						<![endif]-->
+		</body>
 </html>
