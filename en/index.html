@@ -116,7 +116,7 @@ visibility: hidden;
 
 body {
 background : #222222;
-color : #cccccc;
+color : #ffffff;
 font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
 *font-size:small;
 *font:x-small;
@@ -144,9 +144,12 @@ font:100%;
 .text26 { font-size:197%; }
 
 </style>
-	<style>#trademarkWrapper {
+	<style>body {
+background : url(images/bg.jpg);
+}
+#trademarkWrapper {
 background : #333 url(images/stripes.gif);
-border-bottom : 1px solid #ffffff;
+border-bottom : 1px solid #444444;
 }
 #trademarkArea {
 width : 1000px;
@@ -199,7 +202,11 @@ margin : 20px 160px 100px 160px;
 _margin-left : 130px;
 }
 #hero {
+font-style : italic;
 margin-bottom : 20px;
+line-height : 1.2em;
+color : #999999;
+text-shadow : 1px 1px 1px #000000;
 }
 dt.mark {
 font-weight : bold;
@@ -208,10 +215,13 @@ padding-left : 25px;
 padding-top : 5px;
 background : url(images/info.png) no-repeat;
 margin : 5px 5px 0px 0px;
+text-shadow : 1px 1px 1px rgba(0,0,0,0.6);
 }
 
 dl.sp dd {
 margin : 0px 0 15px 0;
+color : #aaaaaa;
+text-shadow : 1px 1px 1px rgba(0,0,0,1);
 }
 
 #learnMore {
@@ -1494,23 +1504,23 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 	</div>
 	<div id="contents">
 	    <div id="inner">
-		<h1 id="hero" class="text16">mocha is the translator to translate the Ecmascript262 5th edition, the Ecmascript harmony that is now working out and, some extensions to a browser executable javascript.</h1>
+		<h1 id="hero" class="text14">mocha is the translator to translate the Ecmascript262 5th edition, the Ecmascript harmony that is now working out and, some extensions to a browser executable javascript.</h1>
 		<dl class="sp text12">
 		    <dt class="mark">Converte ES Next to javascript.</dt>
 		    <dd>Translate files that written by ES Next to the browser executable javascript.</dd>
-		    <dt class="mark text16">The compress</dt>
-		    <dd class="text14">The mocha compress a translated javascript, and this done by seamless. So don't need to execute other tools.</dd>
-		    <dt class="mark text16">modules</dt>
-		    <dd class="text14">The mocha support modules, by the ES Next's 'import' and 'module statement' and mocha's @include extension. That combined at the compilation time.</dd>
-		    <dt class="mark text16">versions</dt>
-		    <dd class="text14">The mocha has version operator, so you can delete code block from compiled file by the version identifier that defined before the compilation.</dd>
-		    <dt class="mark text16">The Error handler insertion.</dt>
-		    <dd class="text14">To easy debug, the mocha insert file name and line numbers, per statement or scope.</dd>
-		    <dt class="mark text16">The test.</dt>
-		    <dd class="text14">You can use the phantomjs or other test libraries.</dd>
+		    <dt class="mark text12">The compress</dt>
+		    <dd class="text12">The mocha compress a translated javascript, and this done by seamless. So don't need to execute other tools.</dd>
+		    <dt class="mark text12">modules</dt>
+		    <dd class="text12">The mocha support modules, by the ES Next's 'import' and 'module statement' and mocha's @include extension. That combined at the compilation time.</dd>
+		    <dt class="mark text12">versions</dt>
+		    <dd class="text12">The mocha has version operator, so you can delete code block from compiled file by the version identifier that defined before the compilation.</dd>
+		    <dt class="mark text12">The Error handler insertion.</dt>
+		    <dd class="text12">To easy debug, the mocha insert file name and line numbers, per statement or scope.</dd>
+		    <dt class="mark text12">The test.</dt>
+		    <dd class="text12">You can use the phantomjs or other test libraries.</dd>
 		</dl>
 		<div id="learnMore">
-		    <a href="es_next_detail.html" class="blueButton text18 fixed">See usage and api references</a>
+		    <a href="es_next_detail.html" class="blueButton text14 fixed">See usage and api references</a>
 		</div>
 	    </div>
 	</div>

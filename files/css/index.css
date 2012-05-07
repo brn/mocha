@@ -1,6 +1,9 @@
+body {
+background : url(images/bg.jpg);
+}
 #trademarkWrapper {
 background : #333 url(images/stripes.gif);
-border-bottom : 1px solid #ffffff;
+border-bottom : 1px solid #444444;
 }
 #trademarkArea {
 width : 1000px;
@@ -53,7 +56,11 @@ margin : 20px 160px 100px 160px;
 _margin-left : 130px;
 }
 #hero {
+font-style : italic;
 margin-bottom : 20px;
+line-height : 1.2em;
+color : #999999;
+text-shadow : 1px 1px 1px #000000;
 }
 dt.mark {
 font-weight : bold;
@@ -62,10 +69,13 @@ padding-left : 25px;
 padding-top : 5px;
 background : url(images/info.png) no-repeat;
 margin : 5px 5px 0px 0px;
+text-shadow : 1px 1px 1px rgba(0,0,0,0.6);
 }
 
 dl.sp dd {
 margin : 0px 0 15px 0;
+color : #aaaaaa;
+text-shadow : 1px 1px 1px rgba(0,0,0,1);
 }
 
 #learnMore {

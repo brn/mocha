@@ -116,7 +116,7 @@ visibility: hidden;
 
 body {
 background : #222222;
-color : #cccccc;
+color : #ffffff;
 font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
 *font-size:small;
 *font:x-small;
@@ -144,9 +144,12 @@ font:100%;
 .text26 { font-size:197%; }
 
 </style>
-	<style>#trademarkWrapper {
+	<style>body {
+background : url(images/bg.jpg);
+}
+#trademarkWrapper {
 background : #333 url(images/stripes.gif);
-border-bottom : 1px solid #ffffff;
+border-bottom : 1px solid #444444;
 }
 #trademarkArea {
 width : 1000px;
@@ -199,7 +202,11 @@ margin : 20px 160px 100px 160px;
 _margin-left : 130px;
 }
 #hero {
+font-style : italic;
 margin-bottom : 20px;
+line-height : 1.2em;
+color : #999999;
+text-shadow : 1px 1px 1px #000000;
 }
 dt.mark {
 font-weight : bold;
@@ -208,10 +215,13 @@ padding-left : 25px;
 padding-top : 5px;
 background : url(images/info.png) no-repeat;
 margin : 5px 5px 0px 0px;
+text-shadow : 1px 1px 1px rgba(0,0,0,0.6);
 }
 
 dl.sp dd {
 margin : 0px 0 15px 0;
+color : #aaaaaa;
+text-shadow : 1px 1px 1px rgba(0,0,0,1);
 }
 
 #learnMore {
@@ -1494,23 +1504,23 @@ a){var b=F.exec(a);b&&(b[1]=(b[1]||"").toLowerCase(),b[3]=b[3]&&new RegExp("(?:^
 	</div>
 	<div id="contents">
 	    <div id="inner">
-		<h1 id="hero" class="text16">mochaはEcmascript262 5th edition 及び、現在策定中のEcmascript harmonyの文法とちょっとした拡張をブラウザで利用可能なjavascriptに変換するコンパイラです。</h1>
+		<h1 id="hero" class="text14">mochaはEcmascript262 5th edition 及び、現在策定中のEcmascript harmonyの文法とちょっとした拡張をブラウザで利用可能なjavascriptに変換するコンパイラです。</h1>
 		<dl class="sp text12">
 		    <dt class="mark">ES Nextからjavascriptへの変換</dt>
 		    <dd>ES Nextを使用して記述されたファイルをブラウザで実行可能なjavascriptへ変換します。</dd>
-		    <dt class="mark text16">圧縮</dt>
-		    <dd class="text14">変換済みのjavascriptを圧縮します。変換から圧縮までをシームレスに行えるので他のツールを起動する必要がありません。</dd>
-		    <dt class="mark text16">ファイルのモジュール化</dt>
-		    <dd class="text14">ES Nextの機能であるimport及び、module構文。、mochaの独自拡張を利用したファイルの読み込みによりモジュール化をサポートします。これらはコンパイル時に静的に結合されます</dd>
-		    <dt class="mark text16">条件別コンパイル</dt>
-		    <dd class="text14">コンパイラ命令としてversion演算子を導入しました。事前に定義したバージョン識別子の有無でコードブロックの削除が可能です。</dd>
-		    <dt class="mark text16">デバッグ用エラーハンドラの挿入</dt>
-		    <dd class="text14">ファイルを結合した際に、エラーが起きた行数がわからなくなるのを避けるため、行数及び、ファイル名をスコープ、あるいはステートメント毎に挿入します。</dd>
-		    <dt class="mark text16">外部テストツールとの連携</dt>
-		    <dd class="text14">phantomjsなどのテスト用ツールを利用したテストも可能です。</dd>
+		    <dt class="mark text12">圧縮</dt>
+		    <dd class="text12">変換済みのjavascriptを圧縮します。変換から圧縮までをシームレスに行えるので他のツールを起動する必要がありません。</dd>
+		    <dt class="mark text12">ファイルのモジュール化</dt>
+		    <dd class="text12">ES Nextの機能であるimport及び、module構文。、mochaの独自拡張を利用したファイルの読み込みによりモジュール化をサポートします。これらはコンパイル時に静的に結合されます</dd>
+		    <dt class="mark text12">条件別コンパイル</dt>
+		    <dd class="text12">コンパイラ命令としてversion演算子を導入しました。事前に定義したバージョン識別子の有無でコードブロックの削除が可能です。</dd>
+		    <dt class="mark text12">デバッグ用エラーハンドラの挿入</dt>
+		    <dd class="text12">ファイルを結合した際に、エラーが起きた行数がわからなくなるのを避けるため、行数及び、ファイル名をスコープ、あるいはステートメント毎に挿入します。</dd>
+		    <dt class="mark text12">外部テストツールとの連携</dt>
+		    <dd class="text12">phantomjsなどのテスト用ツールを利用したテストも可能です。</dd>
 		</dl>
 		<div id="learnMore">
-		    <a href="es_next_detail.html" class="blueButton text18 fixed">See usage and api references</a>
+		    <a href="es_next_detail.html" class="blueButton text14 fixed">See usage and api references</a>
 		</div>
 	    </div>
 	</div>
