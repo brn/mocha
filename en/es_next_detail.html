@@ -715,7 +715,7 @@ class SkinnedMesh extends THREE.Mesh {
 													</div>
 			  <div class="section">
 			      <p class="title">Detail</p>
-			      <p>In mocha, the class is behave as syntax sugar of the definition of the constructor function and prototype, so it has 100% compatibility to existing javascript's class which declared as a function and prototypes. And the overhead of a class is supressed as much as possible, but to realize the private field, the class syntax has a little overhead.</p>
+			      <p>In mocha, the class behave as syntax sugar of the definition of the constructor function and prototypes, so it has 100% compatibility to existing javascript's class which declared as a function and prototypes. And the overhead of a class is supressed as much as possible, but to realize the private field, the class syntax has a little overhead.</p>
 			  </div>
 			  <div class="section">
 			      <p class="title">Interface</p>
@@ -749,12 +749,13 @@ class SkinnedMesh extends THREE.Mesh {
 	</div>
 	<div id="trait" class="tab-pane">
 	    <h3>trait</h3>
-	    <p>The object which define the class behavior.</p>
-	    <p>implementation : none</p>
+	    <p>The trait is a object which define the class behavior.</p>
+	    <p class="browserImp">implementation : none</p>
 	    <div>
-		<p>The definition of a trait is like below.</p>
-		<pre class="prettyprint grammars"><code>//traitの定義
-trait TestTrait {
+		<div class="section">
+		    <p class="title">Overview</p>
+		    <p>The definition of a trait is like below.</p>
+		    <pre class="prettyprint grammars"><code>trait TestTrait {
   requires testReq1;
   public test1( ...arg )->this.testReq1(arg[0]);
 }
@@ -824,32 +825,35 @@ class MixinTest {
         Runtime.createUnenumProp(MixinTest.prototype,"constructor",constructor);
         return MixinTest;
    }()</code></pre>
+		</div>
 		<div class="section">
 		    <p class="title">Detail</p>
-		    <p>Inject dehaver into class. The trait can define requirements to set require property.
-And The trait can composite the each trait or the trait and class, to set mixin property, and can rewrite member name or disable member to set with or without in the mixin property, like mixin ... with &lt;method_name&gt; as &lt:new_name&gt;
-The modifier like public, private is see class.</p>
+		    <p>The trait purpose is that inject behavior by implementation inheritance. And also the trait behave like a abstract class in terms of enforce implementation of methods, to enforce implementation of methods, use a 'require' attribute, like this, require foo.
+And the trait can compose traits or classes through declaration of 'mixin' attributes, and can rewrite member names or disable member to set 'with' or 'without' attributes in a 'mixin' attribute, like mixin ... with &lt;method_name&gt; as &lt:new_name&gt;
+The modifier like public, private behave same as class.</p>
 		</div>
 		<div class="section">
 		    <p class="title">Interface</p>
 		    <pre class="prettyprint grammars"><code><i>trait</i> &lt;trait name&gt;</code></pre>
-		    <p>Declare trait.</p>
+		    <p>Declare a trait.</p>
 		    <pre class="prettyprint grammars"><code><i>mixin</i> &lt;trait name&gt; <i>with(optional)</i> &lt;member name&gt; <i>as</i> &lt;new member name&gt <i>without(optional)</i> &lt;member name&gt;</code></pre>
-		    <p>Mixin trait. If member same name is there, it overwrite by after definition. And If with ~ as is set, member name is rewrite as new member name, and If without ~ is set, the specific member is not mixined.</p>
+		    <p>Mixin traits. If same name members are there, it overwritten by after definition. And If with ~ as is set, a member name is rewrite as new member name, and If without ~ is set, the specific member is not mixined.</p>
 		</div>
 	    </div>
 	</div>
 	<div id="destructuring-assignment" class="tab-pane">
 	    <h3>destructuring assignment</h3>
 	    <p>The destructuring assignment.</p>
-	    <p>implementation : mozilla 1.6 or later</p>
+	    <p class="browserImp">implementation : mozilla 1.6 or later</p>
 	    <div>
-		<p>The Array</p>
-		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
+		<div class="section">
+		    <p class="title">Overview</p>
+		    <p>The Array</p>
+		    <pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     [one,two,three,four] = array;
 console.log(one,two,three,four);</code></pre>
-		<p>After compilation.</p>
-		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     one = array[0],
     two = array[1],
     three = array[2],
@@ -910,13 +914,16 @@ var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { va
     value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined,
     value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined,
     strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;</code></pre>
+		</div>
 	    </div>
 	</div>
 	<div id="for-each" class="tab-pane">
 	    <h3>for each</h3>
-	    <p>for each statement.</p>
-	    <p>implementation : mozilla 1.6 or later.</p>
+	    <p>A for each statement. This is extension of the 'for' familly.</p>
+	    <p class="browserImp">implementation : mozilla 1.6 or later.</p>
 	    <div>
+		<div class="section">
+		    <p class="title">Overview</p>
 		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
 for each(var i in obj) {
   console.log(i);
@@ -927,64 +934,77 @@ for(var i in obj) {
   i = obj[i];
   console.log(i);
 }</code></pre>
+		</div>
 	    </div>
 	</div>
 	<div id="do-expression" class="tab-pane">
 	    <h3>do expression</h3>
-	    <p>The easy scope.</p>
-	    <p>implementation : none</p>
+	    <p>The easy scope, this behave like no arguments lambda which return the last evaluated value.</p>
+	    <p class="browserImp">implementation : none</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>var x = do { var t = f(); t * t + 1 };</code></pre>
-		<p>After compilation.</p>
-		<pre class="prettyprint grammars"><code>var x = function () {
+		<div class="section">
+		    <p class="title">Overview</p>
+		    <pre class="prettyprint grammars"><code>var x = do { var t = f(); t * t + 1 };</code></pre>
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var x = function () {
     var t = f();
     return t * t + 1;
 }();</code></pre>
+		</div>
+		<div class="section">
+		    <p class="title">Detail</p>
+		    <p>The do expression create scope and return the last evaluated value except for loop statement, if last statement is loop statement like 'while' 'for' etc... do expression just return undefined.</p>
+		</div>
 	    </div>
 	</div>
 	<div id="short-function-syntax" class="tab-pane">
 	    <h3>short function syntax</h3>
-	    <p>The shorter function syntax.</p>
-	    <p>implementation : none</p>
+	    <p>The shorter function syntax like coffeescript.</p>
+	    <p class="browserImp">implementation : none</p>
 	    <div>
-		<p>Lambda.</p>
-		<pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
-    b = (x,y,z) -> { return x + y + z; }</code></pre>
-		<p>After compilation.</p>
-		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
-    b = function (x,y,z) { return x + y + z;}</code></pre>
-		<p>Decalaration.</p>
-		<pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
+		<div class="section">
+		    <p class="title">Overview</p>
+		    <p>Lambda.</p>
+		    <pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
+b = (x,y,z) -> { return x + y + z; }</code></pre>
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
+b = function (x,y,z) { return x + y + z;}</code></pre>
+		    <p>Decalaration.</p>
+		    <pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
 bar(x,y,z) -> { return x + y + z; }</code></pre>
-		<p>After compilation.</p>
-		<pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
 function bar (x,y,z) { return x + y + z;}</code></pre>
-		<p>The context bindings.</p>
-		<pre class="prettyprint grammars"><code>var a = (x,y,z) => x + y + z,
+		    <p>The context bindings.</p>
+		    <pre class="prettyprint grammars"><code>var a = (x,y,z) => x + y + z,
     b = (x,y,z) => { return x + y + z; }
 foo(x,y,z) => console.log(this);
 bar(x,y,z) => {console.log(this) }</code></pre>
-		<p>After compilation.</p>
-		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
     b = function (x,y,z) { return x + y + z; }.bind(this);
 function foo (x,y,z) { return console.log(_mochaLocalTmp0);}
 foo = foo.bind(this);
 function bar (x,y,z) { return console.log(_mochaLocalTmp1);}
 bar = bar.bind(this);</code></pre>
+		</div>
 	    </div>
 	</div>
 	<div id="import" class="tab-pane">
 	    <h3>import</h3>
-	    <p>The module import system.</p>
-	    <p>implementation : none</p>
+	    <p>The module import system. An import statement load js file and bind modules to the variables.</p>
+	    <p class="browserImp">implementation : none</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>import module from './test';
+		<div class="section">
+		    <p class="title">Overview</p>
+		    <pre class="prettyprint grammars"><code>import module from './test';
 import {exports1,exports2} from './test2'.module;
 import [value1, value2] from './test3'.module.exports;
 import exports from './test4'.module;
 import './test5' as test5</code></pre>
-		<p>After compilation.</p>
-		<pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
     _mochaLocalTmp0 = Runtime.modules.get('564059-test2.js').module,
     exports1 = _mochaLocalTmp0.exports1,
     exports2 = _mochaLocalTmp0.exports2,
@@ -994,13 +1014,14 @@ import './test5' as test5</code></pre>
     exports = Runtime.modules.get('945095-test4.js').module.exports,
     test5 = Runtime.modules.get('455905-test5.js');
     </code></pre>
+		</div>
 		<div class="section">
 		    <p class="title">Detail</p>
-		    <p>The rule of import syntax.</p>
-		    <p>The import of file is based on below rule.</p>
+		    <p>The rule of an import statement.</p>
+		    <p>The module searching is based on below rule.</p>
 		    <table>
 			<tr>
-			    <th>subscription</th><th>explain</th>
+			    <th>subscription</th><th>explaination</th>
 			</tr>
 			<tr>
 			    <td>'./filename'</td><td>Search the file from current directory.</td>
@@ -1014,10 +1035,12 @@ import './test5' as test5</code></pre>
 	</div>
 	<div id="module" class="tab-pane">
 	    <h3>module</h3>
-	    <p>Module system.</p>
-	    <p>implementation : none</p>
+	    <p>The module system. A module statement export variables to out of the file scope.</p>
+	    <p class="browserImp">implementation : none</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>module testModule {
+		<div class="section">
+		    <p class="title">Overview</p>
+		    <pre class="prettyprint grammars"><code>module testModule {
   export test() -> console.log('test!!');
 }
 module testModule2 {
@@ -1027,8 +1050,8 @@ module testModule2 {
   }
 }
 module testModule3 = ->3</code></pre>
-		<p>After compilation.</p>
-		<pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
       function testExport1() {
         return console.log('test!!');
       }
@@ -1054,46 +1077,52 @@ var testModule2 = Runtime.modules.get('3490394-test.js').testModule2 = function 
 Runtime.modules.get('3490394-test.js').testModule3 = function () {
   return 3;
 }</code></pre>
-		<div class="section">
-		    <p class="title">Detail</p>
-		    <p>Each module only allowed direct child of the file scope. The module is directly export as name that specified as module name.</p>
 		</div>
 		<div class="section">
-		    <p class="title">Declaration</p>
+		    <p class="title">Detail</p>
+		    <p>Each module only allowed direct child of the file scope. The modules are directly export as variables.</p>
+		</div>
+		<div class="section">
+		    <p class="title">Interface</p>
 		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>{</i> ... <i>}</i></code></pre>
-		    <p>Decalare module. The module is able to nested, and the nested module is set as parent module's child.</p>
+		    <p>Decalare module. The module is able to nest, and the nested module is set as parent module's property.</p>
 		    <pre class="prettyprint grammars"><code><i>module</i> &lt;module name&gt; <i>=</i> &lt;values&gt;</code></pre>
-		    <p>Export the value directly.</p>
+		    <p>Export a value directly.</p>
 		</div>
 	    </div>
 	</div>
 	<div id="let-expression" class="tab-pane">
 	    <h3>let expression</h3>
 	    <p>Create the new scope.</p>
-	    <p>implementation : mozilla1.7 or later</p>
+	    <p class="browserImp">implementation : mozilla1.7 or later</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>var foo = 200;
+		<div class="section">
+		    <p class="title">Overview</p>
+		    <pre class="prettyprint grammars"><code>var foo = 200;
 let (foo = 300) {
   console.assert(foo === 300);
 }</code></pre>
-		<p>変換後</p>
-		<pre class="prettyprint grammars"><code>var foo = 200;
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var foo = 200;
 !function(foo) {
   console.assert(foo === 300);
 }(300);</code></pre>
+		</div>
 		<div class="section">
 		    <p class="title">Detail</p>
-		    <p>Create the scope. The values that define at the entrance of the let expression is enabled in the let expression scope.</p>
+		    <p>Create the scope. The values that define at the entrance of the let expression is only visible in the let expression scope.</p>
 		</div>
 	    </div>
 	</div>
 	<div id="object-literal-extras" class="tab-pane">
 	    <h3>object literal extras</h3>
 	    <p>The extensions of object literal.</p>
-	    <p>implementation : none</p>
+	    <p class="browserImp">implementation : none</p>
 	    <div>
-		<p>batch assignment operator</p>
-		<pre class="prettyprint grammars"><code>var namespaces = {
+		<div class="section">
+		    <p class="title">Overview</p>
+		    <p>batch assignment operator</p>
+		    <pre class="prettyprint grammars"><code>var namespaces = {
       foo : {},
       bar : {}
     }
@@ -1102,8 +1131,8 @@ namespaces.{
 }.{
   qux : {}
 }</code></pre>
-		<p>After compilation.</p>
-		<pre class="prettyprint grammars"><code>var namespaces = {
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var namespaces = {
       foo : {},
       bar : {}
     }
@@ -1112,55 +1141,59 @@ Runtime.extend(Runtime.extend(namespaces, {
 }), {
   qux : {}
 });</code></pre>
-		<p>private property</p>
-		<pre class="prettyprint grammars"><code>var foo = 'private_name';
+		    <p>private property</p>
+		    <pre class="prettyprint grammars"><code>var foo = 'private_name';
 var namespaces = {
       [foo] : {},
       bar : {}
     }</code></pre>
-		<p>変換後</p>
-		<pre class="prettyprint grammars"><code>var foo = 'private_name';
+		    <p>After compilation.</p>
+		    <pre class="prettyprint grammars"><code>var foo = 'private_name';
 var namespace = {
       bar : {}
     }
 Runtime.createUnenumProp(namespace, 'foo', {});</code></pre>
+		</div>
 	    </div>
 	</div>
 	<div id="data-structure-extras" class="tab-pane">
 	    <h3>data structure extras</h3>
 	    <p>The extension of the data structures.</p>
-	    <p>implementation : none</p>
+	    <p class="browserImp">implementation : none</p>
 	    <div>
-		<p>tuple</p>
-		<pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
-var tuple2 = new Tuple(0,1,2,3);</code></pre>		
-		<p>record</p>
-		<pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
-var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
 		<div class="section">
-		    <p class="title">Detail</p>
-		    <p><strong>tuple</strong></p>
-		    <p>Create the tuple. The tuple is like the array, but imutable.</p>
-		    <p><strong>API</strong></p>
-		    <table>
-			<tr>
-			    <th>name</th>
-			    <th>interface</th>
-			    <th>explanation</th>
-			</tr>
-			<tr>
-			    <td>equal</td><td>equal(tuple)</td><td>Compare the two tuple.</td>
-			</tr>
-			<tr>
-			    <td>toArray</td><td>toArray()</td><td>Convert the tuple to array.</td>
-			</tr>
-			<tr>
-			    <td>length</td><td>length</td><td>Get the tuple length.</td>
-			</tr>
-		    </table>
-		    <p><strong>record</strong></p>
-		    <p></p>
-		    <p></p>
+		    <p class="title">Overview</p>
+		    <p>tuple</p>
+		    <pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
+var tuple2 = new Tuple(0,1,2,3);</code></pre>		
+		    <p>record</p>
+		    <pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
+var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
+		    <div class="section">
+			<p class="title">Detail</p>
+			<p><strong>tuple</strong></p>
+			<p>Create the tuple. The tuple is like the array, but imutable.</p>
+			<p><strong>API</strong></p>
+			<table>
+			    <tr>
+				<th>name</th>
+				<th>interface</th>
+				<th>explanation</th>
+			    </tr>
+			    <tr>
+				<td>equal</td><td>equal(tuple)</td><td>Compare the two tuple.</td>
+			    </tr>
+			    <tr>
+				<td>toArray</td><td>toArray()</td><td>Convert the tuple to array.</td>
+			    </tr>
+			    <tr>
+				<td>length</td><td>length</td><td>Get the tuple length.</td>
+			    </tr>
+			</table>
+			<p><strong>record</strong></p>
+			<p>Create Object like associative array, but immutable.</p>
+			<p>The record has not method.</p>
+		    </div>
 		</div>
 	    </div>
 	</div>

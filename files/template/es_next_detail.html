@@ -179,11 +179,12 @@ class SkinnedMesh extends THREE.Mesh {
 	<div id="trait" class="tab-pane">
 	    <h3>trait</h3>
 	    <p>${trait_title}</p>
-	    <p>${trait_impl_sub}</p>
+	    <p class="browserImp">${trait_impl_sub}</p>
 	    <div>
-		<p>${trait_ex1_title}</p>
-		<pre class="prettyprint grammars"><code>//traitの定義
-trait TestTrait {
+		<div class="section">
+		    <p class="title">${overview}</p>
+		    <p>${trait_ex1_title}</p>
+		    <pre class="prettyprint grammars"><code>trait TestTrait {
   requires testReq1;
   public test1( ...arg )->this.testReq1(arg[0]);
 }
@@ -253,6 +254,7 @@ class MixinTest {
         Runtime.createUnenumProp(MixinTest.prototype,"constructor",constructor);
         return MixinTest;
    }()</code></pre>
+		</div>
 		<div class="section">
 		    <p class="title">${trait_detail_title}</p>
 		    <p>${trait_detail_sub1}</p>
@@ -269,14 +271,16 @@ class MixinTest {
 	<div id="destructuring-assignment" class="tab-pane">
 	    <h3>destructuring assignment</h3>
 	    <p>${destructuring_title}</p>
-	    <p>${destructuring_impl_sub}</p>
+	    <p class="browserImp">${destructuring_impl_sub}</p>
 	    <div>
-		<p>${destructuring_ex1_title}</p>
-		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
+		<div class="section">
+		    <p class="title">${overview}</p>
+		    <p>${destructuring_ex1_title}</p>
+		    <pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     [one,two,three,four] = array;
 console.log(one,two,three,four);</code></pre>
-		<p>${destructuring_ex2_title}</p>
-		<pre class="prettyprint grammars"><code>var array = [0,1,2,3],
+		    <p>${destructuring_ex2_title}</p>
+		    <pre class="prettyprint grammars"><code>var array = [0,1,2,3],
     one = array[0],
     two = array[1],
     three = array[2],
@@ -337,13 +341,16 @@ var {value1,value2:{ value3 },value4 : [ value5_,value6_,value7_ ],value5 : { va
     value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined,
     value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined,
     strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;</code></pre>
+		</div>
 	    </div>
 	</div>
 	<div id="for-each" class="tab-pane">
 	    <h3>for each</h3>
 	    <p>${for_each_title}</p>
-	    <p>${for_each_impl_sub}</p>
+	    <p class="browserImp">${for_each_impl_sub}</p>
 	    <div>
+		<div class="section">
+		    <p class="title">${overview}</p>
 		<pre class="prettyprint grammars"><code>var obj = {a:1,b:2}
 for each(var i in obj) {
   console.log(i);
@@ -354,64 +361,77 @@ for(var i in obj) {
   i = obj[i];
   console.log(i);
 }</code></pre>
+		</div>
 	    </div>
 	</div>
 	<div id="do-expression" class="tab-pane">
 	    <h3>do expression</h3>
 	    <p>${do_expression_title}</p>
-	    <p>${do_expression_impl_sub}</p>
+	    <p class="browserImp">${do_expression_impl_sub}</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>var x = do { var t = f(); t * t + 1 };</code></pre>
-		<p>${do_expression_ex2_title}</p>
-		<pre class="prettyprint grammars"><code>var x = function () {
+		<div class="section">
+		    <p class="title">${overview}</p>
+		    <pre class="prettyprint grammars"><code>var x = do { var t = f(); t * t + 1 };</code></pre>
+		    <p>${do_expression_ex2_title}</p>
+		    <pre class="prettyprint grammars"><code>var x = function () {
     var t = f();
     return t * t + 1;
 }();</code></pre>
+		</div>
+		<div class="section">
+		    <p class="title">Detail</p>
+		    <p>${do_expression_detail_sub1}</p>
+		</div>
 	    </div>
 	</div>
 	<div id="short-function-syntax" class="tab-pane">
 	    <h3>short function syntax</h3>
 	    <p>${short_function_title}</p>
-	    <p>${short_function_impl_sub}</p>
+	    <p class="browserImp">${short_function_impl_sub}</p>
 	    <div>
-		<p>${short_function_ex1_title}</p>
-		<pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
-    b = (x,y,z) -> { return x + y + z; }</code></pre>
-		<p>${short_function_ex2_title}</p>
-		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
-    b = function (x,y,z) { return x + y + z;}</code></pre>
-		<p>${short_function_ex3_title}</p>
-		<pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
+		<div class="section">
+		    <p class="title">${overview}</p>
+		    <p>${short_function_ex1_title}</p>
+		    <pre class="prettyprint grammars"><code>var a = (x,y,z) -> x + y + z,
+b = (x,y,z) -> { return x + y + z; }</code></pre>
+		    <p>${short_function_ex2_title}</p>
+		    <pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z;},
+b = function (x,y,z) { return x + y + z;}</code></pre>
+		    <p>${short_function_ex3_title}</p>
+		    <pre class="prettyprint grammars"><code>foo(x,y,z) -> x + y + z;
 bar(x,y,z) -> { return x + y + z; }</code></pre>
-		<p>${short_function_ex4_title}</p>
-		<pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
+		    <p>${short_function_ex4_title}</p>
+		    <pre class="prettyprint grammars"><code>function foo (x,y,z) { return x + y + z;}
 function bar (x,y,z) { return x + y + z;}</code></pre>
-		<p>${short_function_ex5_title}</p>
-		<pre class="prettyprint grammars"><code>var a = (x,y,z) => x + y + z,
+		    <p>${short_function_ex5_title}</p>
+		    <pre class="prettyprint grammars"><code>var a = (x,y,z) => x + y + z,
     b = (x,y,z) => { return x + y + z; }
 foo(x,y,z) => console.log(this);
 bar(x,y,z) => {console.log(this) }</code></pre>
-		<p>${short_function_ex6_title}</p>
-		<pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
+		    <p>${short_function_ex6_title}</p>
+		    <pre class="prettyprint grammars"><code>var a = function (x,y,z) { return x + y + z; }.bind(this),
     b = function (x,y,z) { return x + y + z; }.bind(this);
 function foo (x,y,z) { return console.log(_mochaLocalTmp0);}
 foo = foo.bind(this);
 function bar (x,y,z) { return console.log(_mochaLocalTmp1);}
 bar = bar.bind(this);</code></pre>
+		</div>
 	    </div>
 	</div>
 	<div id="import" class="tab-pane">
 	    <h3>import</h3>
 	    <p>${import_title}</p>
-	    <p>${import_impl_sub}</p>
+	    <p class="browserImp">${import_impl_sub}</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>import module from './test';
+		<div class="section">
+		    <p class="title">${overview}</p>
+		    <pre class="prettyprint grammars"><code>import module from './test';
 import {exports1,exports2} from './test2'.module;
 import [value1, value2] from './test3'.module.exports;
 import exports from './test4'.module;
 import './test5' as test5</code></pre>
-		<p>${import_ex1_title}</p>
-		<pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
+		    <p>${import_ex1_title}</p>
+		    <pre class="prettyprint grammars"><code>var module = Runtime.modules.get('349045-test.js').module,
     _mochaLocalTmp0 = Runtime.modules.get('564059-test2.js').module,
     exports1 = _mochaLocalTmp0.exports1,
     exports2 = _mochaLocalTmp0.exports2,
@@ -421,6 +441,7 @@ import './test5' as test5</code></pre>
     exports = Runtime.modules.get('945095-test4.js').module.exports,
     test5 = Runtime.modules.get('455905-test5.js');
     </code></pre>
+		</div>
 		<div class="section">
 		    <p class="title">${import_detail}</p>
 		    <p>${import_detail_title1}</p>
@@ -442,9 +463,11 @@ import './test5' as test5</code></pre>
 	<div id="module" class="tab-pane">
 	    <h3>module</h3>
 	    <p>${module_title}</p>
-	    <p>${module_impl_sub}</p>
+	    <p class="browserImp">${module_impl_sub}</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>module testModule {
+		<div class="section">
+		    <p class="title">${overview}</p>
+		    <pre class="prettyprint grammars"><code>module testModule {
   export test() -> console.log('test!!');
 }
 module testModule2 {
@@ -454,8 +477,8 @@ module testModule2 {
   }
 }
 module testModule3 = ->3</code></pre>
-		<p>${module_ex2_title}</p>
-		<pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
+		    <p>${module_ex2_title}</p>
+		    <pre class="prettyprint grammars"><code>var testModule = Runtime.modules.get('3490394-test.js').testModule = function () {
       function testExport1() {
         return console.log('test!!');
       }
@@ -481,6 +504,7 @@ var testModule2 = Runtime.modules.get('3490394-test.js').testModule2 = function 
 Runtime.modules.get('3490394-test.js').testModule3 = function () {
   return 3;
 }</code></pre>
+		</div>
 		<div class="section">
 		    <p class="title">${module_detail_title}</p>
 		    <p>${module_detail_sub1}</p>
@@ -497,17 +521,20 @@ Runtime.modules.get('3490394-test.js').testModule3 = function () {
 	<div id="let-expression" class="tab-pane">
 	    <h3>let expression</h3>
 	    <p>${let_expression_title}</p>
-	    <p>${let_expression_impl_sub}</p>
+	    <p class="browserImp">${let_expression_impl_sub}</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>var foo = 200;
+		<div class="section">
+		    <p class="title">${overview}</p>
+		    <pre class="prettyprint grammars"><code>var foo = 200;
 let (foo = 300) {
   console.assert(foo === 300);
 }</code></pre>
-		<p>変換後</p>
-		<pre class="prettyprint grammars"><code>var foo = 200;
+		    <p>${after_compilation}</p>
+		    <pre class="prettyprint grammars"><code>var foo = 200;
 !function(foo) {
   console.assert(foo === 300);
 }(300);</code></pre>
+		</div>
 		<div class="section">
 		    <p class="title">${let_expression_detail}</p>
 		    <p>${let_expression_detail_sub1}</p>
@@ -517,10 +544,12 @@ let (foo = 300) {
 	<div id="object-literal-extras" class="tab-pane">
 	    <h3>object literal extras</h3>
 	    <p>${object_literal_extras_title}</p>
-	    <p>${object_literal_impl_sub}</p>
+	    <p class="browserImp">${object_literal_impl_sub}</p>
 	    <div>
-		<p>batch assignment operator</p>
-		<pre class="prettyprint grammars"><code>var namespaces = {
+		<div class="section">
+		    <p class="title">${overview}</p>
+		    <p>batch assignment operator</p>
+		    <pre class="prettyprint grammars"><code>var namespaces = {
       foo : {},
       bar : {}
     }
@@ -529,8 +558,8 @@ namespaces.{
 }.{
   qux : {}
 }</code></pre>
-		<p>${object_literal_ex1_title}</p>
-		<pre class="prettyprint grammars"><code>var namespaces = {
+		    <p>${object_literal_ex1_title}</p>
+		    <pre class="prettyprint grammars"><code>var namespaces = {
       foo : {},
       bar : {}
     }
@@ -539,55 +568,59 @@ Runtime.extend(Runtime.extend(namespaces, {
 }), {
   qux : {}
 });</code></pre>
-		<p>private property</p>
-		<pre class="prettyprint grammars"><code>var foo = 'private_name';
+		    <p>private property</p>
+		    <pre class="prettyprint grammars"><code>var foo = 'private_name';
 var namespaces = {
       [foo] : {},
       bar : {}
     }</code></pre>
-		<p>変換後</p>
-		<pre class="prettyprint grammars"><code>var foo = 'private_name';
+		    <p>${after_compilation}</p>
+		    <pre class="prettyprint grammars"><code>var foo = 'private_name';
 var namespace = {
       bar : {}
     }
 Runtime.createUnenumProp(namespace, 'foo', {});</code></pre>
+		</div>
 	    </div>
 	</div>
 	<div id="data-structure-extras" class="tab-pane">
 	    <h3>data structure extras</h3>
 	    <p>${data_structure_extras_title}</p>
-	    <p>${data_structure_extras_impl_sub}</p>
+	    <p class="browserImp">${data_structure_extras_impl_sub}</p>
 	    <div>
-		<p>tuple</p>
-		<pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
-var tuple2 = new Tuple(0,1,2,3);</code></pre>		
-		<p>record</p>
-		<pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
-var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
 		<div class="section">
-		    <p class="title">${data_structure_detail_title}</p>
-		    <p><strong>tuple</strong></p>
-		    <p>${data_structure_extras_detail_sub1}</p>
-		    <p><strong>API</strong></p>
-		    <table>
-			<tr>
-			    <th>${data_structure_extras_detail_th1}</th>
-			    <th>${data_structure_extras_detail_th2}</th>
-			    <th>${data_structure_extras_detail_th3}</th>
-			</tr>
-			<tr>
-			    <td>equal</td><td>equal(tuple)</td>${data_structure_detail_sub2}<td>${data_structure_extras_detail_sub2}</td>
-			</tr>
-			<tr>
-			    <td>toArray</td><td>toArray()</td><td>${data_structure_extras_detail_sub3}</td>
-			</tr>
-			<tr>
-			    <td>length</td><td>length</td><td>${data_structure_extras_detail_sub4}</td>
-			</tr>
-		    </table>
-		    <p><strong>record</strong></p>
-		    <p>${data_structure_detail_sub5}</p>
-		    <p>${data_structure_detail_sub6}</p>
+		    <p class="title">${overview}</p>
+		    <p>tuple</p>
+		    <pre class="prettyprint grammars"><code>var tuple = #[0,1,2,3];
+var tuple2 = new Tuple(0,1,2,3);</code></pre>		
+		    <p>record</p>
+		    <pre class="prettyprint grammars"><code>var foo = #{"foo":0,"bar":1,"baz":2}
+var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
+		    <div class="section">
+			<p class="title">${data_structure_detail_title}</p>
+			<p><strong>tuple</strong></p>
+			<p>${data_structure_extras_detail_sub1}</p>
+			<p><strong>API</strong></p>
+			<table>
+			    <tr>
+				<th>${data_structure_extras_detail_th1}</th>
+				<th>${data_structure_extras_detail_th2}</th>
+				<th>${data_structure_extras_detail_th3}</th>
+			    </tr>
+			    <tr>
+				<td>equal</td><td>equal(tuple)</td>${data_structure_detail_sub2}<td>${data_structure_extras_detail_sub2}</td>
+			    </tr>
+			    <tr>
+				<td>toArray</td><td>toArray()</td><td>${data_structure_extras_detail_sub3}</td>
+			    </tr>
+			    <tr>
+				<td>length</td><td>length</td><td>${data_structure_extras_detail_sub4}</td>
+			    </tr>
+			</table>
+			<p><strong>record</strong></p>
+			<p>${data_structure_extras_detail_sub5}</p>
+			<p>${data_structure_extras_detail_sub6}</p>
+		    </div>
 		</div>
 	    </div>
 	</div>
