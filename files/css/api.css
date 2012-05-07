@@ -8,7 +8,7 @@ line-height : 1.5em;
     word-wrap: break-word;      /* IE 5.5+ */
 }
 body{
-background : #333 url(../images/stripes.gif);
+background : #333 url(images/stripes.gif);
 }
 #contents{
 width : 1000px;
