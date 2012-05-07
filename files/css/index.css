@@ -91,3 +91,11 @@ position : absolute;
 display : none;
 background : url(images/spot.png) no-repeat;
 }
+
+#line {
+width : 1000px;
+height : 400px;
+position : absolute;
+display : none;
+background : url(images/line.png) 220px 0 no-repeat;
+}

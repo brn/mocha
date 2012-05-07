@@ -11,9 +11,7 @@ $(->{
       DD_belatedPNG.fix('#bg');
     }
   } else {
+    setTimeout(->index.LINE_CACHE().fadeIn(2000), 1000);
     index.BG_CACHE().fadeIn(3000);
   }
 })
-
-
-
