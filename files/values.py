@@ -20,10 +20,12 @@ values = {
             },
         'ja' : {
             'overview' : '概要',
+            'detail' : '詳細',
             'after_compilation' : after_compilation
             },
         'en' : {
             'overview' : 'Overview',
+            'detail' : 'Detail',
             'after_compilation' : after_compilation_en
             }
         },
@@ -336,7 +338,21 @@ The iterator is also used by for of statement,
 see for of.""",
             'for_of_sub1' : 'The for of statement is enumerator of generator or iterator.',
             'for_of_impl_sub' : 'implementation : none',
-            'for_of_detail_sub1' : 'The for of statement is gived generator or iterator, this call next method one by one, until throws StopIteration.'
+            'for_of_detail_sub1' : 'The for of statement is gived generator or iterator, this call next method one by one, until throws StopIteration.',
+            'arguments_extras_sub1' : 'The some extensions of arguments.',
+            'arguments_extras_impl' : 'implementation : none',
+            'arguments_extras_sub2' : 'See some examples below.',
+            'arguments_extras_sub3' : '''First example is a default arguments, it is same as <pre class="prettyprint"><code>b = b || 1;
+c = c || 2;</code></pre>
+Second example is the destructuring assignment, all destructuring assignment can use in arguments, see destructuring assignment.''',
+            'arguments_extras_sub4' : 'And we show some examples of the constructor function and class constructor.',
+            'arguments_extras_sub5' : 'Above example show the property arguments. Property arguments can use in any place you want, not only class or constructor. Property arguments is same as <pre class="prettyprint"><code>this._x = arguments[0] || 0</code></pre>',
+            'spread_sub1' : 'The spread is a syntax sugar of Function.prototype.apply.',
+            'spread_impl' : 'implementation : none',
+            'spread_sub2' : 'See below example.',
+            'spread_sub3' : 'Above example is a basic usage of spread. And below example shows other usage.',
+            'spread_sub4' : 'That example shows spread in destructuring assignment. Spread can use in destructuring array. And next example is known as paramerter rest.',
+            'spread_sub5' : 'The basic behavior of spread is extract an Array, and if a spread written as reciever, a spread recieve the rest values as Array, if spread written as parameter, a spread gives extracted Array like Function.prototype.apply.'
             }
         },
 'first_step_guide.html' : {
@@ -676,7 +692,7 @@ see for of.""",
             'export_sub' : 'Export a value as name. The exported value can get by the above import method.',
             'mocha_command_addCommand_sub' : 'Add command as name.',
             'mocha_command_getCommand_sub' : 'Get command which specified as a name argument.',
-            'mocha_command_callCommand_sub' : 'Call command which specified as a name argument.'
+            'mocha_command_callCommand_sub' : 'Call command which specified as a name argument.'            
             }
         }
 }

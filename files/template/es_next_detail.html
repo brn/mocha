@@ -32,6 +32,8 @@
 		    <li><div class="togglableBg"></div><a data-toggle="data-structure-extras" href="javascript:void(0)">data structur extras</a></li>
 		    <li><div class="togglableBg"></div><a data-toggle="generator-iterator" href="javascript:void(0)">generator/iterator</a></li>
 		    <li><div class="togglableBg"></div><a data-toggle="for-of" href="javascript:void(0)">for of</a></li>
+				<li><div class="togglableBg"></div><a data-toggle="arguments-extras" href="javascript:void(0)">arguments extras</a></li>
+				<li><div class="togglableBg"></div><a data-toggle="spread" href="javascript:void(0)">spread</a></li>
 		</ul>
 	    </div>
 	    <div id="rightBlock" class="text12">
@@ -627,9 +629,11 @@ var bar = new Record({"foo":0,"bar":1,"baz":2});</code></pre>
 	<div id="generator-iterator" class="tab-pane">
 	    <h3>generator/iterator</h3>
 	    <p>${generator_iterator_title}</p>
-	    <p>${generator_iterator_impl_sub}</p>
+	    <p class="browserImp">${generator_iterator_impl_sub}</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>//${generator_iterator_ex1_comment1}
+					<div class="section">
+							<p class="title">${overview}</p>
+							<pre class="prettyprint grammars"><code>//${generator_iterator_ex1_comment1}
 function doCallback(num) {
   console.log(num + "\n");
 }
@@ -658,12 +662,15 @@ var g = fib();
 for (var i = 0; i < 10; i++) {
   console.log(g.next() + "\n");
 }</code></pre>
+										</div>
+					<div class="section">
+							<p class="title">${detail}</p>
 		    <p>${generator_iterator_mdn}</p>
-		    <blockquote><p>${generator_iterator_mdn_sub1}</p>
+		    <blockquote class="clearfix"><p>${generator_iterator_mdn_sub1}</p>
 <small><a href="${generator_iterator_msdn_link1}">MDN Generator</a></small></blockquote>
 		    <p>${generator_iterator_mdn_sub2}</p>
 		    <p>MDN</p>
-		    <blockquote><p>${generator_iterator_mdn_sub3}</p>
+		    <blockquote class="clearfix"><p>${generator_iterator_mdn_sub3}</p>
 <small><a href="${generator_iterator_mdn_link2}">MDN Generator</a></small></blockquote>
 		    <p>${generator_iterator_mdn_sub4}</p>
 		    <pre class="prettyprint grammars"><code>yieldTest()-> {
@@ -713,10 +720,11 @@ var iter = {
         }
       }
     }</code></pre>
-	     <div>
-		 <p class="title">${generator_iterator_detail_title}</p>
-		 <p>${generator_iterator_detail_sub1}</p>
-	     </div>
+						 </div>
+					<div class="section">
+							<p class="title">${generator_iterator_detail_title}</p>
+							<p>${generator_iterator_detail_sub1}</p>
+					</div>
 	    </div>
 	</div>
 	<div id="for-of" class="tab-pane">
@@ -766,35 +774,97 @@ iter.add( 400 );
 for of(var i in iter) {
   console.log(i);//100,200,300...
 }</code></pre>
-		<div class="section">
-		    <p class="title">${for_of_detail}</p>
-		    <p>${for_of_detail_sub1}</p>
-		</div>
-	    </div>
+							<div class="section">
+									<p class="title">${for_of_detail}</p>
+									<p>${for_of_detail_sub1}</p>
+							</div>
+					</div>
+			</div>
 	</div>
-		</div>
-	    </div>
+	<div id="arguments-extras" class="tab-pane">
+			<h3>arguments extras</h3>
+			<p>${arguments_extras_sub1}</p>
+			<p class="browserImp">${arguments_extras_impl}</p>
+			<div class="section">
+					<p class="title">${overview}</p>
+					<p>${arguments_extras_sub2}</p>
+					<pre class="prettyprint"><code>function test (a, b = 1, c = 2) {
+  return a + b + c;
+}
+function test2 (a, [b, c]) {
+  return a + b + c;
+}
+console.log(test(1))//4
+console.log(test2(1,[1,2]))//4</code></pre>
+					<p>${arguments_extras_sub3}</p>
+					<p>${arguments_extras_sub4}</p>
+					<pre class="prettyprint"><code>function Point(this._x = 0, this._y = 0) {}
+Point.prototype.getX = function () {return this._x;}
+Point.prototype.getY = function () {return this._y;}
+
+class Point {
+  constructor(private(this)._x = 0, private(this)._y = 0) {}
+  public getX() -> private(this)._x;
+  public getY() -> private(this)._y;
+}</code></pre>
+					<p>${arguments_extras_sub5}</p>
+			</div>
 	</div>
-	<!--[if lt IE 9]>
-	    <style>
-		.button{
-		background : #FFFF00;
-		display : block;
-		}
-		.button:hover{
-		background : #AAAA00;
-		}
-		.blueButton{
-		background : #69b7ff;
-		display : block;
-		}
-		.blueButton:hover{
-		background : #4795dd;
-		}
-		.fixed {
-		width : 300px;
-		}
-	    </style>
-	    <![endif]-->
-    </body>
+	<div id="spread" class="tab-pane">
+			<h3>spread</h3>
+			<p>${spread_sub1}</p>
+			<p class="browserImp">${spread_impl}</p>
+			<div class="section">
+					<p class="title">${overview}</p>
+					<p>${spread_sub2}</p>
+					<pre class="prettyprint"><code>var test = (a, b, c) -> a + b + c;
+var TestConstructor = (a, b, c)-> {
+  this._a = a;
+  this._b = b;
+  this._c = c;
+}
+TestConstructor.prototype.sum = -> this._a + this._b + this._c;
+var values = [0,1,2];
+console.log(test(...values));//3
+var testConstructor = new TestConstructor(...values);
+console.log(testConstructor.sum());//3
+</code></pre>
+					<p>${spread_sub3}</p>
+					<pre class="prettyprint"><code>var [value1, ...value2] = [0,1,2,3];
+console.assert(value2[0] == 1 && value2[1] == 2 && value2[2] == 3);</code></pre>
+					<p>${spread_sub4}</p>
+					<pre class="prettyprint"><code>var test = (a, b, ...c)-> a + b + c[0] + c[1];
+var values = [1,2];
+console.log(test(1,2,values))//6
+</code></pre>
+			</div>
+			<div class="section">
+					<p class="title">${detail}</p>
+					<p>${spread_sub5}</p>
+			</div>
+	</div>
+</div>
+</div>
+<!--[if lt IE 9]>
+	  <style>
+				.button{
+				background : #FFFF00;
+				display : block;
+				}
+				.button:hover{
+				background : #AAAA00;
+				}
+				.blueButton{
+				background : #69b7ff;
+				display : block;
+				}
+				.blueButton:hover{
+				background : #4795dd;
+				}
+				.fixed {
+				width : 300px;
+				}
+	  </style>
+	  <![endif]-->
+</body>
 </html>

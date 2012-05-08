@@ -86,13 +86,30 @@ line-height : 1.5em;
 background : #333333;
 }
 
-a.active,
+li.active a,
 a:hover{
-text-shadow : 0px 0px 6px rgba(255,255,0,0.6)
+text-shadow : 0px 0px 12px rgba(255,255,0,0.6)
 }
 p.browserImp {
 border-top : 1px dotted #ffffff;
 border-bottom : 1px dotted #ffffff;
 margin : 10px 0;
 color : #eedd00;
+}
+
+#rightBlock blockquote {
+font-style : italic;
+padding : 15px;
+border : 1px dotted #666666;
+margin : 10px 0;
+}
+
+#rightBlock blockquote a{
+color : #ffffff;
+font-weight : bold;
+float : right;
+}
+
+#rightBlock blockquote a:hover{
+color : #eebb00;
 }
