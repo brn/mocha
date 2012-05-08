@@ -5,10 +5,10 @@ addWatcher(filename) ->
 script.watcher.addSetting(fs.Path.getcwd() + filename, {
   inputCharset : 'utf8',
   outputCharset : 'utf8',
+  deployDir : '../',
+  moduleDir : ['lib'],
   options : {
     debug : true,
-    deployDir : './',
-    moduleDir : ['lib']
     prettyPrint : true,
     fileScope : true,
     globalScope : true
