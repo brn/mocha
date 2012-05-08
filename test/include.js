@@ -5,7 +5,6 @@ var options = (filename) -> ({
       deployDir : '../src/test/js/out/devel',
       deployName : filename.replace('.js', '-cmp.js'),
       outputCharset : 'utf8',
-      moduleDir : ['./3rd-modules'],
       options : {
         compress : false,
         prettyPrint : true,
