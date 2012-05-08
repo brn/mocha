@@ -5,13 +5,15 @@ var options = (filename) -> ({
       deployDir : '../src/test/js/out/devel',
       deployName : filename.replace('.js', '-cmp.js'),
       outputCharset : 'utf8',
+      moduleDir : ['./3rd-modules'],
       options : {
         compress : false,
         prettyPrint : true,
         debug : true,
         versions : ['ex'],
         fileScope : true,
-        globalScope : true
+        globalScope : true,
+        moduleDir : ['./3rd-modules']
       }
     });
 

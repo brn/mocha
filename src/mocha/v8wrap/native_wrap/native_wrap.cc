@@ -728,6 +728,14 @@ void SetCompilationOption(Handle<Object> options, CompilationInfo* info) {
       info->UnsetVersion(*ver);
     }
   }
+  if (options->Has(String::New("moduleDir"))) {
+    Handle<Array> mod_list = Handle<Array>::Cast(options->Get(String::New("moduleDir")));
+    for (int i = 0,len = mod_list->Length(); i < len; i++) {
+      String::Utf8Value dir(mod_list->Get(Integer::New(i)));
+      os::fs::Path path_info(*dir);
+      info->SetLibDirectory(path_info.directory());
+    }
+  }
 }
 
 
@@ -764,14 +772,7 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
           String::Utf8Value dep_name(obj->Get(String::New("deployName")));
           resource->SetDeployName(*dep_name);
         }
-        if (obj->Has(String::New("moduleDir"))) {
-          Handle<Array> mod_list = Handle<Array>::Cast(obj->Get(String::New("moduleDir")));
-          for (int i = 0,len = mod_list->Length(); i < len; i++) {
-            String::Utf8Value dir(mod_list->Get(Integer::New(i)));
-            os::fs::Path path_info(*dir);
-            resource->SetModule(path_info.directory());
-          }
-        }
+        
         if (obj->Has(String::New("options"))) {
           Handle<Object> options = Handle<Object>::Cast(obj->Get(String::New("options")));
           CompilationInfo* info = resource->compilation_info().Get();
