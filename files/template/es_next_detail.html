@@ -32,8 +32,8 @@
 		    <li><div class="togglableBg"></div><a data-toggle="data-structure-extras" href="javascript:void(0)">data structur extras</a></li>
 		    <li><div class="togglableBg"></div><a data-toggle="generator-iterator" href="javascript:void(0)">generator/iterator</a></li>
 		    <li><div class="togglableBg"></div><a data-toggle="for-of" href="javascript:void(0)">for of</a></li>
-				<li><div class="togglableBg"></div><a data-toggle="arguments-extras" href="javascript:void(0)">arguments extras</a></li>
-				<li><div class="togglableBg"></div><a data-toggle="spread" href="javascript:void(0)">spread</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="arguments-extras" href="javascript:void(0)">arguments extras</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="spread" href="javascript:void(0)">spread</a></li>
 		</ul>
 	    </div>
 	    <div id="rightBlock" class="text12">
@@ -782,13 +782,13 @@ for of(var i in iter) {
 			</div>
 	</div>
 	<div id="arguments-extras" class="tab-pane">
-			<h3>arguments extras</h3>
-			<p>${arguments_extras_sub1}</p>
-			<p class="browserImp">${arguments_extras_impl}</p>
-			<div class="section">
-					<p class="title">${overview}</p>
-					<p>${arguments_extras_sub2}</p>
-					<pre class="prettyprint"><code>function test (a, b = 1, c = 2) {
+	    <h3>arguments extras</h3>
+	    <p>${arguments_extras_sub1}</p>
+	    <p class="browserImp">${arguments_extras_impl}</p>
+	    <div class="section">
+		<p class="title">${overview}</p>
+		<p>${arguments_extras_sub2}</p>
+		<pre class="prettyprint"><code>function test (a, b = 1, c = 2) {
   return a + b + c;
 }
 function test2 (a, [b, c]) {
@@ -796,9 +796,9 @@ function test2 (a, [b, c]) {
 }
 console.log(test(1))//4
 console.log(test2(1,[1,2]))//4</code></pre>
-					<p>${arguments_extras_sub3}</p>
-					<p>${arguments_extras_sub4}</p>
-					<pre class="prettyprint"><code>function Point(this._x = 0, this._y = 0) {}
+		<p>${arguments_extras_sub3}</p>
+		<p>${arguments_extras_sub4}</p>
+		<pre class="prettyprint"><code>function Point(this._x = 0, this._y = 0) {}
 Point.prototype.getX = function () {return this._x;}
 Point.prototype.getY = function () {return this._y;}
 
@@ -807,17 +807,17 @@ class Point {
   public getX() -> private(this)._x;
   public getY() -> private(this)._y;
 }</code></pre>
-					<p>${arguments_extras_sub5}</p>
-			</div>
+		<p>${arguments_extras_sub5}</p>
+	    </div>
 	</div>
 	<div id="spread" class="tab-pane">
-			<h3>spread</h3>
-			<p>${spread_sub1}</p>
-			<p class="browserImp">${spread_impl}</p>
-			<div class="section">
-					<p class="title">${overview}</p>
-					<p>${spread_sub2}</p>
-					<pre class="prettyprint"><code>var test = (a, b, c) -> a + b + c;
+	    <h3>spread</h3>
+	    <p>${spread_sub1}</p>
+	    <p class="browserImp">${spread_impl}</p>
+	    <div class="section">
+		<p class="title">${overview}</p>
+		<p>${spread_sub2}</p>
+		<pre class="prettyprint"><code>var test = (a, b, c) -> a + b + c;
 var TestConstructor = (a, b, c)-> {
   this._a = a;
   this._b = b;
@@ -839,32 +839,32 @@ console.log(test(1,2,values))//6
 </code></pre>
 			</div>
 			<div class="section">
-					<p class="title">${detail}</p>
-					<p>${spread_sub5}</p>
+			    <p class="title">${detail}</p>
+			    <p>${spread_sub5}</p>
 			</div>
 	</div>
-</div>
-</div>
-<!--[if lt IE 9]>
-	  <style>
-				.button{
-				background : #FFFF00;
-				display : block;
-				}
-				.button:hover{
-				background : #AAAA00;
-				}
-				.blueButton{
-				background : #69b7ff;
-				display : block;
-				}
-				.blueButton:hover{
-				background : #4795dd;
-				}
-				.fixed {
-				width : 300px;
-				}
-	  </style>
-	  <![endif]-->
-</body>
+		</div>
+	    </div>
+	    <!--[if lt IE 9]>
+		<style>
+		    .button{
+		    background : #FFFF00;
+		    display : block;
+		    }
+		    .button:hover{
+		    background : #AAAA00;
+		    }
+		    .blueButton{
+		    background : #69b7ff;
+		    display : block;
+		    }
+		    .blueButton:hover{
+		    background : #4795dd;
+		    }
+		    .fixed {
+		    width : 300px;
+		    }
+		</style>
+		<![endif]-->
+    </body>
 </html>
