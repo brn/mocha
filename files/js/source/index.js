@@ -1,4 +1,4 @@
-@include '../lib/jQuery'
+@include 'jQuery'
 import {index} from './consts'.consts
 
 $(->{

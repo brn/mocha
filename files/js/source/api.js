@@ -1,8 +1,8 @@
-@include '../lib/jQuery'
-@include '../lib/jQuery.color'
+@include 'jQuery'
+@include 'jQuery.color'
 
 do{
-  @include '../lib/prettify'
+  @include 'prettify'
 }
 
 import {api} from './consts'.consts
