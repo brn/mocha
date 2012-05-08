@@ -7,7 +7,7 @@ script.watcher.addSetting(fs.Path.getcwd() + filename, {
   outputCharset : 'utf8',
   deployName : depname,
   deployDir : './',
-  moduleDir : ['lib'],
+  moduleDir : [fs.Path.getcwd() + '/lib'],
   options : {
     debug : true,
     prettyPrint : true,
