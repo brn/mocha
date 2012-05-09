@@ -187,7 +187,9 @@ VISITOR_IMPL(AssertStmt) {
   }
 }
 
-VISITOR_IMPL(IncludeStmt) {
+UNREACHABLE_IMPL(IncludeStmt);
+
+VISITOR_IMPL(SourceStmt) {
   const char* filecontents = ast_node->filecontents();
   stream()->Write(filecontents);
 }

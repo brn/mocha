@@ -29,6 +29,7 @@ FOWARD_DECL(SwitchStmt);
 FOWARD_DECL(ThrowStmt);
 FOWARD_DECL(TryStmt);
 FOWARD_DECL(AssertStmt);
+FOWARD_DECL(SourceStmt);
 FOWARD_DECL(IncludeStmt);
 FOWARD_DECL(CaseClause);
 FOWARD_DECL(Expression);

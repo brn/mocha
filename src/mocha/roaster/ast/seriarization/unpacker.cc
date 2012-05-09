@@ -430,6 +430,17 @@ class Instaniater<IncludeStmt, true> {
 };
 
 template <>
+class Instaniater<SourceStmt, true> {
+ public :
+  static SourceStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
+    std::string buf;
+    unpacker->UnpackChar(&buf);
+    SourceStmt* stmt = new(pool) SourceStmt(buf.c_str(), line);
+    return stmt;
+  }
+};
+
+template <>
 class Instaniater<VariableDeclarationList, true> {
  public :
   static VariableDeclarationList* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {

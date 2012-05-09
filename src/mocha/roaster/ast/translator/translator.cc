@@ -571,6 +571,14 @@ VISITOR_IMPL(AssertStmt) {
 }
 
 VISITOR_IMPL(IncludeStmt) {
+  const char* path = ast_node->path();
+  std::string mod_key;
+  std::string filename_buf;
+  event_->nexc()->ImportFile(&mod_key, &filename_buf, path, event_);
+  ast_node->parent_node()->RemoveChild(ast_node);
+}
+  
+VISITOR_IMPL(SourceStmt) {
   event_->nexc()->IncludeFile(ast_node->data_container(), ast_node->path());
 }
 

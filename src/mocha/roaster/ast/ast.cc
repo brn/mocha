@@ -429,6 +429,11 @@ AstNode* TryStmt::Clone(memory::Pool* pool) {
 
 LINED_CLONE(AssertStmt);
 
+AstNode* SourceStmt::Clone(memory::Pool* pool) {
+  SourceStmt* source = new(pool) SourceStmt(path_.c_str(), line_number());
+  return source;
+}
+
 AstNode* IncludeStmt::Clone(memory::Pool* pool) {
   IncludeStmt* inc = new(pool) IncludeStmt(name_.c_str(), line_number());
   return inc;

@@ -113,7 +113,9 @@ VISITOR_IMPL(AssertStmt) {
   }
 }
 
-EMPTY_IMPL(IncludeStmt);
+UNREACHABLE_IMPL(IncludeStmt);
+
+EMPTY_IMPL(SourceStmt);
 
 VISITOR_IMPL(StatementList) {
   PRINT_NODE_NAME;

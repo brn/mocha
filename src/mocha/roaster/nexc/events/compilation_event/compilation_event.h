@@ -33,6 +33,7 @@ class CompilationEvent : public memory::Allocated {
  public :
   CompilationEvent(Nexc* nexc, ErrorReporter* reporter, memory::Pool* pool)
       : runtime_(false),
+        nomodule_(false),
         nexc_(nexc),
         error_reporter_(reporter),
         pool_(pool){}
@@ -59,10 +60,14 @@ class CompilationEvent : public memory::Allocated {
   void set_parser_connector(ParserConnector* connector) {parser_connector_ = connector;}
   void set_compilation_info(CompilationInfo* info) {info_ = info;}
   void set_fullpath(const char* fullpath) {fullpath_ = fullpath;}
+  void set_nomodule() {nomodule_ = true;}
+  void unset_nomodule() {nomodule_ = false;}
+  bool nomodule() const {return nomodule_;}
   CompilationInfo* compilation_info() {return info_;}
   void NotifyForKey(const char* key);
  private :
   bool runtime_;
+  bool nomodule_;
   std::string path_;
   std::string filename_;
   std::string fullpath_;

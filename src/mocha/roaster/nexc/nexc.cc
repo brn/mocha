@@ -216,9 +216,9 @@ void Nexc::Compile(const char* source, const char* charset) {
 void Nexc::CombineLibs() {
   const Libs& lib = compilation_info_->libs();
   if (lib.size() > 0) {
-    IncludeStmt* prev = NULL;
+    SourceStmt* prev = NULL;
     for (Libs::const_iterator it = lib.begin(); it != lib.end(); ++it) {
-      IncludeStmt* stmt = new(pool_.Get()) IncludeStmt(it->c_str(), 0);
+      SourceStmt* stmt = new(pool_.Get()) SourceStmt(it->c_str(), 0);
       std::string buf;
       IncludeFile(&buf, stmt->path());
       stmt->set_contents(buf.c_str());

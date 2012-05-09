@@ -575,6 +575,10 @@ AstNode* Parser::ParseStatement() {
       result = ParseAssertStatement();
       break;
 
+    case Token::MOCHA_SOURCE :
+      result = ParseSourceStatement();
+      break;
+      
     case Token::MOCHA_INCLUDE :
       result = ParseIncludeStatement();
       break;
@@ -1023,6 +1027,35 @@ AstNode* Parser::ParseAssertStatement() {
                   << " 'in assert statement' expect '('\\nin file "
                   << filename_ << " at line " << token->line_number());
     END(AssertStatementError);
+    return new(pool()) Empty;
+  }
+}
+
+AstNode* Parser::ParseSourceStatement() {
+  /**
+   * [bison/yacc compat syntax]
+   * mocha_assert_statement
+   * : MOCHA_INCLUDE '(' JS_STRING_LITERAL ')'
+   */
+  ENTER(SourceStatement);
+  TokenInfo *token = Seek();
+  int64_t line = token->line_number();
+  if (token->type() == Token::JS_STRING_LITERAL) {
+    AstNode* expect = ParseLiteral(false);
+    CHECK_ERROR(expect);
+    ParseTerminator();
+    std::string path = expect->CastToLiteral()->value()->token();
+    if (path.size() > 1) {
+      path.erase(0, 1);
+      path.erase(path.size() - 1, 1);
+    }
+    return new (pool()) SourceStmt(path.c_str(), line);
+  } else {
+    SYNTAX_ERROR("unexpected token "
+                  << TokenConverter(token).cstr()
+                  << " 'in source directive' expect 'string literal'\\nin file "
+                  << filename_ << " at line " << token->line_number());
+    END(SourceStatementError);
     return new(pool()) Empty;
   }
 }
@@ -3640,21 +3673,35 @@ AstNode* Parser::ParseLiteral(bool reserved_usablity) {
       value_type = Literal::kIdentifier;
       const char* ident = token->token();
       int len = strlen(ident);
-      if (len > 1 && ident[ 0 ] == '@') {
+      if (ident[ 0 ] == '@') {
+        Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
+                                                      Token::JS_THIS, token->line_number(), Literal::kThis);
+        if (len > 1) {
+          Literal* value = builder()->CreateNameNode(&ident[ 1 ], Token::JS_IDENTIFIER, token->line_number(), Literal::kProperty);
+          CallExp* this_accessor = builder()->CreateDotAccessor(this_sym, value, this_sym->line_number());
+          return this_accessor;
+        } else {
+          return this_sym;
+        }
+      } else if (len > 1 && ident[ 0 ] == '_' && ident[ 1 ] == '@') {
+        Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
+                                                      Token::JS_THIS, token->line_number(), Literal::kThis);
         Literal* private_sym = builder()->CreateNameNode(JsToken::GetTokenFromNumber(Token::JS_PRIVATE),
                                                          Token::JS_PRIVATE, token->line_number(), Literal::kPrivate);
-        Literal* this_sym = builder()->CreateNameNode(JsToken::GetTokenFromNumber(Token::JS_THIS),
-                                                      Token::JS_THIS, token->line_number(), Literal::kThis);
-        Literal* value = builder()->CreateNameNode(&ident[1], Token::JS_IDENTIFIER, token->line_number(), Literal::kIdentifier);
-        CallExp* private_accessor = new(pool()) CallExp(CallExp::kNormal, token->line_number());
-        private_accessor->set_callable(private_sym);
-        NodeList* args = new(pool()) NodeList;
-        args->AddChild(this_sym);
-        private_accessor->set_args(args);
-        CallExp* accessor = new(pool()) CallExp(CallExp::kDot, token->line_number());
-        accessor->set_callable(private_accessor);
-        accessor->set_args(value);
-        return accessor;
+        if (len > 2) {
+          Literal* value = builder()->CreateNameNode(&ident[ 2 ], Token::JS_IDENTIFIER, token->line_number(), Literal::kProperty);
+          NodeList* args = new(pool()) NodeList;
+          args->AddChild(this_sym);
+          CallExp* private_accessor = new(pool()) CallExp(CallExp::kNormal, token->line_number());
+          private_accessor->set_callable(private_sym);
+          private_accessor->set_args(args);
+          CallExp* private_call = new(pool()) CallExp(CallExp::kDot, token->line_number());
+          private_call->set_callable(private_accessor);
+          private_call->set_args(value);
+          return private_call;
+        } else {
+          return private_sym;
+        }
       }
     }
       break;

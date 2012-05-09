@@ -26,21 +26,29 @@ void FileRootProcessor::ProcessNode() {
     os::SPrintf(&key_str, "'%s'", translator_data->filename());
     key_str.erase(key_str.size() - 4, 3);
 #endif
-    Literal* key = builder()->CreateNameNode(key_str.c_str(), Token::JS_STRING_LITERAL, node()->line_number(), Literal::kString);
+    ExpressionStmt* extend_global = NULL;
+    if (!info()->translator_data()->compilation_event()->nomodule()) {
+      Literal* key = builder()->CreateNameNode(key_str.c_str(), Token::JS_STRING_LITERAL, node()->line_number(), Literal::kString);
                                                                 
-    CallExp* runtime_accessor = builder()->CreateRuntimeMod(module, node()->line_number());
-    CallExp* add_accessor = builder()->CreateDotAccessor(runtime_accessor, add, node()->line_number());
-    NodeList* args = builder()->CreateNodeList(1, key);
-    CallExp* call = builder()->CreateNormalAccessor(add_accessor, args, node()->line_number());
-    ExpressionStmt* extend_global = builder()->CreateExpStmt(call, 2);
-    key_str.erase(0, 1);
-    key_str.erase(key_str.size() - 1, 1);
+      CallExp* runtime_accessor = builder()->CreateRuntimeMod(module, node()->line_number());
+      CallExp* add_accessor = builder()->CreateDotAccessor(runtime_accessor, add, node()->line_number());
+      NodeList* args = builder()->CreateNodeList(1, key);
+      CallExp* call = builder()->CreateNormalAccessor(add_accessor, args, node()->line_number());
+      ExpressionStmt* extend_global = builder()->CreateExpStmt(call, 2);
+      key_str.erase(0, 1);
+      key_str.erase(key_str.size() - 1, 1);
+    } else {
+      key_str = "";
+    }
+    info()->translator_data()->compilation_event()->unset_nomodule();
     if (has_filescope) {
       Function *fn = builder()->CreateFunctionDecl(new(pool()) Empty,
                                                    new(pool()) Empty, node(), 1);
       ExpressionStmt *stmt = builder()->CreateAnonymousFnCall(fn, new(pool()) Empty, node()->line_number());
-      fn->InsertBefore(extend_global);
-      fn->MarkAsRoot();
+      if (extend_global != NULL) {
+        fn->InsertBefore(extend_global);
+        fn->MarkAsRoot();
+      }
       FileRoot* root = new(pool()) FileRoot(key_str.c_str());
       root->AddChild(stmt);
       node()->parent_node()->ReplaceChild(node(), root);

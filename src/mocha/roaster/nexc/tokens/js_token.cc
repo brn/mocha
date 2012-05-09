@@ -77,6 +77,7 @@ char reserved_words[][ 20 ] = {
   "each",
   "yield",
   "@assert",
+  "@source",
   "@include",
   "@version",
   "@pragma",
@@ -458,7 +459,8 @@ static bool binary_operator[] = {
   false,//JS_EACH
   false,//JS_YIELD
   false,//JS_ASSERT,
-  false,//MOCHA_INCLUDE,
+  false,//MOCHA_SOURCE,
+  false,//MOCHA_INCLUDE
   false,//MOCHA_VERSION,
   false,//MOCHA_PRAGMA
   false,//JS_INCREMENT,

@@ -136,6 +136,12 @@ VISITOR_IMPL(AssertStmt) {
   ast_node->first_child()->Accept(this);
 }
 
+VISITOR_IMPL(SourceStmt) {
+  BasePacker(ast_node);
+  CharPacker(ast_node->path(), strlen(ast_node->path()));
+  ast_node->first_child()->Accept(this);
+}
+
 VISITOR_IMPL(IncludeStmt) {
   BasePacker(ast_node);
   CharPacker(ast_node->path(), strlen(ast_node->path()));
