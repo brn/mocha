@@ -1,10 +1,4 @@
-@include 'jQuery'
-@include 'jQuery.color'
-
-do{
-  @include 'prettify'
-}
-
+import 'jQuery.color' as __;
 import {api} from './consts'.consts
 
 class LeftNav {
