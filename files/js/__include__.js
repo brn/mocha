@@ -1,20 +1,22 @@
 var script = mocha.import('script'),
     fs = mocha.import('fs')
 
-addWatcher(filename, depname) ->
+addWatcher(filename, depname, lib) ->
 script.watcher.addSetting(fs.Path.getcwd() + filename, {
   inputCharset : 'utf8',
   outputCharset : 'utf8',
   deployName : depname,
   deployDir : './',
-  moduleDir : [fs.Path.getcwd() + '/lib'],
   options : {
-    debug : true,
-    prettyPrint : true,
+    debug : false,//true,
+    prettyPrint : false,//true,
     fileScope : true,
-    globalScope : true
+    globalScope : true,
+    moduleDir : ['./lib'],
+    libs : lib,
+    compress : true
   }
 })
 
-addWatcher('/source/index.js', 'index.js');
-addWatcher('/source/api.js', 'api.js')
+addWatcher('/source/index.js', 'index.js', ['jQuery']);
+addWatcher('/source/api.js', 'api.js', ['jQuery', 'prettify']);
