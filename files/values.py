@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 title =  'mocha ES Next Translator'
 after_compilation = '変換後は以下のようになります。'
 after_compilation_en = 'After compilation.'
