@@ -597,7 +597,6 @@ class Statement : public AstNode {
   DstaExtractedExpressions *destructuring_node_;
 };
 
-
 /**
  * @class
  * Statement list.

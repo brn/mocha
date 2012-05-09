@@ -121,4 +121,9 @@ void CompilationInfo::SetLibDirectory(const char* path) {
   lib_dir_.push_back(dir);
 }
 
+void CompilationInfo::SetLibs(const char* path) {
+  std::string dir = path;
+  libs_.push_back(dir);
+}
+
 }

@@ -247,21 +247,45 @@
         return mocha;
       }();
 
+  var isObject = function (o) {
+        return Object.prototype.toString.call(o) === '[object Object]';
+      }
+
+  var merge = function(dest, source) {
+        for (var prop in source) {
+          if (isObject(source[prop])) {
+            if (!(prop in dest) || !isObject(dest[prop])) {
+              dest[prop] = {}
+            }
+            merge(dest[prop], source[prop]);
+          } else if (Array.isArray(source[prop])) {
+            if (!(prop in dest) || Array.isArray(dest[prop])) {
+              dest[prop] = []
+            }
+            dest[prop] = source[prop].concat(dest[prop]);
+          } else if (!(prop in dest)) {
+            dest[prop] = source[prop];
+          }
+        }
+      }
+
   var makeOptionList = function (i, isString, setting) {
-        setting = setting || natives.script.watcher._settingList[i];
+        setting = setting || {};
+        merge(setting, natives.script.watcher._settingList[i]);
         var path_info = new natives.fs.Path(i),
             inputCharset = setting.inputCharset || 'utf8',
             outputCharset = setting.outputCharset || 'utf8',
             deployDir = setting.deployDir || path_info.directory(),
             deployName = setting.deployName || path_info.filename().replace('.js', '-cmp.js'),
-            moduleDir = (isString)? '(' + (setting.moduleDir || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : setting.moduleDir || [],
             options = setting.options || {},
+            moduleDir = (isString)? '(' + (options.moduleDir || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.moduleDir || [],
             compress = (!isString)? ((utils.isDefined(options.compress))?options.compress : false) : options.compress? 'yes' : 'no',
             debug = (!isString)? ((utils.isDefined(options.debug))? options.debug : false) : options.debug? 'yes' : 'no',
             prettyPrint = (!isString)? (utils.isDefined(options.prettyPrint)? options.prettyPrint : true) : options.prettyPrint? 'yes' : 'no',
             fileScope = (!isString)? ((utils.isDefined(options.fileScope))? options.fileScope : true) : options.fileScope? 'yes' : 'no',
             globalScope = (!isString)? ((utils.isDefined(options.globalScope))? options.globalScope : true) : options.globalScope? 'yes' : 'no',
-            versions = (isString)? '(' + (options.versions || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.versions || [];
+            versions = (isString)? '(' + (options.versions || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.versions || [],
+            libs = (isString)? '(' + (options.libs || ['']).reduce(function (item1, item2){ return item1 + ', ' + item2;}) + ')' : options.libs || []
         return {
           name : i,
           inputCharset : inputCharset,
@@ -274,7 +298,8 @@
           prettyPrint : prettyPrint,
           fileScope : fileScope,
           globalScope : globalScope,
-          versions : (!isString)? Array.prototype.slice.call(versions) : versions
+          versions : (!isString)? Array.prototype.slice.call(versions) : versions,
+          libs : (!isString)? Array.prototype.slice.call(libs) : libs
         }
       }
 
@@ -288,9 +313,9 @@
       var is_match = pred(option);
       if (is_match) {
         if (showDeploy && showOpt) {
-          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.versions]);
+          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.versions, option.libs]);
         } else if (showOpt) {
-          ret.push([i, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.versions]);
+          ret.push([i, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.versions, option.libs]);
         } else if (showDeploy) {
           ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir]);
         } else {
@@ -299,9 +324,9 @@
       }
     }
     if (showDeploy && showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'versions'], 2);
+      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'versions', 'libs'], 2);
     } else if (showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'versions'], 2);
+      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'versions', 'libs'], 2);
     } else if (showDeploy) {
       mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir'], 2);
     } else {
@@ -335,6 +360,15 @@
 
   mocha.addCommand("deploy", function (pred, opt) {
     pred = makePredicate(pred);
+    if (typeof opt === 'string') {
+      if (opt === 'release') {
+        opt = {options : {compress : true, debug : false, prettyPrint : false, versions : ['release']}};
+      } else if (opt === 'debug') {
+        opt = {options : {compress : false, debug : true, prettyPrint : true, versions : ['debug']}};
+      } else {
+        opt = opt || {};
+      }
+    }
     for (var i in natives.script.watcher._settingList) {
       var option = makeOptionList(i, false, opt);
       option.options = {
@@ -344,7 +378,8 @@
         versions : option.versions,
         moduleDir : option.moduleDir,
         fileScope : option.fileScope,
-        globalScope : option.globalScope
+        globalScope : option.globalScope,
+        libs : option.libs
       }
       if (pred(option)) {
         natives.script.Roaster.deploy(i, option.inputCharset, option);

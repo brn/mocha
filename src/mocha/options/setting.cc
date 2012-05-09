@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <string>
+#include <mocha/options/options.h>
 #include <mocha/options/setting.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
@@ -15,7 +16,7 @@ const char watch_file_template[] = {
 };
 
 namespace mocha {
-void Setting::Initialize() {
+void Setting::Initialize(const Options& options) {
   std::stringstream base;
   base << os::fs::Path::home_directory() << "/.mocha/";
   tmp_file_ = base.str();
@@ -29,8 +30,12 @@ void Setting::Initialize() {
     FATAL("can not create tmp file.");
   }
   os::fs::Directory::chmod(tmp_file_.c_str(), 0600);
-  config_path_ = base.str();
-  config_path_ += "config.js";
+  if (!options.IsConfigSpecified() || options.HasErrors()) {
+    config_path_ = base.str();
+    config_path_ += "config.js";
+  } else {
+    config_path_ = options.config_path();
+  }
   base_ = base.str();
   std::string test_dirver = base.str();
   test_dirver += "test_driver.js";

@@ -23,61 +23,37 @@
 #define mocha_options_h_
 
 #include <string.h>
-#include <mocha/roaster/misc/int_types.h>
 #include <string>
-#include <vector>
-#include <mocha/shell/shell.h>
+#include <mocha/roaster/misc/int_types.h>
 #include <mocha/roaster/misc/bits.h>
-#include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
-#include <mocha/options/setting.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
+#include <mocha/roaster/platform/utils/utils.h>
 
 namespace mocha {
+class OptionsState;
 class Options {
  public :
-    Options() : is_observe_(false){}
+  Options();
   ~Options(){}
-  void AnalyzeOption (const char* argv) { DoAnalyzeOption(argv);}
-  const char* GetPath () const { return path_.c_str();}
-  bool IsCommandLineCompile() { return flags_.At(0); }
-  bool IsPrettyPrint() { return flags_.At(1); }
-  bool IsDebug() { return flags_.At(2); }
-  bool IsPath() { return flags_.At(3); }
-  bool IsCompress() { return flags_.At(4); }
-  bool IsUnmatch() { return flags_.At(5); }
-  void ShowError() {
-    printf("%s\n", error_.c_str());
-  }
-  void StopObserve() {flags_.Set(6);}
-  bool IsStopObserving() {return flags_.At(6);}
-  bool IsFile() { return flags_.At(7); }
-  void Reset() {
-    error_.clear();
-    path_.clear();
-    BitVector16 flag;
-    flags_ = flag;
-  }
+  void Parse(int argc, char** argv);
+  bool IsConfigSpecified() const {return flags_.At(1);};
+  bool IsCompileOnly() const {return flags_.At(0);};
+  bool IsDependencieCheckOnly() const {return flags_.At(2);};
+  bool HasErrors() const {return errors_ > 0;}
+  void PrintError() const {os::Printf("%s\n", error_.c_str());}
+  const char* error() const {return error_.c_str();}
+  const char* file_path() const {return file_path_.c_str();}
+  const char* config_path() const {return config_path_.c_str();}
  private :
-  void CommandLineCompile() { flags_.Set(0); }
-  void DoAnalyzeOption(const char* argv);
-  
-  void MatchOptions(char arg);
-
-  void UnrecognizedOption(const char* opt);
-  
-  void OptionNotEnough(const char* opt);
-  void PrettyPrint() { flags_.Set(1); }
-  void Debug() { flags_.Set(2); }
-  void HasPath() { flags_.Set(3); }
-  void Compress() { flags_.Set(4); }
-  void SetFile() {flags_.Set(7);}
-  void Unmatch(const char* op) {
-    flags_.Set(5);
-    UnrecognizedOption(op);
-  }
-    bool is_observe_;
+  void Analyze(const char* arg);
+  void ParseCommand(const char* arg);
+  void ParseArguments(const char* arg);
+  int errors_;
   BitVector16 flags_;
   std::string error_;
-  std::string path_;
+  std::string config_path_;
+  std::string file_path_;
+  ScopedPtr<OptionsState> state_;
 };
 
 }

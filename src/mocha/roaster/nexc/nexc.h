@@ -79,6 +79,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   bool CheckGuard(const char* path);
   void Success(CompilationEvent* e);
   void SearchModule(const char* path, std::string* buf);
+  void CombineLibs();
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);
   AstRoot* root_;
   AtomicWord token_initialized_;

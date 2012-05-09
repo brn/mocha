@@ -733,7 +733,14 @@ void SetCompilationOption(Handle<Object> options, CompilationInfo* info) {
     for (int i = 0,len = mod_list->Length(); i < len; i++) {
       String::Utf8Value dir(mod_list->Get(Integer::New(i)));
       os::fs::Path path_info(*dir);
-      info->SetLibDirectory(path_info.directory());
+      info->SetLibDirectory(path_info.absolute_path());
+    }
+  }
+  if (options->Has(String::New("libs"))) {
+    Handle<Array> mod_list = Handle<Array>::Cast(options->Get(String::New("libs")));
+    for (int i = 0,len = mod_list->Length(); i < len; i++) {
+      String::Utf8Value lib(mod_list->Get(Integer::New(i)));
+      info->SetLibs(*lib);
     }
   }
 }
@@ -746,14 +753,16 @@ METHOD_IMPL(NativeWrap::Watcher::AddSetting) {
       String::Utf8Value str(args[0]);
       Handle<Object> obj = (args.Length() == 2 && args[1]->IsObject())? Handle<Object>::Cast(args[1]) : Object::New();
       const char* name = *str;
-      os::fs::Stat stat(name);
+      os::fs::Path path_info(name);
+      const char* abname = path_info.absolute_path();
+      os::fs::Stat stat(abname);
       if (stat.IsExist() && stat.IsReg()) {
         Handle<Value> val = args.This()->Get(String::New("_settingList"));
         Handle<Object> setting_lsit = Handle<Object>::Cast(val);
-        setting_lsit->Set(String::New(name), obj);
+        setting_lsit->Set(String::New(abname), obj);
         JavascriptObserver* observer = V8Init::GetInternalPtr<JavascriptObserver, 0>(args.This());
-        FileInfoMap::UnsafeSet(name);
-        FileInfo* resource = FileInfoMap::UnsafeGet(name);        
+        FileInfoMap::UnsafeSet(abname);
+        FileInfo* resource = FileInfoMap::UnsafeGet(abname);        
         if (obj->Has(String::New("inputCharset")) && !obj->Get(String::New("inputCharset"))->IsUndefined()) {
           String::Utf8Value icharset(obj->Get(String::New("inputCharset")));
           resource->SetInputCharset(*icharset);

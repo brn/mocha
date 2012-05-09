@@ -1,5 +1,6 @@
 #ifndef mocha_setting_h_
 #define mocha_setting_h_
+#include <mocha/options/options.h>
 #include <mocha/roaster/lib/unordered_map.h>
 #include <mocha/roaster/misc/class_traits/static.h>
 #include <mocha/bootstrap/bootstrap.h>
@@ -8,7 +9,7 @@ class Setting : private Static{
   typedef std::pair<const char*, const char*> SettingPair;
   typedef roastlib::unordered_map<std::string, std::string> SettingMap;
  public :
-  static void Initialize();
+  static void Initialize(const Options& options);
   static void Destruct();
   static const char* config_path();
   static const char* tmp_path();

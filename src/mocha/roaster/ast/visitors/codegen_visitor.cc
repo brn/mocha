@@ -88,13 +88,21 @@ CodegenVisitor::CodegenVisitor(bool is_pretty_print, bool is_debug, CompilationI
 
 VISITOR_IMPL(AstRoot) {
   PRINT_NODE_NAME;
+  NodeIterator iterator = ast_node->ChildNodes();
+  while (iterator.HasNext()) {
+    AstNode* item = iterator.Next();
+    if (item->node_type() == AstNode::kIncludeStmt) {
+      item->Accept(this);
+      ast_node->RemoveChild(item);
+    }
+  }
   scope_ = ast_node->scope();
   if (info_->GlobalScope()) {
     stream()->Write("!function()");
     writer()->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream());
   }
   writer()->InitializeFileName("Runtime", stream());
-  NodeIterator iterator = ast_node->ChildNodes();
+  iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
   }

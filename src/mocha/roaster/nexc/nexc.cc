@@ -104,6 +104,7 @@ Nexc::Nexc(CompilationInfo* info)
 
 
 void Nexc::CompileFile(const char* filename, const char* charset) {
+  CombineLibs();
   os::fs::Path path_info(filename);
   CheckGuard(path_info.absolute_path());
   CompilationEvent* event = CreateEvent(path_info, charset);
@@ -201,6 +202,7 @@ AstRoot* Nexc::GetResult() {
 #endif
 
 void Nexc::Compile(const char* source, const char* charset) {
+  CombineLibs();
   std::string cwd = os::fs::Path::current_directory();
   cwd += "/anonymous.js";
   os::fs::Path path_info(cwd.c_str());
@@ -209,6 +211,26 @@ void Nexc::Compile(const char* source, const char* charset) {
   event->set_mainfile_path(path_info.absolute_path());
   event->set_source(source);
   NotifyForKey(kScan, event);
+}
+
+void Nexc::CombineLibs() {
+  const Libs& lib = compilation_info_->libs();
+  if (lib.size() > 0) {
+    IncludeStmt* prev = NULL;
+    for (Libs::const_iterator it = lib.begin(); it != lib.end(); ++it) {
+      IncludeStmt* stmt = new(pool_.Get()) IncludeStmt(it->c_str(), 0);
+      std::string buf;
+      IncludeFile(&buf, stmt->path());
+      stmt->set_contents(buf.c_str());
+      if (prev == NULL) {
+        prev = stmt;
+        root_->InsertBefore(stmt);
+      } else {
+        root_->InsertAfter(stmt, prev);
+        prev = stmt;
+      }
+    }
+  }
 }
 
 void Nexc::IncludeFile(std::string* buf, const char* path) {

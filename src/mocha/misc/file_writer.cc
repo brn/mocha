@@ -15,7 +15,10 @@ void FileWriter::WriteResult(CompilationResult* result){
     const char* deploydir = resource->GetDeploy();
     const char* deployname = resource->GetDeployName();
     const char* ocharset = resource->GetOutputCharset();
-    if (!deploydir && !deployname) {
+    if (deploydir && deployname) {
+      std::string name = result->filename();
+      os::SPrintf(&val, "%s/%s", deploydir, deployname);
+    } else if (!deploydir && !deployname) {
       std::string name = result->filename();
       name.erase(name.rfind('.'), name.size());
       os::SPrintf(&val, "%s/%s-cmp.js", result->dir(), name.c_str());

@@ -7,6 +7,7 @@
 #include <mocha/roaster/lib/unordered_map.h>
 namespace mocha {
 typedef std::vector<std::string> LibDirectories;
+typedef std::vector<std::string> Libs;
 class CompilationInfo {
   typedef std::pair<const char*, uint8_t> VersionPair;
   typedef roastlib::unordered_map<std::string, uint8_t> Versions;
@@ -38,9 +39,12 @@ class CompilationInfo {
   const char* charset() const {return (HasCharset())? charset_.c_str() : NULL;};
   void SetLibDirectory(const char* dir);
   const LibDirectories& lib_directories() const { return lib_dir_; };
+  void SetLibs(const char* lib);
+  const Libs& libs() const {return libs_;}
  private :
   std::string charset_;
   LibDirectories lib_dir_;
+  Libs libs_;
   BitVector8 flags_;
   Versions versions_;
 };
