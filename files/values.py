@@ -325,7 +325,7 @@ The modifier like public, private behave same as class.""",
             'generator_iterator_mdn_sub1' : """The function containing the yield keyword is a generator. When you call it, its formal parameters are bound to actual arguments, but its body isn't actually evaluated. Instead, a generator-iterator is returned. Each call to the generator-iterator's next() method performs another pass through the iterative algorithm. Each step's value is the value specified by the yield keyword. Think of yield as the generator-iterator version of return, indicating the boundary between each iteration of the algorithm. Each time you call next(), the generator code resumes from the statement following the yield.
 You cycle a generator-iterator by repeatedly calling its next() method until you reach your desired result condition. In this example, we can obtain however many Fibonacci numbers we want by continuing to call g.next() until we have the number of results we want.""",
             'generator_iterator_mdn_link1' : 'https://developer.mozilla.org/en/New_in_JavaScript_1.7#Generators',
-            'generator_iterator_mdn_sub2' : 'To explain it briefly, the generator function is called first time, yield is stop the function at the yield keyword, and second time or after, function start execution at this point. And the there are methods not only next, but also send that give the value to yield keyword.',
+            'generator_iterator_mdn_sub2' : 'Explain it briefly, the generator function is called first time, generator stop a function at the location of yield keyword, and second time or after, a function begin from this point. And also the generator has a 'send' method that give the value to yield keyword.',
             'generator_iterator_mdn_sub3' : """Once a generator has been started by calling its next() method, you can use send(), passing a specific value that will be treated as the result of the last yield. The generator will then return the operand of the subsequent yield.
 You can't start a generator at an arbitrary point; you must start it with next() before you can send() it a specific value.""",
             'generator_iterator_mdn_link2' : 'https://developer.mozilla.org/en/New_in_JavaScript_1.7#Resuming_a_generator_at_a_specific_point',
@@ -352,7 +352,7 @@ Second example is the destructuring assignment, all destructuring assignment can
             'spread_sub2' : 'See below example.',
             'spread_sub3' : 'Above example is a basic usage of spread. And below example shows other usage.',
             'spread_sub4' : 'That example shows spread in destructuring assignment. Spread can use in destructuring array. And next example is known as paramerter rest.',
-            'spread_sub5' : 'The basic behavior of spread is extract an Array, and if a spread written as reciever, a spread recieve the rest values as Array, if spread written as parameter, a spread gives extracted Array like Function.prototype.apply.'
+            'spread_sub5' : 'The basic behavior of spread is that to unfold an Array. If a spread written as reciever, a spread recieve the rest values as Array. If spread written as parameter, a spread gives unfolded Array like Function.prototype.apply.'
             }
         },
 'first_step_guide.html' : {
