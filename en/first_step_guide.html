@@ -488,7 +488,7 @@ color : #eedd00;
 								<div class="tab-content">
 	<div id="running-mocha" class="tab-pane active">
 	    <h3>Running mocha</h3>
-	    <p>The basic guide for mocha. In the beginning, Run terminal or command prompt, and type like below,</p>
+	    <p>This chapter explain basic guide for mocha. In the beginning, run terminal or command prompt, and input like below.</p>
 	    <pre class="prettyprint grammars"><code>cd &lt;mocha binary file directory&gt;</code></pre>
 	    <p>and change directory, and in the target directory type like below and execute mocha,</p>
 	    <pre class="prettyprint grammars"><code>./mchd</code></pre>
@@ -496,14 +496,14 @@ color : #eedd00;
 	    <pre class="prettyprint grammars"><code>mocha es-next-compiler(stand-alone)
 usage -> run 'help'
 >></code></pre>
-	    <p>mocha show the prompt like this, and see the user home directory, the directory .mocha maybe created, this directory contents is like below.</p>
+	    <p>mocha show the prompt like this. Let see the user home directory, and maybe the directory '.mocha' is created, this directory contents is like below.</p>
 <pre class="prettyprint grammars"><code>.mocha
      |_config.js
      |_mocha.log</code></pre>
-	    <p>Let's see config.js. The config.js file contents maybe like below by default.</p>
+	    <p>Let's see config.js. The config.js file contents will like below by default.</p>
 <pre class="prettyprint grammars"><code>config.set('compileSettingPath', './watch.js')
 config.set('logFilePath', './mocha.log')</code></pre>
-	    <p>The watch.js is file that need to implements. So we create watch.js in the directory .mocha, in watch.js, add files which want to observe to the mocha setting. See the below example.</p>
+	    <p>The watch.js is a file which need to implements. So we create watch.js in the directory .mocha, in watch.js. After that add files which want to observe to the mocha setting. See the below example.</p>
 
 <pre class="prettyprint grammars"><code>var script = mocha.import('script');
 script.watcher.addSetting('/home/foo/src/test.js', {
@@ -520,10 +520,10 @@ script.watcher.addSetting('/home/foo/src/test.js', {
     globalScope : true
   }
 })</code></pre>
-	    <p>When the above script is execute, the '/home/foo/src/test.js' file is observed by mocha. The mocha compile and save file to '/home/foo/src/deploy/' as 'test-deploy.js' if test.js is modified. And after, in the mocha's console, input like below.</p>
+	    <p>When the above script is executed, begin observing of a file '/home/foo/src/test.js' by mocha. The mocha compile and save file to a directory '/home/foo/src/deploy/' as 'test-deploy.js' if test.js is modified. At the last, in the mocha's console, type like below.</p>
 <pre class="prettyprint grammars"><code>>> .restart()</code></pre>
 	    <p>mocha reload watch.js and begin observing.</p>
-	    <p>It's the basic steps.</p>
+	    <p>The above steps are the basic steps of mocha.</p>
 	</div>
 	<div id="config-js" class="tab-pane">
 	    <h3>config.js</h3>
@@ -540,11 +540,11 @@ script.watcher.addSetting('/home/foo/src/test.js', {
 		<dd><pre class="prettyprint"><code>/home/&lt;user name&gt;</code></pre></dd>
 	    </dl>
 	    <p></p>
-	    <p>In the config.js, the config object is defined in the global object, so you can set setting by add setting to that config object.</p>
+	    <p>In the config.js, the config object is defined in the global object, so you can set settings by add the settings to that config object.</p>
 	    <p>The example of config.js is below.</p>
 	    <pre class="prettyprint"><code>config.set('compileSettingPath', './compile_setting.js');
 config.set('logFilePath', './mocha.log');</code></pre>
-	    <p>The mocha create files that set compileSettingPath and logFilePath properties by default. The values which is able to set to the config object is below list.</p>
+	    <p>The mocha create files that set compileSettingPath and logFilePath properties by default. The values which are able to set to the config object is below list.</p>
 	    <table>
 		<tr>
 		    <th>name</th>
@@ -557,7 +557,7 @@ config.set('logFilePath', './mocha.log');</code></pre>
 	</div>
 	<div id="compilation-setting" class="tab-pane">
 	    <h3>compilation setting</h3>
-	    <p>The file that descript the compilation setting. The location of this file is decided by the config object's compileSettingPath property. This file is auto load by mocha at startup. By default, mocha set watch.js to this file's name.</p>
+	    <p>This chapter explain a file which is written the compilation setting. The location of this file is decided by the config object's 'compileSettingPath' property. This file is auto load by mocha at startup. By default, mocha set watch.js to this file's name.</p>
 	    <p>example</p>
  	    <pre class="prettyprint grammars"><code>//Import the script module.
 var watcher = mocha.import('script').watcher;
@@ -641,7 +641,7 @@ watcher.addSetting("src/test.js", {
 	</div>
 	<div id="commands" class="tab-pane">
 	    <h3>commands</h3>
-	    <p>The mocha is able to add user definition commands, to add the commands, do like below.</p>
+	    <p>The mocha can add user definition commands. To add the commands, do like below.</p>
 	    <pre class="prettyprint grammars"><code>mocha.addCommand('foo', function () {
   console.log('test');
 }, 'test command!!');</code></pre>
@@ -649,7 +649,7 @@ watcher.addSetting("src/test.js", {
 	    <p>To call the above foo command, do like below.</p>
 	    <pre class="prettyprint"><code>>> .foo()</code></pre>
 	    <p><strong>The builtin command.</strong></p>
-	    <p>The mocha has command below by default.</p>
+	    <p>The mocha has the commands below by default.</p>
 	    <table>
 		<tr>
 		    <th>name</th>
@@ -672,7 +672,7 @@ watcher.addSetting("src/test.js", {
 		    <td>test</td><td>test([predicate], [option])</td><td>Test the specfied file. A predicate must be a function or string or regular expression.</td>
 		</tr>
 		<tr>
-		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>Show the list of file which observed by mocha. If showDeploy is truesy value, show deploy information, If showOpt is truesy value, show compilation option. A predicate must be a function or string or regular expression.</td>
+		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>Show the list of the files which are observed by mocha. If showDeploy is passed truesy value, show deploy information. If showOpt is passed truesy value, show compilation option. A predicate must be a function or string or regular expression.</td>
 		</tr>
 		<tr>
 		    <td>help</td><td>help()</td><td>Show all commands.</td>

@@ -611,15 +611,13 @@ class SkinnedMesh extends THREE.Mesh {
 													</div>
 			  <div class="section">
 			      <p class="title">Detail</p>
-			      <p>In mocha, the class behave as syntax sugar of the definition of the constructor function and prototypes, so it has 100% compatibility to existing javascript's class which declared as a function and prototypes. And the overhead of a class is supressed as much as possible, but to realize the private field, the class syntax has a little overhead.</p>
+			      <p>In mocha, the class behave as syntax sugar of the definition of the constructor function and prototypes, so it has 100% compatibility to the existing javascript's class which declared as a function and prototypes. And the overhead of a class is supressed as much as possible. But to realize the private field, the class syntax has a little overhead.</p>
 			  </div>
 			  <div class="section">
 			      <p class="title">Interface</p>
 			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>class</i> &lt;class name&gt; <i>extends or prototype</i> &lt;base class name or literal&gt;</code></pre>
 			      <p>
-				  Declare class. A class name and base a class name is able to use javascript identifier.
-		    If const modifier is set to before the class declaration, all class members are become immutable.
-		    If you select extends keyword as the inheritance, the inheritance is the normal prototype, if you select the prototype keyword, use the &lt;base class name or literal&gt; prototype as the direct prototype of the derived class.
+				  Declare class. A class name and base class name is able to use javascript identifier. If const modifier is set to before the class declaration, all class members are become immutable. If you select the 'extends' keyword as the inheritance, a derived class's prototype chain is connected to super class's prototype. If you select the prototype keyword, <base class name or literal> is used as the direct prototype of the derived class. 
 			      </p>
 			      <pre class="prettyprint grammars"><code><i>constructor(</i>&lt;arguments list&gt;<i>)</i> &lt;function body&gt;</code></pre>
 			      <p>
@@ -629,12 +627,7 @@ class SkinnedMesh extends THREE.Mesh {
 
 			      <pre class="prettyprint grammars"><code><i>const(optional)</i> <i>public or private or static</i> &lt;name&gt; &lt;function body or '=' values&gt;(optional)</code></pre>
 			      <p>
-				  Define member. If public modifier is set, the member is accessible from caller.
-				  If const modifier is set, that is treated as immutable, and 
-				  private modifier is set, that unaccessible from caller,
-				  and if you do not specify the modifiers, the private modifier is set by default.
-				  The member that has static modifier is able to access without instance, but can not access members except for the static members,
-				  and static member can not set a modifier, it's treated as public.
+				  Define member. If public modifier is set, the member is accessible from caller. If const modifier is set, that is treated as immutable. If private modifier is set, that member is unaccessible from caller. if you do not specify the modifiers, the private modifier is set by default. The member that has static modifier is able to access without instance, but can not access members except for the static members, and static member can not set a modifier, all static members are treated as public. 
 			      </p>
 			      <pre class="prettyprint grammars"><code><i>this.</i>&lt;name&gt;</code></pre>
 			      <p>Access to a public member.</p>
@@ -724,16 +717,14 @@ class MixinTest {
 		</div>
 		<div class="section">
 		    <p class="title">Detail</p>
-		    <p>The trait purpose is that inject behavior by implementation inheritance. And also the trait behave like a abstract class in terms of enforce implementation of methods, to enforce implementation of methods, use a 'require' attribute, like this, require foo.
-And the trait can compose traits or classes through declaration of 'mixin' attributes, and can rewrite member names or disable member to set 'with' or 'without' attributes in a 'mixin' attribute, like mixin ... with &lt;method_name&gt; as &lt:new_name&gt;
-The modifier like public, private behave same as class.</p>
+		    <p>The trait purpose is that inject behavior by implementation inheritance. And also the trait behave like a abstract class in terms of enforce implementation of methods. To enforce implementation of methods, use a 'require' attribute, like this, require foo. And the trait can compose traits or classes through declaration of 'mixin' attributes, and can rewrite member names or disable member by set 'with' or 'without' attributes in a 'mixin' attribute, like mixin ... with <method_name> as <:new_name> The modifiers like public, private behave same as the class.</p>
 		</div>
 		<div class="section">
 		    <p class="title">Interface</p>
 		    <pre class="prettyprint grammars"><code><i>trait</i> &lt;trait name&gt;</code></pre>
 		    <p>Declare a trait.</p>
 		    <pre class="prettyprint grammars"><code><i>mixin</i> &lt;trait name&gt; <i>with(optional)</i> &lt;member name&gt; <i>as</i> &lt;new member name&gt <i>without(optional)</i> &lt;member name&gt;</code></pre>
-		    <p>Mixin traits. If same name members are there, it overwritten by after definition. And If with ~ as is set, a member name is rewrite as new member name, and If without ~ is set, the specific member is not mixined.</p>
+		    <p>Mixin traits. If same name members are there, it overwritten by most newest definition. And If 'with ~ as' is set, a member name is rewritten as new member name, and If 'without ~' is set, the specific member is not mixined.</p>
 		</div>
 	    </div>
 	</div>
