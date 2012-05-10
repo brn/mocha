@@ -1,5 +1,7 @@
-@include 'jQuery'
 import {index} from './consts'.consts
+import {imageCache} from './images_cache'
+
+imageCache.cache(['images/line.png', 'images/spot.png', 'images/logo.png']);
 
 $(->{
   var filterBug = /MSIE [678]/.test(navigator.userAgent);
