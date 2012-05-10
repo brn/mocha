@@ -10,7 +10,9 @@
           var desc = [],
               configurable = false,
               writable = false,
-              enumerable = false;
+              enumerable = false,
+              propArray = prop.split('.'),
+              tmpRef = obj;
           type.split(' ').forEach(function (item) {
             if (item !== ' ') {
               if (item === '-c') configurable = true;
@@ -18,13 +20,23 @@
               else if (item === '-e') enumerable = true;
             }
           });
-          Object.defineProperty(obj, prop, {
+          for (var i = 0, len = propArray.length; i < len; i++) {
+            if (i == (len - 1)) {
+              break;
+            } else {
+              if (!(propArray[i] in tmpRef)) {
+                tmpRef[propArray[i]] = {};
+              }
+              tmpRef = tmpRef[propArray[i]];
+            }
+          }
+          Object.defineProperty(tmpRef, propArray[propArray.length - 1], {
             value : val,
             configurable : configurable,
             writable : writable,
             enumerable : enumerable
           });
-          return obj[prop];
+          return obj[propArray[0]];
         },
         loadFile : function (path) {
           var file = natives.io.fopen(path, 'rb'),
@@ -246,6 +258,162 @@
         }, "Begin watch server, and compile immediately if modified.");
         return mocha;
       }();
+
+  var nativeModules = {};
+
+  /**
+   * CommonJS FileSystem/A and FileSystem/A/0
+   */
+  utils.defProp(nativeModules, 'fs', {
+    open : function (path, option) {
+      if (typeof option === 'string') {
+        return natives.io.fopen(path, option);
+      } else if (isObject(option)) {
+        return natives.io.fopen(path, option.mode);
+      }
+    },
+    read : function (path, option) {
+      return nativeModules.fs.open(path, option).getTextContent();
+    },
+    write : function (path, string, option) {
+      return nativeModules.fs.open(path, option).writeTextContent(string);
+    },
+    copy : function (path, target) {
+      var source = nativeModules.fs.open(path, 'r'),
+          dest = nativeModules.fs.open(path, 'w+'),
+          sourceContent = source.getTextContent();
+      dest.writeTextContent(sourceContent);
+      source.close();
+      dest.close();
+    },
+    rename : function (path, name) {
+      natives.fs.rename(path, name);
+    },
+    move : function (source, target) {
+      natives.fs.move(source, target);
+    },
+    remove : function (source) {
+      natives.fs.remove(source);
+    },
+    touch : function (path, mtime_opt) {
+      var file = nativeModules.fs.open(path, 'a+');
+      file.close();
+      natives.fs.utime(mtime_opt);
+    },
+    makeDirectory : function (path, permission_opt) {
+    },
+    removeDirectory : function (path) {
+    },
+    move : function (source, target) {
+    },
+    makeTree : function (path) {
+    },
+    removeTree : function (path) {
+    },
+    copyTree : function (path) {
+    },
+    list : function () {
+    },
+    listTree : function () {
+    },
+    listDirectoryTree : function () {
+    },
+    glob : function () {
+    },
+    match : function () {
+    },
+    escape : function () {
+    },
+    listPaths : function () {
+    },
+    listTreePaths : function () {
+    },
+    listDirectoryTreePaths : function () {
+    },
+    globPaths : function () {
+    },
+    exists : function (path) {
+    },
+    isFile : function (path) {
+    },
+    isDirectory : function (path) {
+    },
+    isLink : function (path) {
+    },
+    isReadable : function (path) {
+    },
+    isWritable : function (path) {
+    },
+    same : function (source, target) {
+    },
+    size : function (path) {
+    },
+    lastModified : function (path) {
+    },
+    owner : function (path) {
+    },
+    changeOwner : function (path, name) {
+    },
+    permissions : function (path) {
+    },
+    changePermissions : function (path, permissions) {
+    },
+    workingDirectory : function () {
+    },
+    changeWorkingDirectory : function () {
+    },
+    workingDirectoryPath : function () {
+    },
+    join : function () {
+    },
+    split : function (path) {
+    },
+    normal : function (path) {
+    },
+    absolute : function(path) {
+    },
+    canonical : function(path) {
+    },
+    readLink : function (path) {
+    },
+    directory : function (path) {
+    },
+    base : function (path) {
+
+    },
+    extension : function (path) {
+    },
+    resolve : function () {
+    },
+    relative : function (source, target_opt) {
+    }
+  }, '-c -w');
+
+  /**
+   * CommonJS FileSystem/A and FileSystem/A/0 Path
+   */
+  var Path = utils.defProp(nativeModules, 'fs.Path', function () {
+        if (typeof arguments[0] === 'string') {
+          this._path = Array.prototype.join.call(arguments, '/');
+        } else if (Array.isArray(arguments[0])) {
+          this._path = arguments[0].join('/');
+        }
+      })
+
+  utils.defProp(Path.prototype, 'toString', function () {}, '-c -w');
+  utils.defProp(Path.prototype, 'to', function () {}, '-c -w');
+  utils.defProp(Path.prototype, 'from', function () {}, '-c -w');
+  utils.defProp(Path.prototype, 'glob', function () {}, '-c -w');
+  utils.defProp(Path.prototype, 'globPaths', function () {}, '-c -w');
+
+  var Permissions = function (perm) {
+        this._perm = perm;
+      };
+
+  utils.defProp(Permissions.prototype, 'toNumber', function () {
+  });
+
+  utils.defProp(Permissions.prototype, 'update', function (perm){});
 
   var isObject = function (o) {
         return Object.prototype.toString.call(o) === '[object Object]';

@@ -34,7 +34,7 @@ void FileRootProcessor::ProcessNode() {
       CallExp* add_accessor = builder()->CreateDotAccessor(runtime_accessor, add, node()->line_number());
       NodeList* args = builder()->CreateNodeList(1, key);
       CallExp* call = builder()->CreateNormalAccessor(add_accessor, args, node()->line_number());
-      ExpressionStmt* extend_global = builder()->CreateExpStmt(call, 2);
+      extend_global = builder()->CreateExpStmt(call, 2);
       key_str.erase(0, 1);
       key_str.erase(key_str.size() - 1, 1);
     } else {
