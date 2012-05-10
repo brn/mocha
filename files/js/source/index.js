@@ -1,7 +1,11 @@
 import {index} from './consts'.consts
 import {imageCache} from './images_cache'
 
-imageCache.cache(['images/sprite.png', 'images/sprite.gif', 'images/bg.jpg', 'images/logo.png']);
+imageCache.cache(['images/sprite.png',
+                  'images/sprite.gif',
+                  'images/bg.jpg',
+                  'images/logo.png',
+                  'images/bg2.jpg']);
 
 $(->{
   var filterBug = /MSIE [678]/.test(navigator.userAgent);
