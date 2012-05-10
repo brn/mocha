@@ -516,6 +516,8 @@ script.watcher.addSetting('/home/foo/src/test.js', {
     prettyPrint : true,
     debug : true,
     versions : [],
+		moduleDir : ['lib'],
+    libs : ['jQuery']
     fileScope : true,
     globalScope : true
   }
@@ -583,60 +585,69 @@ watcher.addSetting("src/test.js", {
     //Create the scope per file.
     fileScope : true,
     //Create the global scope.
-    globalScope : true
+    globalScope : true,
+    //Define version symbols. This value is referenced by the @version operator.
+    versions : ['foo'],
+    //Set libraries which are combined at the compilation time. The libraries are combined by array order.
+    libs : ['jQuery'],
+    //Set module directories. This directories are used by 'import', '@include' and '@source' to find files.
+    moduleDir : ['lib']
   }
 })</code></pre>
 	    <p>In basis, the watch.js is call addSetting method of script module's watcher object, and pass the file name and options to the arguments.</p>
 	    <table>
-		<tr>
-		    <th>property name</th>
-		    <th>data type.</th>
-		    <th>explanation</th>
-		</tr>
-		<tr>
-		    <td>deployDir</td><td>String</td><td>The location that ouput the compilation result.</td>
-		</tr>
-		<tr>
-		    <td>deployName</td><td>String</td><td>The compilation result's file name.</td>
-		</tr>
-		<tr>
-		    <td>inputCharset</td><td>String</td><td>The encoding of the source file.</td>
-		</tr>
-		<tr>
-		    <td>outputCharset</td><td>String</td><td>The encoding of the output file.</td>
-		</tr>
-		<tr>
-		    <td>options</td><td>Object</td><td>Specify the compilation options.</td>
-		</tr>
+					<tr>
+							<th>property name</th>
+							<th>data type.</th>
+							<th>explanation</th>
+					</tr>
+					<tr>
+							<td>deployDir</td><td>String</td><td>The location that ouput the compilation result.</td>
+					</tr>
+					<tr>
+							<td>deployName</td><td>String</td><td>The compilation result's file name.</td>
+					</tr>
+					<tr>
+							<td>inputCharset</td><td>String</td><td>The encoding of the source file.</td>
+					</tr>
+					<tr>
+							<td>outputCharset</td><td>String</td><td>The encoding of the output file.</td>
+					</tr>
+					<tr>
+							<td>options</td><td>Object</td><td>Specify the compilation options.</td>
+					</tr>
 	    </table>
 	    <p>The contents of the options.</p>
 	    <table>
-		<tr>
-		    <th>property name</th>
-		    <th>data type.</th>
-		    <th>explanation.</th>
-		</tr>
-		<tr>
-		    <td>prettyPrint</td><td>Boolean</td><td>Format the output.</td>
-		</tr>
-		<tr>
-		    <td>compress</td><td>Boolean</td><td>Compress the output.</td>
-		</tr>
-		<tr>
-		    <td>debug</td><td>Boolean</td><td>Add the line number and the file name to output file.</td>
-		</tr>
-		<tr>
-		    <td>moduleDir</td><td>Array</td><td>Specify the directories that search modules.</td>
-		</tr>
-		<tr>
-		    <td>versions</td><td>Array</td><td>Specify the versions.</td>
-		</tr>
-		<tr>
-		    <td>fileScope</td><td>Boolean</td><td>Specify create the per file's scope or not. This value is true by default.</td>
-		</tr>
-		<tr>
-		    <td>globalScope</td><td>Boolean</td><td>Specify create the global scope or not. This value is false. by default</td>
-		</tr>
+					<tr>
+							<th>property name</th>
+							<th>data type.</th>
+							<th>explanation.</th>
+					</tr>
+					<tr>
+							<td>prettyPrint</td><td>Boolean</td><td>Format the output.</td>
+					</tr>
+					<tr>
+							<td>compress</td><td>Boolean</td><td>Compress the output.</td>
+					</tr>
+					<tr>
+							<td>debug</td><td>Boolean</td><td>Add the line number and the file name to output file.</td>
+					</tr>
+					<tr>
+							<td>moduleDir</td><td>Array</td><td>Specify the directories that used at searching modules.</td>
+					</tr>
+					<tr>
+							<td>versions</td><td>Array</td><td>Specify the versions.</td>
+					</tr>
+					<tr>
+							<td>fileScope</td><td>Boolean</td><td>Specify whether create the per file's scope or not. This value is true by default.</td>
+					</tr>
+					<tr>
+							<td>globalScope</td><td>Boolean</td><td>Specify whether create the global scope or not. This value is false. by default</td>
+					</tr>
+					<tr>
+							<td>libs</td><td>Array</td><td>Specify libraries.</td>
+					</tr>
 	    </table>
 	</div>
 	<div id="commands" class="tab-pane">
@@ -666,7 +677,7 @@ watcher.addSetting("src/test.js", {
 		    <td>restart</td><td>restart()</td><td>Reload setting file.</td>
 		</tr>
 		<tr>
-		    <td>deploy</td><td>deploy([predicate], [option])</td><td>Compile the specified file. A predicate must be a function or string or regular expression.</td>
+		    <td>deploy</td><td>deploy([predicate], [option])</td><td>Compile the specified file. A predicate must be a function or string or regular expression. A option can specify the new compilation option, if necessary. If the new option is passed, that will merged with old one. And also a option can specify string 'debug' or 'release'. If option string is 'debug', mocha compile files with options which set debug, prettyPrint. If option string is 'release', mocha compile files with options which set no debug, compress.</td>
 		</tr>
 		<tr>
 		    <td>test</td><td>test([predicate], [option])</td><td>Test the specfied file. A predicate must be a function or string or regular expression.</td>
@@ -698,7 +709,10 @@ watcher.addSetting("src/test.js", {
 		    <td>@version</td><td>@version(version){...}</td><td>Create a junction block that depends on the versions option.</td>
 		</tr>
 		<tr>
-		    <td>@include</td><td>@include &lt;filename&gt;</td><td>Load a file and extract at this point, that file is not compiled.</td>
+		    <td>@source</td><td>@source &lt;filename&gt;</td><td>Load a file and extract at this point without compilation.</td>
+		</tr>
+		<tr>
+		    <td>@include</td><td>@include &lt;filename&gt;</td><td>Load and compile a file. But modules are not exported. This directives purpose is to import javascript files which are written by ecma262.</td>
 		</tr>
 	    </table>
 	    <p>@assert</p>
@@ -716,12 +730,18 @@ Runtime.assert(true, test(1,1) === 2, 'test(1,1) === 2', 'filename', 'linenumber
 }
 //In the debug mode, x = 1
 //In the release mode, x = 2</code></pre>
-	    <p>@include</p>
-	    <pre class="prettyprint grammars"><code>@include 'jQuery-min.js'
+			<p>@source</p>
+	    <pre class="prettyprint grammars"><code>@source 'jQuery-min.js'
 $(->{
 ...
 })
-//The code of jQuery is inserted In the position of @include.</code></pre>
+//The code of jQuery is inserted In the position of @include without compilation.</code></pre>
+	    <p>@include</p>
+	    <pre class="prettyprint grammars"><code>@include 'jQuery.js'
+$(->{
+...
+})
+//The jQuery is loaded and compiled, but no modules are exported.</code></pre>
 	</div>
 	<div id="use-phantomjs" class="tab-pane">
 	    <h3>use phantomjs</h3>
