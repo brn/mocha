@@ -2,7 +2,7 @@ import {index} from './consts'.consts
 import {imageCache} from './images_cache'
 
 imageCache.cache(['images/sprite.png',
-                  'images/sprite.gif',
+                  'images/sprites.gif',
                   'images/bg.jpg',
                   'images/logo.png',
                   'images/bg2.jpg']);
