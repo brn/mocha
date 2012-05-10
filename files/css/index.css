@@ -67,7 +67,7 @@ font-weight : bold;
 height : 25px;
 padding-left : 25px;
 padding-top : 5px;
-background : url(images/sprite.png) -773px -824px no-repeat;
+background : url(images/info.png) no-repeat;
 margin : 5px 5px 0px 0px;
 text-shadow : 1px 1px 1px rgba(0,0,0,0.6);
 }
@@ -91,16 +91,15 @@ width : 1000px;
 height : 400px;
 position : absolute;
 display : none;
-background : url(images/sprite.png) center 0 no-repeat;
+background : url(images/spot.png) no-repeat;
 }
 
 #line {
-width : 411px;
-left : 250px;
+width : 1000px;
 height : 400px;
 position : absolute;
 display : none;
-background : url(images/sprite.png) 0px -440px no-repeat;
+background : url(images/line.png) 210px 0 no-repeat;
 }
 
 #footer{

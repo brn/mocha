@@ -1,8 +1,9 @@
 import {index} from './consts'.consts
 import {imageCache} from './images_cache'
 
-imageCache.cache(['images/sprite.png',
-                  'images/sprites.gif',
+imageCache.cache(['images/stripes.gif',
+                  'images/spot.png',
+                  'images/line.png',
                   'images/bg.jpg',
                   'images/logo.png',
                   'images/bg2.jpg']);
