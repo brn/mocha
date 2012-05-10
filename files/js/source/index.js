@@ -1,7 +1,7 @@
 import {index} from './consts'.consts
 import {imageCache} from './images_cache'
 
-imageCache.cache(['images/line.png', 'images/spot.png', 'images/logo.png']);
+imageCache.cache(['images/sprite.png', 'images/sprite.gif', 'images/bg.jpg', 'images/logo.png']);
 
 $(->{
   var filterBug = /MSIE [678]/.test(navigator.userAgent);
@@ -13,7 +13,7 @@ $(->{
       DD_belatedPNG.fix('#bg');
     }
   } else {
-    setTimeout(->index.LINE_CACHE().fadeIn(2000), 1000);
+    setTimeout(->index.LINE_CACHE().fadeIn(2000), 2500);
     index.BG_CACHE().fadeIn(3000);
   }
 })
