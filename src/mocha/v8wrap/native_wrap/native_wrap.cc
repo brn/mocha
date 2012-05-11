@@ -3,6 +3,7 @@
 #include <mocha/v8wrap/initjs.h>
 #include <mocha/v8wrap/native_wrap/native_wrap.h>
 #include <mocha/roaster/ast/seriarization/byte.h>
+#include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/fileinfo/fileinfo.h>
 #include <mocha/options/setting.h>
 #include <mocha/misc/file_watcher/observer/javascript_observer.h>
@@ -192,9 +193,10 @@ METHOD_IMPL(NativeWrap::Directory::Entries) {
 METHOD_IMPL(NativeWrap::Directory::Mkdir) {
   if (args.Length() > 0) {
     if (args[0]->IsString()) {
+      int permiss = (args.Length() > 1 && args[1]->IsInt32())? args[1]->Int32Value() : 0777;
       String::Utf8Value path(args[0]);
-      os::fs::mkdir(*path, 0777);
-      os::fs::Directory::chmod(*path, 0777);
+      os::fs::mkdir(*path, permiss);
+      os::fs::Directory::chmod(*path, permiss);
       return Undefined();
     }
     return ThrowException(Exception::Error(String::New("The arguments of dir.mkdir must be a boolean.")));
@@ -240,8 +242,14 @@ void NativeWrap::Path::Init(Handle<Object> object) {
   Handle<v8::Function> function = fn->GetFunction();
   Handle<v8::FunctionTemplate> getcwd_tmp = v8::FunctionTemplate::New(NativeWrap::Path::Getcwd);
   Handle<v8::FunctionTemplate> home_tmp = v8::FunctionTemplate::New(NativeWrap::Path::Home);
+  Handle<v8::FunctionTemplate> rel_tmp = v8::FunctionTemplate::New(NativeWrap::Path::RelativePath);
+  Handle<v8::FunctionTemplate> nm_tmp = v8::FunctionTemplate::New(NativeWrap::Path::NormalizePath);
+  Handle<v8::FunctionTemplate> mv_tmp = v8::FunctionTemplate::New(NativeWrap::Path::Move);
   function->Set(String::New("getcwd"), getcwd_tmp->GetFunction());
   function->Set(String::New("homeDir"), home_tmp->GetFunction());
+  function->Set(String::New("relative"), rel_tmp->GetFunction());
+  function->Set(String::New("normal"), nm_tmp->GetFunction());
+  function->Set(String::New("move"), mv_tmp->GetFunction());
   object->Set(String::New("Path"), handle_scope.Close(function));
 }
 
@@ -276,6 +284,37 @@ METHOD_IMPL(NativeWrap::Path::AbsolutePath) {
   return String::New(path_info->absolute_path());
 }
 
+METHOD_IMPL(NativeWrap::Path::RelativePath) {
+  if (args.Length() == 2) {
+    if (args[0]->IsString() && args[1]->IsString()) {
+      String::Utf8Value source(args[0]->ToString());
+      String::Utf8Value target(args[1]->ToString());
+      std::string result;
+      os::fs::Path::relative_path(*source, *target, &result);
+      return String::New(result.c_str());
+    } else {
+      return ThrowException(Exception::Error(String::New("The arguments of relative must be a string.")));
+    }
+  } else {
+    return ThrowException(Exception::Error(String::New("The function relative need at least 2 arguments.")));
+  }
+}
+
+METHOD_IMPL(NativeWrap::Path::NormalizePath) {
+  if (args.Length() == 1) {
+    if (args[0]->IsString()) {
+      String::Utf8Value source(args[0]->ToString());
+      std::string result;
+      os::fs::Path::NormalizePath(*source, &result);
+      return String::New(result.c_str());
+    } else {
+      return ThrowException(Exception::Error(String::New("The arguments of normal must be a string.")));
+    }
+  } else {
+    return ThrowException(Exception::Error(String::New("The function normal need at least 2 arguments.")));
+  }
+}
+
 METHOD_IMPL(NativeWrap::Path::Directory) {
   os::fs::Path* path_info = V8Init::GetInternalPtr<os::fs::Path, 0>(args.This());
   return String::New(path_info->directory());
@@ -287,6 +326,20 @@ Handle<Value> NativeWrap::Path::Getcwd(const Arguments&) {
 
 Handle<Value> NativeWrap::Path::Home(const Arguments&) {
   return String::New(os::fs::Path::home_directory());
+}
+
+METHOD_IMPL(NativeWrap::Path::Move) {
+  if (args.Length() == 2) {
+    if (args[0]->IsString() && args[1]->IsString()) {
+      String::Utf8Value path(args[0]);
+      String::Utf8Value dest(args[1]);
+      os::fs::mv(*path, *dest);
+    } else {
+      return ThrowException(Exception::Error(String::New("The arguments of move must be a string.")));
+    }
+  } else {
+    return ThrowException(Exception::Error(String::New("The function move need at least 2 arguments.")));
+  }
 }
 
 DISPOSE_IMPL(NativeWrap::Path, os::fs::Path);
@@ -436,8 +489,8 @@ DISPOSE_IMPL(NativeWrap::Stat, os::fs::Stat);
 void NativeWrap::IO::Init(Handle<Object> object) {
   HandleScope handle_scope;
   Handle<FunctionTemplate> fn = FunctionTemplate::New(NativeWrap::IO::FOpen);
-  fn->SetClassName(String::New("fopen"));
-  object->Set(String::New("fopen"), handle_scope.Close(fn->GetFunction()));
+  fn->SetClassName(String::New("open"));
+  object->Set(String::New("open"), handle_scope.Close(fn->GetFunction()));
 }
 
 
@@ -449,8 +502,6 @@ Handle<Object> NativeWrap::File::Init(FILE* fp) {
   Handle<ObjectTemplate> proto = fn->PrototypeTemplate();
   proto->Set(String::New("write"), v8::FunctionTemplate::New(FWrite));
   proto->Set(String::New("read"), v8::FunctionTemplate::New(FRead));
-  proto->Set(String::New("writeTextContent"), v8::FunctionTemplate::New(WriteTextContent));
-  proto->Set(String::New("getTextContent"), v8::FunctionTemplate::New(GetTextContent));
   proto->Set(String::New("close"), v8::FunctionTemplate::New(FClose));
   Handle<Object> instance = fn->GetFunction()->NewInstance();
   instance->SetPointerInInternalField(0, fp);
@@ -458,16 +509,22 @@ Handle<Object> NativeWrap::File::Init(FILE* fp) {
   return handle_scope.Close(instance);
 }
 
-METHOD_IMPL(NativeWrap::File::WriteTextContent) {
-  if (args.Length() == 1) {
+METHOD_IMPL(NativeWrap::File::FWrite) {
+  if (args.Length() > 0) {
     if (args[0]->IsString()) {
       bool is_opened = args.This()->GetInternalField(1)->IsTrue();
       if (is_opened) {
         String::Utf8Value str(args[0]);
         const char* content = *str;
         FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
+        int size;
+        if (args.Length() > 1 && args[1]->IsInt32()) {
+          size = args[1]->Int32Value();
+        } else {
+          size = strlen(content);
+        }
         if (fp != NULL) {
-          fwrite(content, sizeof(char), strlen(content), fp);
+          fwrite(content, sizeof(char), size, fp);
         } else {
           return ThrowException(Exception::Error(String::New("Invalid file.")));
         }
@@ -483,128 +540,41 @@ METHOD_IMPL(NativeWrap::File::WriteTextContent) {
   return Undefined();
 }
 
-bool BinaryFlagIsValid(char val) {
-  if (val != 'B' &&
-      val != 'H' &&
-      val != 'L') {
-    return false;
-  }
-  return true;
-}
 
-int GetWriteSizeFromBinaryFlag(char flag) {
-  return (flag == 'B')? 1 : (flag == 'H')? 2 : 4;
-}
-
-METHOD_IMPL(NativeWrap::File::FWrite) {
-  if (args.Length() == 2) {
-    if (args[0]->IsString()) {
-      String::Utf8Value type(args[0]);
-      if (type.length() > 0) {
-        bool has_endian_flag = false;
-        const char* ctype = *type;
-        if (type.length() == 1 && BinaryFlagIsValid(ctype[0])) {
-          return ThrowException(Exception::Error(String::New("Invalid byte flag.")));
-        } else if (type.length() == 2) {
-          has_endian_flag = true;
-          if (ctype[0] != '<' &&
-              ctype[0] != '>' &&
-              BinaryFlagIsValid(ctype[1])) {
-            return ThrowException(Exception::Error(String::New("Invalid byte flag.")));
-          }
-        }
-        if (args[1]->IsNumber() && args[1]->IsNumberObject()) {
-          bool is_opened = args.This()->GetInternalField(1)->IsTrue();
-          if (is_opened) {
-            FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
-            if (fp != NULL) {
-              if (has_endian_flag) {
-                int size = GetWriteSizeFromBinaryFlag(ctype[1]);
-                int* reversed = 0;
-                if (ctype[0] == '<') {
-                  reversed = ByteUtils<int>::ToLittleEndian(&size);
-                } else {
-                  reversed = ByteUtils<int>::ToBigEndian(&size);
-                }
-                fwrite(reversed, 1, size, fp);
-              } else {
-                int size = GetWriteSizeFromBinaryFlag(ctype[0]);
-                double value = args[1]->ToNumber()->Value();
-                fwrite(&value, 1, size, fp);
-              }
-            } else {
-              return ThrowException(Exception::Error(String::New("Invalid file.")));
-            }
-          } else {
-            return ThrowException(Exception::Error(String::New("File is already closed.")));
-          }
-        } else {
-          return ThrowException(Exception::Error(String::New("The second arguments of stat must be a integer.")));
-        }
-      } else {
-        return ThrowException(Exception::Error(String::New("The first arguments of stat must be a string.")));
-      }
-    }
-  }
-  return ThrowException(Exception::Error(String::New("The function stat need 2 arguments.")));
-}
-
-METHOD_IMPL(NativeWrap::File::GetTextContent) {
+METHOD_IMPL(NativeWrap::File::FRead) {
+  HandleScope handle_scope;
   FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
   if (fp != NULL) {
     bool is_opened = args.This()->GetInternalField(1)->IsTrue();
-    if (is_opened) {
+    if (args.Length() > 0 && args[0]->IsInt32()) {
+      if (is_opened) {
+        int read_size = args[0]->Int32Value();
+        ScopedStr value(new char[read_size]);
+        char* content = const_cast<char*>(value.Get());
+        int read = fread(content, 1, read_size, fp);
+        if (read < read_size) {
+          return Undefined();
+        }
+        return handle_scope.Close(String::New(value.Get()));
+      } else {
+        return ThrowException(Exception::Error(String::New("File is already closed.")));
+      }
+    } else {
       fseek(fp, 0, SEEK_END);
       int size = ftell(fp);
       rewind(fp);
-      char* contents = new char[size + 1];
+      ScopedStr contents_handle(new char[size + 1]);
+      char* contents = const_cast<char*>(contents_handle.Get());
       contents[size] = '\0';
       for (int i = 0; i < size;) {
         int read = fread(&contents[i], 1, size - i, fp);
         i += read;
       }
       rewind(fp);
-      Handle<Value> ret = String::New(contents);
-      delete []contents;
-      return ret;
-    } else {
-      return ThrowException(Exception::Error(String::New("File is already closed.")));
+      return String::New(contents);
     }
   } else {
     return ThrowException(Exception::Error(String::New("Invalid file.")));
-  }
-}
-
-
-METHOD_IMPL(NativeWrap::File::FRead) {
-  if (args.Length() > 0) {
-    FILE* fp = V8Init::GetInternalPtr<FILE, 0>(args.This());
-    if (fp != NULL) {
-      bool is_opened = args.This()->GetInternalField(1)->IsTrue();
-      if (args[0]->IsInt32()) {
-        if (is_opened) {
-          int read_size = args[0]->Int32Value();
-          char* value = new char[read_size];
-          int read = fread(value, 1, read_size, fp);
-          if (read < read_size) {
-            return Undefined();
-          }
-          Handle<Array> array = Array::New();
-          for (int i = 0; i < read_size; i++) {
-            array->Set(Integer::New(i), Number::New(static_cast<int>(value[i])));
-          }
-          return array;
-        } else {
-          return ThrowException(Exception::Error(String::New("The arguments of fread must be a Interger.")));
-        }
-      } else {
-        return ThrowException(Exception::Error(String::New("File is already closed.")));
-      }
-    } else {
-      return ThrowException(Exception::Error(String::New("Invalid file.")));
-    }
-  } else {
-    return ThrowException(Exception::Error(String::New("fread need at least one arguments.")));
   }
 }
 
@@ -652,16 +622,16 @@ METHOD_IMPL(NativeWrap::IO::FOpen) {
             return ThrowException(Exception::Error(String::New(buf.c_str())));
           }
         } else {
-          return ThrowException(Exception::Error(String::New("The second arguments of fopen must be a string.")));
+          return ThrowException(Exception::Error(String::New("The second arguments of open must be a string.")));
         }
       } else {
-        return ThrowException(Exception::Error(String::New("The arguments of fopen must be a string.")));
+        return ThrowException(Exception::Error(String::New("The arguments of open must be a string.")));
       }
     } else {
-      return ThrowException(Exception::Error(String::New("The arguments of fopen must be a string.")));
+      return ThrowException(Exception::Error(String::New("The arguments of open must be a string.")));
     }
   }
-  return ThrowException(Exception::Error(String::New("The function fopen need at least one arguments.")));  
+  return ThrowException(Exception::Error(String::New("The function open need at least one arguments.")));  
 }
 
 void NativeWrap::IO::NativeConsole::Init(Handle<Object> object) {

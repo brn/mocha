@@ -42,9 +42,12 @@ class NativeWrap : private Static {
     DECL_METHOD(New);
     DECL_METHOD(Filename);
     DECL_METHOD(AbsolutePath);
+    DECL_METHOD(RelativePath);
+    DECL_METHOD(NormalizePath);
     DECL_METHOD(Directory);
     DECL_METHOD(Getcwd);
     DECL_METHOD(Home);
+    DECL_METHOD(Move);
   };
   class Stat : private Static {
    public :
@@ -72,8 +75,6 @@ class NativeWrap : private Static {
   class File : private Static {
    public :
     static v8::Handle<v8::Object> Init(FILE* fp);
-    DECL_METHOD(GetTextContent);
-    DECL_METHOD(WriteTextContent);
     DECL_METHOD(FWrite);
     DECL_METHOD(FRead);
     DECL_METHOD(FClose);

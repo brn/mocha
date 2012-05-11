@@ -25,16 +25,29 @@
 #include <mocha/roaster/platform/fs/stat/stat.h>
 namespace mocha { namespace os{ namespace fs {
 
+bool RemoveDirOnly(const char* path) {
+  Directory dirs(path);
+  Directory::const_iterator only_dir_it = dirs.Entries(false);
+  while (only_dir_it != dirs.end()) {
+    RemoveDirOnly(only_dir_it->GetFullPath());
+    ++only_dir_it;
+  }
+  return ::remove(path);
+}
+
 bool RemoveDir(const char* path) {
   Directory dir(path);
   Directory::const_iterator it = dir.Entries(true);
   while (it != dir.end()) {
-    bool ret = (::remove(it->GetFullPath()) != -1);
-    if (!ret) {
-      return ret;
+    if (it->IsFile()) {
+      bool ret = (::remove(it->GetFullPath()) != -1);
+      if (!ret) {
+        return ret;
+      }
     }
-  }
-  return ::remove(path);
+    ++it;
+  }  
+  return RemoveDirOnly(path);
 }
 
 bool rm(const char* path) {

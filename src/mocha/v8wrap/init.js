@@ -1,4 +1,4 @@
-(function(env, natives, compile, cwd){
+(function(env, natives, compile, cwd) {
   "use strict";
   /**
    * @namespace
@@ -39,10 +39,13 @@
           return obj[propArray[0]];
         },
         loadFile : function (path) {
-          var file = natives.io.fopen(path, 'rb'),
-              result = file.getTextContent();
+          var file = natives.io.open(path, 'rb'),
+              result = file.read();
           file.close();
           return result;
+        },
+        replaceHome : function (path) {
+          return (path[0] === '~')? path.replace('~', natives.fs.Path.homeDir()) : path;
         },
         deleteList : function () {
           for (var i in natives.script.watcher._settingList) {
@@ -56,6 +59,158 @@
           return item !== undefined && item !== null;
         }
       };
+
+  var modules = {};
+  utils.defProp(modules, 'fs', {
+    open : function (path, permiss) {
+      return natives.io.open(utils.replaceHome(path), permiss || 'r');
+    },
+    read : function (path ,permiss) {
+      var file = natives.io.open(utils.replaceHome(path), permiss || 'r'),
+          ret = file.read();
+      file.close();
+      return ret;
+    },
+    write : function (path, str, opt_size) {
+      var file = natives.io.open(utils.replaceHome(path), 'w');
+      file.write(str, opt_size);
+      file.close();
+    },
+    listdir : function (path, recursive) {
+      path = path || '/';
+      var dir = new natives.fs.Dir(utils.replaceHome(path));
+      return dir.entries((utils.isDefined(recursive))? !!recursive : false);
+    },
+    getcwd : function () {return natives.fs.Path.getcwd();},
+    chdir : function (path) {return natives.fs.Dir.chdir(utils.replaceHome(path));},
+    makeDirectory : function (path, permiss) {
+      natives.fs.Dir.mkdir(path, permiss);
+    },
+    changeDirectory : function (path) {
+      natives.fs.Dir.chdir(path);
+    },
+    remove : function (path) {
+      natives.fs.Dir.rm(path);
+    },
+    move : function (path, dest) {
+      natives.fs.Path.move(path, dest);
+    },
+    copy : function (source, dest) {
+      var file = modules.fs.open(source, 'rb'),
+          target = modules.fs.open(dest, 'w+b');
+      target.write(file.read());
+      target.close();
+      file.close();
+    },
+    copyTree : function (source, dest) {
+      source = modules.fs.path.abspath(utils.replaceHome(source));
+      dest = modules.fs.path.abspath(utils.replaceHome(dest));
+      if (modules.fs.path.isfile(source)) {
+        return modules.fs.copy(source, dest);
+      }
+      var dirList = modules.fs.listdir(source, false);
+      modules.fs.makeDirectory(dest);
+      console.log(source, dest);
+      dirList.forEach(function (item, index) {
+        if (item.isdir) {
+          modules.fs.copyTree(item.fullpath, dest + '/' + item.name);
+        } else {
+          modules.fs.copy(item.fullpath, dest + '/' + item.name);
+        }
+      });
+    }
+  }, '-c -w');
+
+  utils.defProp(modules, 'fs.path', {
+    abspath : function (path) {
+      path = path || '/';
+      if (modules.fs.path.isexist(path)) {
+        return (path === '/')? path : new natives.fs.Path(utils.replaceHome(path)).fullpath();
+      } else {
+        return (path[0] !== '/' && path[0] !== '~' && !(/^[a-zA-Z]\:/.test(path)))? natives.fs.Path.normal(modules.fs.getcwd() + '/' + path) : path;
+      }
+    },
+    basename : function (path) {
+      var index = path.lastIndexOf('/');
+      if (index === 0) {return '';}
+      return path.slice(index + 1);
+    },
+    normal : function (path) {
+      return natives.fs.Path.normal(path);
+    },
+    join : function () {
+      return Array.prototype.slice.call(arguments).join('/');
+    },
+    split : function (path) {
+      return path.split('/');
+    },
+    relative : function (path, target) {
+      path = modules.fs.path.abspath(utils.replaceHome(path));
+      target = modules.fs.path.abspath(utils.replaceHome(target));
+      return natives.fs.Path.relative(path, target);
+    },
+    mtime : function (path) {
+      var stat = new natives.fs.Stat(path);
+      return new Date(stat.mtime());
+    },
+    ctime : function (path) {
+      var stat = new natives.fs.Stat(path);
+      return new Date(stat.ctime());
+    },
+    atime : function (path) {
+      var stat = new natives.fs.Stat(path);
+      return new Date(stat.atime());
+    },
+    isexist : function (path) {
+      var stat = new natives.fs.Stat(utils.replaceHome(path));
+      return stat.isExist();
+    },
+    isfile : function (path) {
+      var stat = new natives.fs.Stat(utils.replaceHome(path));
+      return stat.isExist() && !stat.isDir() && stat.isReg();
+    },
+    isdir : function (path) {
+      var stat = new natives.fs.Stat(utils.replaceHome(path));
+      return stat.isExist() && stat.isDir();
+    }
+  }, '-c -w');
+
+  utils.defProp(modules, 'os.process', {
+    spawn : function (path, args) {
+      return natives.os.process.spawn(path, args);
+    }
+  }, '-c -w');
+
+  utils.defProp(modules, 'script', {
+    watcher : {
+      run : function () {natives.script.watcher.run();},
+      exit : function () {natives.script.watcher.exit();},
+      isRunning : function () {return natives.script.watcher.isRunning();},
+      addSetting : function (path, setting) {
+        natives.script.watcher.addSetting(path, setting);
+      },
+      removeSetting : function (path) {
+        natives.script.watcher.removeSetting(path);
+      },
+      getSettingList : function () {
+        return natives.script.wathcer._settingList;
+      }
+    },
+    compiler : {
+      compile : function (path, charset, option) {
+        return natives.script.Roaster.compile(path, charset, option);
+      },
+      compileFile : function (path, charset, option) {
+        return natives.script.Roaster.compileFile(path, charset, option);
+      },
+      checkDependencies : function (path) {
+        return natives.script.Roaster.checkDependencies(path);
+      },
+      deploy : function (path, charset, option) {
+        return natives.script.Roaster.deploy(path, charset, option);
+      }
+    }
+  } , '-c -w');
 
   (function(global){
 
@@ -195,7 +350,7 @@
         utils.defProp(mocha, 'import', function (path, force) {
           if (path[0] !== '.' && path[0] !== '/' && path[0] !== '~' && path[1] != ':') {
             if (path in natives) {
-              return natives[path];
+              return modules[path];
             } else {
               throw new Error(path + ' No such module.');
             }
@@ -258,162 +413,6 @@
         }, "Begin watch server, and compile immediately if modified.");
         return mocha;
       }();
-
-  var nativeModules = {};
-
-  /**
-   * CommonJS FileSystem/A and FileSystem/A/0
-   */
-  utils.defProp(nativeModules, 'fs', {
-    open : function (path, option) {
-      if (typeof option === 'string') {
-        return natives.io.fopen(path, option);
-      } else if (isObject(option)) {
-        return natives.io.fopen(path, option.mode);
-      }
-    },
-    read : function (path, option) {
-      return nativeModules.fs.open(path, option).getTextContent();
-    },
-    write : function (path, string, option) {
-      return nativeModules.fs.open(path, option).writeTextContent(string);
-    },
-    copy : function (path, target) {
-      var source = nativeModules.fs.open(path, 'r'),
-          dest = nativeModules.fs.open(path, 'w+'),
-          sourceContent = source.getTextContent();
-      dest.writeTextContent(sourceContent);
-      source.close();
-      dest.close();
-    },
-    rename : function (path, name) {
-      natives.fs.rename(path, name);
-    },
-    move : function (source, target) {
-      natives.fs.move(source, target);
-    },
-    remove : function (source) {
-      natives.fs.remove(source);
-    },
-    touch : function (path, mtime_opt) {
-      var file = nativeModules.fs.open(path, 'a+');
-      file.close();
-      natives.fs.utime(mtime_opt);
-    },
-    makeDirectory : function (path, permission_opt) {
-    },
-    removeDirectory : function (path) {
-    },
-    move : function (source, target) {
-    },
-    makeTree : function (path) {
-    },
-    removeTree : function (path) {
-    },
-    copyTree : function (path) {
-    },
-    list : function () {
-    },
-    listTree : function () {
-    },
-    listDirectoryTree : function () {
-    },
-    glob : function () {
-    },
-    match : function () {
-    },
-    escape : function () {
-    },
-    listPaths : function () {
-    },
-    listTreePaths : function () {
-    },
-    listDirectoryTreePaths : function () {
-    },
-    globPaths : function () {
-    },
-    exists : function (path) {
-    },
-    isFile : function (path) {
-    },
-    isDirectory : function (path) {
-    },
-    isLink : function (path) {
-    },
-    isReadable : function (path) {
-    },
-    isWritable : function (path) {
-    },
-    same : function (source, target) {
-    },
-    size : function (path) {
-    },
-    lastModified : function (path) {
-    },
-    owner : function (path) {
-    },
-    changeOwner : function (path, name) {
-    },
-    permissions : function (path) {
-    },
-    changePermissions : function (path, permissions) {
-    },
-    workingDirectory : function () {
-    },
-    changeWorkingDirectory : function () {
-    },
-    workingDirectoryPath : function () {
-    },
-    join : function () {
-    },
-    split : function (path) {
-    },
-    normal : function (path) {
-    },
-    absolute : function(path) {
-    },
-    canonical : function(path) {
-    },
-    readLink : function (path) {
-    },
-    directory : function (path) {
-    },
-    base : function (path) {
-
-    },
-    extension : function (path) {
-    },
-    resolve : function () {
-    },
-    relative : function (source, target_opt) {
-    }
-  }, '-c -w');
-
-  /**
-   * CommonJS FileSystem/A and FileSystem/A/0 Path
-   */
-  var Path = utils.defProp(nativeModules, 'fs.Path', function () {
-        if (typeof arguments[0] === 'string') {
-          this._path = Array.prototype.join.call(arguments, '/');
-        } else if (Array.isArray(arguments[0])) {
-          this._path = arguments[0].join('/');
-        }
-      })
-
-  utils.defProp(Path.prototype, 'toString', function () {}, '-c -w');
-  utils.defProp(Path.prototype, 'to', function () {}, '-c -w');
-  utils.defProp(Path.prototype, 'from', function () {}, '-c -w');
-  utils.defProp(Path.prototype, 'glob', function () {}, '-c -w');
-  utils.defProp(Path.prototype, 'globPaths', function () {}, '-c -w');
-
-  var Permissions = function (perm) {
-        this._perm = perm;
-      };
-
-  utils.defProp(Permissions.prototype, 'toNumber', function () {
-  });
-
-  utils.defProp(Permissions.prototype, 'update', function (perm){});
 
   var isObject = function (o) {
         return Object.prototype.toString.call(o) === '[object Object]';
@@ -570,6 +569,15 @@
         pathInfo,
         name;
     if (phantom) {
+      if (typeof opt === 'string') {
+        if (opt === 'release') {
+          opt = {options : {compress : true, debug : false, prettyPrint : false, versions : ['release']}};
+        } else if (opt === 'debug') {
+          opt = {options : {compress : false, debug : true, prettyPrint : true, versions : ['debug']}};
+        } else {
+          opt = opt || {};
+        }
+      }
       for (var i in natives.script.watcher._settingList) {
         var option = makeOptionList(i, false, opt);
         option.versions.push("test");
@@ -683,9 +691,9 @@
     var path = natives.config._configPath;
     var configStat = new natives.fs.Stat(path);
     if (!configStat.isExist()) {
-      var file = natives.io.fopen(path, 'w+b'),
+      var file = natives.io.open(path, 'w+b'),
           source = natives.config._watchFileTemplate;
-      file.writeTextContent(source);
+      file.write(source);
       file.close();
     }
     var source = utils.loadFile(path),
@@ -703,9 +711,9 @@
     var path = natives.config.get('testDriver'),
         driverStat = new natives.fs.Stat(path);
     if (!driverStat.isExist()) {
-      var file = natives.io.fopen(path, 'w+b'),
+      var file = natives.io.open(path, 'w+b'),
           source = natives.config._testDriverTemplate;
-      file.writeTextContent(source);
+      file.write(source);
       file.close();
     }
   })();

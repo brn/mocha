@@ -39,6 +39,7 @@ class Path {
   static const char* current_directory();
   static const char* home_directory();
   static const char* relative_path(const char* base, const char* dest, std::string* buf);
+  static void NormalizePath(const char* path, std::string* buf);
  private :
   std::string raw_;
   std::string fullpath_;

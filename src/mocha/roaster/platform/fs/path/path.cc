@@ -94,20 +94,24 @@ void ConvertBackSlash(const char* path, std::string* buffer) {
 }
 
 void GetAbsolutePath(const char* path, std::string* buffer, bool* is_success = 0) {
+  if (strcmp(path, "/") == 0) {
+    buffer->assign(path);
+    return;
+  }
   char *tmp;
   FULL_PATH(path, tmp);
   if (tmp != NULL) {
     ConvertBackSlash(tmp, buffer);
+    free(tmp);
   } else {
     if (is_success) {
       (*is_success) = false;
     }
     buffer->assign(path);
   }
-  free(tmp);
 }
 
-void NormalizePath(const char* path, std::string* buffer) {
+void Path::NormalizePath(const char* path, std::string* buffer) {
   int size = strlen(path);
   ConvertBackSlash(path, buffer);
   while (1) {
@@ -159,7 +163,7 @@ Path::Path(const char* path) {
   bool success = true;
   fullpath_ = path;
   GetAbsolutePath(absolute_path(), &fullpath_, &success);
-  if (fullpath_.size() > 0 && fullpath_.at(fullpath_.size() - 1) == '/') {
+  if (fullpath_.size() > 0 && fullpath_.size() > 1 && fullpath_.at(fullpath_.size() - 1) == '/') {
     fullpath_.erase(fullpath_.size() - 1, 1);
   }
   if (success) {
@@ -267,14 +271,14 @@ const char* fs::Path::relative_path(const char* base, const char* path, std::str
   while ((i < base_size) || (i < target_size)) {
     if (i >= base_size) {
       buf->append(target_array.at(i));
+      buf->append("/");
     } else if (i >= target_size) {
       std::stringstream st;
       while (i < base_size) {
         st << "../";
         i++;
       }
-      std::string ret = st.str();
-      buf->append(ret);
+      buf->append(st.str());
     } else if (base_array.at(i).compare(target_array.at(i)) != 0) {
       std::stringstream st;
       while (i < base_size) {
@@ -287,10 +291,12 @@ const char* fs::Path::relative_path(const char* base, const char* path, std::str
         st << "/";
         i++;
       }
-      std::string ret = st.str();
-      buf->append(ret);
+      buf->append(st.str());
     }
     i++;
+  }
+  if (buf->size() > 1 && buf->at(buf->size() - 1) == '/') {
+    buf->erase(buf->size() - 1, 1);
   }
   return buf->c_str();
 }
