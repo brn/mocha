@@ -1,4 +1,3 @@
-import 'jQuery.color' as __;
 import {api} from './consts'.consts
 
 class LeftNav {

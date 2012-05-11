@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+    <head>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+				<title>mocha</title>
+				$css{css/main.css}
+				$css{css/api.css}
+				$css{css/button.css}
+				$css{css/prettify.css}
+				$css{css/prettify_theme.css}
+				<link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css">
+				<!--[if IE 6]>
+						$script{js/lib/dd_belatedpng.js}
+						<![endif]-->
+				$script{js/api.js}
+    </head>
+    <body>
+				$include{template/_header.html}
+				<div id="contents" class="clearfix">
+						<div id="leftBlock">
+								<ul class="text12">
+										<li class="active"><div class="togglableBg"></div><a data-toggle="running-mocha" href="javascript:void(0)">Runnning mocha</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="config-js" href="javascript:void(0)">config.js</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="compilation-setting" href="javascript:void(0)">compilation setting</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="commands" href="javascript:void(0)">commands</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="compiler-directive" href="javascript:void(0)">compiler directive</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="use-phantomjs" href="javascript:void(0)">use phantomjs</a></li>
+								</ul>
+						</div>
+						<div id="rightBlock" class="text12">
+								<div class="tab-content">
+	<div id="running-mocha" class="tab-pane active">
+	    <h3>Running mocha</h3>
+	    <p>${first_step_sub1}</p>
+	    <pre class="prettyprint grammars"><code>cd ${first_step_sub2}</code></pre>
+	    <p>${first_step_sub3}</p>
+	    <pre class="prettyprint grammars"><code>./mchd</code></pre>
+	    <p>${first_step_sub4}</p>
+	    <pre class="prettyprint grammars"><code>mocha es-next-compiler(stand-alone)
+usage -> run 'help'
+>></code></pre>
+	    <p>${first_step_sub5}</p>
+<pre class="prettyprint grammars"><code>.mocha
+     |_config.js
+     |_mocha.log</code></pre>
+	    <p>${first_step_sub6}</p>
+<pre class="prettyprint grammars"><code>config.set('compileSettingPath', './watch.js')
+config.set('logFilePath', './mocha.log')</code></pre>
+	    <p>${first_step_sub7}</p>
+
+<pre class="prettyprint grammars"><code>var script = mocha.import('script');
+script.watcher.addSetting('/home/foo/src/test.js', {
+  deployDir : '/home/foo/src/deploy',
+  deployName : 'test-deploy.js',
+  outputCharset : 'utf8',
+  inputCharset : 'utf8',
+  options : {
+    compress : false,
+    prettyPrint : true,
+    debug : true,
+    versions : [],
+		moduleDir : ['lib'],
+    libs : ['jQuery']
+    fileScope : true,
+    globalScope : true
+  }
+})</code></pre>
+	    <p>${first_step_sub8}</p>
+<pre class="prettyprint grammars"><code>>> .restart()</code></pre>
+	    <p>${first_step_sub9}</p>
+	    <p>${first_step_sub10}</p>
+	</div>
+	<div id="config-js" class="tab-pane">
+	    <h3>config.js</h3>
+	    <p>${config_js_sub1}</p>
+	    <p>${config_js_sub2}</p>
+	    <dl>
+		<dt>windows xp</dt> 
+		<dd><pre class="prettyprint"><code>${config_js_sub3}</code></pre></dd>
+		<dt>windows vista or later</dt>
+		<dd><pre class="prettyprint"><code>${config_js_sub4}</code></pre></dd>
+		<dt>osx</dt>
+		<dd><pre class="prettyprint"><code>${config_js_sub5}</code></pre></dd>
+		<dt>linux</dt>
+		<dd><pre class="prettyprint"><code>${config_js_sub6}</code></pre></dd>
+	    </dl>
+	    <p>${config_js_sub7}</p>
+	    <p>${config_js_sub8}</p>
+	    <p>${config_js_sub9}</p>
+	    <pre class="prettyprint"><code>config.set('compileSettingPath', './compile_setting.js');
+config.set('logFilePath', './mocha.log');</code></pre>
+	    <p>${config_js_sub10}</p>
+	    <table>
+		<tr>
+		    <th>${config_js_sub11}</th>
+		    <th>${config_js_sub12}</th>
+		</tr>
+		<tr><td>compileSettingPath</td><td>${config_js_sub13}</td></tr>
+		<tr><td>logFilePath</td><td>${config_js_sub14}</td></tr>
+		<tr><td>phantomInstallDir</td><td>${config_js_sub15}</td></tr>
+	    </table>
+	</div>
+	<div id="compilation-setting" class="tab-pane">
+	    <h3>compilation setting</h3>
+	    <p>${comp_setting_sub1}</p>
+	    <p>${comp_setting_sub2}</p>
+ 	    <pre class="prettyprint grammars"><code>//${comp_setting_sub3}
+var watcher = mocha.import('script').watcher;
+//${comp_setting_sub4}
+//${comp_setting_sub5}
+watcher.addSetting("src/test.js", {
+  //${comp_setting_sub6}
+  deployDir : 'src/deploy',
+  //${comp_setting_sub7}
+  deployName : 'test-deploy.js',
+  //${comp_setting_sub8}
+  inputCharset : 'utf-8',
+  //${comp_setting_sub9}
+  outputCharset : 'utf-8',
+  //${comp_setting_sub10}
+  options : {
+    //${comp_setting_sub11}
+    prettyPrint : true,
+    //${comp_setting_sub12}
+    compress : false,
+    //${comp_setting_sub13}
+    debug : true,
+    //${comp_setting_sub14}
+    fileScope : true,
+    //${comp_setting_sub15}
+    globalScope : true,
+    //${comp_setting_versions_sub}
+    versions : ['foo'],
+    //${comp_setting_libs_sub}
+    libs : ['jQuery'],
+    //${comp_setting_module_dir_sub}
+    moduleDir : ['lib']
+  }
+})</code></pre>
+	    <p>${comp_setting_sub16}</p>
+	    <table>
+					<tr>
+							<th>${comp_setting_sub17}</th>
+							<th>${comp_setting_sub18}</th>
+							<th>${comp_setting_sub19}</th>
+					</tr>
+					<tr>
+							<td>deployDir</td><td>String</td><td>${comp_setting_sub20}</td>
+					</tr>
+					<tr>
+							<td>deployName</td><td>String</td><td>${comp_setting_sub21}</td>
+					</tr>
+					<tr>
+							<td>inputCharset</td><td>String</td><td>${comp_setting_sub22}</td>
+					</tr>
+					<tr>
+							<td>outputCharset</td><td>String</td><td>${comp_setting_sub23}</td>
+					</tr>
+					<tr>
+							<td>options</td><td>Object</td><td>${comp_setting_sub24}</td>
+					</tr>
+	    </table>
+	    <p>${comp_setting_sub25}</p>
+	    <table>
+					<tr>
+							<th>${comp_setting_sub26}</th>
+							<th>${comp_setting_sub27}</th>
+							<th>${comp_setting_sub28}</th>
+					</tr>
+					<tr>
+							<td>prettyPrint</td><td>Boolean</td><td>${comp_setting_sub29}</td>
+					</tr>
+					<tr>
+							<td>compress</td><td>Boolean</td><td>${comp_setting_sub30}</td>
+					</tr>
+					<tr>
+							<td>debug</td><td>Boolean</td><td>${comp_setting_sub31}</td>
+					</tr>
+					<tr>
+							<td>moduleDir</td><td>Array</td><td>${comp_setting_sub32}</td>
+					</tr>
+					<tr>
+							<td>versions</td><td>Array</td><td>${comp_setting_sub33}</td>
+					</tr>
+					<tr>
+							<td>fileScope</td><td>Boolean</td><td>${comp_setting_sub34}</td>
+					</tr>
+					<tr>
+							<td>globalScope</td><td>Boolean</td><td>${comp_setting_sub35}</td>
+					</tr>
+					<tr>
+							<td>libs</td><td>Array</td><td>${comp_setting_libs_exp}</td>
+					</tr>
+	    </table>
+	</div>
+	<div id="commands" class="tab-pane">
+	    <h3>commands</h3>
+	    <p>${command_sub1}</p>
+	    <pre class="prettyprint grammars"><code>mocha.addCommand('foo', function () {
+  console.log('test');
+}, 'test command!!');</code></pre>
+	    <p>${command_sub2}</p>
+	    <p>${command_sub3}</p>
+	    <pre class="prettyprint"><code>>> .foo()</code></pre>
+	    <p><strong>${command_sub4}</strong></p>
+	    <p>${command_sub5}</p>
+	    <table>
+		<tr>
+		    <th>${command_sub6}</th>
+		    <th>${command_sub7}</th>
+		    <th>${command_sub8}</th>
+		</tr>
+		<tr>
+		    <td>watch</td><td>watch()</td><td>${command_sub9}</td>
+		</tr>
+		<tr>
+		    <td>unwatch</td><td>unwatch()</td><td>${command_sub10}</td>
+		</tr>
+		<tr>
+		    <td>restart</td><td>restart()</td><td>${command_sub11}</td>
+		</tr>
+		<tr>
+		    <td>deploy</td><td>deploy([predicate], [option])</td><td>${command_sub12}</td>
+		</tr>
+		<tr>
+		    <td>test</td><td>test([predicate], [option])</td><td>${command_sub13}</td>
+		</tr>
+		<tr>
+		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>${command_sub14}</td>
+		</tr>
+		<tr>
+		    <td>help</td><td>help()</td><td>${command_sub15}</td>
+		</tr>
+		<tr>
+		    <td>exit</td><td>exit()</td><td>${command_sub16}</td>
+		</tr>
+	    </table>
+	</div>
+	<div id="compiler-directive" class="tab-pane">
+	    <h3>compiler directive</h3>
+	    <p>${comp_dir_sub1}</p>
+	    <table>
+		<tr>
+		    <th>${comp_dir_sub2}</th>
+		    <th>${comp_dir_sub3}</th>
+		    <th>${comp_dir_sub4}</th>
+		</tr>
+		<tr>
+		    <td>@assert</td><td>@assert(expect, expression)</td><td>${comp_dir_sub5}</td>
+		</tr>
+		<tr>
+		    <td>@version</td><td>@version(version){...}</td><td>${comp_dir_sub6}</td>
+		</tr>
+		<tr>
+		    <td>@source</td><td>@source &lt;filename&gt;</td><td>${comp_dir_source_exp}</td>
+		</tr>
+		<tr>
+		    <td>@include</td><td>@include &lt;filename&gt;</td><td>${comp_dir_sub7}</td>
+		</tr>
+	    </table>
+	    <p>@assert</p>
+	    <pre class="prettyprint grammars"><code>test(x,y) -> x + y;
+@assert(true, test(1,1) === 2);
+//${comp_dir_sub8}
+Runtime.assert(true, test(1,1) === 2, 'test(1,1) === 2', 'filename', 'linenumber')</code></pre>
+	    <p>@version</p>
+	    <pre class="prettyprint grammars"><code>var x = 0;
+@version(debug) {
+  x = 1;
+}
+@version(release) {
+  x = 2;
+}
+//${comp_dir_sub9}
+//${comp_dir_sub10}</code></pre>
+			<p>@source</p>
+	    <pre class="prettyprint grammars"><code>@source 'jQuery-min.js'
+$(->{
+...
+})
+//${comp_dir_source_sub}</code></pre>
+	    <p>@include</p>
+	    <pre class="prettyprint grammars"><code>@include 'jQuery.js'
+$(->{
+...
+})
+//${comp_dir_sub11}</code></pre>
+	</div>
+	<div id="use-phantomjs" class="tab-pane">
+	    <h3>use phantomjs</h3>
+	    <p>${comp_dir_sub12}</p>
+	    <p><strong>${comp_dir_sub13}</strong></p>
+	    <p>${comp_dir_sub14}</p>
+	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '&lt;${comp_dir_sub15}&gt;');</code></pre>
+	    <p>${comp_dir_sub16}</p>
+	    <p><strong>${comp_dir_sub17}</strong></p>
+	    <p>${comp_dir_sub18}</p>
+	</div>
+    </div>
+						</div>
+				</div>
+				<!--[if lt IE 9]>
+						<style>
+								.button{
+								background : #FFFF00;
+								display : block;
+								}
+								.button:hover{
+								background : #AAAA00;
+								}
+								.blueButton{
+								background : #69b7ff;
+								display : block;
+								}
+								.blueButton:hover{
+								background : #4795dd;
+								}
+								.fixed {
+								width : 300px;
+								}
+						</style>
+						<![endif]-->
+		</body>
+</html>
