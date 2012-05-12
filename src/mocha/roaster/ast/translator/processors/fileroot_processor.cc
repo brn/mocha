@@ -46,7 +46,9 @@ void FileRootProcessor::ProcessNode() {
                                                    new(pool()) Empty, node(), 1);
       ExpressionStmt *stmt = builder()->CreateAnonymousFnCall(fn, new(pool()) Empty, node()->line_number());
       if (extend_global != NULL) {
-        fn->InsertBefore(extend_global);
+        if (info_->translator_data()->compilation_event()->IsUsed(CompilationEvent::kModule)) {
+          fn->InsertBefore(extend_global);
+        }
         fn->MarkAsRoot();
       }
       FileRoot* root = new(pool()) FileRoot(key_str.c_str());

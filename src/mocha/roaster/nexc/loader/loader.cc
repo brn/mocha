@@ -29,6 +29,7 @@
 #include <mocha/roaster/nexc/loader/loader.h>
 #include <mocha/roaster/platform/utils/utils.h>
 #include <mocha/roaster/platform/fs/stat/stat.h>
+#include <mocha/roaster/nexc/nexc.h>
 #define BUF_SIZE 128
 
 namespace mocha {
@@ -131,12 +132,25 @@ void Loader::Initialize() {
 #endif
 }
 
-AstNode* Loader::GetRuntime(const char* name, memory::Pool* pool) {
+void Include(Nexc* nexc, const Included& include, CompilationEvent* e) {
+  for (Included::const_iterator it = include.begin(); it != include.end(); ++it) {
+    std::string mod_key;
+    std::string filename_buf;
+    nexc->ImportFile(&mod_key, &filename_buf, it->c_str(), e);
+  }
+}
+
+AstNode* Loader::GetRuntime(const char* name, memory::Pool* pool, Nexc* nexc, CompilationEvent* e) {
 #ifndef PACKING_RUNTIME
+  DEBUG_LOG(Info, "Load runtime : %s", name);
   std::pair<int32_t*, int> packed = JSRuntime::Get(name);
   ByteOrder b_order(true);
   UnPacker unpacker(packed.first, packed.second, &b_order, pool);
-  return unpacker.Unpack();
+  AstNode* ret = unpacker.Unpack();
+  if (unpacker.HasInclude()) {
+    Include(nexc, unpacker.included(), e);
+  }
+  return ret;
 #else
   return 0;
 #endif

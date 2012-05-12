@@ -13,6 +13,7 @@ class Pool;
 template <typename AstType, bool>
 class Instaniater;
 typedef std::vector<int32_t> Packed;
+typedef std::vector<std::string> Included;
 class UnPacker {
   template<typename AstType, bool>
   friend class Instaniater;
@@ -21,6 +22,8 @@ class UnPacker {
   UnPacker(int32_t* packed, int size, ByteOrder* b_order, memory::Pool* pool);
   ~UnPacker(){}
   AstNode* Unpack();
+  bool HasInclude() const {return has_include_;};
+  const Included& included() const {return included_;};
  private :
   int32_t Advance(int index = 1) {
     if (current_ == max_) {
@@ -88,6 +91,8 @@ class UnPacker {
   int current_;
   int max_;
   int32_t* packed_;
+  bool has_include_;
+  std::vector<std::string> included_;
   ByteOrder* b_order_;
   memory::Pool* pool_;
 };

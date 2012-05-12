@@ -1,7 +1,7 @@
-import {iterator} from "iterators".iterators;
+import {values} from "iterators"
 var item = function ( obj ) {
       return {
-        [iterator] : function () {
+        iterator : function () {
           for each ( var i in obj ) {
             yield i;
           }
@@ -10,7 +10,7 @@ var item = function ( obj ) {
     },
     key = function ( obj ) {
       return {
-        [iterator] : function () {
+        iterator : function () {
           for ( var i in obj ) {
             yield i;
           }
@@ -22,7 +22,7 @@ var item = function ( obj ) {
       add : function ( value ) {
         this.arr.push( value );
       },
-      [iterator] : function () {
+      iterator : function () {
         var arr = this.arr;
         return {
           index : 0,

@@ -1,3 +1,4 @@
+#include <string.h>
 #include <mocha/roaster/log/logging.h>
 #include <mocha/roaster/platform/fs/directory/directory.h>
 #include <mocha/roaster/nexc/nexc.h>
@@ -14,9 +15,13 @@ void CompileRuntime() {
   CompilationInfo info;
   Nexc nexc(&info);
   for (it = dir.Entries(true); it != dir.end(); ++it) {
-    if (!it->IsDir()) {
+    if (!it->IsDir() && strcmp(it->GetName(), "runtime.js") != 0) {
       printf("%s\n", it->GetFullPath());
-      nexc.Pack(it->GetFullPath());
+      if (strcmp(it->GetDirName(), CURRENT_DIR"/mocha/module") == 0) {
+        nexc.Pack(it->GetFullPath(), false);
+      } else {
+        nexc.Pack(it->GetFullPath(), true);
+      }
       results.push_back(std::pair<const char*, AstRoot*>(it->GetName(), nexc.GetResult()));
     }
   }

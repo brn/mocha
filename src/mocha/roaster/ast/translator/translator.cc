@@ -571,15 +571,17 @@ VISITOR_IMPL(AssertStmt) {
 }
 
 VISITOR_IMPL(IncludeStmt) {
+#ifndef PACKING_RUNTIME
   const char* path = ast_node->path();
   std::string mod_key;
   std::string filename_buf;
   event_->nexc()->ImportFile(&mod_key, &filename_buf, path, event_);
   ast_node->parent_node()->RemoveChild(ast_node);
+#endif
 }
   
 VISITOR_IMPL(SourceStmt) {
-  event_->nexc()->IncludeFile(ast_node->data_container(), ast_node->path());
+  event_->nexc()->IncludeFile(ast_node->data_container(), ast_node->path(), event_);
 }
 
 VISITOR_IMPL(CallExp) {

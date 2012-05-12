@@ -72,7 +72,7 @@ void Scanner::ScannerEventListener::operator()(CompilationEvent* e) {
   ErrorReporter* reporter = e->error_reporter();
   const char* filename = e->filename();
   Scanner* scanner = Scanner::New(stream, reporter, filename);
-  ParserConnector* connector = new(pool) ParserConnector(scanner, reporter);
+  ParserConnector* connector = new(pool) ParserConnector(scanner, e, reporter);
   e->set_parser_connector(connector);
   e->NotifyForKey(Nexc::kParse);
 }

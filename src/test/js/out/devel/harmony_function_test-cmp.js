@@ -1,1 +1,1160 @@
-!function(){var a=(this!==null)?this:typeof window==='object'?window:{};!function (){!function (f,l,j,i){function h(b,c,a){return Object.defineProperty(b,c,{value:a,configurable:true,enumerable:false,writable:true});}function e(c,d){typeof c!=="function"&&b(d+" : first argument is not callable");}function b(a){try{throw new TypeError(a);} catch(e){throw new Error(e);}}var c=f.prototype,d=l.prototype,m=j.prototype,g=i.prototype;!Object.keys&&(Object.keys=function (d){!d&&b("Object.keys : first arguments is null or not defined.");var c=[],e=-1;for(var a in d)d.hasOwnProperty(a)&&(c[++e]=d[a]);return c;});!Object.preventExtensions&&(Object.preventExtensions=function (a){return a;});!Object.seal&&(Object.seal=function (a){return a;});!Object.freeze&&(Object.freeze=function (a){return a;});var k=function (){var b;try{var a={};Object.defineProperty(a,"test",{configurable:false,writable:false,enumerable:false,value:0});a.test=200;b=(a.test===200)?false:true;} catch(e){return b=false;}return b;}();!k&&(Object.defineProperty=function (b,a,c){"value" in c&&(b[a]=c.value);});if(!c.trim){c.trim=function (){return this.replace(c.trim.rtrim,"");};c.trim.rtrim=/^\s*|\s*$/g;}!c.repeat&&h(c,"repeat",function (a){return Array(a+1).join(this.toString());});!c.startsWith&&h(c,"startsWith",function (a){return !this.indexOf(a);});!c.endsWith&&h(c,"endsWith",function (c){var b=String(c),a=this.lastIndexOf(b);return a>=0&&a===this.length-b.length;});!c.contains&&h(c,"contains",function (a){return this.indexOf(a)!==-1;});!c.toArray&&h(c,"toArray",function (a){return this.split("");});!m.bind&&h(m,"bind",function (){var c=d.slice.call(arguments),b=c.shift(),e=function (){var f=c.concat(d.slice.call(arguments));return this!==null&&this!==a&&this instanceof e?e.context.apply(this,f):e.context.apply(b,f);};e.prototype=this.prototype;e.context=this;return e;});!d.forEach&&h(d,"forEach",function (g,f){e(g,"Array.forEach");var i=-1,h;this===null&&b("Array.forEach : this is null or not defined");if(f)while((h=this[++i])!==null&&h!==undefined)g.call(f,h,i,this);else while((h=this[++i])!==null&&h!==undefined)g(h,i,this);});!d.every&&h(d,"every",function (c,a){e(c,"Array.every");var f=-1,d;this===null&&b("Array.every : this is null or not defined");if(a)while((d=this[++f])!==null&&d!==undefined)if(!(c.call(a,d,f,this)))return false;else while((d=this[++f])!==null&&d!==undefined)if(!(c(d,f,this)))return false;return true;});!d.some&&h(d,"some",function (c,a){e(c,"Array.some");var f=-1,d;this===null&&b("Array.some : this is null or not defined");if(a)while((d=this[++f])!==null&&d!==undefined)if(c.call(a,d,f,this))return true;else while((d=this[++f])!==null&&d!==undefined)if(c(d,f,this))return true;return false;});!d.filter&&h(d,"filter",function (c,a){e(c,"Array.filter");var i=this.length,h=-1,g=[],f;this===null&&b("Array.filter : this is null or not defined");if(a)for(var d=0,i=this.length;d<i;++d)(f=this[d])!==null&&f!==undefined&&c.call(a,f,d,this)&&(g[++h]=f);else for(var d=0,i=this.length;d<i;++d)(f=this[d])!==null&&f!==undefined&&c(f,d,this)&&(g[++h]=f);return g;});!d.indexOf&&h(d,"indexOf",function (f,a){var e=(a)?a-1:-1,c=-1,d;this===null&&b("Array.indexOf : this is null or not defined.");while((d=this[++e])!==null&&d!==undefined)if(d===f){c=e;break;}return c;});!d.lastIndexOf&&h(d,"lastIndexOf",function (e,a){var g=this.length,f=(a)?a+1:g,c=-1,d;this===null&&b("Array.lastIndexOf : this is null or not defined.");while((d=this[--f])!==null&&d!==undefined)if(d===e){c=f;break;}return c;});!d.map&&h(d,"map",function (c,a){e(c,"Array.map");var g=[],h=-1,i=this.length,f=0,d;this===null&&b("Array.map : this is null or not defined.");if(a)for(f;f<i;++f)(d=this[f])!==null&&d!==undefined&&(g[++h]=c.call(a,d,f,this));else for(f;f<i;++f)(d=this[f])!==null&&d!==undefined&&(g[++h]=c(d,f,this));return g;});!d.reduce&&h(d,"reduce",function (a,g){e(a,"Array.reduce");var f=g||this[0],d=(g)?0:1,h=this.length,c;(h===0||h===null)&&arguments.length<2&&b("Array length is 0 and no second argument");for(d;d<h;++d)(c=this[d])!==null&&c!==undefined&&(f=a(f,c,d,this));return f;});!d.reduceRight&&h(d,"reduceRight",function (a,g){e(a,"Array.reduceRight");var h=this.length,f=g||this[h-1],d=(g)?h-1:h-2,c;(h===0||h===null)&&arguments.length<2&&b("Array length is 0 and no second argument");for(d;d>-1;--d)(c=this[d])!==null&&c!==undefined&&(f=a(f,c,d,this));return f;});!g.toJSON&&h(g,"toJSON",function (){var a=[this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],d=a[0],c=a[1],f=a[2],b=a[3],e=a[4];return '"'+this.getUTCFullYear()+'-'+(d>8?d+1:"0"+(d+1))+'-'+(c>9?c:"0"+c)+'T'+(f>9?f:"0"+f)+':'+(b>9?b:"0"+b)+':'+(e>9?e:"0"+e)+'.'+this.getUTCMilliseconds()+'Z"';});!Date.now&&h(Date,"now",function (){return +new Date();});!Array.isArray&&h(Array,"isArray",function (a){if(arguments.length===0)return false;return (a)?({}).toString.call(a)==="[object Array]":false;});}.call(this,String,Array,Function,Date);}.call(this);var Runtime=function (){"use strict";function H(c,f,b,i){var a=[];for(var d=0,h=b.length;d<h;d+=2)b[d]===true?g.apply(a,b[d+1]):a.push(b[d+1]);if(i){var e=function (){};e.prototype=f.prototype;e=new e;f.apply(e,a);return e;}else return f.apply(c,a);}function s(e,c,d,a,j){var b=e.prototype,l=c.prototype;for(var k=0,h=d.length;k<h;k++){var f=d[k],g=f._mochaRequires;for(var i in g)!(i in b)&&!(i in l)&&Runtime.throwException("Class dose not meet the traits requirement. traits require implementation of property "+i+"\nin file "+a+" at line "+j);}}function M(h,f,e,j,c){var b=h.prototype,l=f.prototype,d=e._mochaTraitMark,a=e._mochaTraitPublic,i=e._mochaTraitPrivate;if(!d)Runtime.throwException("mixin only used for trait.");else {var g;for(var k in a)if(!c[k]){g=(!j[k])?k:j[k];b[g]=a[k];}for(k in i)if(!c[k]){g=(!j[k])?k:j[k];l[g]=i[k];}}}function L(b,c,i,f){if(!b._mochaTraitMark||!c._mochaTraitMark)Runtime.throwException("mixin only used for trait.");else {var e=b._mochaTraitPrivate,d=c._mochaTraitPrivate,l=b._mochaTraitPublic,j=c._mochaTraitPublic,g=c._mochaRequires,a=b._mochaRequires,h;for(var k in d)if(!f[k]){h=(!i[k])?k:i[k];e[h]=d[k];}for(k in j)if(!f[k]){h=(!i[k])?k:i[k];l[h]=j[k];}for(k in g)a[k]=g[k];}}function u(b){var c=typeof b,a;if(c==="function"){a=function (){};a.prototype=b.prototype;a=new a();b.__harmony_class__?a.constructor=b.constructor:a.constructor=b;return a;}return a;}function C(s,u,v,w,r,t,x){(!s||!(s instanceof u))&&p("class "+t+" must be called by new. line : "+x);q(s,v,w);w.apply(s,r);}function c(o){return o===StopIteration||n.test(o);}function E(a){return k in a;}function x(o){var a=o[k](),p;if(m(a))return a;p={};if(a.next)f(p,"next",function (){var b=a.next();b===undefined&&l();return b;});else return {};!("__nothrowNext__" in a)&&f(p,"__nothrowNext__",a.next.bind(a));for(var n in a)n!=="next"&&n!=="__nothrowNext__"&&(p[n]=a[n]);!("toString" in a)&&f(p,"toString",function (){return "[object Iterator]";});return p;}function m(a){return a instanceof e;}function l(){try{throw StopIteration;} catch(e){throw new Error(e.toString());}}function t(){}function i(){}function F(b){for(var a in b)this[a]=b[a];Object.freeze(this);}function D(h){g.apply(this,h);Object.freeze(this);}function O(b,c){for(var a in c)b[a]=c[a];return b;}function v(a){return (a.message)?a.message:(a.description)?a.description:a.toString();}function G(i,j,g){var h=new e;f(h,"next",i.bind(g,false,false));f(h,"send",i.bind(g,true,false));f(h,"close",j.bind(g));f(h,"__nothrowNext__",i.bind(g,false,true));f(h,"toString",function (){return "[object Generator]";});Object.freeze(h);return h;}function e(){}function w(f,e){return (f)?d.call(f,e):[];}function y(c,b,a){return Object.defineProperty(c,b,{configurable:false,enumerable:false,writable:false,value:a});}function f(c,b,a){return Object.defineProperty(c,b,{configurable:true,enumerable:false,writable:true,value:a});}function b(c,a,b){this.toString=function (){return Runtime.getErrorMessage(b)+" in file "+a+" at : "+c;};}var r={};var h=Math.max,J=Array.prototype,d=J.slice,g=J.push,Runtime={getErrorMessage:function (a){return (a.message)?a.message:(a.description)?a.description:a.toString();},exceptionHandler:function (f,d,e){if(c(e)){this.throwException(e);}else {this.throwException(new b(f,d,e));}},throwException:function (a){try{throw a;} catch(e){if(c(e)){throw new Error(e);}else {throw new Error(this.getErrorMessage(e));}}},hasProto:"__proto__" in {}};r.createUnenumProp=f;r.constant=y;r.toArray=w;r.createGenerator=G;var p=r.throwException=Runtime.throwException.bind(Runtime),z=r.exceptionHandler=Runtime.exceptionHandler.bind(Runtime);r.extend=O;r.TupleConstructor=D;D.prototype={compareTuple:function (k){var j=h(k.length,this.length),i=-1;while(++i<j&&k[i]===this[i]){}return j===i;},tupleToArray:function (){return d.call(this);},toString:function (){return "[object Tuple]";}};r.RecordConstructor=F;F.prototpye={toString:function (){return "[object Record]";}};var B=r.extendPrototype=function (a,b){a.prototype=b;};Object.defineProperty(t.prototype,'_modules',{value:{},writable:true});Object.defineProperty(t.prototype,'add',{value:function (j){return this._modules[j]=new i;}});Object.defineProperty(t.prototype,'get',{value:function (a){return this._modules[a];}});Object.defineProperty(t.prototype,'toString',{value:function (){return "[object ModuleContainer]";}});Object.defineProperty(i.prototype,'toString',{value:function (){return "[object Module]";}});var I=r.modules=new t,j=("getPrototypeOf" in Object)?function (a){return Object.getPrototypeOf(a);}:function (c){var b={};for(var a in c)!c.hasOwnProperty(a)&&(b[a]=c[a]);return b;},A=r.extendClass=(Runtime.hasProto)?function (b,c){if(typeof c==='function'){b.prototype.__proto__=c.prototype;for(var a in c)a!=='prototype'&&(b[a]=c[a]);}else b.prototype.__proto__=c.__proto__;}:function (n,o){var l=typeof o;if(l==="function"){var p=function (){};p.prototype=o.prototype;n.prototype=new p;for(var m in o)n[m]=o[m];}else {var p=function (){},k=j(o);p.prototype=k;n.prototype=new p;}},k=r.__ref_iterator__="__mocha_iterator_special_key__";r.throwStopIteration=l;r.isGenerator=m;r.getIterator=x;r.hasIterator=E;var n=/StopIteration/;r.isStopIteration=c;var o,q,N,K;if("WeakMap" in a){o=new WeakMap();q=function (self,q,r){var p=new q;f(p,"__is_private__",1);f(self,"constructor",r);o.set(self,p);o.set(p,self);};N=function (self){if(o.has(self))return o.get(self);else if(self.__is_private__===1)return self;};K=function (a){return o.get(a);};}else {q=function (self,c,d){if(!self.__typeid__){var a=new c,b={};Object.defineProperty(b,"__is_private__",{value:1});Object.defineProperty(b,"__parent__",{value:self});Object.defineProperty(a,"constructor",{value:b});f(d,"__private__",a);f(self,"constructor",d);}};N=function (self){if(self.constructor.__private__)return self.constructor.__private__;else if(self.constructor.__is_private__===1)return self;};K=function (a){return a.constructor.__parent__;};}r.getPrivateRecord=N;r.getInstanceBody=K;r.initializeClass=C;r.getSuper=u;r.traitMixin=L;r.classMixin=M;r.checkRequirements=s;r.spreadCall=H;return r;}();!("StopIteration" in a)&&(a.StopIteration={toString:function (){return "[object StopIteration]";}});function Tuple(a){a=Runtime.toArray(arguments,0);return new Runtime.TupleConstructor(a);}Tuple.prototype=Runtime.TupleConstructor.prototype;function Record(a){return new Runtime.RecordConstructor(a);}Record.prototype=Runtime.RecordConstructor.prototype;!function (){!function (){function c(){return console.log(1);}function o(){return console.log(1);}function f(){console.log(1);}function j(){return console.log(1);}function h(){return console.log(1);}function d(){console.log(1);}function g(){return console.log(1);}function p(){return console.log(1);}function a(){return console.log(1);}function m(){return console.log(1);}function e(){console.log(1);}function q(){return console.log(1);}function k(){return console.log(1);}function r(){return console.log(1);}function l(){return console.log(1);}c=c.bind(this);o=o.bind(this);f=f.bind(this);g=g.bind(this);p=p.bind(this);q=q.bind(this);k=k.bind(this);var n=function (){return console.log(this);}.bind(this);var b=function (a,b,c){return a+b;},i=function (a,b,c){return a+b;};}();!function (){function g(h,f,e,j){j=Runtime.toArray(arguments,3);var a=h.args,i=f.tmp&&f.tmp["args2"]?f.tmp.args2:undefined,g=e[0],c=e[1],b=e[2]&&e[2].args5?e[2].args5:undefined,d=e[2]&&e[2].args6&&e[2].args6.args7?e[2].args6.args7:undefined;return console.log(1);}function n(a,c,b){return console.log(1);}function a(e,j,h,i){i=Runtime.toArray(arguments,3);var a=e.args,g=j.tmp&&j.tmp["args2"]?j.tmp.args2:undefined,f=h[0],c=h[1],b=h[2]&&h[2].args5?h[2].args5:undefined,d=h[2]&&h[2].args6&&h[2].args6.args7?h[2].args6.args7:undefined;console.log(1);}function e(a,c,b){console.log(1);}function q(e,f,g,j){j=Runtime.toArray(arguments,3);var a=e.args,i=f.tmp&&f.tmp["args2"]?f.tmp.args2:undefined,h=g[0],c=g[1],b=g[2]&&g[2].args5?g[2].args5:undefined,d=g[2]&&g[2].args6&&g[2].args6.args7?g[2].args6.args7:undefined;return console.log(1);}function f(a,c,b){return console.log(1);}function i(c,e,g,j){j=Runtime.toArray(arguments,3);var a=c.args,i=e.tmp&&e.tmp["args2"]?e.tmp.args2:undefined,h=g[0],d=g[1],b=g[2]&&g[2].args5?g[2].args5:undefined,f=g[2]&&g[2].args6&&g[2].args6.args7?g[2].args6.args7:undefined;console.log(1);}function b(a,c,b){console.log(1);}function h(e,f,g,j){j=Runtime.toArray(arguments,3);var a=e.args,i=f.tmp&&f.tmp["args2"]?f.tmp.args2:undefined,h=g[0],c=g[1],b=g[2]&&g[2].args5?g[2].args5:undefined,d=g[2]&&g[2].args6&&g[2].args6.args7?g[2].args6.args7:undefined;return console.log(1);}function o(a,c,b){return console.log(1);}function l(g,d,f,j){j=Runtime.toArray(arguments,3);var a=g.args,i=d.tmp&&d.tmp["args2"]?d.tmp.args2:undefined,h=f[0],c=f[1],b=f[2]&&f[2].args5?f[2].args5:undefined,e=f[2]&&f[2].args6&&f[2].args6.args7?f[2].args6.args7:undefined;return console.log(1);}function m(a,c,b){return console.log(1);}function r(i,g,e,j){j=Runtime.toArray(arguments,3);var a=i.args,h=g.tmp&&g.tmp["args2"]?g.tmp.args2:undefined,f=e[0],c=e[1],b=e[2]&&e[2].args5?e[2].args5:undefined,d=e[2]&&e[2].args6&&e[2].args6.args7?e[2].args6.args7:undefined;console.log(1);}function c(a,c,b){console.log(1);}function p(c,b,j,i){i=Runtime.toArray(arguments,3);var a=c.args,h=b.tmp&&b.tmp["args2"]?b.tmp.args2:undefined,g=j[0],e=j[1],d=j[2]&&j[2].args5?j[2].args5:undefined,f=j[2]&&j[2].args6&&j[2].args6.args7?j[2].args6.args7:undefined;return console.log(this);}function j(a,c,b){return console.log(1);}function d(b,j,d,i){i=Runtime.toArray(arguments,3);var a=b.args,h=j.tmp&&j.tmp["args2"]?j.tmp.args2:undefined,g=d[0],e=d[1],c=d[2]&&d[2].args5?d[2].args5:undefined,f=d[2]&&d[2].args6&&d[2].args6.args7?d[2].args6.args7:undefined;return console.log(1);}function k(a,c,b){return console.log(1);}g=g.bind(this);n=n.bind(this);a=a.bind(this);e=e.bind(this);h=h.bind(this);o=o.bind(this);p=p.bind(this);j=j.bind(this);}();!function (){function h(a,c,d,e,f,b,g,h){}function j(a,c,d,e,f,b,g,h){}function e(a,b,c,d){}function f(a,b,c,d){}var c=[1,2,3,4];var a={invoke:function (b,c,d,e){}};e.prototype.valid=true;Runtime.spreadCall(undefined,f,[true,c],false);Runtime.spreadCall(a,a.invoke,[true,c],false);Runtime.spreadCall(undefined,e,[true,c],true);var d=[100,200],g={args:[1,2,3,4]};var b={invoke:function (c,e,f,g,h,d,i,j){}};h.prototype.valid=true;Runtime.spreadCall(undefined,f,[true,g.args],false);Runtime.spreadCall(undefined,j,[false,0,true,c,false,0,true,d],false);Runtime.spreadCall(b,b.invoke,[false,0,true,c,false,0,true,d],false);var i=Runtime.spreadCall(undefined,h,[false,0,true,c,false,0,true,d],true);}();}();}();
+!function() {
+  var __FILE__ = "Runtime",
+      __LINE__ = 0;
+  
+  var global = ( this  !==  null )? this  : typeof window === 'object'?window : {};
+  
+  !function () {
+    !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
+      function defineBuiltin(obj,name,value) {
+        return Object.defineProperty(obj,name, {
+          value : value,
+          configurable :  true ,
+          enumerable :  false ,
+          writable :  true 
+        });
+      }
+      function callbackCheck(callback,type) {
+        
+        Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",44,'_base.js');
+        
+        typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
+      }
+      function builtinTypeError(message) {
+        try {
+          throw new TypeError(message);
+        } catch(e){
+          throw new Error(e);
+        }
+        
+      }
+      
+      var stringProto = _mochaLocalTmp0.prototype,
+          arrayProto = _mochaLocalTmp1.prototype,
+          functionProto = _mochaLocalTmp2.prototype,
+          dateProto = _mochaLocalTmp3.prototype;
+      
+      !Object.keys && (Object.keys = function (obj) {
+        !obj && builtinTypeError("Object.keys : first arguments is null or not defined.");
+        
+        var ret = [],
+            iter = -1;
+        
+        for (var i in obj){
+          
+          obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
+        }
+        return ret;
+      });
+      
+      !Object.preventExtensions && (Object.preventExtensions = function (o) {
+        return o;
+      });
+      
+      !Object.seal && (Object.seal = function (o) {
+        return o;
+      });
+      
+      !Object.freeze && (Object.freeze = function (o) {
+        return o;
+      });
+      
+      var hasRealEcma5 = function () {
+            var ret;
+            
+            try {
+              
+              var obj = {};
+              
+              Object.defineProperty(obj,"test", {
+                configurable :  false ,
+                writable :  false ,
+                enumerable :  false ,
+                value : 0
+              });
+              
+              obj.test = 200;
+              
+              ret = (obj.test === 200)? false  :  true ;
+            } catch(e){
+              return ret =  false ;
+            }
+            return ret;
+          }();
+      
+      !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
+        "value" in valobj && (obj[prop] = valobj.value);
+      });
+      
+      if (!stringProto.trim){
+        
+        stringProto.trim = function () {
+          return  this .replace(stringProto.trim.rtrim,"");
+        };
+        
+        stringProto.trim.rtrim = /^\s*|\s*$/g;
+      }
+      
+      !stringProto.repeat && defineBuiltin(stringProto,"repeat",
+      function (num) {
+        return Array(num+1).join( this .toString());
+      });
+      
+      !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
+      function (str) {
+        return ! this .indexOf(str);
+      });
+      
+      !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
+      function (str) {
+        var t = String(str),
+            index =  this .lastIndexOf(t);
+        return index >= 0 && index ===  this .length-t.length;
+      });
+      
+      !stringProto.contains && defineBuiltin(stringProto,"contains",
+      function (str) {
+        return  this .indexOf(str) !== -1;
+      });
+      
+      !stringProto.toArray && defineBuiltin(stringProto,"toArray",
+      function (str) {
+        return  this .split("");
+      });
+      
+      !functionProto.bind && defineBuiltin(functionProto,"bind",
+      function () {
+        var argArray = arrayProto.slice.call(arguments),
+            context = argArray.shift(),
+            ret = function () {
+              var args = argArray.concat(arrayProto.slice.call(arguments));
+              return  this  !==  null  &&  this  !== global &&  this  instanceof ret?ret.context.apply( this ,args) : ret.context.apply(context,args);
+            };
+        
+        ret.prototype =  this .prototype;
+        
+        ret.context =  this ;
+        return ret;
+      });
+      
+      !arrayProto.forEach && defineBuiltin(arrayProto,"forEach",
+      function (callback,that) {
+        callbackCheck(callback,"Array.forEach");
+        
+        var iter = -1,
+            ta;
+        
+         this  ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
+        
+        if (that){
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            callback.call(that,ta,iter, this );
+          }
+          
+        } else {
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            callback(ta,iter, this );
+          }
+          
+        }
+        
+      });
+      
+      !arrayProto.every && defineBuiltin(arrayProto,"every",
+      function (callback,that) {
+        callbackCheck(callback,"Array.every");
+        
+        var iter = -1,
+            ta;
+        
+         this  ===  null  && builtinTypeError("Array.every : this is null or not defined");
+        
+        if (that){
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback.call(that,ta,iter, this ))){
+              return  false ;
+            }
+            
+          }
+          
+        } else {
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback(ta,iter, this ))){
+              return  false ;
+            }
+            
+          }
+          
+        }
+        return  true ;
+      });
+      
+      !arrayProto.some && defineBuiltin(arrayProto,"some",
+      function (callback,that) {
+        callbackCheck(callback,"Array.some");
+        
+        var iter = -1,
+            ta;
+        
+         this  ===  null  && builtinTypeError("Array.some : this is null or not defined");
+        
+        if (that){
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (callback.call(that,ta,iter, this )){
+              return  true ;
+            }
+            
+          }
+          
+        } else {
+          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+            if (callback(ta,iter, this )){
+              return  true ;
+            }
+            
+          }
+          
+        }
+        return  false ;
+      });
+      
+      !arrayProto.filter && defineBuiltin(arrayProto,"filter",
+      function (callback,that) {
+        callbackCheck(callback,"Array.filter");
+        
+        var len =  this .length,
+            iter = -1,
+            ret = [],
+            ta;
+        
+         this  ===  null  && builtinTypeError("Array.filter : this is null or not defined");
+        
+        if (that){
+          for (var i = 0,len =  this .length;i<len; ++ i){
+            
+            (ta =  this [i]) !==  null  && ta !== undefined && callback.call(that,ta,i, this ) && (ret[ ++ iter] = ta);
+          }
+          
+        } else {
+          for (var i = 0,len =  this .length;i<len; ++ i){
+            
+            (ta =  this [i]) !==  null  && ta !== undefined && callback(ta,i, this ) && (ret[ ++ iter] = ta);
+          }
+          
+        }
+        return ret;
+      });
+      
+      !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
+      function (subject,fromIndex) {
+        var iter = (fromIndex)?fromIndex-1 : -1,
+            index = -1,
+            ta;
+        
+         this  ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
+        
+        while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+          if (ta === subject){
+            
+            index = iter;
+            break;
+          }
+          
+        }
+        return index;
+      });
+      
+      !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
+      function (target,fromIndex) {
+        var len =  this .length,
+            iter = (fromIndex)?fromIndex+1 : len,
+            index = -1,
+            ta;
+        
+         this  ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+        
+        while ((ta =  this [ -- iter]) !==  null  && ta !== undefined){
+          if (ta === target){
+            
+            index = iter;
+            break;
+          }
+          
+        }
+        return index;
+      });
+      
+      !arrayProto.map && defineBuiltin(arrayProto,"map",
+      function (callback,that) {
+        callbackCheck(callback,"Array.map");
+        
+        var ret = [],
+            iter = -1,
+            len =  this .length,
+            i = 0,
+            ta;
+        
+         this  ===  null  && builtinTypeError("Array.map : this is null or not defined.");
+        
+        if (that){
+          for (i;i<len; ++ i){
+            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i, this ));
+          }
+          
+        } else {
+          for (i;i<len; ++ i){
+            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i, this ));
+          }
+          
+        }
+        return ret;
+      });
+      
+      !arrayProto.reduce && defineBuiltin(arrayProto,"reduce",
+      function (callback,initial) {
+        callbackCheck(callback,"Array.reduce");
+        
+        var ret = initial ||  this [0],
+            i = (initial)?0 : 1,
+            len =  this .length,
+            ta;
+        
+        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+        
+        for (i;i<len; ++ i){
+          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
+        }
+        return ret;
+      });
+      
+      !arrayProto.reduceRight && defineBuiltin(arrayProto,"reduceRight",
+      function (callback,initial) {
+        callbackCheck(callback,"Array.reduceRight");
+        
+        var len =  this .length,
+            ret = initial ||  this [len-1],
+            i = (initial)?len-1 : len-2,
+            ta;
+        
+        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+        
+        for (i;i>-1; -- i){
+          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
+        }
+        return ret;
+      });
+      
+      !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
+      function () {
+        var _mochaLocalTmp4 = [ this .getUTCMonth(), this .getUTCDate(), this .getUTCHours(), this .getMinutes(), this .getSeconds()],
+            month = _mochaLocalTmp4[0],
+            date = _mochaLocalTmp4[1],
+            hour = _mochaLocalTmp4[2],
+            minute = _mochaLocalTmp4[3],
+            second = _mochaLocalTmp4[4];
+        return '"'+ this .getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+ this .getUTCMilliseconds()+'Z"';
+      });
+      
+      !Date.now && defineBuiltin(Date,"now",
+      function () {
+        return +new Date();
+      });
+      
+      !Array.isArray && defineBuiltin(Array,"isArray",
+      function (arr) {
+        if (arguments.length === 0){
+          return  false ;
+        }
+        return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
+      });
+    }.call( this ,String,Array,Function,Date);
+  }.call( this );
+  
+  var Runtime =  {
+        _global : global,
+        _push : Array.prototype.push,
+        _slice : Array.prototype.slice,
+        getErrorMessage : function (e) {
+          return (e.message)?e.message : (e.description)?e.description : e.toString();
+        },
+        isStopIteration : (function () {
+          
+          function isStopIteration(obj) {
+            return obj === Runtime.StopIteration || rstopIteration.test(obj);
+          }
+          var rstopIteration = /StopIteration/;
+          return isStopIteration;
+        })(),
+        throwException : function (exception) {
+          try {
+            throw exception;
+          } catch(e){
+            
+            if (Runtime.isStopIteration(e)){
+              throw new Error(e);
+            } else {
+              throw new Error( this .getErrorMessage(e));
+            }
+            
+          }
+          
+        },
+        createUnenumProp : function (obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
+            configurable :  true ,
+            enumerable :  false ,
+            writable :  true ,
+            value : value
+          });
+        },
+        constant : function (obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
+            configurable :  false ,
+            enumerable :  false ,
+            writable :  false ,
+            value : value
+          });
+        },
+        toArray : function (likeArray,index) {
+          return (likeArray)? this ._slice.call(likeArray,index) : [];
+        },
+        extend : function (dest,source) {
+          for (var prop in source){
+            
+            dest[prop] = source[prop];
+          }
+          return dest;
+        }
+      };
+  
+  Runtime.extend(Runtime, {
+    spreadCall : function (context,fn,args,isNew) {
+      var newArgs = [];
+      
+      for (var i = 0,len = args.length;i<len;i += 2){
+        
+        if (args[i] ===  true ){
+          
+          Runtime._push.apply(newArgs,args[i+1]);
+        } else {
+          
+          newArgs.push(args[i+1]);
+        }
+        
+      }
+      
+      if (isNew){
+        
+        var tmp = function (){};
+        
+        tmp.prototype = fn.prototype;
+        
+        tmp = new tmp;
+        
+        fn.apply(tmp,newArgs);
+        return tmp;
+      } else {
+        return fn.apply(context,newArgs);
+      }
+      
+    }
+  });
+  
+  Runtime.extend(Runtime, {
+    Exception : function (line,file,e) {
+       this .toString = function () {
+        return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
+      };
+    },
+    exceptionHandler : function (line,file,e) {
+      if (Runtime.isStopIteration(e)){
+        
+         this .throwException(e);
+      } else {
+        
+         this .throwException(new  this .Exception(line,file,e));
+      }
+      
+    }
+  });
+  
+  !function () {
+    Runtime.extend(Runtime, {
+      assert : (Runtime._global.console && Runtime._global.console.assert)?function (expect,exp,str,line,filename) {
+        return Runtime._global.console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+      } : function (expect,exp,str,line,filename) {
+        if (expect !== exp){
+          
+          Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+        }
+        
+      }
+    });
+  }.call( this );
+  
+  __LINE__ = 0;
+  !function () {
+    try {
+      var __FILE__ = "-839149963-harmony_function_test.js",
+          __LINE__ = 0;
+      __LINE__ = 1;
+      !function () {
+        function testWithContext() {
+          try {
+            __LINE__ = 32;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalWithContext() {
+          try {
+            __LINE__ = 31;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalHasBlockWithContext() {
+          try {
+            __LINE__ = 29;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function test() {
+          try {
+            __LINE__ = 26;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormal() {
+          try {
+            __LINE__ = 25;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalHasBlock() {
+          try {
+            __LINE__ = 23;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionWithContext() {
+          try {
+            __LINE__ = 17;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasFormalWithContext() {
+          try {
+            __LINE__ = 16;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionNonFormal() {
+          try {
+            __LINE__ = 14;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasForaml() {
+          try {
+            __LINE__ = 13;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasBlockHasFormal() {
+          try {
+            __LINE__ = 8;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclNonForamlWithContext() {
+          try {
+            __LINE__ = 5;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormalWithContext() {
+          try {
+            __LINE__ = 4;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclNonFormal() {
+          try {
+            __LINE__ = 3;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormal() {
+          try {
+            __LINE__ = 2;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        try {
+          
+          __LINE__ = 32;
+          testWithContext = testWithContext.bind( this );
+          
+          __LINE__ = 31;
+          testHasFormalWithContext = testHasFormalWithContext.bind( this );
+          
+          __LINE__ = 28;
+          testHasFormalHasBlockWithContext = testHasFormalHasBlockWithContext.bind( this );
+          
+          __LINE__ = 17;
+          testConstFunctionWithContext = testConstFunctionWithContext.bind( this );
+          
+          __LINE__ = 16;
+          testConstFunctionHasFormalWithContext = testConstFunctionHasFormalWithContext.bind( this );
+          
+          __LINE__ = 5;
+          testDeclNonForamlWithContext = testDeclNonForamlWithContext.bind( this );
+          
+          __LINE__ = 4;
+          testDeclHasFormalWithContext = testDeclHasFormalWithContext.bind( this );
+          
+          __LINE__ = 11;
+          var contextTest = function () {
+                try {
+                  __LINE__ = 11;
+                  return console.log( this );
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              }.bind(this);
+          
+          __LINE__ = 18;
+          var x = function (a,b,c) {
+                try {
+                  __LINE__ = 19;
+                  return a+b;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              },
+              x2 = function (a,b,c) {
+                try {
+                  __LINE__ = 21;
+                  return a+b;
+                } catch(e){
+                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                }
+              };
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
+      
+      __LINE__ = 35;
+      !function () {
+        function testHasFormalDstaWithContext(_mochaLocalTmp24,_mochaLocalTmp25,_mochaLocalTmp26,args8) {
+          try {
+            __LINE__ = 68;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 68;
+            var args = _mochaLocalTmp24.args,
+                args2 = _mochaLocalTmp25.tmp && _mochaLocalTmp25.tmp["args2"]?_mochaLocalTmp25.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp26[0],
+                args4 = _mochaLocalTmp26[1],
+                args5 = _mochaLocalTmp26[2] && _mochaLocalTmp26[2].args5?_mochaLocalTmp26[2].args5 : undefined,
+                args7 = _mochaLocalTmp26[2] && _mochaLocalTmp26[2].args6 && _mochaLocalTmp26[2].args6.args7?_mochaLocalTmp26[2].args6.args7 : undefined;
+            __LINE__ = 68;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalWithContext(args,args2,args3) {
+          try {
+            __LINE__ = 67;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalDstaHasBlockWithContext(_mochaLocalTmp21,_mochaLocalTmp22,_mochaLocalTmp23,args8) {
+          try {
+            __LINE__ = 64;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 64;
+            var args = _mochaLocalTmp21.args,
+                args2 = _mochaLocalTmp22.tmp && _mochaLocalTmp22.tmp["args2"]?_mochaLocalTmp22.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp23[0],
+                args4 = _mochaLocalTmp23[1],
+                args5 = _mochaLocalTmp23[2] && _mochaLocalTmp23[2].args5?_mochaLocalTmp23[2].args5 : undefined,
+                args7 = _mochaLocalTmp23[2] && _mochaLocalTmp23[2].args6 && _mochaLocalTmp23[2].args6.args7?_mochaLocalTmp23[2].args6.args7 : undefined;
+            
+            __LINE__ = 65;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalHasBlockWithContext(args,args2,args3) {
+          try {
+            __LINE__ = 62;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalDsta(_mochaLocalTmp18,_mochaLocalTmp19,_mochaLocalTmp20,args8) {
+          try {
+            __LINE__ = 60;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 60;
+            var args = _mochaLocalTmp18.args,
+                args2 = _mochaLocalTmp19.tmp && _mochaLocalTmp19.tmp["args2"]?_mochaLocalTmp19.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp20[0],
+                args4 = _mochaLocalTmp20[1],
+                args5 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args5?_mochaLocalTmp20[2].args5 : undefined,
+                args7 = _mochaLocalTmp20[2] && _mochaLocalTmp20[2].args6 && _mochaLocalTmp20[2].args6.args7?_mochaLocalTmp20[2].args6.args7 : undefined;
+            __LINE__ = 60;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormal(args,args2,args3) {
+          try {
+            __LINE__ = 59;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalDstaHasBlock(_mochaLocalTmp15,_mochaLocalTmp16,_mochaLocalTmp17,args8) {
+          try {
+            __LINE__ = 56;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 56;
+            var args = _mochaLocalTmp15.args,
+                args2 = _mochaLocalTmp16.tmp && _mochaLocalTmp16.tmp["args2"]?_mochaLocalTmp16.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp17[0],
+                args4 = _mochaLocalTmp17[1],
+                args5 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args5?_mochaLocalTmp17[2].args5 : undefined,
+                args7 = _mochaLocalTmp17[2] && _mochaLocalTmp17[2].args6 && _mochaLocalTmp17[2].args6.args7?_mochaLocalTmp17[2].args6.args7 : undefined;
+            
+            __LINE__ = 57;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testHasFormalHasBlock(args,args2,args3) {
+          try {
+            __LINE__ = 54;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasFormalDstaWithContext(_mochaLocalTmp12,_mochaLocalTmp13,_mochaLocalTmp14,args8) {
+          try {
+            __LINE__ = 51;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 51;
+            var args = _mochaLocalTmp12.args,
+                args2 = _mochaLocalTmp13.tmp && _mochaLocalTmp13.tmp["args2"]?_mochaLocalTmp13.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp14[0],
+                args4 = _mochaLocalTmp14[1],
+                args5 = _mochaLocalTmp14[2] && _mochaLocalTmp14[2].args5?_mochaLocalTmp14[2].args5 : undefined,
+                args7 = _mochaLocalTmp14[2] && _mochaLocalTmp14[2].args6 && _mochaLocalTmp14[2].args6.args7?_mochaLocalTmp14[2].args6.args7 : undefined;
+            __LINE__ = 51;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasFormalWithContext(args,args2,args3) {
+          try {
+            __LINE__ = 50;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasForamlDsta(_mochaLocalTmp9,_mochaLocalTmp10,_mochaLocalTmp11,args8) {
+          try {
+            __LINE__ = 49;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 49;
+            var args = _mochaLocalTmp9.args,
+                args2 = _mochaLocalTmp10.tmp && _mochaLocalTmp10.tmp["args2"]?_mochaLocalTmp10.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp11[0],
+                args4 = _mochaLocalTmp11[1],
+                args5 = _mochaLocalTmp11[2] && _mochaLocalTmp11[2].args5?_mochaLocalTmp11[2].args5 : undefined,
+                args7 = _mochaLocalTmp11[2] && _mochaLocalTmp11[2].args6 && _mochaLocalTmp11[2].args6.args7?_mochaLocalTmp11[2].args6.args7 : undefined;
+            __LINE__ = 49;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasForaml(args,args2,args3) {
+          try {
+            __LINE__ = 48;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasBlockHasFormalDsta(_mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,args8) {
+          try {
+            __LINE__ = 44;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 44;
+            var args = _mochaLocalTmp6.args,
+                args2 = _mochaLocalTmp7.tmp && _mochaLocalTmp7.tmp["args2"]?_mochaLocalTmp7.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp8[0],
+                args4 = _mochaLocalTmp8[1],
+                args5 = _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args5?_mochaLocalTmp8[2].args5 : undefined,
+                args7 = _mochaLocalTmp8[2] && _mochaLocalTmp8[2].args6 && _mochaLocalTmp8[2].args6.args7?_mochaLocalTmp8[2].args6.args7 : undefined;
+            
+            __LINE__ = 45;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testConstFunctionHasBlockHasFormal(args,args2,args3) {
+          try {
+            __LINE__ = 42;
+            console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormalDstaWithContext(_mochaLocalTmp3,_mochaLocalTmp4,_mochaLocalTmp5,args8) {
+          try {
+            __LINE__ = 40;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 40;
+            var args = _mochaLocalTmp3.args,
+                args2 = _mochaLocalTmp4.tmp && _mochaLocalTmp4.tmp["args2"]?_mochaLocalTmp4.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp5[0],
+                args4 = _mochaLocalTmp5[1],
+                args5 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args5?_mochaLocalTmp5[2].args5 : undefined,
+                args7 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args6 && _mochaLocalTmp5[2].args6.args7?_mochaLocalTmp5[2].args6.args7 : undefined;
+            __LINE__ = 40;
+            return console.log( this );
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormalWithContext(args,args2,args3) {
+          try {
+            __LINE__ = 39;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormalDsta(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,args8) {
+          try {
+            __LINE__ = 38;
+            args8 = Runtime.toArray(arguments,3);
+            
+            __LINE__ = 38;
+            var args = _mochaLocalTmp0.args,
+                args2 = _mochaLocalTmp1.tmp && _mochaLocalTmp1.tmp["args2"]?_mochaLocalTmp1.tmp.args2 : undefined,
+                args3 = _mochaLocalTmp2[0],
+                args4 = _mochaLocalTmp2[1],
+                args5 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args5?_mochaLocalTmp2[2].args5 : undefined,
+                args7 = _mochaLocalTmp2[2] && _mochaLocalTmp2[2].args6 && _mochaLocalTmp2[2].args6.args7?_mochaLocalTmp2[2].args6.args7 : undefined;
+            __LINE__ = 38;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function testDeclHasFormal(args,args2,args3) {
+          try {
+            __LINE__ = 37;
+            return console.log(1);
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        try {
+          
+          __LINE__ = 68;
+          testHasFormalDstaWithContext = testHasFormalDstaWithContext.bind( this );
+          
+          __LINE__ = 67;
+          testHasFormalWithContext = testHasFormalWithContext.bind( this );
+          
+          __LINE__ = 64;
+          testHasFormalDstaHasBlockWithContext = testHasFormalDstaHasBlockWithContext.bind( this );
+          
+          __LINE__ = 61;
+          testHasFormalHasBlockWithContext = testHasFormalHasBlockWithContext.bind( this );
+          
+          __LINE__ = 51;
+          testConstFunctionHasFormalDstaWithContext = testConstFunctionHasFormalDstaWithContext.bind( this );
+          
+          __LINE__ = 50;
+          testConstFunctionHasFormalWithContext = testConstFunctionHasFormalWithContext.bind( this );
+          
+          __LINE__ = 40;
+          testDeclHasFormalDstaWithContext = testDeclHasFormalDstaWithContext.bind( this );
+          
+          __LINE__ = 39;
+          testDeclHasFormalWithContext = testDeclHasFormalWithContext.bind( this );
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
+      
+      __LINE__ = 71;
+      !function () {
+        function newSpreadWithArgs($1,a,b,c,d,$2,e,f) {
+          try {
+            
+            __LINE__ = 134;
+            Runtime.assert( true ,$1 === 0,"$1 === 0",134,'harmony_function_test.js');
+            
+            __LINE__ = 135;
+            Runtime.assert( true ,a === 1,"a === 1",135,'harmony_function_test.js');
+            
+            __LINE__ = 136;
+            Runtime.assert( true ,b === 2,"b === 2",136,'harmony_function_test.js');
+            
+            __LINE__ = 137;
+            Runtime.assert( true ,c === 3,"c === 3",137,'harmony_function_test.js');
+            
+            __LINE__ = 138;
+            Runtime.assert( true ,$2 === 0,"$2 === 0",138,'harmony_function_test.js');
+            
+            __LINE__ = 139;
+            Runtime.assert( true ,d === 4,"d === 4",139,'harmony_function_test.js');
+            
+            __LINE__ = 140;
+            Runtime.assert( true ,e === 100,"e === 100",140,'harmony_function_test.js');
+            
+            __LINE__ = 141;
+            Runtime.assert( true ,f === 200,"f === 200",141,'harmony_function_test.js');
+            
+            __LINE__ = 142;
+            Runtime.assert( true , this .valid," this .valid",142,'harmony_function_test.js');
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function normalSpreadWithArgs($1,a,b,c,d,$2,e,f) {
+          try {
+            
+            __LINE__ = 109;
+            Runtime.assert( true ,$1 === 0,"$1 === 0",109,'harmony_function_test.js');
+            
+            __LINE__ = 110;
+            Runtime.assert( true ,a === 1,"a === 1",110,'harmony_function_test.js');
+            
+            __LINE__ = 111;
+            Runtime.assert( true ,b === 2,"b === 2",111,'harmony_function_test.js');
+            
+            __LINE__ = 112;
+            Runtime.assert( true ,c === 3,"c === 3",112,'harmony_function_test.js');
+            
+            __LINE__ = 113;
+            Runtime.assert( true ,$2 === 0,"$2 === 0",113,'harmony_function_test.js');
+            
+            __LINE__ = 114;
+            Runtime.assert( true ,d === 4,"d === 4",114,'harmony_function_test.js');
+            
+            __LINE__ = 115;
+            Runtime.assert( true ,e === 100,"e === 100",115,'harmony_function_test.js');
+            
+            __LINE__ = 116;
+            Runtime.assert( true ,f === 200,"f === 200",116,'harmony_function_test.js');
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function newSpread(a,b,c,d) {
+          try {
+            
+            __LINE__ = 91;
+            Runtime.assert( true ,a === 1,"a === 1",91,'harmony_function_test.js');
+            
+            __LINE__ = 92;
+            Runtime.assert( true ,b === 2,"b === 2",92,'harmony_function_test.js');
+            
+            __LINE__ = 93;
+            Runtime.assert( true ,c === 3,"c === 3",93,'harmony_function_test.js');
+            
+            __LINE__ = 94;
+            Runtime.assert( true ,d === 4,"d === 4",94,'harmony_function_test.js');
+            
+            __LINE__ = 95;
+            Runtime.assert( true , this .valid," this .valid",95,'harmony_function_test.js');
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        function normalSpread(a,b,c,d) {
+          try {
+            
+            __LINE__ = 74;
+            Runtime.assert( true ,a === 1,"a === 1",74,'harmony_function_test.js');
+            
+            __LINE__ = 75;
+            Runtime.assert( true ,b === 2,"b === 2",75,'harmony_function_test.js');
+            
+            __LINE__ = 76;
+            Runtime.assert( true ,c === 3,"c === 3",76,'harmony_function_test.js');
+            
+            __LINE__ = 77;
+            Runtime.assert( true ,d === 4,"d === 4",77,'harmony_function_test.js');
+          } catch(e){
+            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          }
+        }
+        try {
+          
+          __LINE__ = 72;
+          var args = [1,2,3,4];
+          
+          __LINE__ = 80;
+          var propertySpread =  {
+                invoke : function (a,b,c,d) {
+                  try {
+                    
+                    __LINE__ = 82;
+                    Runtime.assert( true ,a === 1,"a === 1",82,'harmony_function_test.js');
+                    
+                    __LINE__ = 83;
+                    Runtime.assert( true ,b === 2,"b === 2",83,'harmony_function_test.js');
+                    
+                    __LINE__ = 84;
+                    Runtime.assert( true ,c === 3,"c === 3",84,'harmony_function_test.js');
+                    
+                    __LINE__ = 85;
+                    Runtime.assert( true ,d === 4,"d === 4",85,'harmony_function_test.js');
+                    
+                    __LINE__ = 86;
+                    Runtime.assert( true , this  === propertySpread," this  === propertySpread",86,'harmony_function_test.js');
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  }
+                }
+              };
+          
+          __LINE__ = 97;
+          newSpread.prototype.valid =  true ;
+          
+          __LINE__ = 99;
+          Runtime.spreadCall(undefined,normalSpread,[ true ,args], false );
+          
+          __LINE__ = 100;
+          Runtime.spreadCall(propertySpread,propertySpread.invoke,[ true ,args], false );
+          
+          __LINE__ = 101;
+          Runtime.spreadCall(undefined,newSpread,[ true ,args], true );
+          
+          __LINE__ = 103;
+          var tinyArgs = [100,200],
+              argtest =  {
+                args : [1,2,3,4]
+              };
+          
+          __LINE__ = 119;
+          var propertySpreadWithArgs =  {
+                invoke : function ($1,a,b,c,d,$2,e,f) {
+                  try {
+                    
+                    __LINE__ = 121;
+                    Runtime.assert( true ,$1 === 0,"$1 === 0",121,'harmony_function_test.js');
+                    
+                    __LINE__ = 122;
+                    Runtime.assert( true ,a === 1,"a === 1",122,'harmony_function_test.js');
+                    
+                    __LINE__ = 123;
+                    Runtime.assert( true ,b === 2,"b === 2",123,'harmony_function_test.js');
+                    
+                    __LINE__ = 124;
+                    Runtime.assert( true ,c === 3,"c === 3",124,'harmony_function_test.js');
+                    
+                    __LINE__ = 125;
+                    Runtime.assert( true ,$2 === 0,"$2 === 0",125,'harmony_function_test.js');
+                    
+                    __LINE__ = 126;
+                    Runtime.assert( true ,d === 4,"d === 4",126,'harmony_function_test.js');
+                    
+                    __LINE__ = 127;
+                    Runtime.assert( true ,e === 100,"e === 100",127,'harmony_function_test.js');
+                    
+                    __LINE__ = 128;
+                    Runtime.assert( true ,f === 200,"f === 200",128,'harmony_function_test.js');
+                    
+                    __LINE__ = 129;
+                    Runtime.assert( true , this  === propertySpreadWithArgs," this  === propertySpreadWithArgs",129,'harmony_function_test.js');
+                  } catch(e){
+                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  }
+                }
+              };
+          
+          __LINE__ = 144;
+          newSpreadWithArgs.prototype.valid =  true ;
+          
+          __LINE__ = 145;
+          Runtime.spreadCall(undefined,normalSpread,[ true ,argtest.args], false );
+          
+          __LINE__ = 146;
+          Runtime.spreadCall(undefined,normalSpreadWithArgs,[ false ,0, true ,args, false ,0, true ,tinyArgs], false );
+          
+          __LINE__ = 147;
+          Runtime.spreadCall(propertySpreadWithArgs,propertySpreadWithArgs.invoke,[ false ,0, true ,args, false ,0, true ,tinyArgs], false );
+          
+          __LINE__ = 148;
+          var inst = Runtime.spreadCall(undefined,newSpreadWithArgs,[ false ,0, true ,args, false ,0, true ,tinyArgs], true );
+          
+          __LINE__ = 149;
+          Runtime.assert( true ,inst instanceof newSpreadWithArgs,"inst instanceof newSpreadWithArgs",149,'harmony_function_test.js');
+        } catch(e){
+          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        }
+      }();
+    } catch(e){
+      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    }
+  }();
+}();

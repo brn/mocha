@@ -78,7 +78,7 @@ class LoadErrorListener {
     event_ = listener.event_;
   }
   void operator()(IOEvent* e) {
-    event_->error_reporter()->ReportSysError(e->data());
+    event_->error_reporter()->ReportSyntaxError(e->data());
     if (fatal_) {
       compiler_->NotifyForKey(Nexc::kFatal, event_);
     } else {
@@ -104,16 +104,19 @@ Nexc::Nexc(CompilationInfo* info)
 
 
 void Nexc::CompileFile(const char* filename, const char* charset) {
-  CombineLibs();
   os::fs::Path path_info(filename);
   CheckGuard(path_info.absolute_path());
   CompilationEvent* event = CreateEvent(path_info, charset);
+  CombineLibs(event);
   event->set_mainfile_path(path_info.absolute_path());
   DEBUG_LOG(Info, "Nexc::CompileFile\nwith file\n[\n'%s'\n]", path_info.absolute_path());
   Loader loader;
   loader.AddListener(Loader::kComplete, LoadCompleteListener(this, event));
   loader.AddListener(Loader::kError, LoadErrorListener(this, event, true));
   loader.LoadFile(filename);
+#ifndef PACKING_RUNTIME
+  AddRuntime(event);
+#endif
 }
 
 #ifdef PACKING_RUNTIME
@@ -135,6 +138,13 @@ void Nexc::PackFile(const Results& results) {
     Packed packed;
     Packer packer(&packed, &order);
     (*it).second->Accept(&packer);
+    /*CompilationInfo info;
+    info.SetPrettyPrint();
+    info.UnsetFileScope();
+    info.UnsetGlobalScope();
+    CodegenVisitor vit(true, false, &info);
+    (*it).second->Accept(&vit);
+    printf("%s\n", vit.GetCode());*/
     std::string path = (*it).first;
     path.erase(path.size() - 3, 3);
     st << "static int32_t " << path << "[] = {\n";
@@ -176,7 +186,7 @@ AstRoot* Nexc::GetResult() {
   return reinterpret_cast<AstRoot*>(tmp);
 }
 
-void Nexc::Pack(const char* filename) {
+void Nexc::Pack(const char* filename, bool runtime) {
   NodeHolder::root = new(pool_.Get()) AstRoot;
   RemoveListener(kCompilationSucessed);
   AddListener(kCompilationSucessed, Bind(&Nexc::SetResult, this));
@@ -184,8 +194,7 @@ void Nexc::Pack(const char* filename) {
   CheckGuard(path_info.absolute_path());
   CompilationEvent* event = CreateEvent(path_info, "UTF-8");
   event->set_mainfile_path(path_info.absolute_path());
-  if (strcmp(path_info.filename(), "runtime.js") == 0) {
-    DEBUG_LOG(Info, "Nexc::Pack main Runtime.");
+  if (runtime) {
     event->set_runtime();
   }
   DEBUG_LOG(Info, "Nexc::CompileFile\nwith file\n[\n'%s'\n]", path_info.absolute_path());
@@ -202,25 +211,80 @@ AstRoot* Nexc::GetResult() {
 #endif
 
 void Nexc::Compile(const char* source, const char* charset) {
-  CombineLibs();
   std::string cwd = os::fs::Path::current_directory();
   cwd += "/anonymous.js";
   os::fs::Path path_info(cwd.c_str());
   DEBUG_LOG(Info, "Nexc::Compile\nwith source\n[\n%s\n]", source);
   CompilationEvent* event = CreateEvent(path_info, charset);
+  CombineLibs(event);
   event->set_mainfile_path(path_info.absolute_path());
   event->set_source(source);
   NotifyForKey(kScan, event);
+#ifndef PACKING_RUNTIME
+  AddRuntime(event);
+#endif
 }
 
-void Nexc::CombineLibs() {
+template <int type, const char* name>
+void Nexc::AddEachRuntime(CompilationEvent* e, AstNode* root, memory::Pool* pool) {
+  if (e->IsUsed(type)) {
+    if (CheckGuard(name)) {
+      AstNode* runtime = Loader::GetRuntime(name, pool, this, e);
+      root->InsertBefore(runtime->first_child());
+    }
+  }
+}
+
+struct RuntimeNames {
+  static const char kAssert[];
+  static const char kClass[];
+  static const char kDebug[];
+  static const char kGenerator[];
+  static const char kModule[];
+  static const char kRecord[];
+  static const char kSpread[];
+  static const char kTrait[];
+  static const char kTuple[];
+};
+
+#define DEF_NAMES(prop, value) const char RuntimeNames::k##prop[] = {value}
+DEF_NAMES(Assert, "_assert");
+DEF_NAMES(Class, "_es_class");
+DEF_NAMES(Debug, "_debug");
+DEF_NAMES(Generator, "_generator");
+DEF_NAMES(Module, "_module");
+DEF_NAMES(Record, "_record");
+DEF_NAMES(Spread, "_spread");
+DEF_NAMES(Trait, "_trait");
+DEF_NAMES(Tuple, "_tuple");
+#undef DEF_NAMES
+
+void Nexc::AddRuntime(CompilationEvent* e) {
+  if (compilation_info_->Debug()) {
+    e->Use(CompilationEvent::kDebug);
+  }
+  memory::Pool* pool = pool_.Get();
+  AddEachRuntime<CompilationEvent::kAssert, RuntimeNames::kAssert>(e, root_, pool);
+  AddEachRuntime<CompilationEvent::kClass, RuntimeNames::kClass>(e, root_, pool);
+  AddEachRuntime<CompilationEvent::kDebug, RuntimeNames::kDebug>(e, root_, pool);
+  AddEachRuntime<CompilationEvent::kGenerator, RuntimeNames::kGenerator>(e, root_, pool);
+  AddEachRuntime<CompilationEvent::kModule, RuntimeNames::kModule>(e, root_, pool);
+  AddEachRuntime<CompilationEvent::kRecord, RuntimeNames::kRecord>(e, root_, pool);
+  AddEachRuntime<CompilationEvent::kSpread, RuntimeNames::kSpread>(e, root_, pool);
+  AddEachRuntime<CompilationEvent::kTrait, RuntimeNames::kTrait>(e, root_, pool);
+  AddEachRuntime<CompilationEvent::kTuple, RuntimeNames::kTuple>(e, root_, pool);
+  AstNode* root = Loader::GetRuntime("_base", pool, this, e);
+  root_->InsertBefore(root->first_child());
+}
+
+void Nexc::CombineLibs(CompilationEvent* e) {
   const Libs& lib = compilation_info_->libs();
   if (lib.size() > 0) {
     SourceStmt* prev = NULL;
     for (Libs::const_iterator it = lib.begin(); it != lib.end(); ++it) {
       SourceStmt* stmt = new(pool_.Get()) SourceStmt(it->c_str(), 0);
       std::string buf;
-      IncludeFile(&buf, stmt->path());
+      IncludeFile(&buf, stmt->path(), e);
       stmt->set_contents(buf.c_str());
       if (prev == NULL) {
         prev = stmt;
@@ -233,20 +297,29 @@ void Nexc::CombineLibs() {
   }
 }
 
-void Nexc::IncludeFile(std::string* buf, const char* path) {
-  SearchModule(path, buf);
-  os::fs::Path path_info(buf->c_str());
-  buf->clear();
-  if (CheckGuard(path_info.absolute_path())) {
-    Loader loader;
-    if (!loader.LoadFile(path_info.absolute_path(), buf)) {
-      ErrorReporter reporter;
-      reporter.ReportSyntaxError(buf->c_str());
-      buf->clear();
-      reporter.SetError(buf);
-    } else {
-      guard_.insert(GuardPair(path_info.absolute_path(), true));
-      deps_->push_back(path_info.absolute_path());
+void Nexc::IncludeFile(std::string* buf, const char* path, CompilationEvent* e) {
+  if (Loader::IsRuntime(path)) {
+    if (CheckGuard(path)) {
+      guard_.insert(GuardPair(path, true));
+      AstNode* root = Loader::GetRuntime(path, pool_.Get(), this, e);
+      root_->Append(root);
+      os::SPrintf(buf, "'%s'", path);
+    }
+  } else {
+    SearchModule(path, buf);
+    os::fs::Path path_info(buf->c_str());
+    buf->clear();
+    if (CheckGuard(path_info.absolute_path())) {
+      Loader loader;
+      if (!loader.LoadFile(path_info.absolute_path(), buf)) {
+        ErrorReporter reporter;
+        reporter.ReportSyntaxError(buf->c_str());
+        buf->clear();
+        reporter.SetError(buf);
+      } else {
+        guard_.insert(GuardPair(path_info.absolute_path(), true));
+        deps_->push_back(path_info.absolute_path());
+      }
     }
   }
 }
@@ -255,7 +328,7 @@ void Nexc::ImportFile(std::string* buf, std::string* filename_buf, const char* p
   if (Loader::IsRuntime(path)) {
     if (CheckGuard(path)) {
       guard_.insert(GuardPair(path, true));
-      AstNode* root = Loader::GetRuntime(path, pool_.Get());
+      AstNode* root = Loader::GetRuntime(path, pool_.Get(), this, e);
       root_->Append(root);
       os::SPrintf(buf, "'%s'", path);
     }
@@ -326,10 +399,6 @@ void Nexc::Initialize() {
     Loader::Initialize();
   }
   root_ = new(pool_.Get()) AstRoot;
-#ifndef PACKING_RUNTIME
-  AstNode* root = Loader::GetRuntime("runtime", pool_.Get());
-  root_->AddChild(root->first_child());
-#endif
   AddListener(kScan, Scanner::ScannerEventListener());
   AddListener(kParse, Parser::ParseEventListener());
   AddListener(kFail, Bind(&Nexc::FailHandler, this));

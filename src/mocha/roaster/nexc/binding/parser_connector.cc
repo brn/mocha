@@ -23,12 +23,16 @@
 #include <stdio.h>
 #include <mocha/roaster/utils/error_reporter.h>
 #include <mocha/roaster/nexc/binding/parser_connector.h>
+#include <mocha/roaster/nexc/events/compilation_event/compilation_event.h>
 #include <mocha/roaster/nexc/scanner/scanner.h>
 
 namespace mocha {
 ParserConnector::ParserConnector (Scanner* scanner,
+                                  CompilationEvent* event,
                                   ErrorReporter* reporter) :
-    scanner_(scanner), reporter_(reporter){}
+    scanner_(scanner),
+    event_(event),
+    reporter_(reporter){}
 
 ParserConnector::~ParserConnector () {};
 
@@ -47,6 +51,10 @@ TokenInfo* ParserConnector::Seek(int index) {
 
 ErrorReporter* ParserConnector::GetError() {
   return reporter_;
+}
+
+void ParserConnector::Use(int type) {
+  event_->Use(type);
 }
 
 }

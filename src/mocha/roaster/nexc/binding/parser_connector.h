@@ -36,7 +36,7 @@ class AstRoot;
 class TokenInfo;
 class SourceStream;
 class ErrorReporter;
-
+class CompilationEvent;
 /**
  * @class
  * Connector of mocha and bison generated parser.
@@ -44,13 +44,13 @@ class ErrorReporter;
 class ParserConnector : public memory::Allocated {
   
  public:
-
+  
   /**
    * @construcor
    * @param {Scanner*} scanner -> Scanner instance.
    * @param {ErrorReporter*} reporter -> ErrorReporter instance.
    */
-  ParserConnector(Scanner* scanner, ErrorReporter* reporter);
+  ParserConnector(Scanner* scanner, CompilationEvent* event, ErrorReporter* reporter);
 
   void Initialize();
   
@@ -64,11 +64,13 @@ class ParserConnector : public memory::Allocated {
   TokenInfo* Advance(int len = 1);
   TokenInfo* Undo(int len = 1);
   TokenInfo* Seek(int len = 1);
+  void Use(int type);
 
   ErrorReporter* GetError();
   
  private :
   Scanner* scanner_;
+  CompilationEvent* event_;
   ErrorReporter* reporter_;
 };
 

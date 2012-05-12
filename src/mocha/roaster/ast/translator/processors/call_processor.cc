@@ -74,6 +74,7 @@ void CallProcessor::ProcessFnCall() {
   
   if (!args->IsEmpty()) {
     if (ast_node_->spread()) {
+      info_->translator_data()->compilation_event()->Use(CompilationEvent::kSpread);
       AstNode* tmp = ast_node_->callable();
       if (tmp->node_type() == AstNode::kCallExp) {
         tmp = tmp->CastToExpression()->CastToCallExp()->callable();

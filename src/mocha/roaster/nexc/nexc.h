@@ -39,6 +39,7 @@ class CompilationInfo;
 class ErrorReporter;
 class AstBuilder;
 class AstRoot;
+class AstNode;
 class FileRoot;
 class Nexc : public Notificator<CompilationEvent*>{
   typedef std::pair<std::string, bool> GuardPair;
@@ -56,13 +57,13 @@ class Nexc : public Notificator<CompilationEvent*>{
   typedef std::vector<std::pair<const char*, AstRoot*> > Results;
   void SetResult(CompilationEvent* e);
   static void PackFile(const Results& results);
-  void Pack(const char* filename);
+  void Pack(const char* filename, bool runtime);
 #endif
   AstRoot* GetResult();
   const DepsHandle GetDepends() const;
   SharedPtr<ErrorReporter> Errors() {return reporter_;}
   void ImportFile(std::string* buf, std::string* filename_buf, const char* path, CompilationEvent* e);
-  void IncludeFile(std::string* buf, const char* path);
+  void IncludeFile(std::string* buf, const char* path, CompilationEvent* e);
   void set_current_directory(const char* path);
   FileRoot* ast(const char* name);
   static const char kScan[];
@@ -79,7 +80,10 @@ class Nexc : public Notificator<CompilationEvent*>{
   bool CheckGuard(const char* path);
   void Success(CompilationEvent* e);
   void SearchModule(const char* path, std::string* buf);
-  void CombineLibs();
+  void CombineLibs(CompilationEvent* e);
+  void AddRuntime(CompilationEvent* e);
+  template <int type, const char* name>
+  void AddEachRuntime(CompilationEvent* e, AstNode* root, memory::Pool* pool);
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);
   AstRoot* root_;
   AtomicWord token_initialized_;

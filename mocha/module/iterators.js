@@ -1,9 +1,10 @@
+@include '_generator';
+@include '_module';
 module iterators {
   const hasOwn = Object.prototype.hasOwnProperty;
-  export iterator = "__mocha_iterator_special_key__";
   export keys(obj) {
     return {
-      [iterator] : -> -> {
+      iterator -> -> {
         for (var x in obj) {
           if (hasOwn.call(obj, x))
             yield x;
@@ -14,7 +15,7 @@ module iterators {
   
   export values(obj) {
     return {
-      [iterator]: -> -> {
+      iterator -> -> {
         for (var x in obj) {
           if (hasOwn.call(obj, x))
             yield obj[x];
@@ -25,7 +26,7 @@ module iterators {
   
   export items(obj) {
     return {
-      [iterator]: -> -> {
+      iterator -> -> {
         for (var x in obj) {
           if (hasOwn.call(obj, x))
             yield [x, obj[x]];
@@ -35,7 +36,7 @@ module iterators {
   }
   export allKeys(obj) {
     return {
-      [iterator]: -> -> {
+      iterator -> -> {
         for (var x in obj)
           yield x;
       }()
@@ -43,7 +44,7 @@ module iterators {
   }
   export allValues(obj) {
     return {
-      [iterator]: -> -> {
+      iterator -> -> {
         for (var x in obj)
           yield obj[x];
       }()
@@ -51,7 +52,7 @@ module iterators {
   }
   export allItems(obj) {
     return {
-      [iterator]: -> -> {
+      iterator -> -> {
         for (var x in obj)
           yield [x, obj[x]];
       }()

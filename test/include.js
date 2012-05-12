@@ -20,12 +20,12 @@ class FileSeaker {
   constructor(private(this).dir, private(this).fn = []) {}
 
   public addSetting(recursive, optionCallback) ->
-    new fs.Dir(private(this).dir).entries(recursive).forEach((item) => private(this).setCompileSetting(item, optionCallback));
+    new fs.listdir(private(this).dir, recursive).forEach((item) => private(this).setCompileSetting(item, optionCallback));
 
   public addFilter(fn) -> private(this).fn.push(fn);
 
   private setCompileSetting(file, optionCallbacks) {
-    if (file.isfile && private(this).fn.every((item) => item(file))) {
+    if file.isfile && private(this).fn.every((item) => item(file)) {
       optionCallbacks(file);
     }
   }

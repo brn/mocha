@@ -28,6 +28,8 @@
 #include <mocha/roaster/nexc/events/io_event/io_event.h>
 namespace mocha {
 class AstNode;
+class Nexc;
+class CompilationEvent;
 namespace memory {
 class Pool;
 }
@@ -38,7 +40,7 @@ class Loader : public Notificator<IOEvent*> {
   void LoadFile(const char* path);
   bool LoadFile(const char* path, std::string* buf);
   static bool IsRuntime(const char* path);
-  static AstNode* GetRuntime(const char* name, memory::Pool* pool);
+  static AstNode* GetRuntime(const char* name, memory::Pool* pool, Nexc* nexc, CompilationEvent* e);
   static void Initialize();
   static const char kComplete[];
   static const char kError[];

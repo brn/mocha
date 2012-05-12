@@ -23,6 +23,7 @@
 #define mocha_roaster_compiler_compilation_event_h_
 #include <string>
 #include <mocha/roaster/memory/pool.h>
+#include <mocha/roaster/misc/bits.h>
 namespace mocha {
 class Nexc;
 class ErrorReporter;
@@ -31,6 +32,17 @@ class FileRoot;
 class CompilationInfo;
 class CompilationEvent : public memory::Allocated {
  public :
+  enum {
+    kAssert,
+    kClass,
+    kDebug,
+    kGenerator,
+    kModule,
+    kRecord,
+    kSpread,
+    kTrait,
+    kTuple
+  };
   CompilationEvent(Nexc* nexc, ErrorReporter* reporter, memory::Pool* pool)
       : runtime_(false),
         nomodule_(false),
@@ -65,6 +77,8 @@ class CompilationEvent : public memory::Allocated {
   bool nomodule() const {return nomodule_;}
   CompilationInfo* compilation_info() {return info_;}
   void NotifyForKey(const char* key);
+  void Use(int type) {used_.Set(type);}
+  bool IsUsed(int type) {return used_.At(type);}
  private :
   bool runtime_;
   bool nomodule_;
@@ -74,6 +88,7 @@ class CompilationEvent : public memory::Allocated {
   std::string source_;
   std::string charset_;
   std::string mainfile_path_;
+  BitVector16 used_;
   Nexc* nexc_;
   CompilationInfo* info_;
   ErrorReporter* error_reporter_;

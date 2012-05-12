@@ -708,6 +708,7 @@ AstNode* Parser::ParseBlockStatement() {
 
 //Parse module statement.
 AstNode* Parser::ParseModuleStatement() {
+  connector_->Use(CompilationEvent::kModule);
   ENTER(ModuleStatement);
   /*
    * [bison/yacc compat syntax]
@@ -979,6 +980,7 @@ AstNode* Parser::ParseAssertStatement() {
    * mocha_assert_statement
    * : MOCHA_ASSERT '(' assignment_expression ',' assignment_expression ')'
    */
+  connector_->Use(CompilationEvent::kAssert);
   ENTER(AssertStatement);
   TokenInfo *token = Seek();
   int64_t line = token->line_number();
@@ -2265,6 +2267,7 @@ AstNode* Parser::ParseFinallyBlock() {
 
 
 AstNode* Parser::ParseTrait() {
+  connector_->Use(CompilationEvent::kTrait);
   ENTER(Trait);
   TokenInfo* token = Seek();
   Trait* trait = new(pool()) Trait(token->line_number());
@@ -2427,6 +2430,7 @@ AstNode* Parser::ParseMixin() {
 
 
 AstNode* Parser::ParseClassDecl(bool is_const) {
+  connector_->Use(CompilationEvent::kClass);
   ENTER(ClassDecl);
   TokenInfo* token = Seek();
   AstNode* name;
@@ -2773,6 +2777,7 @@ AstNode* Parser::ParseYieldExpression(bool is_noin) {
   ENTER(YieldExpression);
   TokenInfo* token = Seek();
   if (token->type() == Token::JS_YIELD) {
+    connector_->Use(CompilationEvent::kGenerator);
     if (state_stack_->Has(StateStack::kFinally)) {
       SYNTAX_ERROR("yield statement not allowed in 'finally block'\\nin file "
                     << filename_ << " at line " << token->line_number());
@@ -3375,12 +3380,14 @@ AstNode* Parser::ParsePrimaryExpression() {
       CHECK_ERROR(elem);
       elem->CastToExpression()->MarkAsInValidLhs();
       elem->CastToExpression()->CastToArrayLikeLiteral()->MarkAsTuple();
+      connector_->Use(CompilationEvent::kTuple);
       return elem;
     } else if (token->type() == '{') {
       AstNode* elem = ParseObjectLiteral();
       CHECK_ERROR(elem);
       elem->CastToExpression()->MarkAsInValidLhs();
       elem->CastToExpression()->CastToObjectLikeLiteral()->MarkAsRecord();
+      connector_->Use(CompilationEvent::kRecord);
       return elem;
     } else {
       SYNTAX_ERROR("got unexpected token "
@@ -3408,6 +3415,7 @@ AstNode* Parser::ParsePrimaryExpression() {
 
 
 AstNode* Parser::ParseGeneratorExpression(AstNode* exp) {
+  connector_->Use(CompilationEvent::kGenerator);
   AstNode* node = ParseArrayComprehensions();
   CHECK_ERROR(node);
   GeneratorExpression* generator = new(pool()) GeneratorExpression(exp, Seek(-1)->line_number());

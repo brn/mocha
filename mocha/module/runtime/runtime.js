@@ -26,7 +26,7 @@ var global = (this !== null)?this : typeof window === 'object'? window : {};
 
 //ecma262 5th edition compatible buitin extensions,
 //and some extras from both strawman and harmony.
-@version( backCompat ) {
+@version(backCompat) {
   let ( { prototype : stringProto } = String,
         { prototype : arrayProto } = Array,
         { prototype : functionProto } = Function,
@@ -927,9 +927,9 @@ module Runtime {
     }
   }
 
-  export classMixin( { prototype : constructorProto } , { prototype : privateProto },
-                     { _mochaTraitMark : mark , _mochaTraitPublic : traitPublic , _mochaTraitPrivate : traitPrivate },
-                     with_ , without )
+  export classMixin({prototype : constructorProto}, {prototype : privateProto},
+                    {_mochaTraitMark : mark, _mochaTraitPublic : traitPublic, _mochaTraitPrivate : traitPrivate},
+                    with_, without)
   {
     if ( !mark ) {
       Runtime.throwException( "mixin only used for trait." );

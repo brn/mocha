@@ -22,6 +22,7 @@ UnPacker::UnPacker(Packed* packed, ByteOrder* b_order, memory::Pool* pool)
       current_(0),
       max_(static_cast<int>(packed->size())),
       packed_(&((*packed)[0])),
+      has_include_(false),
       b_order_(b_order),
       pool_(pool){}
 
@@ -30,6 +31,7 @@ UnPacker::UnPacker(int32_t* packed, int size, ByteOrder* b_order, memory::Pool* 
       current_(0),
       max_(size),
       packed_(packed),
+      has_include_(false),
       b_order_(b_order),
       pool_(pool){}
 
@@ -420,10 +422,13 @@ class Instaniater<TryStmt, true> {
 
 template <>
 class Instaniater<IncludeStmt, true> {
+  friend class UnPacker;
  public :
   static IncludeStmt* Make(UnPacker* unpacker, memory::Pool* pool, int64_t line) {
     std::string buf;
     unpacker->UnpackChar(&buf);
+    unpacker->has_include_ = true;
+    unpacker->included_.push_back(buf);
     IncludeStmt* stmt = new(pool) IncludeStmt(buf.c_str(), line);
     return stmt;
   }
@@ -497,11 +502,14 @@ AstNode* UnPacker::MakeBaseAst() {
   if (child_length > 0) {
     for (int i = 0; i < child_length; i++) {
       AstNode* node = UnpackEachNode();
-      ast->AddChild(node);
+      if (node->node_type() != AstNode::kIncludeStmt) {
+        ast->AddChild(node);
+      }
     }
   }
   return ast;
 }
+
 
 void UnPacker::UnpackChar(std::string* buf) {
   int size = Advance();
