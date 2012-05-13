@@ -423,6 +423,9 @@ VISITOR_IMPL(Literal) {
       break;
 
     case Literal::kProperty :
+      if (ast_node->child_length() > 0) {
+        ast_node->first_child()->Accept(this);
+      }
       break;
 
     case Literal::kIdentifier : {

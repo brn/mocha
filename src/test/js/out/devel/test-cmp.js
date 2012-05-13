@@ -1,8 +1,64 @@
 !function() {
-  var __FILE__ = "Runtime",
+  var __FILE__ = "__Runtime",
       __LINE__ = 0;
   
-  var global = ( this  !==  null )? this  : typeof window === 'object'?window : {};
+  var global = (this !==  null )?this : typeof window === 'object'?window : {},
+      __Runtime =  {
+        _global : global,
+        _push : Array.prototype.push,
+        _slice : Array.prototype.slice,
+        getErrorMessage : function (e) {
+          return (e.message)?e.message : (e.description)?e.description : e.toString();
+        },
+        isStopIteration : (function () {
+          
+          function isStopIteration(obj) {
+            return obj === __Runtime.StopIteration || rstopIteration.test(obj);
+          }
+          var rstopIteration = /StopIteration/;
+          return isStopIteration;
+        })(),
+        throwException : function (exception) {
+          try {
+            throw exception;
+          } catch(e){
+            
+            if (__Runtime.isStopIteration(e)){
+              throw new Error(e);
+            } else {
+              throw new Error(this.getErrorMessage(e));
+            }
+            
+          }
+          
+        },
+        createUnenumProp : function (obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
+            configurable :  true ,
+            enumerable :  false ,
+            writable :  true ,
+            value : value
+          });
+        },
+        constant : function (obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
+            configurable :  false ,
+            enumerable :  false ,
+            writable :  false ,
+            value : value
+          });
+        },
+        toArray : function (likeArray,index) {
+          return (likeArray)?this._slice.call(likeArray,index) : [];
+        },
+        extend : function (dest,source) {
+          for (var prop in source){
+            
+            dest[prop] = source[prop];
+          }
+          return dest;
+        }
+      };
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -16,7 +72,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",44,'_base.js');
+        __Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",40,'_prototype.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -89,7 +145,7 @@
       if (!stringProto.trim){
         
         stringProto.trim = function () {
-          return  this .replace(stringProto.trim.rtrim,"");
+          return this.replace(stringProto.trim.rtrim,"");
         };
         
         stringProto.trim.rtrim = /^\s*|\s*$/g;
@@ -97,29 +153,29 @@
       
       !stringProto.repeat && defineBuiltin(stringProto,"repeat",
       function (num) {
-        return Array(num+1).join( this .toString());
+        return Array(num+1).join(this.toString());
       });
       
       !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
       function (str) {
-        return ! this .indexOf(str);
+        return !this.indexOf(str);
       });
       
       !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
       function (str) {
         var t = String(str),
-            index =  this .lastIndexOf(t);
-        return index >= 0 && index ===  this .length-t.length;
+            index = this.lastIndexOf(t);
+        return index >= 0 && index === this.length-t.length;
       });
       
       !stringProto.contains && defineBuiltin(stringProto,"contains",
       function (str) {
-        return  this .indexOf(str) !== -1;
+        return this.indexOf(str) !== -1;
       });
       
       !stringProto.toArray && defineBuiltin(stringProto,"toArray",
       function (str) {
-        return  this .split("");
+        return this.split("");
       });
       
       !functionProto.bind && defineBuiltin(functionProto,"bind",
@@ -128,12 +184,12 @@
             context = argArray.shift(),
             ret = function () {
               var args = argArray.concat(arrayProto.slice.call(arguments));
-              return  this  !==  null  &&  this  !== global &&  this  instanceof ret?ret.context.apply( this ,args) : ret.context.apply(context,args);
+              return this !==  null  && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
             };
         
-        ret.prototype =  this .prototype;
+        ret.prototype = this.prototype;
         
-        ret.context =  this ;
+        ret.context = this;
         return ret;
       });
       
@@ -144,16 +200,16 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            callback.call(that,ta,iter, this );
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            callback.call(that,ta,iter,this);
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            callback(ta,iter, this );
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            callback(ta,iter,this);
           }
           
         }
@@ -167,19 +223,19 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.every : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.every : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback.call(that,ta,iter, this ))){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback.call(that,ta,iter,this))){
               return  false ;
             }
             
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback(ta,iter, this ))){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback(ta,iter,this))){
               return  false ;
             }
             
@@ -196,19 +252,19 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.some : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.some : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (callback.call(that,ta,iter, this )){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (callback.call(that,ta,iter,this)){
               return  true ;
             }
             
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (callback(ta,iter, this )){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (callback(ta,iter,this)){
               return  true ;
             }
             
@@ -222,23 +278,23 @@
       function (callback,that) {
         callbackCheck(callback,"Array.filter");
         
-        var len =  this .length,
+        var len = this.length,
             iter = -1,
             ret = [],
             ta;
         
-         this  ===  null  && builtinTypeError("Array.filter : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.filter : this is null or not defined");
         
         if (that){
-          for (var i = 0,len =  this .length;i<len; ++ i){
+          for (var i = 0,len = this.length;i<len; ++ i){
             
-            (ta =  this [i]) !==  null  && ta !== undefined && callback.call(that,ta,i, this ) && (ret[ ++ iter] = ta);
+            (ta = this[i]) !==  null  && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
           }
           
         } else {
-          for (var i = 0,len =  this .length;i<len; ++ i){
+          for (var i = 0,len = this.length;i<len; ++ i){
             
-            (ta =  this [i]) !==  null  && ta !== undefined && callback(ta,i, this ) && (ret[ ++ iter] = ta);
+            (ta = this[i]) !==  null  && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
           }
           
         }
@@ -251,9 +307,9 @@
             index = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
         
-        while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
           if (ta === subject){
             
             index = iter;
@@ -266,14 +322,14 @@
       
       !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
       function (target,fromIndex) {
-        var len =  this .length,
+        var len = this.length,
             iter = (fromIndex)?fromIndex+1 : len,
             index = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
         
-        while ((ta =  this [ -- iter]) !==  null  && ta !== undefined){
+        while ((ta = this[ -- iter]) !==  null  && ta !== undefined){
           if (ta === target){
             
             index = iter;
@@ -290,20 +346,20 @@
         
         var ret = [],
             iter = -1,
-            len =  this .length,
+            len = this.length,
             i = 0,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.map : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.map : this is null or not defined.");
         
         if (that){
           for (i;i<len; ++ i){
-            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i, this ));
+            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
           }
           
         } else {
           for (i;i<len; ++ i){
-            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i, this ));
+            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
           }
           
         }
@@ -314,15 +370,15 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduce");
         
-        var ret = initial ||  this [0],
+        var ret = initial || this[0],
             i = (initial)?0 : 1,
-            len =  this .length,
+            len = this.length,
             ta;
         
         (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i<len; ++ i){
-          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
+          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
         }
         return ret;
       });
@@ -331,28 +387,28 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduceRight");
         
-        var len =  this .length,
-            ret = initial ||  this [len-1],
+        var len = this.length,
+            ret = initial || this[len-1],
             i = (initial)?len-1 : len-2,
             ta;
         
         (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i>-1; -- i){
-          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
+          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
         }
         return ret;
       });
       
       !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
       function () {
-        var _mochaLocalTmp4 = [ this .getUTCMonth(), this .getUTCDate(), this .getUTCHours(), this .getMinutes(), this .getSeconds()],
+        var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
             month = _mochaLocalTmp4[0],
             date = _mochaLocalTmp4[1],
             hour = _mochaLocalTmp4[2],
             minute = _mochaLocalTmp4[3],
             second = _mochaLocalTmp4[4];
-        return '"'+ this .getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+ this .getUTCMilliseconds()+'Z"';
+        return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
       });
       
       !Date.now && defineBuiltin(Date,"now",
@@ -367,79 +423,22 @@
         }
         return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
       });
-    }.call( this ,String,Array,Function,Date);
-  }.call( this );
+    }.call(this,String,Array,Function,Date);
+  }.call(this);
   
-  var Runtime =  {
-        _global : global,
-        _push : Array.prototype.push,
-        _slice : Array.prototype.slice,
-        getErrorMessage : function (e) {
-          return (e.message)?e.message : (e.description)?e.description : e.toString();
-        },
-        isStopIteration : (function () {
-          
-          function isStopIteration(obj) {
-            return obj === Runtime.StopIteration || rstopIteration.test(obj);
-          }
-          var rstopIteration = /StopIteration/;
-          return isStopIteration;
-        })(),
-        throwException : function (exception) {
-          try {
-            throw exception;
-          } catch(e){
-            
-            if (Runtime.isStopIteration(e)){
-              throw new Error(e);
-            } else {
-              throw new Error( this .getErrorMessage(e));
-            }
-            
-          }
-          
-        },
-        createUnenumProp : function (obj,prop,value) {
-          return Object.defineProperty(obj,prop, {
-            configurable :  true ,
-            enumerable :  false ,
-            writable :  true ,
-            value : value
-          });
-        },
-        constant : function (obj,prop,value) {
-          return Object.defineProperty(obj,prop, {
-            configurable :  false ,
-            enumerable :  false ,
-            writable :  false ,
-            value : value
-          });
-        },
-        toArray : function (likeArray,index) {
-          return (likeArray)? this ._slice.call(likeArray,index) : [];
-        },
-        extend : function (dest,source) {
-          for (var prop in source){
-            
-            dest[prop] = source[prop];
-          }
-          return dest;
-        }
-      };
-  
-  Runtime.extend(Runtime, {
+  __Runtime.extend(__Runtime, {
     Exception : function (line,file,e) {
-       this .toString = function () {
-        return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
+      this.toString = function () {
+        return __Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
       };
     },
     exceptionHandler : function (line,file,e) {
-      if (Runtime.isStopIteration(e)){
+      if (__Runtime.isStopIteration(e)){
         
-         this .throwException(e);
+        this.throwException(e);
       } else {
         
-         this .throwException(new  this .Exception(line,file,e));
+        this.throwException(new this.Exception(line,file,e));
       }
       
     }
@@ -462,14 +461,14 @@
         getPrivateRecord,
         getInstanceBody;
     
-    if ("WeakMap" in global){
+    if ("WeakMap" in __Runtime._global){
       
       privateRecord = new WeakMap();
       
       createPrivateRecord = function (self,privateHolder,constructor) {
         var holder = new privateHolder;
         
-        Runtime.createUnenumProp(holder,"__is_private__",1);
+        __Runtime.createUnenumProp(holder,"__is_private__",1);
         
         Rutnime.createUnenumProp(self,"constructor",constructor);
         
@@ -510,9 +509,9 @@
             value : privateSlot
           });
           
-          Runtime.createUnenumProp(constructor,"__private__",holder);
+          __Runtime.createUnenumProp(constructor,"__private__",holder);
           
-          Runtime.createUnenumProp(self,"constructor",constructor);
+          __Runtime.createUnenumProp(self,"constructor",constructor);
         }
         
       };
@@ -530,8 +529,10 @@
         return privateHolder.constructor.__parent__;
       };
     }
-    return Runtime.extend(Runtime, {
-      extendClass : (Runtime.hasProto)?function (derived,base) {
+    
+    var hasProto = '__proto__' in {};
+    return __Runtime.extend(__Runtime, {
+      extendClass : (hasProto)?function (derived,base) {
         if (typeof base === 'function'){
           
           derived.prototype.__proto__ = base.prototype;
@@ -563,7 +564,11 @@
           
           for (var i in base){
             
-            derived[i] = base[i];
+            if (i !== 'prototype'){
+              
+              derived[i] = base[i];
+            }
+            
           }
           
         } else {
@@ -576,6 +581,9 @@
           derived.prototype = new inherit;
         }
         
+      },
+      extendPrototype : function (derived,base) {
+        derived.prototype = base;
       },
       getPrivateRecord : getPrivateRecord,
       getInstanceBody : getInstanceBody,
@@ -616,18 +624,18 @@
   }();
   
   !function () {
-    Runtime.extend(Runtime, {
-      assert : (Runtime._global.console && Runtime._global.console.assert)?function (expect,exp,str,line,filename) {
-        return Runtime._global.console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+    __Runtime.extend(__Runtime, {
+      assert : (__Runtime._global.console && __Runtime._global.console.assert)?function (expect,exp,str,line,filename) {
+        return __Runtime._global.console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
       } : function (expect,exp,str,line,filename) {
         if (expect !== exp){
           
-          Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+          __Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
         }
         
       }
     });
-  }.call( this );
+  }.call(this);
   
   __LINE__ = 0;
   !function () {
@@ -640,9 +648,9 @@
             function x() {
               try {
                 __LINE__ = 2;
-                Runtime.initializeClass(this,x,_mochaPrivateHolder,constructor,arguments,'x',2);
+                __Runtime.initializeClass(this,x,_mochaPrivateHolder,constructor,arguments,'x',2);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -651,7 +659,7 @@
               var _mochaPrivateHolder = function (){};
               
               __LINE__ = 2;
-              Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+              __Runtime.createUnenumProp(constructor,"__harmony_class__",1);
               
               __LINE__ = 3;
               _mochaPrivateHolder.prototype.y = function () {
@@ -659,9 +667,9 @@
                 function y() {
                   try {
                     __LINE__ = 3;
-                    Runtime.initializeClass(this,y,_mochaPrivateHolder,constructor,arguments,'y',3);
+                    __Runtime.initializeClass(this,y,_mochaPrivateHolder,constructor,arguments,'y',3);
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
                 try {
@@ -670,14 +678,14 @@
                   var _mochaPrivateHolder = function (){};
                   
                   __LINE__ = 3;
-                  Runtime.createUnenumProp(constructor,"__harmony_class__",1);
+                  __Runtime.createUnenumProp(constructor,"__harmony_class__",1);
                   
                   __LINE__ = 3;
-                  Runtime.createUnenumProp(y.prototype,"constructor",constructor);
+                  __Runtime.createUnenumProp(y.prototype,"constructor",constructor);
                   __LINE__ = 3;
                   return y;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }();
               
@@ -685,18 +693,18 @@
               _mochaPrivateHolder.prototype.m = function () {
                 try {
                   __LINE__ = 6;
-                  return Runtime.getInstanceBody( this ).y;
+                  return __Runtime.getInstanceBody(this).y;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 2;
-              Runtime.createUnenumProp(x.prototype,"constructor",constructor);
+              __Runtime.createUnenumProp(x.prototype,"constructor",constructor);
               __LINE__ = 2;
               return x;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }(),
           m = "\u30c6\u30b9\u30c8\u3067\u30fc\u305f\u3092\u8fd4\u3059\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\n\u30c6\u30b9\u30c8\u3067\u30fc\u305f\u3092\u8fd4\u3059\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042",
@@ -705,16 +713,16 @@
               __LINE__ = 15;
               return '\u30c7\u30fc\u30bf';
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           },
           m = [0,1,2,3,4],
           reg = /\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe/;
       
       __LINE__ = 19;
-      Runtime.assert( true ,reg.test("\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe"),"reg.test(\"\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe\")",19,'test.js');
+      __Runtime.assert( true ,reg.test("\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe"),"reg.test(\"\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe\")",19,'test.js');
     } catch(e){
-      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }
   }();
 }();

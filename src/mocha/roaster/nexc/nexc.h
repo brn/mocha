@@ -82,6 +82,7 @@ class Nexc : public Notificator<CompilationEvent*>{
   void SearchModule(const char* path, std::string* buf);
   void CombineLibs(CompilationEvent* e);
   void AddRuntime(CompilationEvent* e);
+  void AddBase(CompilationEvent* e);
   template <int type, const char* name>
   void AddEachRuntime(CompilationEvent* e, AstNode* root, memory::Pool* pool);
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);

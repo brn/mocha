@@ -314,7 +314,9 @@ inline AstNode* DstaProcessor::CreateConditional(AstNode* last_exp, AstNode* fir
     }
     return var;
   } else {
-    AssignmentExp* assign = new(LocalPool()) AssignmentExp('=', tree->symbol()->Clone(LocalPool()), cond, last_exp->line_number());
+    Literal* literal = tree->symbol()->Clone(LocalPool())->CastToLiteral();
+    literal->set_value_type(Literal::kIdentifier);
+    AssignmentExp* assign = new(LocalPool()) AssignmentExp('=', literal, cond, last_exp->line_number());
     return assign;
   }
 }
@@ -390,8 +392,10 @@ AstNode* DstaProcessor::CreateSimpleAccessor(AstNode* first, TranslatorData* inf
     return var;
   } else {
     DstaTree* tree = first->CastToDstaTree();
+    Literal* lit = tree->symbol()->Clone(LocalPool())->CastToLiteral();
+    lit->set_value_type(Literal::kIdentifier);
     AssignmentExp* assign =
-        new(LocalPool()) AssignmentExp('=', tree->symbol()->Clone(LocalPool()), first->first_child(), first->line_number());
+        new(LocalPool()) AssignmentExp('=', lit, first->first_child(), first->line_number());
     return assign;
   }
 }
@@ -498,8 +502,8 @@ Literal* DstaProcessor::ProcessNode() {
    */
   DstaTree* tree = new(pool()) DstaTree;
   /**
-   * If we have not dsta yet,
-   * add DstaExtractedAssignment to current active statement.
+   * If we have not a dsta yet,
+   * add a DstaExtractedAssignment node to current a active statement.
    */
   Statement* stmt = translator_data->current_statement();
   ASSERT(true, stmt != 0);

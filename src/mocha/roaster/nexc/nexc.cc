@@ -116,6 +116,7 @@ void Nexc::CompileFile(const char* filename, const char* charset) {
   loader.LoadFile(filename);
 #ifndef PACKING_RUNTIME
   AddRuntime(event);
+  AddBase(event);
 #endif
 }
 
@@ -222,6 +223,7 @@ void Nexc::Compile(const char* source, const char* charset) {
   NotifyForKey(kScan, event);
 #ifndef PACKING_RUNTIME
   AddRuntime(event);
+  AddBase(event);
 #endif
 }
 
@@ -273,7 +275,12 @@ void Nexc::AddRuntime(CompilationEvent* e) {
   AddEachRuntime<CompilationEvent::kSpread, RuntimeNames::kSpread>(e, root_, pool);
   AddEachRuntime<CompilationEvent::kTrait, RuntimeNames::kTrait>(e, root_, pool);
   AddEachRuntime<CompilationEvent::kTuple, RuntimeNames::kTuple>(e, root_, pool);
-  AstNode* root = Loader::GetRuntime("_base", pool, this, e);
+}
+
+void Nexc::AddBase(CompilationEvent* e) {
+  AstNode* proto = Loader::GetRuntime("_prototype", pool_.Get(), this, e);
+  root_->InsertBefore(proto->first_child());
+  AstNode* root = Loader::GetRuntime("_base", pool_.Get(), this, e);
   root_->InsertBefore(root->first_child());
 }
 
@@ -331,6 +338,9 @@ void Nexc::ImportFile(std::string* buf, std::string* filename_buf, const char* p
       AstNode* root = Loader::GetRuntime(path, pool_.Get(), this, e);
       root_->Append(root);
       os::SPrintf(buf, "'%s'", path);
+#ifndef PACKING_RUNTIME
+      AddRuntime(e);
+#endif
     }
   } else {
     std::string module_path;
@@ -348,6 +358,9 @@ void Nexc::ImportFile(std::string* buf, std::string* filename_buf, const char* p
       loader.AddListener(Loader::kComplete, LoadCompleteListener(this, event));
       loader.AddListener(Loader::kError, LoadErrorListener(this, event, false));
       loader.LoadFile(event->fullpath());
+#ifndef PACKING_RUNTIME
+      AddRuntime(e);
+#endif
     }
   }
 }

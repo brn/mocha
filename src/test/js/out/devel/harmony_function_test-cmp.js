@@ -1,8 +1,64 @@
 !function() {
-  var __FILE__ = "Runtime",
+  var __FILE__ = "__Runtime",
       __LINE__ = 0;
   
-  var global = ( this  !==  null )? this  : typeof window === 'object'?window : {};
+  var global = (this !==  null )?this : typeof window === 'object'?window : {},
+      __Runtime =  {
+        _global : global,
+        _push : Array.prototype.push,
+        _slice : Array.prototype.slice,
+        getErrorMessage : function (e) {
+          return (e.message)?e.message : (e.description)?e.description : e.toString();
+        },
+        isStopIteration : (function () {
+          
+          function isStopIteration(obj) {
+            return obj === __Runtime.StopIteration || rstopIteration.test(obj);
+          }
+          var rstopIteration = /StopIteration/;
+          return isStopIteration;
+        })(),
+        throwException : function (exception) {
+          try {
+            throw exception;
+          } catch(e){
+            
+            if (__Runtime.isStopIteration(e)){
+              throw new Error(e);
+            } else {
+              throw new Error(this.getErrorMessage(e));
+            }
+            
+          }
+          
+        },
+        createUnenumProp : function (obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
+            configurable :  true ,
+            enumerable :  false ,
+            writable :  true ,
+            value : value
+          });
+        },
+        constant : function (obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
+            configurable :  false ,
+            enumerable :  false ,
+            writable :  false ,
+            value : value
+          });
+        },
+        toArray : function (likeArray,index) {
+          return (likeArray)?this._slice.call(likeArray,index) : [];
+        },
+        extend : function (dest,source) {
+          for (var prop in source){
+            
+            dest[prop] = source[prop];
+          }
+          return dest;
+        }
+      };
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -16,7 +72,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",44,'_base.js');
+        __Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",40,'_prototype.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -89,7 +145,7 @@
       if (!stringProto.trim){
         
         stringProto.trim = function () {
-          return  this .replace(stringProto.trim.rtrim,"");
+          return this.replace(stringProto.trim.rtrim,"");
         };
         
         stringProto.trim.rtrim = /^\s*|\s*$/g;
@@ -97,29 +153,29 @@
       
       !stringProto.repeat && defineBuiltin(stringProto,"repeat",
       function (num) {
-        return Array(num+1).join( this .toString());
+        return Array(num+1).join(this.toString());
       });
       
       !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
       function (str) {
-        return ! this .indexOf(str);
+        return !this.indexOf(str);
       });
       
       !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
       function (str) {
         var t = String(str),
-            index =  this .lastIndexOf(t);
-        return index >= 0 && index ===  this .length-t.length;
+            index = this.lastIndexOf(t);
+        return index >= 0 && index === this.length-t.length;
       });
       
       !stringProto.contains && defineBuiltin(stringProto,"contains",
       function (str) {
-        return  this .indexOf(str) !== -1;
+        return this.indexOf(str) !== -1;
       });
       
       !stringProto.toArray && defineBuiltin(stringProto,"toArray",
       function (str) {
-        return  this .split("");
+        return this.split("");
       });
       
       !functionProto.bind && defineBuiltin(functionProto,"bind",
@@ -128,12 +184,12 @@
             context = argArray.shift(),
             ret = function () {
               var args = argArray.concat(arrayProto.slice.call(arguments));
-              return  this  !==  null  &&  this  !== global &&  this  instanceof ret?ret.context.apply( this ,args) : ret.context.apply(context,args);
+              return this !==  null  && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
             };
         
-        ret.prototype =  this .prototype;
+        ret.prototype = this.prototype;
         
-        ret.context =  this ;
+        ret.context = this;
         return ret;
       });
       
@@ -144,16 +200,16 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            callback.call(that,ta,iter, this );
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            callback.call(that,ta,iter,this);
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            callback(ta,iter, this );
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            callback(ta,iter,this);
           }
           
         }
@@ -167,19 +223,19 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.every : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.every : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback.call(that,ta,iter, this ))){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback.call(that,ta,iter,this))){
               return  false ;
             }
             
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback(ta,iter, this ))){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback(ta,iter,this))){
               return  false ;
             }
             
@@ -196,19 +252,19 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.some : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.some : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (callback.call(that,ta,iter, this )){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (callback.call(that,ta,iter,this)){
               return  true ;
             }
             
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (callback(ta,iter, this )){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (callback(ta,iter,this)){
               return  true ;
             }
             
@@ -222,23 +278,23 @@
       function (callback,that) {
         callbackCheck(callback,"Array.filter");
         
-        var len =  this .length,
+        var len = this.length,
             iter = -1,
             ret = [],
             ta;
         
-         this  ===  null  && builtinTypeError("Array.filter : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.filter : this is null or not defined");
         
         if (that){
-          for (var i = 0,len =  this .length;i<len; ++ i){
+          for (var i = 0,len = this.length;i<len; ++ i){
             
-            (ta =  this [i]) !==  null  && ta !== undefined && callback.call(that,ta,i, this ) && (ret[ ++ iter] = ta);
+            (ta = this[i]) !==  null  && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
           }
           
         } else {
-          for (var i = 0,len =  this .length;i<len; ++ i){
+          for (var i = 0,len = this.length;i<len; ++ i){
             
-            (ta =  this [i]) !==  null  && ta !== undefined && callback(ta,i, this ) && (ret[ ++ iter] = ta);
+            (ta = this[i]) !==  null  && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
           }
           
         }
@@ -251,9 +307,9 @@
             index = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
         
-        while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
           if (ta === subject){
             
             index = iter;
@@ -266,14 +322,14 @@
       
       !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
       function (target,fromIndex) {
-        var len =  this .length,
+        var len = this.length,
             iter = (fromIndex)?fromIndex+1 : len,
             index = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
         
-        while ((ta =  this [ -- iter]) !==  null  && ta !== undefined){
+        while ((ta = this[ -- iter]) !==  null  && ta !== undefined){
           if (ta === target){
             
             index = iter;
@@ -290,20 +346,20 @@
         
         var ret = [],
             iter = -1,
-            len =  this .length,
+            len = this.length,
             i = 0,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.map : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.map : this is null or not defined.");
         
         if (that){
           for (i;i<len; ++ i){
-            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i, this ));
+            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
           }
           
         } else {
           for (i;i<len; ++ i){
-            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i, this ));
+            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
           }
           
         }
@@ -314,15 +370,15 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduce");
         
-        var ret = initial ||  this [0],
+        var ret = initial || this[0],
             i = (initial)?0 : 1,
-            len =  this .length,
+            len = this.length,
             ta;
         
         (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i<len; ++ i){
-          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
+          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
         }
         return ret;
       });
@@ -331,28 +387,28 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduceRight");
         
-        var len =  this .length,
-            ret = initial ||  this [len-1],
+        var len = this.length,
+            ret = initial || this[len-1],
             i = (initial)?len-1 : len-2,
             ta;
         
         (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i>-1; -- i){
-          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
+          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
         }
         return ret;
       });
       
       !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
       function () {
-        var _mochaLocalTmp4 = [ this .getUTCMonth(), this .getUTCDate(), this .getUTCHours(), this .getMinutes(), this .getSeconds()],
+        var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
             month = _mochaLocalTmp4[0],
             date = _mochaLocalTmp4[1],
             hour = _mochaLocalTmp4[2],
             minute = _mochaLocalTmp4[3],
             second = _mochaLocalTmp4[4];
-        return '"'+ this .getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+ this .getUTCMilliseconds()+'Z"';
+        return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
       });
       
       !Date.now && defineBuiltin(Date,"now",
@@ -367,67 +423,10 @@
         }
         return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
       });
-    }.call( this ,String,Array,Function,Date);
-  }.call( this );
+    }.call(this,String,Array,Function,Date);
+  }.call(this);
   
-  var Runtime =  {
-        _global : global,
-        _push : Array.prototype.push,
-        _slice : Array.prototype.slice,
-        getErrorMessage : function (e) {
-          return (e.message)?e.message : (e.description)?e.description : e.toString();
-        },
-        isStopIteration : (function () {
-          
-          function isStopIteration(obj) {
-            return obj === Runtime.StopIteration || rstopIteration.test(obj);
-          }
-          var rstopIteration = /StopIteration/;
-          return isStopIteration;
-        })(),
-        throwException : function (exception) {
-          try {
-            throw exception;
-          } catch(e){
-            
-            if (Runtime.isStopIteration(e)){
-              throw new Error(e);
-            } else {
-              throw new Error( this .getErrorMessage(e));
-            }
-            
-          }
-          
-        },
-        createUnenumProp : function (obj,prop,value) {
-          return Object.defineProperty(obj,prop, {
-            configurable :  true ,
-            enumerable :  false ,
-            writable :  true ,
-            value : value
-          });
-        },
-        constant : function (obj,prop,value) {
-          return Object.defineProperty(obj,prop, {
-            configurable :  false ,
-            enumerable :  false ,
-            writable :  false ,
-            value : value
-          });
-        },
-        toArray : function (likeArray,index) {
-          return (likeArray)? this ._slice.call(likeArray,index) : [];
-        },
-        extend : function (dest,source) {
-          for (var prop in source){
-            
-            dest[prop] = source[prop];
-          }
-          return dest;
-        }
-      };
-  
-  Runtime.extend(Runtime, {
+  __Runtime.extend(__Runtime, {
     spreadCall : function (context,fn,args,isNew) {
       var newArgs = [];
       
@@ -435,7 +434,7 @@
         
         if (args[i] ===  true ){
           
-          Runtime._push.apply(newArgs,args[i+1]);
+          __Runtime._push.apply(newArgs,args[i+1]);
         } else {
           
           newArgs.push(args[i+1]);
@@ -460,37 +459,37 @@
     }
   });
   
-  Runtime.extend(Runtime, {
+  __Runtime.extend(__Runtime, {
     Exception : function (line,file,e) {
-       this .toString = function () {
-        return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
+      this.toString = function () {
+        return __Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
       };
     },
     exceptionHandler : function (line,file,e) {
-      if (Runtime.isStopIteration(e)){
+      if (__Runtime.isStopIteration(e)){
         
-         this .throwException(e);
+        this.throwException(e);
       } else {
         
-         this .throwException(new  this .Exception(line,file,e));
+        this.throwException(new this.Exception(line,file,e));
       }
       
     }
   });
   
   !function () {
-    Runtime.extend(Runtime, {
-      assert : (Runtime._global.console && Runtime._global.console.assert)?function (expect,exp,str,line,filename) {
-        return Runtime._global.console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+    __Runtime.extend(__Runtime, {
+      assert : (__Runtime._global.console && __Runtime._global.console.assert)?function (expect,exp,str,line,filename) {
+        return __Runtime._global.console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
       } : function (expect,exp,str,line,filename) {
         if (expect !== exp){
           
-          Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+          __Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
         }
         
       }
     });
-  }.call( this );
+  }.call(this);
   
   __LINE__ = 0;
   !function () {
@@ -504,7 +503,7 @@
             __LINE__ = 32;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalWithContext() {
@@ -512,7 +511,7 @@
             __LINE__ = 31;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalHasBlockWithContext() {
@@ -520,7 +519,7 @@
             __LINE__ = 29;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function test() {
@@ -528,7 +527,7 @@
             __LINE__ = 26;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormal() {
@@ -536,7 +535,7 @@
             __LINE__ = 25;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalHasBlock() {
@@ -544,7 +543,7 @@
             __LINE__ = 23;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionWithContext() {
@@ -552,7 +551,7 @@
             __LINE__ = 17;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasFormalWithContext() {
@@ -560,7 +559,7 @@
             __LINE__ = 16;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionNonFormal() {
@@ -568,7 +567,7 @@
             __LINE__ = 14;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasForaml() {
@@ -576,7 +575,7 @@
             __LINE__ = 13;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasBlockHasFormal() {
@@ -584,7 +583,7 @@
             __LINE__ = 8;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testDeclNonForamlWithContext() {
@@ -592,7 +591,7 @@
             __LINE__ = 5;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testDeclHasFormalWithContext() {
@@ -600,7 +599,7 @@
             __LINE__ = 4;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testDeclNonFormal() {
@@ -608,7 +607,7 @@
             __LINE__ = 3;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testDeclHasFormal() {
@@ -616,39 +615,39 @@
             __LINE__ = 2;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         try {
           
           __LINE__ = 32;
-          testWithContext = testWithContext.bind( this );
+          testWithContext = testWithContext.bind(this);
           
           __LINE__ = 31;
-          testHasFormalWithContext = testHasFormalWithContext.bind( this );
+          testHasFormalWithContext = testHasFormalWithContext.bind(this);
           
           __LINE__ = 28;
-          testHasFormalHasBlockWithContext = testHasFormalHasBlockWithContext.bind( this );
+          testHasFormalHasBlockWithContext = testHasFormalHasBlockWithContext.bind(this);
           
           __LINE__ = 17;
-          testConstFunctionWithContext = testConstFunctionWithContext.bind( this );
+          testConstFunctionWithContext = testConstFunctionWithContext.bind(this);
           
           __LINE__ = 16;
-          testConstFunctionHasFormalWithContext = testConstFunctionHasFormalWithContext.bind( this );
+          testConstFunctionHasFormalWithContext = testConstFunctionHasFormalWithContext.bind(this);
           
           __LINE__ = 5;
-          testDeclNonForamlWithContext = testDeclNonForamlWithContext.bind( this );
+          testDeclNonForamlWithContext = testDeclNonForamlWithContext.bind(this);
           
           __LINE__ = 4;
-          testDeclHasFormalWithContext = testDeclHasFormalWithContext.bind( this );
+          testDeclHasFormalWithContext = testDeclHasFormalWithContext.bind(this);
           
           __LINE__ = 11;
           var contextTest = function () {
                 try {
                   __LINE__ = 11;
-                  return console.log( this );
+                  return console.log(this);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }.bind(this);
           
@@ -658,7 +657,7 @@
                   __LINE__ = 19;
                   return a+b;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               },
               x2 = function (a,b,c) {
@@ -666,11 +665,11 @@
                   __LINE__ = 21;
                   return a+b;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
         } catch(e){
-          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }();
       
@@ -679,7 +678,7 @@
         function testHasFormalDstaWithContext(_mochaLocalTmp24,_mochaLocalTmp25,_mochaLocalTmp26,args8) {
           try {
             __LINE__ = 68;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 68;
             var args = _mochaLocalTmp24.args,
@@ -691,7 +690,7 @@
             __LINE__ = 68;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalWithContext(args,args2,args3) {
@@ -699,13 +698,13 @@
             __LINE__ = 67;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalDstaHasBlockWithContext(_mochaLocalTmp21,_mochaLocalTmp22,_mochaLocalTmp23,args8) {
           try {
             __LINE__ = 64;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 64;
             var args = _mochaLocalTmp21.args,
@@ -718,7 +717,7 @@
             __LINE__ = 65;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalHasBlockWithContext(args,args2,args3) {
@@ -726,13 +725,13 @@
             __LINE__ = 62;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalDsta(_mochaLocalTmp18,_mochaLocalTmp19,_mochaLocalTmp20,args8) {
           try {
             __LINE__ = 60;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 60;
             var args = _mochaLocalTmp18.args,
@@ -744,7 +743,7 @@
             __LINE__ = 60;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormal(args,args2,args3) {
@@ -752,13 +751,13 @@
             __LINE__ = 59;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalDstaHasBlock(_mochaLocalTmp15,_mochaLocalTmp16,_mochaLocalTmp17,args8) {
           try {
             __LINE__ = 56;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 56;
             var args = _mochaLocalTmp15.args,
@@ -771,7 +770,7 @@
             __LINE__ = 57;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testHasFormalHasBlock(args,args2,args3) {
@@ -779,13 +778,13 @@
             __LINE__ = 54;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasFormalDstaWithContext(_mochaLocalTmp12,_mochaLocalTmp13,_mochaLocalTmp14,args8) {
           try {
             __LINE__ = 51;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 51;
             var args = _mochaLocalTmp12.args,
@@ -797,7 +796,7 @@
             __LINE__ = 51;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasFormalWithContext(args,args2,args3) {
@@ -805,13 +804,13 @@
             __LINE__ = 50;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasForamlDsta(_mochaLocalTmp9,_mochaLocalTmp10,_mochaLocalTmp11,args8) {
           try {
             __LINE__ = 49;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 49;
             var args = _mochaLocalTmp9.args,
@@ -823,7 +822,7 @@
             __LINE__ = 49;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasForaml(args,args2,args3) {
@@ -831,13 +830,13 @@
             __LINE__ = 48;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasBlockHasFormalDsta(_mochaLocalTmp6,_mochaLocalTmp7,_mochaLocalTmp8,args8) {
           try {
             __LINE__ = 44;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 44;
             var args = _mochaLocalTmp6.args,
@@ -850,7 +849,7 @@
             __LINE__ = 45;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testConstFunctionHasBlockHasFormal(args,args2,args3) {
@@ -858,13 +857,13 @@
             __LINE__ = 42;
             console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testDeclHasFormalDstaWithContext(_mochaLocalTmp3,_mochaLocalTmp4,_mochaLocalTmp5,args8) {
           try {
             __LINE__ = 40;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 40;
             var args = _mochaLocalTmp3.args,
@@ -874,9 +873,9 @@
                 args5 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args5?_mochaLocalTmp5[2].args5 : undefined,
                 args7 = _mochaLocalTmp5[2] && _mochaLocalTmp5[2].args6 && _mochaLocalTmp5[2].args6.args7?_mochaLocalTmp5[2].args6.args7 : undefined;
             __LINE__ = 40;
-            return console.log( this );
+            return console.log(this);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testDeclHasFormalWithContext(args,args2,args3) {
@@ -884,13 +883,13 @@
             __LINE__ = 39;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testDeclHasFormalDsta(_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,args8) {
           try {
             __LINE__ = 38;
-            args8 = Runtime.toArray(arguments,3);
+            args8 = __Runtime.toArray(arguments,3);
             
             __LINE__ = 38;
             var args = _mochaLocalTmp0.args,
@@ -902,7 +901,7 @@
             __LINE__ = 38;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function testDeclHasFormal(args,args2,args3) {
@@ -910,36 +909,36 @@
             __LINE__ = 37;
             return console.log(1);
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         try {
           
           __LINE__ = 68;
-          testHasFormalDstaWithContext = testHasFormalDstaWithContext.bind( this );
+          testHasFormalDstaWithContext = testHasFormalDstaWithContext.bind(this);
           
           __LINE__ = 67;
-          testHasFormalWithContext = testHasFormalWithContext.bind( this );
+          testHasFormalWithContext = testHasFormalWithContext.bind(this);
           
           __LINE__ = 64;
-          testHasFormalDstaHasBlockWithContext = testHasFormalDstaHasBlockWithContext.bind( this );
+          testHasFormalDstaHasBlockWithContext = testHasFormalDstaHasBlockWithContext.bind(this);
           
           __LINE__ = 61;
-          testHasFormalHasBlockWithContext = testHasFormalHasBlockWithContext.bind( this );
+          testHasFormalHasBlockWithContext = testHasFormalHasBlockWithContext.bind(this);
           
           __LINE__ = 51;
-          testConstFunctionHasFormalDstaWithContext = testConstFunctionHasFormalDstaWithContext.bind( this );
+          testConstFunctionHasFormalDstaWithContext = testConstFunctionHasFormalDstaWithContext.bind(this);
           
           __LINE__ = 50;
-          testConstFunctionHasFormalWithContext = testConstFunctionHasFormalWithContext.bind( this );
+          testConstFunctionHasFormalWithContext = testConstFunctionHasFormalWithContext.bind(this);
           
           __LINE__ = 40;
-          testDeclHasFormalDstaWithContext = testDeclHasFormalDstaWithContext.bind( this );
+          testDeclHasFormalDstaWithContext = testDeclHasFormalDstaWithContext.bind(this);
           
           __LINE__ = 39;
-          testDeclHasFormalWithContext = testDeclHasFormalWithContext.bind( this );
+          testDeclHasFormalWithContext = testDeclHasFormalWithContext.bind(this);
         } catch(e){
-          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }();
       
@@ -949,102 +948,102 @@
           try {
             
             __LINE__ = 134;
-            Runtime.assert( true ,$1 === 0,"$1 === 0",134,'harmony_function_test.js');
+            __Runtime.assert( true ,$1 === 0,"$1 === 0",134,'harmony_function_test.js');
             
             __LINE__ = 135;
-            Runtime.assert( true ,a === 1,"a === 1",135,'harmony_function_test.js');
+            __Runtime.assert( true ,a === 1,"a === 1",135,'harmony_function_test.js');
             
             __LINE__ = 136;
-            Runtime.assert( true ,b === 2,"b === 2",136,'harmony_function_test.js');
+            __Runtime.assert( true ,b === 2,"b === 2",136,'harmony_function_test.js');
             
             __LINE__ = 137;
-            Runtime.assert( true ,c === 3,"c === 3",137,'harmony_function_test.js');
+            __Runtime.assert( true ,c === 3,"c === 3",137,'harmony_function_test.js');
             
             __LINE__ = 138;
-            Runtime.assert( true ,$2 === 0,"$2 === 0",138,'harmony_function_test.js');
+            __Runtime.assert( true ,$2 === 0,"$2 === 0",138,'harmony_function_test.js');
             
             __LINE__ = 139;
-            Runtime.assert( true ,d === 4,"d === 4",139,'harmony_function_test.js');
+            __Runtime.assert( true ,d === 4,"d === 4",139,'harmony_function_test.js');
             
             __LINE__ = 140;
-            Runtime.assert( true ,e === 100,"e === 100",140,'harmony_function_test.js');
+            __Runtime.assert( true ,e === 100,"e === 100",140,'harmony_function_test.js');
             
             __LINE__ = 141;
-            Runtime.assert( true ,f === 200,"f === 200",141,'harmony_function_test.js');
+            __Runtime.assert( true ,f === 200,"f === 200",141,'harmony_function_test.js');
             
             __LINE__ = 142;
-            Runtime.assert( true , this .valid," this .valid",142,'harmony_function_test.js');
+            __Runtime.assert( true ,this.valid,"this.valid",142,'harmony_function_test.js');
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function normalSpreadWithArgs($1,a,b,c,d,$2,e,f) {
           try {
             
             __LINE__ = 109;
-            Runtime.assert( true ,$1 === 0,"$1 === 0",109,'harmony_function_test.js');
+            __Runtime.assert( true ,$1 === 0,"$1 === 0",109,'harmony_function_test.js');
             
             __LINE__ = 110;
-            Runtime.assert( true ,a === 1,"a === 1",110,'harmony_function_test.js');
+            __Runtime.assert( true ,a === 1,"a === 1",110,'harmony_function_test.js');
             
             __LINE__ = 111;
-            Runtime.assert( true ,b === 2,"b === 2",111,'harmony_function_test.js');
+            __Runtime.assert( true ,b === 2,"b === 2",111,'harmony_function_test.js');
             
             __LINE__ = 112;
-            Runtime.assert( true ,c === 3,"c === 3",112,'harmony_function_test.js');
+            __Runtime.assert( true ,c === 3,"c === 3",112,'harmony_function_test.js');
             
             __LINE__ = 113;
-            Runtime.assert( true ,$2 === 0,"$2 === 0",113,'harmony_function_test.js');
+            __Runtime.assert( true ,$2 === 0,"$2 === 0",113,'harmony_function_test.js');
             
             __LINE__ = 114;
-            Runtime.assert( true ,d === 4,"d === 4",114,'harmony_function_test.js');
+            __Runtime.assert( true ,d === 4,"d === 4",114,'harmony_function_test.js');
             
             __LINE__ = 115;
-            Runtime.assert( true ,e === 100,"e === 100",115,'harmony_function_test.js');
+            __Runtime.assert( true ,e === 100,"e === 100",115,'harmony_function_test.js');
             
             __LINE__ = 116;
-            Runtime.assert( true ,f === 200,"f === 200",116,'harmony_function_test.js');
+            __Runtime.assert( true ,f === 200,"f === 200",116,'harmony_function_test.js');
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function newSpread(a,b,c,d) {
           try {
             
             __LINE__ = 91;
-            Runtime.assert( true ,a === 1,"a === 1",91,'harmony_function_test.js');
+            __Runtime.assert( true ,a === 1,"a === 1",91,'harmony_function_test.js');
             
             __LINE__ = 92;
-            Runtime.assert( true ,b === 2,"b === 2",92,'harmony_function_test.js');
+            __Runtime.assert( true ,b === 2,"b === 2",92,'harmony_function_test.js');
             
             __LINE__ = 93;
-            Runtime.assert( true ,c === 3,"c === 3",93,'harmony_function_test.js');
+            __Runtime.assert( true ,c === 3,"c === 3",93,'harmony_function_test.js');
             
             __LINE__ = 94;
-            Runtime.assert( true ,d === 4,"d === 4",94,'harmony_function_test.js');
+            __Runtime.assert( true ,d === 4,"d === 4",94,'harmony_function_test.js');
             
             __LINE__ = 95;
-            Runtime.assert( true , this .valid," this .valid",95,'harmony_function_test.js');
+            __Runtime.assert( true ,this.valid,"this.valid",95,'harmony_function_test.js');
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function normalSpread(a,b,c,d) {
           try {
             
             __LINE__ = 74;
-            Runtime.assert( true ,a === 1,"a === 1",74,'harmony_function_test.js');
+            __Runtime.assert( true ,a === 1,"a === 1",74,'harmony_function_test.js');
             
             __LINE__ = 75;
-            Runtime.assert( true ,b === 2,"b === 2",75,'harmony_function_test.js');
+            __Runtime.assert( true ,b === 2,"b === 2",75,'harmony_function_test.js');
             
             __LINE__ = 76;
-            Runtime.assert( true ,c === 3,"c === 3",76,'harmony_function_test.js');
+            __Runtime.assert( true ,c === 3,"c === 3",76,'harmony_function_test.js');
             
             __LINE__ = 77;
-            Runtime.assert( true ,d === 4,"d === 4",77,'harmony_function_test.js');
+            __Runtime.assert( true ,d === 4,"d === 4",77,'harmony_function_test.js');
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         try {
@@ -1058,21 +1057,21 @@
                   try {
                     
                     __LINE__ = 82;
-                    Runtime.assert( true ,a === 1,"a === 1",82,'harmony_function_test.js');
+                    __Runtime.assert( true ,a === 1,"a === 1",82,'harmony_function_test.js');
                     
                     __LINE__ = 83;
-                    Runtime.assert( true ,b === 2,"b === 2",83,'harmony_function_test.js');
+                    __Runtime.assert( true ,b === 2,"b === 2",83,'harmony_function_test.js');
                     
                     __LINE__ = 84;
-                    Runtime.assert( true ,c === 3,"c === 3",84,'harmony_function_test.js');
+                    __Runtime.assert( true ,c === 3,"c === 3",84,'harmony_function_test.js');
                     
                     __LINE__ = 85;
-                    Runtime.assert( true ,d === 4,"d === 4",85,'harmony_function_test.js');
+                    __Runtime.assert( true ,d === 4,"d === 4",85,'harmony_function_test.js');
                     
                     __LINE__ = 86;
-                    Runtime.assert( true , this  === propertySpread," this  === propertySpread",86,'harmony_function_test.js');
+                    __Runtime.assert( true ,this === propertySpread,"this === propertySpread",86,'harmony_function_test.js');
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
@@ -1081,13 +1080,13 @@
           newSpread.prototype.valid =  true ;
           
           __LINE__ = 99;
-          Runtime.spreadCall(undefined,normalSpread,[ true ,args], false );
+          __Runtime.spreadCall(undefined,normalSpread,[ true ,args], false );
           
           __LINE__ = 100;
-          Runtime.spreadCall(propertySpread,propertySpread.invoke,[ true ,args], false );
+          __Runtime.spreadCall(propertySpread,propertySpread.invoke,[ true ,args], false );
           
           __LINE__ = 101;
-          Runtime.spreadCall(undefined,newSpread,[ true ,args], true );
+          __Runtime.spreadCall(undefined,newSpread,[ true ,args], true );
           
           __LINE__ = 103;
           var tinyArgs = [100,200],
@@ -1101,33 +1100,33 @@
                   try {
                     
                     __LINE__ = 121;
-                    Runtime.assert( true ,$1 === 0,"$1 === 0",121,'harmony_function_test.js');
+                    __Runtime.assert( true ,$1 === 0,"$1 === 0",121,'harmony_function_test.js');
                     
                     __LINE__ = 122;
-                    Runtime.assert( true ,a === 1,"a === 1",122,'harmony_function_test.js');
+                    __Runtime.assert( true ,a === 1,"a === 1",122,'harmony_function_test.js');
                     
                     __LINE__ = 123;
-                    Runtime.assert( true ,b === 2,"b === 2",123,'harmony_function_test.js');
+                    __Runtime.assert( true ,b === 2,"b === 2",123,'harmony_function_test.js');
                     
                     __LINE__ = 124;
-                    Runtime.assert( true ,c === 3,"c === 3",124,'harmony_function_test.js');
+                    __Runtime.assert( true ,c === 3,"c === 3",124,'harmony_function_test.js');
                     
                     __LINE__ = 125;
-                    Runtime.assert( true ,$2 === 0,"$2 === 0",125,'harmony_function_test.js');
+                    __Runtime.assert( true ,$2 === 0,"$2 === 0",125,'harmony_function_test.js');
                     
                     __LINE__ = 126;
-                    Runtime.assert( true ,d === 4,"d === 4",126,'harmony_function_test.js');
+                    __Runtime.assert( true ,d === 4,"d === 4",126,'harmony_function_test.js');
                     
                     __LINE__ = 127;
-                    Runtime.assert( true ,e === 100,"e === 100",127,'harmony_function_test.js');
+                    __Runtime.assert( true ,e === 100,"e === 100",127,'harmony_function_test.js');
                     
                     __LINE__ = 128;
-                    Runtime.assert( true ,f === 200,"f === 200",128,'harmony_function_test.js');
+                    __Runtime.assert( true ,f === 200,"f === 200",128,'harmony_function_test.js');
                     
                     __LINE__ = 129;
-                    Runtime.assert( true , this  === propertySpreadWithArgs," this  === propertySpreadWithArgs",129,'harmony_function_test.js');
+                    __Runtime.assert( true ,this === propertySpreadWithArgs,"this === propertySpreadWithArgs",129,'harmony_function_test.js');
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
@@ -1136,25 +1135,25 @@
           newSpreadWithArgs.prototype.valid =  true ;
           
           __LINE__ = 145;
-          Runtime.spreadCall(undefined,normalSpread,[ true ,argtest.args], false );
+          __Runtime.spreadCall(undefined,normalSpread,[ true ,argtest.args], false );
           
           __LINE__ = 146;
-          Runtime.spreadCall(undefined,normalSpreadWithArgs,[ false ,0, true ,args, false ,0, true ,tinyArgs], false );
+          __Runtime.spreadCall(undefined,normalSpreadWithArgs,[ false ,0, true ,args, false ,0, true ,tinyArgs], false );
           
           __LINE__ = 147;
-          Runtime.spreadCall(propertySpreadWithArgs,propertySpreadWithArgs.invoke,[ false ,0, true ,args, false ,0, true ,tinyArgs], false );
+          __Runtime.spreadCall(propertySpreadWithArgs,propertySpreadWithArgs.invoke,[ false ,0, true ,args, false ,0, true ,tinyArgs], false );
           
           __LINE__ = 148;
-          var inst = Runtime.spreadCall(undefined,newSpreadWithArgs,[ false ,0, true ,args, false ,0, true ,tinyArgs], true );
+          var inst = __Runtime.spreadCall(undefined,newSpreadWithArgs,[ false ,0, true ,args, false ,0, true ,tinyArgs], true );
           
           __LINE__ = 149;
-          Runtime.assert( true ,inst instanceof newSpreadWithArgs,"inst instanceof newSpreadWithArgs",149,'harmony_function_test.js');
+          __Runtime.assert( true ,inst instanceof newSpreadWithArgs,"inst instanceof newSpreadWithArgs",149,'harmony_function_test.js');
         } catch(e){
-          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }();
     } catch(e){
-      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }
   }();
 }();

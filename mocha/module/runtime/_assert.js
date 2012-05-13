@@ -21,12 +21,12 @@
  *DEALINGS IN THE SOFTWARE.
  */
 @version(debug) {
-  Runtime.{
-    assert : (Runtime._global.console && Runtime._global.console.assert)?
-      (expect, exp, str, line, filename) -> Runtime._global.console.assert(expect === exp, "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line) :
+  __Runtime.{
+    assert : (__Runtime._global.console && __Runtime._global.console.assert)?
+      (expect, exp, str, line, filename) -> __Runtime._global.console.assert(expect === exp, "assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line) :
       (expect, exp, str, line, filename) -> {
         if (expect !== exp) {
-          Runtime.throwException("assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line);
+          __Runtime.throwException("assertion failed : " + str + "\nexpect " + expect + " but got " + exp + "\nin file " + filename + " at : " + line);
         }
       }
   }

@@ -2,7 +2,7 @@
 @source "../262/lib/prototype";
 
 class Test {
-  constructor(_@x = 100) {}
-  getX -> _@x;
+  constructor(@_x = 100) {}
+  getX -> @_x;
 }
 

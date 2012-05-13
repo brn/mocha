@@ -89,8 +89,6 @@ char reserved_words[][ 20 ] = {
 
 
 char builtins[][ 30 ] = {
-  "Runtime",
-  "_mochaGlobalExport",
   "Tuple",
   "Record",
   "StopIteration",

@@ -3434,12 +3434,20 @@ AstNode* Parser::ParseObjectLiteral() {
       if (maybe_colon == '}') {
         AstNode* node = ParseObjectElement(token->type(), token, object);
         CHECK_ERROR(node);
-        node->AddChild(node->Clone(pool()));
+        Literal* lit = node->Clone(pool())->CastToLiteral();
+        if (lit->value_type() == Literal::kProperty) {
+          lit->set_value_type(Literal::kIdentifier);
+        }
+        node->AddChild(lit);
         break;
       } else if (maybe_colon == ',') {
         AstNode* node = ParseObjectElement(token->type(), token, object);
         CHECK_ERROR(object);
-        node->AddChild(node->Clone(pool()));
+        Literal* lit = node->Clone(pool())->CastToLiteral();
+        if (lit->value_type() == Literal::kProperty) {
+          lit->set_value_type(Literal::kIdentifier);
+        }
+        node->AddChild(lit);
         token = Seek();
       } else if (maybe_colon == ':') {
         AstNode* node = ParseLiteral(true);
@@ -3681,7 +3689,7 @@ AstNode* Parser::ParseLiteral(bool reserved_usablity) {
       value_type = Literal::kIdentifier;
       const char* ident = token->token();
       int len = strlen(ident);
-      if (ident[ 0 ] == '@') {
+      if (len > 2 && ident[0] == '@' && ident[1] != '_') {
         Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
                                                       Token::JS_THIS, token->line_number(), Literal::kThis);
         if (len > 1) {
@@ -3691,13 +3699,13 @@ AstNode* Parser::ParseLiteral(bool reserved_usablity) {
         } else {
           return this_sym;
         }
-      } else if (len > 1 && ident[ 0 ] == '_' && ident[ 1 ] == '@') {
+      } else if (len > 1 && ident[ 0 ] == '@' && ident[ 1 ] == '_') {
         Literal* this_sym = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kThis),
                                                       Token::JS_THIS, token->line_number(), Literal::kThis);
         Literal* private_sym = builder()->CreateNameNode(JsToken::GetTokenFromNumber(Token::JS_PRIVATE),
                                                          Token::JS_PRIVATE, token->line_number(), Literal::kPrivate);
         if (len > 2) {
-          Literal* value = builder()->CreateNameNode(&ident[ 2 ], Token::JS_IDENTIFIER, token->line_number(), Literal::kProperty);
+          Literal* value = builder()->CreateNameNode(&ident[1], Token::JS_IDENTIFIER, token->line_number(), Literal::kProperty);
           NodeList* args = new(pool()) NodeList;
           args->AddChild(this_sym);
           CallExp* private_accessor = new(pool()) CallExp(CallExp::kNormal, token->line_number());

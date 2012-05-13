@@ -21,12 +21,12 @@
  *DEALINGS IN THE SOFTWARE.
  */
 
-Runtime.{
+__Runtime.{
   spreadCall(context, fn, args, isNew) {
     var newArgs = [];
     for var i = 0,len = args.length; i < len; i += 2 {
       if args[i] === true {
-        Runtime._push.apply(newArgs, args[i + 1]);
+        __Runtime._push.apply(newArgs, args[i + 1]);
       } else {
         newArgs.push(args[i + 1]);
       }

@@ -37,11 +37,11 @@ do {
       createPrivateRecord,
       getPrivateRecord,
       getInstanceBody;
-  if ("WeakMap" in global) {
+  if ("WeakMap" in __Runtime._global) {
     privateRecord = new WeakMap();
     createPrivateRecord = (self, privateHolder, constructor) -> {
       var holder = new privateHolder;
-      Runtime.createUnenumProp(holder, "__is_private__", 1);
+      __Runtime.createUnenumProp(holder, "__is_private__", 1);
       Rutnime.createUnenumProp(self, "constructor", constructor);
       privateRecord.set(self, holder);
       privateRecord.set(holder, self);
@@ -64,8 +64,8 @@ do {
         Object.defineProperty(privateSlot, "__is_private__", {value : 1});
         Object.defineProperty(privateSlot, "__parent__", {value : self});
         Object.defineProperty(holder, "constructor", {value : privateSlot});
-        Runtime.createUnenumProp(constructor, "__private__", holder);
-        Runtime.createUnenumProp(self, "constructor", constructor);
+        __Runtime.createUnenumProp(constructor, "__private__", holder);
+        __Runtime.createUnenumProp(self, "constructor", constructor);
       }
     }
     getPrivateRecord = (self) -> {
@@ -80,8 +80,10 @@ do {
     }
   }
   
-  Runtime.{
-    extendClass : (Runtime.hasProto)?
+  var hasProto = '__proto__' in {};
+  
+  __Runtime.{
+    extendClass : (hasProto)?
       (derived, base) -> {
         if typeof base === 'function' {
           derived.prototype.__proto__ = base.prototype;
@@ -103,7 +105,11 @@ do {
         inherit.prototype = base.prototype;
         derived.prototype = new inherit;
         for (var i in base) {
-          derived[ i ] = base[ i ];
+          //for webkit.
+          //in webkit, for in loop is enumerate prototype, if __proto__ property is manipurated.
+          if (i !== 'prototype') {
+            derived[ i ] = base[ i ];
+          }
         }
       } else {
         var inherit = ->{},
@@ -111,6 +117,9 @@ do {
         inherit.prototype = proto;
         derived.prototype = new inherit;
       }
+    },
+    extendPrototype( derived , base ) -> {
+      derived.prototype = base;
     },
     getPrivateRecord,
     getInstanceBody,

@@ -20,7 +20,7 @@
  *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
  */
-Runtime.{
+__Runtime.{
   Generator()->{},
   createGenerator(generatorFn, closeFn, context) -> {
     var ret = new this.Generator;
@@ -44,16 +44,15 @@ Runtime.{
   isGenerator(obj) -> obj instanceof @Generator,
 
   getIterator(obj) {
-    var ret = obj.iterator(),
-        newObj;
+    var ret = obj.iterator();
     if (@isGenerator(ret)) {
       return ret;
     }
-    newObj = {};
-    if ( ret.next ) {
-      @createUnenumProp(newObj, "next", function () {
-        var result = ret.next();
-        if ( result === undefined ) {
+    if (ret.next) {
+      var next = ret.next.bind(ret);
+      @createUnenumProp(ret, "next", function (nothrow) {
+        var result = next();
+        if (result === undefined && !nothrow) {
           @throwStopIteration();
         }
         return result;
@@ -61,25 +60,20 @@ Runtime.{
     } else {
       return {};
     }
-    if ( !( "__nothrowNext__" in ret ) ) {
-      @createUnenumProp( newObj , "__nothrowNext__" , ret.next.bind( ret ) );
+    if (!("__nothrowNext__" in ret)) {
+      @createUnenumProp(ret, "__nothrowNext__", ret.next.bind(ret, true));
     }
-    for ( var prop in ret ) {
-      if ( prop !== "next" && prop !== "__nothrowNext__" ) {
-        newObj[ prop ] = ret[ prop ]
-      }
+    if (!("toString" in ret)) {
+      @createUnenumProp(ret, "toString", -> "[object Iterator]");
     }
-    if ( !( "toString" in ret ) ) {
-      @createUnenumProp( newObj , "toString" , -> "[object Iterator]" );
-    }
-    return newObj;
+    return ret;
   },
 
-  hasIterator( obj ) -> 'iterator' in obj 
+  hasIterator(obj) -> 'iterator' in obj 
 };
 
-if (!("StopIteration" in Runtime._global)) {
-  Runtime._global.StopIteration = {
+if (!("StopIteration" in __Runtime._global)) {
+  __Runtime._global.StopIteration = {
     toString() -> "[object StopIteration]"
   }
 }

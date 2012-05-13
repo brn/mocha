@@ -41,7 +41,7 @@ OptimizerVisitor::OptimizerVisitor(CompilationInfo* info) :
 
 VISITOR_IMPL(AstRoot) {
   PRINT_NODE_NAME;
-  scope_ = ast_node->scope();
+  //scope_ = ast_node->scope();
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
@@ -601,7 +601,7 @@ UNREACHABLE_IMPL(ClassMember);
 
 VISITOR_IMPL(Function){
   PRINT_NODE_NAME;
-  scope_ = ast_node->scope();
+  //scope_ = ast_node->scope();
   AstNode* parent = ast_node->parent_node();
   bool is_exp = false;
   AstNode* exp = parent;
@@ -662,7 +662,7 @@ VISITOR_IMPL(Function){
   while (function_iterator.HasNext()) {
     ast_node->InsertBefore(function_iterator.Next());
   }
-  scope_ = scope_->parent();
+  //scope_ = scope_->parent();
 };
 
 
@@ -707,7 +707,7 @@ VISITOR_IMPL(Literal) {
   switch (ast_node->value_type()) {
     case Literal::kVariable : {
       ast_node->first_child()->Accept(this);
-      if (ast_node->first_child()->CastToLiteral()) {
+      /*if (ast_node->first_child()->CastToLiteral()) {
         Literal* literal = ast_node->first_child()->CastToLiteral();
         if (literal->value_type() == Literal::kIdentifier) {
           if (strcmp(ast_node->value()->token(), literal->value()->token()) == 0) {
@@ -718,7 +718,7 @@ VISITOR_IMPL(Literal) {
             }
           }
         }
-      }
+        }*/
     }
       break;
                         

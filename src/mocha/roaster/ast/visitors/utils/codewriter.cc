@@ -2,6 +2,7 @@
 #include <sstream>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/visitors/utils/codewriter.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/nexc/tokens/token_info.h>
 #include <mocha/roaster/scopes/scope.h>
@@ -284,6 +285,10 @@ class PrettyPrinter : public CodeWriter::WriterBase {
         stream->Write("var ");
         indent_ += (state == CodeWriter::kFor)? "" : "    ";
         break;
+
+      case Token::JS_THIS :
+        stream->Write("this");
+        break;
                                 
       default :
         std::stringstream st;
@@ -433,6 +438,10 @@ class CompressWriter : public CodeWriter::WriterBase {
       case Token::JS_VAR :
         stream->Write("var ");
         break;
+
+      case Token::JS_THIS :
+        stream->Write("this");
+        break;
                                 
       default :
         if (op > 127) {
@@ -536,35 +545,36 @@ void CodeWriter::DebugBlockEnd(CodeStream* stream, Scope* scope) {
     } else {
       stream->Write("}catch(e){");
     }
+    const char* runtime_str = SymbolList::symbol(SymbolList::kRuntime);
     if (is_pretty_print_) {
-      TokenInfo* runtime = new(memory::Pool::Local()) TokenInfo("Runtime", Token::JS_IDENTIFIER, 0);
+      TokenInfo* runtime = new(memory::Pool::Local()) TokenInfo(runtime_str, Token::JS_IDENTIFIER, 0);
       if (scope) {
         SymbolEntry entry = scope->Find(runtime);
         if (entry.first != 0) {
           TokenInfo* info = entry.first;
           stream->Write(info->compressed_name());
         } else {
-          stream->Write("Runtime");
+          stream->Write(runtime_str);
         }
       } else {
-        stream->Write("Runtime");
+        stream->Write(runtime_str);
       }
       stream->Write(".exceptionHandler(__LINE__, __FILE__, e)");
       base_->WriteOp(';', 0, stream);
       base_->WriteOp('}', kBlockEndBrace, stream);
     } else {
       stream->Write("}catch(e){");
-      TokenInfo* runtime = new(memory::Pool::Local()) TokenInfo("Runtime", Token::JS_IDENTIFIER, 0);
+      TokenInfo* runtime = new(memory::Pool::Local()) TokenInfo(runtime_str, Token::JS_IDENTIFIER, 0);
       if (scope) {
         SymbolEntry entry = scope->Find(runtime);
         if (entry.first != 0) {
           TokenInfo* info = entry.first;
           stream->Write(info->compressed_name());
         } else {
-          stream->Write("Runtime");
+          stream->Write(runtime_str);
         }
       } else {
-        stream->Write("Runtime");
+        stream->Write(runtime_str);
       }
       stream->Write(".catchHandler(__LINE__,__FILE__,e);}");
     }

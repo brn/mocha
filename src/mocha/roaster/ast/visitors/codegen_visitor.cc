@@ -13,6 +13,7 @@
 #include <mocha/roaster/nexc/loader/loader.h>
 #include <mocha/roaster/consts/consts.h>
 #include <mocha/roaster/scopes/scope.h>
+#include <mocha/roaster/nexc/tokens/symbol_list.h>
 #include <mocha/roaster/nexc/tokens/js_token.h>
 #include <mocha/roaster/nexc/tokens/token_info.h>
 
@@ -101,7 +102,7 @@ VISITOR_IMPL(AstRoot) {
     stream()->Write("!function()");
     writer()->WriteOp('{', CodeWriter::kFunctionBeginBrace, stream());
   }
-  writer()->InitializeFileName("Runtime", stream());
+  writer()->InitializeFileName(SymbolList::symbol(SymbolList::kRuntime), stream());
   iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);

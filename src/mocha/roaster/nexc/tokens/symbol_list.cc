@@ -9,7 +9,7 @@ static const char runtime[][50] = {
   "_mochaLocalTmp",
   "_mochaPrivateHolder",
   "toArray",
-  "Runtime",
+  "__Runtime",
   "createUnenumProp",
   "__typeid__",
   "constant",

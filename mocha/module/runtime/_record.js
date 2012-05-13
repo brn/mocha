@@ -21,7 +21,7 @@
  *DEALINGS IN THE SOFTWARE.
  */
 
-Runtime.{
+__Runtime.{
   RecordConstructor : do {
     RecordConstructor(obj) -> {
       for (var i in obj) {
@@ -36,5 +36,5 @@ Runtime.{
   }
 };
 
-Record(member) -> new Runtime.RecordConstructor(member);
-Record.prototype = Runtime.RecordConstructor.prototype;
+Record(member) -> new __Runtime.RecordConstructor(member);
+Record.prototype = __Runtime.RecordConstructor.prototype;

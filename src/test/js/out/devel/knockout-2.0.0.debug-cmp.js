@@ -1,8 +1,64 @@
 !function() {
-  var __FILE__ = "Runtime",
+  var __FILE__ = "__Runtime",
       __LINE__ = 0;
   
-  var global = ( this  !==  null )? this  : typeof window === 'object'?window : {};
+  var global = (this !==  null )?this : typeof window === 'object'?window : {},
+      __Runtime =  {
+        _global : global,
+        _push : Array.prototype.push,
+        _slice : Array.prototype.slice,
+        getErrorMessage : function (e) {
+          return (e.message)?e.message : (e.description)?e.description : e.toString();
+        },
+        isStopIteration : (function () {
+          
+          function isStopIteration(obj) {
+            return obj === __Runtime.StopIteration || rstopIteration.test(obj);
+          }
+          var rstopIteration = /StopIteration/;
+          return isStopIteration;
+        })(),
+        throwException : function (exception) {
+          try {
+            throw exception;
+          } catch(e){
+            
+            if (__Runtime.isStopIteration(e)){
+              throw new Error(e);
+            } else {
+              throw new Error(this.getErrorMessage(e));
+            }
+            
+          }
+          
+        },
+        createUnenumProp : function (obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
+            configurable :  true ,
+            enumerable :  false ,
+            writable :  true ,
+            value : value
+          });
+        },
+        constant : function (obj,prop,value) {
+          return Object.defineProperty(obj,prop, {
+            configurable :  false ,
+            enumerable :  false ,
+            writable :  false ,
+            value : value
+          });
+        },
+        toArray : function (likeArray,index) {
+          return (likeArray)?this._slice.call(likeArray,index) : [];
+        },
+        extend : function (dest,source) {
+          for (var prop in source){
+            
+            dest[prop] = source[prop];
+          }
+          return dest;
+        }
+      };
   
   !function () {
     !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
@@ -16,7 +72,7 @@
       }
       function callbackCheck(callback,type) {
         
-        Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",44,'_base.js');
+        __Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",40,'_prototype.js');
         
         typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
       }
@@ -89,7 +145,7 @@
       if (!stringProto.trim){
         
         stringProto.trim = function () {
-          return  this .replace(stringProto.trim.rtrim,"");
+          return this.replace(stringProto.trim.rtrim,"");
         };
         
         stringProto.trim.rtrim = /^\s*|\s*$/g;
@@ -97,29 +153,29 @@
       
       !stringProto.repeat && defineBuiltin(stringProto,"repeat",
       function (num) {
-        return Array(num+1).join( this .toString());
+        return Array(num+1).join(this.toString());
       });
       
       !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
       function (str) {
-        return ! this .indexOf(str);
+        return !this.indexOf(str);
       });
       
       !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
       function (str) {
         var t = String(str),
-            index =  this .lastIndexOf(t);
-        return index >= 0 && index ===  this .length-t.length;
+            index = this.lastIndexOf(t);
+        return index >= 0 && index === this.length-t.length;
       });
       
       !stringProto.contains && defineBuiltin(stringProto,"contains",
       function (str) {
-        return  this .indexOf(str) !== -1;
+        return this.indexOf(str) !== -1;
       });
       
       !stringProto.toArray && defineBuiltin(stringProto,"toArray",
       function (str) {
-        return  this .split("");
+        return this.split("");
       });
       
       !functionProto.bind && defineBuiltin(functionProto,"bind",
@@ -128,12 +184,12 @@
             context = argArray.shift(),
             ret = function () {
               var args = argArray.concat(arrayProto.slice.call(arguments));
-              return  this  !==  null  &&  this  !== global &&  this  instanceof ret?ret.context.apply( this ,args) : ret.context.apply(context,args);
+              return this !==  null  && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
             };
         
-        ret.prototype =  this .prototype;
+        ret.prototype = this.prototype;
         
-        ret.context =  this ;
+        ret.context = this;
         return ret;
       });
       
@@ -144,16 +200,16 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            callback.call(that,ta,iter, this );
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            callback.call(that,ta,iter,this);
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            callback(ta,iter, this );
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            callback(ta,iter,this);
           }
           
         }
@@ -167,19 +223,19 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.every : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.every : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback.call(that,ta,iter, this ))){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback.call(that,ta,iter,this))){
               return  false ;
             }
             
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback(ta,iter, this ))){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (!(callback(ta,iter,this))){
               return  false ;
             }
             
@@ -196,19 +252,19 @@
         var iter = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.some : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.some : this is null or not defined");
         
         if (that){
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (callback.call(that,ta,iter, this )){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (callback.call(that,ta,iter,this)){
               return  true ;
             }
             
           }
           
         } else {
-          while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
-            if (callback(ta,iter, this )){
+          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+            if (callback(ta,iter,this)){
               return  true ;
             }
             
@@ -222,23 +278,23 @@
       function (callback,that) {
         callbackCheck(callback,"Array.filter");
         
-        var len =  this .length,
+        var len = this.length,
             iter = -1,
             ret = [],
             ta;
         
-         this  ===  null  && builtinTypeError("Array.filter : this is null or not defined");
+        this ===  null  && builtinTypeError("Array.filter : this is null or not defined");
         
         if (that){
-          for (var i = 0,len =  this .length;i<len; ++ i){
+          for (var i = 0,len = this.length;i<len; ++ i){
             
-            (ta =  this [i]) !==  null  && ta !== undefined && callback.call(that,ta,i, this ) && (ret[ ++ iter] = ta);
+            (ta = this[i]) !==  null  && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
           }
           
         } else {
-          for (var i = 0,len =  this .length;i<len; ++ i){
+          for (var i = 0,len = this.length;i<len; ++ i){
             
-            (ta =  this [i]) !==  null  && ta !== undefined && callback(ta,i, this ) && (ret[ ++ iter] = ta);
+            (ta = this[i]) !==  null  && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
           }
           
         }
@@ -251,9 +307,9 @@
             index = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
         
-        while ((ta =  this [ ++ iter]) !==  null  && ta !== undefined){
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
           if (ta === subject){
             
             index = iter;
@@ -266,14 +322,14 @@
       
       !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
       function (target,fromIndex) {
-        var len =  this .length,
+        var len = this.length,
             iter = (fromIndex)?fromIndex+1 : len,
             index = -1,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
         
-        while ((ta =  this [ -- iter]) !==  null  && ta !== undefined){
+        while ((ta = this[ -- iter]) !==  null  && ta !== undefined){
           if (ta === target){
             
             index = iter;
@@ -290,20 +346,20 @@
         
         var ret = [],
             iter = -1,
-            len =  this .length,
+            len = this.length,
             i = 0,
             ta;
         
-         this  ===  null  && builtinTypeError("Array.map : this is null or not defined.");
+        this ===  null  && builtinTypeError("Array.map : this is null or not defined.");
         
         if (that){
           for (i;i<len; ++ i){
-            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i, this ));
+            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
           }
           
         } else {
           for (i;i<len; ++ i){
-            (ta =  this [i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i, this ));
+            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
           }
           
         }
@@ -314,15 +370,15 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduce");
         
-        var ret = initial ||  this [0],
+        var ret = initial || this[0],
             i = (initial)?0 : 1,
-            len =  this .length,
+            len = this.length,
             ta;
         
         (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i<len; ++ i){
-          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
+          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
         }
         return ret;
       });
@@ -331,28 +387,28 @@
       function (callback,initial) {
         callbackCheck(callback,"Array.reduceRight");
         
-        var len =  this .length,
-            ret = initial ||  this [len-1],
+        var len = this.length,
+            ret = initial || this[len-1],
             i = (initial)?len-1 : len-2,
             ta;
         
         (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
         
         for (i;i>-1; -- i){
-          (ta =  this [i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i, this ));
+          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
         }
         return ret;
       });
       
       !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
       function () {
-        var _mochaLocalTmp4 = [ this .getUTCMonth(), this .getUTCDate(), this .getUTCHours(), this .getMinutes(), this .getSeconds()],
+        var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
             month = _mochaLocalTmp4[0],
             date = _mochaLocalTmp4[1],
             hour = _mochaLocalTmp4[2],
             minute = _mochaLocalTmp4[3],
             second = _mochaLocalTmp4[4];
-        return '"'+ this .getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+ this .getUTCMilliseconds()+'Z"';
+        return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
       });
       
       !Date.now && defineBuiltin(Date,"now",
@@ -367,79 +423,22 @@
         }
         return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
       });
-    }.call( this ,String,Array,Function,Date);
-  }.call( this );
+    }.call(this,String,Array,Function,Date);
+  }.call(this);
   
-  var Runtime =  {
-        _global : global,
-        _push : Array.prototype.push,
-        _slice : Array.prototype.slice,
-        getErrorMessage : function (e) {
-          return (e.message)?e.message : (e.description)?e.description : e.toString();
-        },
-        isStopIteration : (function () {
-          
-          function isStopIteration(obj) {
-            return obj === Runtime.StopIteration || rstopIteration.test(obj);
-          }
-          var rstopIteration = /StopIteration/;
-          return isStopIteration;
-        })(),
-        throwException : function (exception) {
-          try {
-            throw exception;
-          } catch(e){
-            
-            if (Runtime.isStopIteration(e)){
-              throw new Error(e);
-            } else {
-              throw new Error( this .getErrorMessage(e));
-            }
-            
-          }
-          
-        },
-        createUnenumProp : function (obj,prop,value) {
-          return Object.defineProperty(obj,prop, {
-            configurable :  true ,
-            enumerable :  false ,
-            writable :  true ,
-            value : value
-          });
-        },
-        constant : function (obj,prop,value) {
-          return Object.defineProperty(obj,prop, {
-            configurable :  false ,
-            enumerable :  false ,
-            writable :  false ,
-            value : value
-          });
-        },
-        toArray : function (likeArray,index) {
-          return (likeArray)? this ._slice.call(likeArray,index) : [];
-        },
-        extend : function (dest,source) {
-          for (var prop in source){
-            
-            dest[prop] = source[prop];
-          }
-          return dest;
-        }
-      };
-  
-  Runtime.extend(Runtime, {
+  __Runtime.extend(__Runtime, {
     Exception : function (line,file,e) {
-       this .toString = function () {
-        return Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
+      this.toString = function () {
+        return __Runtime.getErrorMessage(e)+" in file "+file+" at : "+line;
       };
     },
     exceptionHandler : function (line,file,e) {
-      if (Runtime.isStopIteration(e)){
+      if (__Runtime.isStopIteration(e)){
         
-         this .throwException(e);
+        this.throwException(e);
       } else {
         
-         this .throwException(new  this .Exception(line,file,e));
+        this.throwException(new this.Exception(line,file,e));
       }
       
     }
@@ -460,7 +459,7 @@
             __LINE__ = 2029;
             modelValue !== ko.selectExtensions.readValue(element) && ko.utils.triggerEvent(element,"change");
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function prepareOptions(evaluatorFunctionOrOptions,evaluatorFunctionTarget,options) {
@@ -486,13 +485,13 @@
             __LINE__ = 1056;
             return options;
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         function applyExtenders(requestedExtenders) {
           try {
             __LINE__ = 753;
-            var target =  this ;
+            var target = this;
             
             __LINE__ = 754;
             if (requestedExtenders){
@@ -510,7 +509,7 @@
             __LINE__ = 762;
             return target;
           } catch(e){
-            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
           }
         }
         try {
@@ -535,7 +534,7 @@
               __LINE__ = 13;
               target[tokens[tokens.length-1]] = object;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -545,7 +544,7 @@
               __LINE__ = 16;
               owner[publicName] = object;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -570,7 +569,7 @@
                 __LINE__ = 52;
                 return (inputType == "checkbox") || (inputType == "radio");
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -621,7 +620,7 @@
                       __LINE__ = 43;
                       return version>4?version : undefined;
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }()),
                   isIe6 = ieVersion === 6,
@@ -639,7 +638,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 arrayIndexOf : function (array,item) {
@@ -663,7 +662,7 @@
                     __LINE__ = 69;
                     return -1;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 arrayFirst : function (array,predicate,predicateOwner) {
@@ -681,7 +680,7 @@
                     __LINE__ = 76;
                     return  null ;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 arrayRemoveItem : function (array,itemToRemove) {
@@ -697,7 +696,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 arrayGetDistinctValues : function (array) {
@@ -722,7 +721,7 @@
                     __LINE__ = 92;
                     return result;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 arrayMap : function (array,mapping) {
@@ -742,7 +741,7 @@
                     __LINE__ = 100;
                     return result;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 arrayFilter : function (array,predicate) {
@@ -767,7 +766,7 @@
                     __LINE__ = 109;
                     return result;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 arrayPushAll : function (array,valuesToPush) {
@@ -781,7 +780,7 @@
                     __LINE__ = 115;
                     return array;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 extend : function (target,source) {
@@ -800,7 +799,7 @@
                     __LINE__ = 124;
                     return target;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 emptyDomNode : function (domNode) {
@@ -813,7 +812,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 setDomNodeChildren : function (domNode,childNodes) {
@@ -831,13 +830,13 @@
                           __LINE__ = 137;
                           domNode.appendChild(childNode);
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       });
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 replaceDomNodes : function (nodeToReplaceOrNodeArray,newNodesArray) {
@@ -871,7 +870,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 setOptionNodeSelectionState : function (optionNode,isSelected) {
@@ -887,7 +886,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 stringTrim : function (string) {
@@ -895,7 +894,7 @@
                     __LINE__ = 164;
                     return (string || "").replace(stringTrimRegex,"");
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 stringTokenize : function (string,delimiter) {
@@ -923,7 +922,7 @@
                     __LINE__ = 175;
                     return result;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 stringStartsWith : function (string,startsWith) {
@@ -939,7 +938,7 @@
                     __LINE__ = 182;
                     return string.substring(0,startsWith.length) === startsWith;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 evalWithinScope : function (expression) {
@@ -964,7 +963,7 @@
                     __LINE__ = 195;
                     return (new Function("sc",functionBody))(scopes);
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 domNodeIsContainedBy : function (node,containedByNode) {
@@ -990,7 +989,7 @@
                     __LINE__ = 206;
                     return  false ;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 domNodeIsAttachedToDocument : function (node) {
@@ -998,7 +997,7 @@
                     __LINE__ = 210;
                     return ko.utils.domNodeIsContainedBy(node,document);
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 registerEventHandler : function (element,eventType,handler) {
@@ -1016,22 +1015,22 @@
                         handler = function (event,eventData) {
                           try {
                             __LINE__ = 222;
-                            var jQuerySuppliedCheckedState =  this .checked;
+                            var jQuerySuppliedCheckedState = this.checked;
                             
                             __LINE__ = 223;
                             if (eventData){
                               
                               __LINE__ = 224;
-                               this .checked = eventData.checkedStateBeforeEvent !==  true ;
+                              this.checked = eventData.checkedStateBeforeEvent !==  true ;
                             }
                             
                             __LINE__ = 225;
-                            originalHandler.call( this ,event);
+                            originalHandler.call(this,event);
                             
                             __LINE__ = 226;
-                             this .checked = jQuerySuppliedCheckedState;
+                            this.checked = jQuerySuppliedCheckedState;
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                       }
@@ -1051,7 +1050,7 @@
                           __LINE__ = 234;
                           handler.call(element,event);
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       });
                     } else {
@@ -1060,7 +1059,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 triggerEvent : function (element,eventType) {
@@ -1125,7 +1124,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 unwrapObservable : function (value) {
@@ -1133,7 +1132,7 @@
                     __LINE__ = 274;
                     return ko.isObservable(value)?value() : value;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 domNodeHasCssClass : function (node,className) {
@@ -1143,7 +1142,7 @@
                     __LINE__ = 279;
                     return ko.utils.arrayIndexOf(currentClassNames,className) >= 0;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 toggleDomNodeCssClass : function (node,className,shouldHaveClass) {
@@ -1179,7 +1178,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 outerHTML : function (node) {
@@ -1206,7 +1205,7 @@
                     __LINE__ = 308;
                     return dummyContainer.innerHTML;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 setTextContent : function (element,textContent) {
@@ -1232,7 +1231,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 range : function (min,max) {
@@ -1255,7 +1254,7 @@
                     __LINE__ = 331;
                     return result;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 makeArray : function (arrayLikeObject) {
@@ -1272,7 +1271,7 @@
                     __LINE__ = 339;
                     return result;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 isIe6 : isIe6,
@@ -1288,14 +1287,14 @@
                             __LINE__ = 348;
                             return field.name === fieldName;
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         } : function (field) {
                           try {
                             __LINE__ = 349;
                             return fieldName.test(field.name);
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                     
@@ -1316,7 +1315,7 @@
                     __LINE__ = 355;
                     return matches;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 parseJson : function (jsonString) {
@@ -1343,7 +1342,7 @@
                     __LINE__ = 367;
                     return  null ;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 stringifyJson : function (data) {
@@ -1356,7 +1355,7 @@
                     __LINE__ = 373;
                     return JSON.stringify(ko.utils.unwrapObservable(data));
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 postJson : function (urlOrForm,data,options) {
@@ -1368,7 +1367,7 @@
                     var params = options['params'] || {};
                     
                     __LINE__ = 379;
-                    var includeFields = options['includeFields'] ||  this .fieldsIncludedWithJsonPost;
+                    var includeFields = options['includeFields'] || this.fieldsIncludedWithJsonPost;
                     
                     __LINE__ = 380;
                     var url = urlOrForm;
@@ -1458,16 +1457,16 @@
                         __LINE__ = 412;
                         form.parentNode.removeChild(form);
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     },0);
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -1481,7 +1480,7 @@
               __LINE__ = 439;
               ko.exportSymbol('ko.utils.'+item[0],item[1]);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
@@ -1489,7 +1488,7 @@
           !Function.prototype.bind && (Function.prototype.bind = function (object) {
             try {
               __LINE__ = 446;
-              var originalFunction =  this ,
+              var originalFunction = this,
                   args = [].slice.call(arguments),
                   object = args.shift();
               __LINE__ = 447;
@@ -1498,11 +1497,11 @@
                   __LINE__ = 448;
                   return originalFunction.apply(object,args.concat([].slice.call(arguments)));
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
@@ -1522,7 +1521,7 @@
                     __LINE__ = 459;
                     return allDataForNode === undefined?undefined : allDataForNode[key];
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 set : function (node,key,value) {
@@ -1544,7 +1543,7 @@
                     __LINE__ = 468;
                     allDataForNode[key] = value;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 getAll : function (node,createIfNotFound) {
@@ -1573,7 +1572,7 @@
                     __LINE__ = 479;
                     return dataStore[dataStoreKey];
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 clear : function (node) {
@@ -1592,12 +1591,12 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -1634,7 +1633,7 @@
                 __LINE__ = 524;
                 (typeof jQuery == "function") && (typeof jQuery.cleanData == "function") && jQuery.cleanData([node]);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function destroyCallbacksCollection(node) {
@@ -1642,7 +1641,7 @@
                 __LINE__ = 505;
                 ko.utils.domData.set(node,domDataKey,undefined);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function getDisposeCallbacksCollection(node,createIfNotFound) {
@@ -1662,7 +1661,7 @@
                 __LINE__ = 502;
                 return allDisposeCallbacks;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -1682,7 +1681,7 @@
                     __LINE__ = 531;
                     getDisposeCallbacksCollection(node, true ).push(callback);
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 removeDisposeCallback : function (node,callback) {
@@ -1706,7 +1705,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 cleanNode : function (node) {
@@ -1734,7 +1733,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 removeNode : function (node) {
@@ -1750,12 +1749,12 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -1805,7 +1804,7 @@
                 __LINE__ = 621;
                 return elems;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function simpleHtmlParse(html) {
@@ -1827,7 +1826,7 @@
                 __LINE__ = 602;
                 return ko.utils.makeArray(div.lastChild.childNodes);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -1841,7 +1840,7 @@
                   __LINE__ = 625;
                   return typeof jQuery != 'undefined'?jQueryHtmlParse(html) : simpleHtmlParse(html);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -1877,11 +1876,11 @@
                   }
                   
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -1923,7 +1922,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function generateRandomId() {
@@ -1931,7 +1930,7 @@
                 __LINE__ = 660;
                 return randomMax8HexChars()+randomMax8HexChars();
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function randomMax8HexChars() {
@@ -1939,7 +1938,7 @@
                 __LINE__ = 657;
                 return (((1+Math.random())*0x00000000)|0).toString(16).substring(1);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -1964,7 +1963,7 @@
                     __LINE__ = 681;
                     return "<!--[ko_memo:"+memoId+"]-->";
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 unmemoize : function (memoId,callbackParams) {
@@ -1991,7 +1990,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 unmemoizeDomNodeAndDescendants : function (domNode,extraCallbackParamsArray) {
@@ -2034,7 +2033,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 parseMemoText : function (memoText) {
@@ -2044,12 +2043,12 @@
                     __LINE__ = 712;
                     return match?match[1] :  null ;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -2091,16 +2090,16 @@
                           __LINE__ = 738;
                           target(value);
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       },timeout);
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }
                 });
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'notify' : function (target,notifyWhen) {
@@ -2111,13 +2110,13 @@
                     __LINE__ = 746;
                     return  false ;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 } : ko.observable["fn"]["equalityComparer"];
                 __LINE__ = 748;
                 return target;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -2129,15 +2128,15 @@
           ko.subscription = function (callback,disposeCallback) {
             try {
               __LINE__ = 767;
-               this .callback = callback;
+              this.callback = callback;
               
               __LINE__ = 768;
-               this .disposeCallback = disposeCallback;
+              this.disposeCallback = disposeCallback;
               
               __LINE__ = 769;
-              ko.exportProperty( this ,'dispose', this .dispose);
+              ko.exportProperty(this,'dispose',this.dispose);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2145,12 +2144,12 @@
           ko.subscription.prototype.dispose = function () {
             try {
               __LINE__ = 772;
-               this .isDisposed =  true ;
+              this.isDisposed =  true ;
               
               __LINE__ = 773;
-               this .disposeCallback();
+              this.disposeCallback();
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2158,21 +2157,21 @@
           ko.subscribable = function () {
             try {
               __LINE__ = 777;
-               this ._subscriptions = {};
+              this._subscriptions = {};
               
               __LINE__ = 779;
-              ko.utils.extend( this ,ko.subscribable.fn);
+              ko.utils.extend(this,ko.subscribable.fn);
               
               __LINE__ = 780;
-              ko.exportProperty( this ,'subscribe', this .subscribe);
+              ko.exportProperty(this,'subscribe',this.subscribe);
               
               __LINE__ = 781;
-              ko.exportProperty( this ,'extend', this .extend);
+              ko.exportProperty(this,'extend',this.extend);
               
               __LINE__ = 782;
-              ko.exportProperty( this ,'getSubscriptionsCount', this .getSubscriptionsCount);
+              ko.exportProperty(this,'getSubscriptionsCount',this.getSubscriptionsCount);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2193,25 +2192,25 @@
                 var subscription = new ko.subscription(boundCallback,function () {
                       try {
                         __LINE__ = 793;
-                        ko.utils.arrayRemoveItem( this ._subscriptions[event],subscription);
+                        ko.utils.arrayRemoveItem(this._subscriptions[event],subscription);
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
-                    }.bind( this ));
+                    }.bind(this));
                 
                 __LINE__ = 796;
-                if (! this ._subscriptions[event]){
+                if (!this._subscriptions[event]){
                   
                   __LINE__ = 797;
-                   this ._subscriptions[event] = [];
+                  this._subscriptions[event] = [];
                 }
                 
                 __LINE__ = 798;
-                 this ._subscriptions[event].push(subscription);
+                this._subscriptions[event].push(subscription);
                 __LINE__ = 799;
                 return subscription;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             "notifySubscribers" : function (valueToNotify,event) {
@@ -2220,10 +2219,10 @@
                 event = event || defaultEvent;
                 
                 __LINE__ = 804;
-                if ( this ._subscriptions[event]){
+                if (this._subscriptions[event]){
                   
                   __LINE__ = 805;
-                  ko.utils.arrayForEach( this ._subscriptions[event].slice(0),
+                  ko.utils.arrayForEach(this._subscriptions[event].slice(0),
                   function (subscription) {
                     try {
                       __LINE__ = 808;
@@ -2234,13 +2233,13 @@
                       }
                       
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             getSubscriptionsCount : function () {
@@ -2249,20 +2248,20 @@
                 var total = 0;
                 
                 __LINE__ = 816;
-                for (var eventName in  this ._subscriptions){
+                for (var eventName in this._subscriptions){
                   
                   __LINE__ = 817;
-                  if ( this ._subscriptions.hasOwnProperty(eventName)){
+                  if (this._subscriptions.hasOwnProperty(eventName)){
                     
                     __LINE__ = 818;
-                    total +=  this ._subscriptions[eventName].length;
+                    total += this._subscriptions[eventName].length;
                   }
                   
                 }
                 __LINE__ = 820;
                 return total;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             extend : applyExtenders
@@ -2274,7 +2273,7 @@
               __LINE__ = 828;
               return typeof instance.subscribe == "function" && typeof instance.notifySubscribers == "function";
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2299,7 +2298,7 @@
                       distinctDependencies : []
                     });
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 end : function () {
@@ -2307,7 +2306,7 @@
                     __LINE__ = 843;
                     _frames.pop();
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 registerDependency : function (subscribable) {
@@ -2338,12 +2337,12 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -2375,7 +2374,7 @@
                     observable.valueHasMutated();
                   }
                   __LINE__ = 873;
-                  return  this ;
+                  return this;
                 } else {
                   
                   __LINE__ = 877;
@@ -2385,7 +2384,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -2402,7 +2401,7 @@
                   __LINE__ = 882;
                   observable.notifySubscribers(_latestValue);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -2412,7 +2411,7 @@
                   __LINE__ = 883;
                   observable.notifySubscribers(_latestValue,"beforeChange");
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -2427,7 +2426,7 @@
               __LINE__ = 889;
               return observable;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2441,7 +2440,7 @@
                 __LINE__ = 897;
                 return oldValueIsPrimitive?(a === b) :  false ;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -2463,7 +2462,7 @@
               __LINE__ = 904;
               return ko.isObservable(instance.__ko_proto__);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2484,7 +2483,7 @@
               __LINE__ = 914;
               return  false ;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2535,7 +2534,7 @@
               __LINE__ = 939;
               return result;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -2544,7 +2543,7 @@
             remove : function (valueOrPredicate) {
               try {
                 __LINE__ = 944;
-                var underlyingArray =  this ();
+                var underlyingArray = this();
                 
                 __LINE__ = 945;
                 var removedValues = [];
@@ -2555,7 +2554,7 @@
                         __LINE__ = 946;
                         return value === valueOrPredicate;
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     };
                 
@@ -2572,7 +2571,7 @@
                     if (removedValues.length === 0){
                       
                       __LINE__ = 951;
-                       this .valueWillMutate();
+                      this.valueWillMutate();
                     }
                     
                     __LINE__ = 953;
@@ -2591,12 +2590,12 @@
                 if (removedValues.length){
                   
                   __LINE__ = 959;
-                   this .valueHasMutated();
+                  this.valueHasMutated();
                 }
                 __LINE__ = 961;
                 return removedValues;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             removeAll : function (arrayOfValues) {
@@ -2605,19 +2604,19 @@
                 if (arrayOfValues === undefined){
                   
                   __LINE__ = 967;
-                  var underlyingArray =  this ();
+                  var underlyingArray = this();
                   
                   __LINE__ = 968;
                   var allValues = underlyingArray.slice(0);
                   
                   __LINE__ = 969;
-                   this .valueWillMutate();
+                  this.valueWillMutate();
                   
                   __LINE__ = 970;
                   underlyingArray.splice(0,underlyingArray.length);
                   
                   __LINE__ = 971;
-                   this .valueHasMutated();
+                  this.valueHasMutated();
                   __LINE__ = 972;
                   return allValues;
                 }
@@ -2628,22 +2627,22 @@
                   return [];
                 }
                 __LINE__ = 977;
-                return  this .remove(function (value) {
+                return this.remove(function (value) {
                   try {
                     __LINE__ = 978;
                     return ko.utils.arrayIndexOf(arrayOfValues,value) >= 0;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             destroy : function (valueOrPredicate) {
               try {
                 __LINE__ = 983;
-                var underlyingArray =  this ();
+                var underlyingArray = this();
                 
                 __LINE__ = 984;
                 var predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function (value) {
@@ -2651,12 +2650,12 @@
                         __LINE__ = 984;
                         return value === valueOrPredicate;
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     };
                 
                 __LINE__ = 985;
-                 this .valueWillMutate();
+                this.valueWillMutate();
                 
                 __LINE__ = 986;
                 for (var i = underlyingArray.length-1;i >= 0;i -- ){
@@ -2674,9 +2673,9 @@
                 }
                 
                 __LINE__ = 991;
-                 this .valueHasMutated();
+                this.valueHasMutated();
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             destroyAll : function (arrayOfValues) {
@@ -2684,12 +2683,12 @@
                 __LINE__ = 996;
                 if (arrayOfValues === undefined){
                   __LINE__ = 997;
-                  return  this .destroy(function () {
+                  return this.destroy(function () {
                     try {
                       __LINE__ = 997;
                       return  true ;
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 }
@@ -2700,48 +2699,48 @@
                   return [];
                 }
                 __LINE__ = 1002;
-                return  this .destroy(function (value) {
+                return this.destroy(function (value) {
                   try {
                     __LINE__ = 1003;
                     return ko.utils.arrayIndexOf(arrayOfValues,value) >= 0;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             indexOf : function (item) {
               try {
                 __LINE__ = 1008;
-                var underlyingArray =  this ();
+                var underlyingArray = this();
                 __LINE__ = 1009;
                 return ko.utils.arrayIndexOf(underlyingArray,item);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             replace : function (oldItem,newItem) {
               try {
                 __LINE__ = 1013;
-                var index =  this .indexOf(oldItem);
+                var index = this.indexOf(oldItem);
                 
                 __LINE__ = 1014;
                 if (index >= 0){
                   
                   __LINE__ = 1015;
-                   this .valueWillMutate();
+                  this.valueWillMutate();
                   
                   __LINE__ = 1016;
-                   this ()[index] = newItem;
+                  this()[index] = newItem;
                   
                   __LINE__ = 1017;
-                   this .valueHasMutated();
+                  this.valueHasMutated();
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -2754,24 +2753,24 @@
               ko.observableArray.fn[methodName] = function () {
                 try {
                   __LINE__ = 1025;
-                  var underlyingArray =  this ();
+                  var underlyingArray = this();
                   
                   __LINE__ = 1026;
-                   this .valueWillMutate();
+                  this.valueWillMutate();
                   
                   __LINE__ = 1027;
                   var methodCallResult = underlyingArray[methodName].apply(underlyingArray,arguments);
                   
                   __LINE__ = 1028;
-                   this .valueHasMutated();
+                  this.valueHasMutated();
                   __LINE__ = 1029;
                   return methodCallResult;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
@@ -2783,15 +2782,15 @@
               ko.observableArray.fn[methodName] = function () {
                 try {
                   __LINE__ = 1036;
-                  var underlyingArray =  this ();
+                  var underlyingArray = this();
                   __LINE__ = 1037;
                   return underlyingArray[methodName].apply(underlyingArray,arguments);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
@@ -2829,7 +2828,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function evaluateImmediate() {
@@ -2858,7 +2857,7 @@
                       __LINE__ = 1111;
                       _subscriptionsToDependencies.push(subscribable.subscribe(evaluatePossiblyAsync));
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
@@ -2885,7 +2884,7 @@
                 __LINE__ = 1122;
                 _hasBeenEvaluated =  true ;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function evaluatePossiblyAsync() {
@@ -2907,7 +2906,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function disposeAllSubscriptionsToDependencies() {
@@ -2919,14 +2918,14 @@
                     __LINE__ = 1082;
                     subscription.dispose();
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
                 
                 __LINE__ = 1084;
                 _subscriptionsToDependencies = [];
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -2947,7 +2946,7 @@
                     __LINE__ = 1070;
                     dependentObservable.dispose();
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
                 
@@ -2963,7 +2962,7 @@
                     __LINE__ = 1074;
                     return (!ko.utils.domNodeIsAttachedToDocument(disposeWhenNodeIsRemoved)) || ((typeof existingDisposeWhenFunction == "function") && existingDisposeWhenFunction());
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
               }
@@ -2980,7 +2979,7 @@
                   __LINE__ = 1142;
                   return _subscriptionsToDependencies.length;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -2996,7 +2995,7 @@
                   __LINE__ = 1147;
                   disposeAllSubscriptionsToDependencies();
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -3017,7 +3016,7 @@
               __LINE__ = 1159;
               return dependentObservable;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -3044,7 +3043,7 @@
                     values = [];
                 
                 __LINE__ = 1238;
-                 this .save = function (key,value) {
+                this.save = function (key,value) {
                   try {
                     __LINE__ = 1239;
                     var existingIndex = ko.utils.arrayIndexOf(keys,key);
@@ -3063,23 +3062,23 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
                 
                 __LINE__ = 1247;
-                 this .get = function (key) {
+                this.get = function (key) {
                   try {
                     __LINE__ = 1248;
                     var existingIndex = ko.utils.arrayIndexOf(keys,key);
                     __LINE__ = 1249;
                     return (existingIndex >= 0)?values[existingIndex] : undefined;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function visitPropertiesOrArrayEntries(rootObject,visitorCallback) {
@@ -3104,7 +3103,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function mapJsObjectGraph(rootObject,mapInputCallback,visitedObjects) {
@@ -3162,13 +3161,13 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
                 __LINE__ = 1222;
                 return outputProperties;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -3197,11 +3196,11 @@
                       __LINE__ = 1182;
                       return valueToMap;
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -3213,11 +3212,11 @@
                   __LINE__ = 1188;
                   return ko.utils.stringifyJson(plainJavaScriptObject);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -3256,7 +3255,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 writeValue : function (element,value) {
@@ -3323,12 +3322,12 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -3361,7 +3360,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function isWriteableValue(expression) {
@@ -3374,7 +3373,7 @@
                 __LINE__ = 1331;
                 return expression.match(javaScriptAssignmentTarget) !==  null ;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function restoreTokens(string,tokens) {
@@ -3395,14 +3394,14 @@
                       __LINE__ = 1322;
                       return tokens[tokenIndex];
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 }
                 __LINE__ = 1325;
                 return string;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -3624,7 +3623,7 @@
                     __LINE__ = 1431;
                     return result;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 insertPropertyAccessorsIntoJson : function (objectLiteralStringOrKeyValueArray) {
@@ -3702,7 +3701,7 @@
                     __LINE__ = 1467;
                     return combinedResult;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 keyValueArrayContainsKey : function (keyValueArray,key) {
@@ -3720,12 +3719,12 @@
                     __LINE__ = 1474;
                     return  false ;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -3775,7 +3774,7 @@
                 __LINE__ = 1569;
                 return captureRemaining;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function nodeArrayToText(nodeArray,cleanNodes) {
@@ -3795,7 +3794,7 @@
                 __LINE__ = 1547;
                 return ''.concat.apply("",texts);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function getMatchingEndComment(startComment,allowUnbalanced) {
@@ -3819,7 +3818,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function getVirtualChildren(startComment,allowUnbalanced) {
@@ -3861,7 +3860,7 @@
                 __LINE__ = 1527;
                 return  null ;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function isEndComment(node) {
@@ -3869,7 +3868,7 @@
                 __LINE__ = 1506;
                 return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(endCommentRegex);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function isStartComment(node) {
@@ -3877,7 +3876,7 @@
                 __LINE__ = 1502;
                 return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(startCommentRegex);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -3899,7 +3898,7 @@
                     __LINE__ = 1576;
                     return isStartComment(node)?getVirtualChildren(node) : node.childNodes;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 emptyNode : function (node) {
@@ -3924,7 +3923,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 setDomNodeChildren : function (node,childNodes) {
@@ -3952,7 +3951,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 prepend : function (containerNode,nodeToPrepend) {
@@ -3977,7 +3976,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 insertAfter : function (containerNode,nodeToInsert,insertAfterNode) {
@@ -4002,7 +4001,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 nextSibling : function (node) {
@@ -4023,7 +4022,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 virtualNodeBindingValue : function (node) {
@@ -4033,7 +4032,7 @@
                     __LINE__ = 1637;
                     return regexMatch?regexMatch[1] :  null ;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 extractAnonymousTemplateIfVirtualElement : function (node) {
@@ -4055,7 +4054,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 normaliseVirtualElementDomStructure : function (elementVerified) {
@@ -4110,12 +4109,12 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -4147,17 +4146,17 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 'getBindings' : function (node,bindingContext) {
                   try {
                     __LINE__ = 1695;
-                    var bindingsString =  this ['getBindingsString'](node,bindingContext);
+                    var bindingsString = this['getBindingsString'](node,bindingContext);
                     __LINE__ = 1696;
-                    return bindingsString? this ['parseBindingsString'](bindingsString,bindingContext) :  null ;
+                    return bindingsString?this['parseBindingsString'](bindingsString,bindingContext) :  null ;
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 'getBindingsString' : function (node,bindingContext) {
@@ -4177,7 +4176,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 'parseBindingsString' : function (bindingsString,bindingContext) {
@@ -4197,7 +4196,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               });
@@ -4205,7 +4204,7 @@
               __LINE__ = 1722;
               ko.bindingProvider.instance = new ko.bindingProvider();
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -4220,7 +4219,7 @@
                   __LINE__ = 1797;
                   return parsedBindings;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               function makeValueAccessor(bindingKey) {
@@ -4231,11 +4230,11 @@
                       __LINE__ = 1794;
                       return parsedBindings[bindingKey];
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               }
               try {
@@ -4341,7 +4340,7 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }, null , {
                   'disposeWhenNodeIsRemoved' : node
@@ -4351,7 +4350,7 @@
                   shouldBindDescendants : bindingHandlerThatControlsDescendantBindings === undefined
                 };
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function applyBindingsToNodeAndDescendantsInternal(viewModel,nodeVerified,isRootNodeForBindingContext) {
@@ -4372,7 +4371,7 @@
                 __LINE__ = 1776;
                 isElement && shouldBindDescendants && applyBindingsToDescendantsInternal(viewModel,nodeVerified);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function applyBindingsToDescendantsInternal(viewModel,elementVerified) {
@@ -4392,7 +4391,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function validateThatBindingIsAllowedForVirtualElements(bindingName) {
@@ -4407,7 +4406,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -4419,33 +4418,33 @@
               ko.bindingContext = function (dataItem,parentBindingContext) {
                 try {
                   __LINE__ = 1729;
-                   this .$data = dataItem;
+                  this.$data = dataItem;
                   
                   __LINE__ = 1730;
                   if (parentBindingContext){
                     
                     __LINE__ = 1731;
-                     this .$parent = parentBindingContext.$data;
+                    this.$parent = parentBindingContext.$data;
                     
                     __LINE__ = 1732;
-                     this .$parents = (parentBindingContext.$parents || []).slice(0);
+                    this.$parents = (parentBindingContext.$parents || []).slice(0);
                     
                     __LINE__ = 1733;
-                     this .$parents.unshift( this .$parent);
+                    this.$parents.unshift(this.$parent);
                     
                     __LINE__ = 1734;
-                     this .$root = parentBindingContext.$root;
+                    this.$root = parentBindingContext.$root;
                   } else {
                     
                     __LINE__ = 1736;
-                     this .$parents = [];
+                    this.$parents = [];
                     
                     __LINE__ = 1737;
-                     this .$root = dataItem;
+                    this.$root = dataItem;
                   }
                   
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4453,9 +4452,9 @@
               ko.bindingContext.prototype.createChildContext = function (dataItem) {
                 try {
                   __LINE__ = 1741;
-                  return new ko.bindingContext(dataItem, this );
+                  return new ko.bindingContext(dataItem,this);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4475,7 +4474,7 @@
                   }
                   
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4487,7 +4486,7 @@
                   __LINE__ = 1874;
                   return applyBindingsToNodeInternal(node,bindings,viewModel, true );
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4497,7 +4496,7 @@
                   __LINE__ = 1879;
                   rootNode.nodeType === 1 && applyBindingsToDescendantsInternal(viewModel,rootNode);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4516,7 +4515,7 @@
                   __LINE__ = 1887;
                   applyBindingsToNodeAndDescendantsInternal(viewModel,rootNode, true );
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4549,7 +4548,7 @@
                   __LINE__ = 1901;
                   return undefined;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4561,7 +4560,7 @@
                   __LINE__ = 1905;
                   return context?context.$data : undefined;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -4583,7 +4582,7 @@
               __LINE__ = 1913;
               ko.exportSymbol('ko.dataFor',ko.dataFor);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -4609,18 +4608,18 @@
                             __LINE__ = 1923;
                             return result;
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                     __LINE__ = 1925;
-                    return ko.bindingHandlers['event']['init'].call( this ,element,newValueAccessor,allBindingsAccessor,viewModel);
+                    return ko.bindingHandlers['event']['init'].call(this,element,newValueAccessor,allBindingsAccessor,viewModel);
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           });
           
@@ -4710,19 +4709,19 @@
                             }
                             
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         });
                       }
                       
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   })();
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -4771,11 +4770,11 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -4802,7 +4801,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -4826,7 +4825,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -4842,11 +4841,11 @@
                     __LINE__ = 2015;
                     return !ko.utils.unwrapObservable(valueAccessor());
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -4901,14 +4900,14 @@
                             __LINE__ = 2053;
                             setTimeout(handler,0);
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         } : function (handler) {
                           try {
                             __LINE__ = 2054;
                             handler();
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                     
@@ -4943,19 +4942,19 @@
                             }
                             
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         });
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -4985,7 +4984,7 @@
                           __LINE__ = 2082;
                           ko.selectExtensions.writeValue(element,newValue);
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       };
                   
@@ -5012,7 +5011,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5037,7 +5036,7 @@
                         __LINE__ = 2107;
                         return node.tagName && node.tagName == "OPTION" && node.selected;
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     }),
                     function (node) {
@@ -5045,7 +5044,7 @@
                         __LINE__ = 2109;
                         return ko.selectExtensions.readValue(node) || node.innerText || node.textContent;
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                 
@@ -5187,7 +5186,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5222,7 +5221,7 @@
                 __LINE__ = 2193;
                 return result;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor) {
@@ -5238,7 +5237,7 @@
                     if (ko.isWriteableObservable(value)){
                       
                       __LINE__ = 2199;
-                      value(ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ));
+                      value(ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode(this));
                     } else {
                       
                       __LINE__ = 2201;
@@ -5246,17 +5245,17 @@
                       if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['value']){
                         
                         __LINE__ = 2203;
-                        allBindings['_ko_property_writers']['value'](ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode( this ));
+                        allBindings['_ko_property_writers']['value'](ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode(this));
                       }
                       
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -5294,7 +5293,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5306,7 +5305,7 @@
                 __LINE__ = 2225;
                 ko.utils.setTextContent(element,valueAccessor());
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5320,7 +5319,7 @@
                   'controlsDescendantBindings' :  true 
                 };
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -5331,7 +5330,7 @@
                 __LINE__ = 2236;
                 ko.utils.setHtml(element,value);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5359,7 +5358,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5387,7 +5386,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5412,7 +5411,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5484,7 +5483,7 @@
                         }
                         
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     };
                 
@@ -5501,13 +5500,13 @@
                       __LINE__ = 2315;
                       return  true ;
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -5536,7 +5535,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5572,7 +5571,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5611,7 +5610,7 @@
                         }
                         
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     };
                 
@@ -5622,7 +5621,7 @@
                     __LINE__ = 2369;
                     writeValue( true );
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
                 
@@ -5633,7 +5632,7 @@
                     __LINE__ = 2370;
                     writeValue( true );
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
                 
@@ -5644,7 +5643,7 @@
                     __LINE__ = 2371;
                     writeValue( false );
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
                 
@@ -5655,11 +5654,11 @@
                     __LINE__ = 2372;
                     writeValue( false );
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 });
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -5673,7 +5672,7 @@
                 __LINE__ = 2377;
                 ko.utils.triggerEvent(element,value?"focusin" : "focusout");
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5694,11 +5693,11 @@
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -5706,7 +5705,7 @@
                 __LINE__ = 2387;
                 return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor));
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -5714,7 +5713,7 @@
                 __LINE__ = 2390;
                 return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5738,11 +5737,11 @@
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -5750,7 +5749,7 @@
                 __LINE__ = 2402;
                 return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor));
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -5758,7 +5757,7 @@
                 __LINE__ = 2405;
                 return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5782,11 +5781,11 @@
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -5794,7 +5793,7 @@
                 __LINE__ = 2417;
                 return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor));
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -5802,7 +5801,7 @@
                 __LINE__ = 2420;
                 return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5841,11 +5840,11 @@
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 };
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -5853,7 +5852,7 @@
                 __LINE__ = 2449;
                 return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor(valueAccessor));
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             },
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -5861,7 +5860,7 @@
                 __LINE__ = 2452;
                 return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
           };
@@ -5884,7 +5883,7 @@
               __LINE__ = 2486;
               throw "Override renderTemplateSource";
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -5894,7 +5893,7 @@
               __LINE__ = 2490;
               throw "Override createJavaScriptEvaluatorBlock";
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -5920,7 +5919,7 @@
               }
               
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -5928,11 +5927,11 @@
           ko.templateEngine.prototype.renderTemplate = function (template,bindingContext,options) {
             try {
               __LINE__ = 2508;
-              var templateSource =  this .makeTemplateSource(template);
+              var templateSource = this.makeTemplateSource(template);
               __LINE__ = 2509;
-              return  this .renderTemplateSource(templateSource,bindingContext,options);
+              return this.renderTemplateSource(templateSource,bindingContext,options);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -5940,20 +5939,20 @@
           ko.templateEngine.prototype.isTemplateRewritten = function (template) {
             try {
               __LINE__ = 2514;
-              if ( this .allowTemplateRewriting ===  false ){
+              if (this.allowTemplateRewriting ===  false ){
                 __LINE__ = 2515;
                 return  true ;
               }
               
               __LINE__ = 2518;
-              if ( this .knownRewrittenTemplates &&  this .knownRewrittenTemplates[template]){
+              if (this.knownRewrittenTemplates && this.knownRewrittenTemplates[template]){
                 __LINE__ = 2519;
                 return  true ;
               }
               __LINE__ = 2521;
-              return  this .makeTemplateSource(template).data("isRewritten");
+              return this.makeTemplateSource(template).data("isRewritten");
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -5961,7 +5960,7 @@
           ko.templateEngine.prototype.rewriteTemplate = function (template,rewriterCallback) {
             try {
               __LINE__ = 2525;
-              var templateSource =  this .makeTemplateSource(template),
+              var templateSource = this.makeTemplateSource(template),
                   rewritten = rewriterCallback(templateSource.text());
               
               __LINE__ = 2527;
@@ -5974,14 +5973,14 @@
               if (typeof template == "string"){
                 
                 __LINE__ = 2533;
-                 this .knownRewrittenTemplates =  this .knownRewrittenTemplates || {};
+                this.knownRewrittenTemplates = this.knownRewrittenTemplates || {};
                 
                 __LINE__ = 2534;
-                 this .knownRewrittenTemplates[template] =  true ;
+                this.knownRewrittenTemplates[template] =  true ;
               }
               
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -6006,7 +6005,7 @@
                 __LINE__ = 2570;
                 return templateEngine.createJavaScriptEvaluatorBlock(applyBindingsToNextSiblingScript)+tagToRetain;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function validateDataBindValuesForRewriting(keyValueArray) {
@@ -6048,7 +6047,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -6070,13 +6069,13 @@
                           __LINE__ = 2577;
                           return ko.templateRewriting.memoizeBindingAttributeSyntax(htmlString,templateEngine);
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       });
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 memoizeBindingAttributeSyntax : function (htmlString,templateEngine) {
@@ -6088,7 +6087,7 @@
                         __LINE__ = 2583;
                         return constructMemoizedTagReplacement(arguments[6],arguments[1],templateEngine);
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     }).replace(memoizeVirtualContainerBindingSyntaxRegex,
                     function () {
@@ -6096,11 +6095,11 @@
                         __LINE__ = 2585;
                         return constructMemoizedTagReplacement(arguments[1],"<!-- ko -->",templateEngine);
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 applyMemoizedBindingsToNextSibling : function (bindings) {
@@ -6116,16 +6115,16 @@
                         }
                         
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -6145,9 +6144,9 @@
               ko.templateSources.domElement = function (element) {
                 try {
                   __LINE__ = 2624;
-                   this .domElement = element;
+                  this.domElement = element;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6157,7 +6156,7 @@
                   __LINE__ = 2628;
                   if (arguments.length == 0){
                     __LINE__ = 2629;
-                    return  this .domElement.tagName.toLowerCase() == "script"? this .domElement.text :  this .domElement.innerHTML;
+                    return this.domElement.tagName.toLowerCase() == "script"?this.domElement.text : this.domElement.innerHTML;
                   }
                   
                   {
@@ -6166,11 +6165,11 @@
                     var valueToWrite = arguments[0];
                     
                     __LINE__ = 2633;
-                     this .domElement.tagName.toLowerCase() == "script"? this .domElement.text = valueToWrite : ko.utils.setHtml( this .domElement,valueToWrite);
+                    this.domElement.tagName.toLowerCase() == "script"?this.domElement.text = valueToWrite : ko.utils.setHtml(this.domElement,valueToWrite);
                   }
                   
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6180,13 +6179,13 @@
                   __LINE__ = 2640;
                   if (arguments.length === 1){
                     __LINE__ = 2641;
-                    return ko.utils.domData.get( this .domElement,"templateSourceData_"+key);
+                    return ko.utils.domData.get(this.domElement,"templateSourceData_"+key);
                   }
                   
                   __LINE__ = 2643;
-                  ko.utils.domData.set( this .domElement,"templateSourceData_"+key,arguments[1]);
+                  ko.utils.domData.set(this.domElement,"templateSourceData_"+key,arguments[1]);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6197,9 +6196,9 @@
               ko.templateSources.anonymousTemplate = function (element) {
                 try {
                   __LINE__ = 2651;
-                   this .domElement = element;
+                  this.domElement = element;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6212,7 +6211,7 @@
                   __LINE__ = 2655;
                   if (arguments.length == 0){
                     __LINE__ = 2656;
-                    return ko.utils.domData.get( this .domElement,anonymousTemplatesDomDataKey);
+                    return ko.utils.domData.get(this.domElement,anonymousTemplatesDomDataKey);
                   }
                   
                   {
@@ -6221,11 +6220,11 @@
                     var valueToWrite = arguments[0];
                     
                     __LINE__ = 2659;
-                    ko.utils.domData.set( this .domElement,anonymousTemplatesDomDataKey,valueToWrite);
+                    ko.utils.domData.set(this.domElement,anonymousTemplatesDomDataKey,valueToWrite);
                   }
                   
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6238,7 +6237,7 @@
               __LINE__ = 2665;
               ko.exportSymbol('ko.templateSources.anonymousTemplate',ko.templateSources.anonymousTemplate);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -6255,7 +6254,7 @@
                 __LINE__ = 2821;
                 ko.utils.domData.set(element,templateSubscriptionDomDataKey,newSubscription);
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function executeTemplate(targetNodeOrNodeArray,renderMode,template,bindingContext,options) {
@@ -6322,7 +6321,7 @@
                 __LINE__ = 2742;
                 return renderedNodesArray;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function getFirstNodeFromPossibleArray(nodeOrNodeArray) {
@@ -6330,7 +6329,7 @@
                 __LINE__ = 2706;
                 return nodeOrNodeArray.nodeType?nodeOrNodeArray : nodeOrNodeArray.length>0?nodeOrNodeArray[0] :  null ;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function invokeForEachNodeOrCommentInParent(nodeArray,parent,action) {
@@ -6349,7 +6348,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -6369,7 +6368,7 @@
                   __LINE__ = 2672;
                   _templateEngine = templateEngine;
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6387,7 +6386,7 @@
                       __LINE__ = 2698;
                       ko.applyBindings(bindingContext,node);
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
@@ -6398,11 +6397,11 @@
                       __LINE__ = 2701;
                       ko.memoization.unmemoizeDomNodeAndDescendants(node,[bindingContext]);
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6433,7 +6432,7 @@
                             __LINE__ = 2754;
                             return (!firstTargetNode) || !ko.utils.domNodeIsAttachedToDocument(firstTargetNode);
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         };
                     
@@ -6458,7 +6457,7 @@
                         }
                         
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     }, null , {
                       'disposeWhen' : whenToDispose,
@@ -6471,13 +6470,13 @@
                         __LINE__ = 2779;
                         ko.renderTemplate(template,dataOrBindingContext,options,domNode,"replaceNode");
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     });
                   }
                   
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6490,7 +6489,7 @@
                           __LINE__ = 2786;
                           return parentBindingContext.createChildContext(ko.utils.unwrapObservable(arrayValue));
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       },
                       activateBindingsCallback = function (arrayValue,addedNodesArray) {
@@ -6504,7 +6503,7 @@
                           __LINE__ = 2794;
                           options.afterRender && options.afterRender(addedNodesArray,bindingContext.$data);
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       };
                   __LINE__ = 2797;
@@ -6523,7 +6522,7 @@
                               __LINE__ = 2804;
                               return options.includeDestroyed || item === undefined || item ===  null  || !ko.utils.unwrapObservable(item._destroy);
                             } catch(e){
-                              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                             }
                           });
                       
@@ -6536,17 +6535,17 @@
                           __LINE__ = 2810;
                           return executeTemplate( null ,"ignoreTargetNode",templateName,createInnerBindingContext(arrayValue),options);
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       },options,activateBindingsCallback);
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   }, null , {
                     'disposeWhenNodeIsRemoved' : targetNode
                   });
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -6574,7 +6573,7 @@
                       'controlsDescendantBindings' :  true 
                     };
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 },
                 'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -6639,7 +6638,7 @@
                     __LINE__ = 2870;
                     disposeOldSubscriptionAndStoreNewOne(element,templateSubscription);
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
               };
@@ -6664,14 +6663,14 @@
                   __LINE__ = 2883;
                   return "This template engine does not support anonymous templates nested within its templates";
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
               __LINE__ = 2886;
               ko.virtualElements.allowedBindings.template =  true ;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -6761,7 +6760,7 @@
                 __LINE__ = 2955;
                 return editScript.reverse();
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function calculateEditDistanceMatrix(oldArray,newArray,maxAllowedDistance) {
@@ -6831,7 +6830,7 @@
                 __LINE__ = 2924;
                 return distances;
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -6860,11 +6859,11 @@
                   }
                   
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -6901,7 +6900,7 @@
                         __LINE__ = 3024;
                         ko.utils.arrayPushAll(mappedNodes,newMappedNodes);
                       } catch(e){
-                        Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                       }
                     }, null , {
                       'disposeWhenNodeIsRemoved' : containerNode,
@@ -6910,7 +6909,7 @@
                           __LINE__ = 3025;
                           return (mappedNodes.length == 0) || !ko.utils.domNodeIsAttachedToDocument(mappedNodes[0]);
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       }
                     });
@@ -6920,7 +6919,7 @@
                   dependentObservable : dependentObservable
                 };
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             function fixUpVirtualElements(contiguousNodeArray) {
@@ -6954,7 +6953,7 @@
                 }
                 
               } catch(e){
-                Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
               }
             }
             try {
@@ -6980,7 +6979,7 @@
                           __LINE__ = 3037;
                           return x.arrayEntry;
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       }),
                       editScript = ko.utils.compareArrays(lastArray,array),
@@ -7032,7 +7031,7 @@
                             __LINE__ = 3069;
                             insertAfterNode = node;
                           } catch(e){
-                            Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                           }
                         });
                         
@@ -7106,7 +7105,7 @@
                       __LINE__ = 3103;
                       ko.cleanNode(node.element);
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
@@ -7149,18 +7148,18 @@
                       __LINE__ = 3119;
                       ko.removeNode(node.element);
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   });
                   
                   __LINE__ = 3123;
                   ko.utils.domData.set(domNode,lastMappingResultDomDataKey,newMappingResult);
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
           
@@ -7171,9 +7170,9 @@
           ko.nativeTemplateEngine = function () {
             try {
               __LINE__ = 3129;
-               this .allowTemplateRewriting =  false ;
+              this.allowTemplateRewriting =  false ;
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -7188,7 +7187,7 @@
               __LINE__ = 3135;
               return ko.utils.parseHtmlFragment(templateText);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           };
           
@@ -7211,7 +7210,7 @@
                     __LINE__ = 3167;
                     return jQuery.tmpl(compiledTemplate,data,jQueryTemplateOptions);
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
                 function ensureHasReferencedJQueryTemplates() {
@@ -7223,13 +7222,13 @@
                     }
                     
                   } catch(e){
-                    Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                   }
                 }
                 try {
                   
                   __LINE__ = 3147;
-                  var jQueryTmplVersion =  this .jQueryTmplVersion = function () {
+                  var jQueryTmplVersion = this.jQueryTmplVersion = function () {
                         try {
                           __LINE__ = 3148;
                           if ((typeof (jQuery) == "undefined") || !(jQuery.tmpl)){
@@ -7251,12 +7250,12 @@
                           __LINE__ = 3158;
                           return 1;
                         } catch(e){
-                          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                         }
                       }();
                   
                   __LINE__ = 3170;
-                   this .renderTemplateSource = function (templateSource,bindingContext,options) {
+                  this.renderTemplateSource = function (templateSource,bindingContext,options) {
                     try {
                       __LINE__ = 3171;
                       options = options || {};
@@ -7298,27 +7297,27 @@
                       __LINE__ = 3191;
                       return resultNodes;
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
                   
                   __LINE__ = 3194;
-                   this .createJavaScriptEvaluatorBlock = function (script) {
+                  this.createJavaScriptEvaluatorBlock = function (script) {
                     try {
                       __LINE__ = 3195;
                       return "{{ko_code ((function() { return "+script+" })()) }}";
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
                   
                   __LINE__ = 3198;
-                   this .addTemplate = function (templateName,templateMarkup) {
+                  this.addTemplate = function (templateName,templateMarkup) {
                     try {
                       __LINE__ = 3199;
                       document.write("<script type='text/html' id='"+templateName+"'>"+templateMarkup+"</script>");
                     } catch(e){
-                      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                     }
                   };
                   
@@ -7338,7 +7337,7 @@
                   }
                   
                 } catch(e){
-                  Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
                 }
               };
               
@@ -7354,15 +7353,15 @@
               __LINE__ = 3220;
               ko.exportSymbol('ko.jqueryTmplTemplateEngine',ko.jqueryTmplTemplateEngine);
             } catch(e){
-              Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
             }
           }();
         } catch(e){
-          Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
         }
       }(window);
     } catch(e){
-      Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
     }
   }();
 }();

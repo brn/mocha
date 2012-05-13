@@ -21,10 +21,10 @@
  *DEALINGS IN THE SOFTWARE.
  */
 
-Runtime.{
+__Runtime.{
   TupleConstructor : do {
     TupleConstructor(args) -> {
-      Runtime._push.apply(this, args);
+      __Runtime._push.apply(this, args);
       Object.freeze(this);
     }
     TupleConstructor.prototype = {
@@ -34,13 +34,13 @@ Runtime.{
         while (++i < maxIndex && tuple[ i ] === this[ i ]){}
         return maxIndex === i;
       },
-      tupleToArray -> Runtime._slice.call(this),
+      tupleToArray -> __Runtime._slice.call(this),
       toString -> "[object Tuple]"
     }
     TupleConstructor;
   }
 };
 
-Tuple(...args) -> new Runtime.TupleConstructor(args);
-Tuple.prototype = Runtime.TupleConstructor.prototype;
+Tuple(...args) -> new __Runtime.TupleConstructor(args);
+Tuple.prototype = __Runtime.TupleConstructor.prototype;
 

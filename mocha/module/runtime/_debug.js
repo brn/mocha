@@ -21,12 +21,12 @@
  *DEALINGS IN THE SOFTWARE.
  */
 
-Runtime.{
+__Runtime.{
   Exception(line, file, e) {
-    this.toString = -> Runtime.getErrorMessage(e) + " in file " + file + " at : " + line;
+    this.toString = -> __Runtime.getErrorMessage(e) + " in file " + file + " at : " + line;
   },
   exceptionHandler(line, file, e){
-    if (Runtime.isStopIteration(e)) {
+    if (__Runtime.isStopIteration(e)) {
       this.throwException(e);
     } else {
       this.throwException(new this.Exception(line, file, e));

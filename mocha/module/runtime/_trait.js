@@ -21,10 +21,10 @@
  *DEALINGS IN THE SOFTWARE.
  */
 
-Runtime.{
+__Runtime.{
   traitMixin( dest , source , with_ , without ) {
     if ( !dest._mochaTraitMark || !source._mochaTraitMark ) {
-      Runtime.throwException( "mixin only used for trait." );
+      __Runtime.throwException( "mixin only used for trait." );
     } else {
       var destTraitPrivate = dest._mochaTraitPrivate,
           sourceTraitPrivate = source._mochaTraitPrivate,
@@ -56,7 +56,7 @@ Runtime.{
              with_, without)
   {
     if ( !mark ) {
-      Runtime.throwException( "mixin only used for trait." );
+      __Runtime.throwException( "mixin only used for trait." );
     } else {
       var tmp;
       for ( var i in traitPublic ) {
@@ -79,7 +79,7 @@ Runtime.{
       var {_mochaRequires} = traits[ i ];
       for ( var prop in _mochaRequires ) {
         if ( !( prop in proto1 ) && !( prop in proto2 ) ) {
-          Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "
+          __Runtime.throwException( "Class dose not meet the traits requirement. traits require implementation of property "
                                   + prop + "\nin file " + file + " at line " + line );
         }
       }

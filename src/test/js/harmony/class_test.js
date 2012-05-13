@@ -50,8 +50,8 @@ var monster = new Monster( "slime" , 100 );
 @assert( 100 , Monster.DEFAULT_LIFE );
 @assert( undefined , Monster.health );
 class BaseTest {
-  constructor( @name = "foo" , @addr = "tokyo" , @age ) {}
-  public getName() -> @name;
+  constructor( @_name = "foo" , @_addr = "tokyo" , @_age ) {}
+  public getName() -> @_name;
 }
 
 class DeriveTest extends BaseTest {
@@ -62,7 +62,7 @@ class DeriveTest extends BaseTest {
 
 class Derive2 extends DeriveTest {
   constructor -> super();
-  public getAddr -> private(this).addr;
+  public getAddr -> @_addr;
 }
 
 
@@ -116,9 +116,9 @@ var instance2 = new MixinTest();
 
 
 class Box {
-  constructor( @width = 100 , @height = 100 ) {}
-  public height -> @height;
-  public width -> @width;
+  constructor( @_width = 100 , @_height = 100 ) {}
+  public height -> @_height;
+  public width -> @_width;
   private {_type,_max} = {type:200,_max:400};
 }
 
