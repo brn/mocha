@@ -468,8 +468,8 @@
       var m =  {
             a : 0
           };
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

@@ -449,8 +449,9 @@
             compress = (!isString)? ((utils.isDefined(options.compress))?options.compress : false) : options.compress? 'yes' : 'no',
             debug = (!isString)? ((utils.isDefined(options.debug))? options.debug : false) : options.debug? 'yes' : 'no',
             prettyPrint = (!isString)? (utils.isDefined(options.prettyPrint)? options.prettyPrint : true) : options.prettyPrint? 'yes' : 'no',
-            fileScope = (!isString)? ((utils.isDefined(options.fileScope))? options.fileScope : true) : options.fileScope? 'yes' : 'no',
-            globalScope = (!isString)? ((utils.isDefined(options.globalScope))? options.globalScope : true) : options.globalScope? 'yes' : 'no',
+            fileScope = (!isString)? ((utils.isDefined(options.fileScope))? true : options.fileScope) : options.fileScope? 'yes' : (!('fileScope' in options))? 'yes' : (options.fileScope)? 'yes' : 'no',
+            globalScope = (!isString)? ((utils.isDefined(options.globalScope))? true : options.globalScope) : options.globalScope? 'yes' : (!('globalScope' in options))? 'yes' : (!options.globalScope)? 'no' : 'yes',
+            prototypeExt = (!isString)? ((utils.isDefined(options.prototypeExtensions))? options.prototypeExtensions : true) : options.prototypeExtensions? 'no' : 'yes',
             versions = (isString)? '(' + (options.versions || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.versions || [],
             libs = (isString)? '(' + (options.libs || ['']).reduce(function (item1, item2){ return item1 + ', ' + item2;}) + ')' : options.libs || []
         return {
@@ -465,6 +466,7 @@
           prettyPrint : prettyPrint,
           fileScope : fileScope,
           globalScope : globalScope,
+          prototypeExtensions : prototypeExt,
           versions : (!isString)? Array.prototype.slice.call(versions) : versions,
           libs : (!isString)? Array.prototype.slice.call(libs) : libs
         }
@@ -480,9 +482,9 @@
       var is_match = pred(option);
       if (is_match) {
         if (showDeploy && showOpt) {
-          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.versions, option.libs]);
+          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.prototypeExtensions, option.versions, option.libs]);
         } else if (showOpt) {
-          ret.push([i, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.versions, option.libs]);
+          ret.push([i, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.prototypeExtensions, option.versions, option.libs]);
         } else if (showDeploy) {
           ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir]);
         } else {
@@ -491,9 +493,9 @@
       }
     }
     if (showDeploy && showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'versions', 'libs'], 2);
+      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'prototypeExt', 'versions', 'libs'], 2);
     } else if (showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'versions', 'libs'], 2);
+      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'prototypeExt', 'versions', 'libs'], 2);
     } else if (showDeploy) {
       mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir'], 2);
     } else {
@@ -546,6 +548,7 @@
         moduleDir : option.moduleDir,
         fileScope : option.fileScope,
         globalScope : option.globalScope,
+        prototypeExtensions : option.prototypeExtensions,
         libs : option.libs
       }
       if (pred(option)) {
@@ -588,7 +591,9 @@
           versions : option.versions,
           moduleDir : option.moduleDir,
           fileScope : option.fileScope,
-          globalScope : option.globalScope
+          globalScope : option.globalScope,
+          prototypeExtensions : option.prototypeExtensions,
+          libs : option.libs
         }
         if (pred(option)) {
           natives.script.Roaster.deploy(i, option.inputCharset, option);

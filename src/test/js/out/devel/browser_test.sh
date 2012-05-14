@@ -2,7 +2,7 @@
 html_prefix="<!doctype html>\\n<html>\\n<head>\\n"
 html_suffix="</head>\\n<body>\\n</body>\\n</html>"
 head_content=""
-ret=`ls`
+ret=`ls *.js`
 for arg in $ret
 do
     if [ $arg != "browser_test.sh" -a $arg != "prototype-cmp.js" -a $arg != "test.html" ]; then

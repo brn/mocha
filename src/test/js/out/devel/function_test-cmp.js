@@ -464,16 +464,16 @@
       try {
         __LINE__ = 21;
         return arg+arg2+arg3;
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function test() {
       try {
         __LINE__ = 3;
         return 1;
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     try {
@@ -488,8 +488,8 @@
             try {
               __LINE__ = 8;
               return 1;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
       
@@ -502,8 +502,8 @@
               try {
                 __LINE__ = 14;
                 return 1;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -519,8 +519,8 @@
             try {
               __LINE__ = 27;
               return arg+arg2+arg3;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
       
@@ -533,16 +533,16 @@
               try {
                 __LINE__ = 33;
                 return arg+arg2+arg3;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
       
       __LINE__ = 36;
       __Runtime.assert( true ,3 === testObjectFormal.prop(1,1,1),"3 === testObjectFormal.prop(1,1,1)",36,'function_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

@@ -470,8 +470,8 @@
               var x = 0;
               __LINE__ = 3;
               return x;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           testvalue2 = function () {
@@ -496,8 +496,8 @@
               var v = 100;
               __LINE__ = 14;
               return v;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           testError = function () {
@@ -510,8 +510,8 @@
                 return e;
               }
               
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           testvalue3 = function () {
@@ -521,8 +521,8 @@
                   m = _mochaLocalTmp0[0];
               __LINE__ = 0;
               return m;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
       
@@ -531,8 +531,8 @@
       
       __LINE__ = 30;
       __Runtime.assert( true ,testvalue2 === 1,"testvalue2 === 1",30,'do_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

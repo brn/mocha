@@ -699,8 +699,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 54;
@@ -709,21 +709,21 @@
                             try {
                               __LINE__ = 54;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function allValues(obj) {
@@ -838,8 +838,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 46;
@@ -848,21 +848,21 @@
                             try {
                               __LINE__ = 46;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function allKeys(obj) {
@@ -977,8 +977,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 38;
@@ -987,21 +987,21 @@
                             try {
                               __LINE__ = 38;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function items(obj) {
@@ -1138,8 +1138,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 28;
@@ -1148,21 +1148,21 @@
                             try {
                               __LINE__ = 28;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function values(obj) {
@@ -1299,8 +1299,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 18;
@@ -1309,21 +1309,21 @@
                             try {
                               __LINE__ = 18;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function keys(obj) {
@@ -1460,8 +1460,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 6;
@@ -1470,21 +1470,21 @@
                             try {
                               __LINE__ = 6;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1512,12 +1512,12 @@
               _mochaLocalExport.allItems = allItems;
               __LINE__ = 2;
               return _mochaLocalExport;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
   
@@ -1641,8 +1641,8 @@
                               
                             }
                             
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                     __LINE__ = 4;
@@ -1651,17 +1651,17 @@
                       try {
                         __LINE__ = 4;
                         _yieldState = -1;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },this);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           },
           key = function (obj) {
@@ -1773,8 +1773,8 @@
                               
                             }
                             
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                     __LINE__ = 13;
@@ -1783,17 +1783,17 @@
                       try {
                         __LINE__ = 13;
                         _yieldState = -1;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },this);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           },
           iter =  {
@@ -1802,8 +1802,8 @@
               try {
                 __LINE__ = 23;
                 this.arr.push(value);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             iterator : function () {
@@ -1830,13 +1830,13 @@
                         return undefined;
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           },
@@ -1958,8 +1958,8 @@
       
       __LINE__ = 77;
       __Runtime.assert( true ,ret[3] === 400,"ret[3] === 400",77,'for_of_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

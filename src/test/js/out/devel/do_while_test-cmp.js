@@ -545,8 +545,8 @@
       
       __LINE__ = 33;
       __Runtime.assert( true ,ret[9] === 'a',"ret[9] === 'a'",33,'do_while_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

@@ -565,8 +565,8 @@
           
           __LINE__ = 34;
           __Runtime.assert( true ,strvalue === 100,"strvalue === 100",34,'destructuring_test.js');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -634,8 +634,8 @@
           
           __LINE__ = 52;
           __Runtime.assert( true ,arr_value3 === 200,"arr_value3 === 200",52,'destructuring_test.js');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -702,8 +702,8 @@
           
           __LINE__ = 70;
           __Runtime.assert( true ,arr_value4[1] === 200,"arr_value4[1] === 200",70,'destructuring_test.js');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -739,8 +739,8 @@
           
           __LINE__ = 80;
           __Runtime.assert( true ,strvalue === 100,"strvalue === 100",80,'destructuring_test.js');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(object);
       
@@ -772,8 +772,8 @@
           
           __LINE__ = 90;
           __Runtime.assert( true ,arr_value3 === 200,"arr_value3 === 200",90,'destructuring_test.js');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(array);
       
@@ -804,8 +804,8 @@
           
           __LINE__ = 100;
           __Runtime.assert( true ,arr_value2[1] === 200,"arr_value2[1] === 200",100,'destructuring_test.js');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(array);
       
@@ -814,15 +814,15 @@
             try {
               __LINE__ = 104;
               return [0,1,2];
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           },
           _mochaLocalTmp3 = fn(),
           ret1 = _mochaLocalTmp3[0],
           re2 = _mochaLocalTmp3[1];
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

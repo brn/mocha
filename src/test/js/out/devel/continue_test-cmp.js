@@ -477,7 +477,7 @@
       
       __LINE__ = 6;
       for (i = 0;i<10;i ++ ){
-        __LINE__ = 748258619683920400;
+        __LINE__ = 781929032988621088;
         END : {
           
           __LINE__ = 8;
@@ -498,8 +498,8 @@
       
       __LINE__ = 15;
       __Runtime.assert( true ,i === 10,"i === 10",15,'continue_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

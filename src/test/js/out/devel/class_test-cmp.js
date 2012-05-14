@@ -754,16 +754,16 @@
                 
                 __LINE__ = 9;
                 __Runtime.getPrivateRecord(this).health = health;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function Monster() {
               try {
                 __LINE__ = 1;
                 __Runtime.initializeClass(this,Monster,_mochaPrivateHolder,constructor,arguments,'Monster',1);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -779,8 +779,8 @@
                 try {
                   __LINE__ = 16;
                   log('The monster attacks '+target);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -789,8 +789,8 @@
                 try {
                   __LINE__ = 23;
                   return __Runtime.getPrivateRecord(this).health>0;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -805,8 +805,8 @@
                   
                   __LINE__ = 31;
                   __Runtime.getPrivateRecord(this).health = value;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -823,8 +823,8 @@
               __Runtime.createUnenumProp(Monster.prototype,"constructor",constructor);
               __LINE__ = 1;
               return Monster;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           monster = new Monster("slime",100);
@@ -853,16 +853,16 @@
                 
                 __LINE__ = 53;
                 __Runtime.getPrivateRecord(this)._age = _mochaLocalTmp2;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function BaseTest() {
               try {
                 __LINE__ = 52;
                 __Runtime.initializeClass(this,BaseTest,_mochaPrivateHolder,constructor,arguments,'BaseTest',52);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -878,8 +878,8 @@
                 try {
                   __LINE__ = 54;
                   return __Runtime.getPrivateRecord(this)._name;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -887,8 +887,8 @@
               __Runtime.createUnenumProp(BaseTest.prototype,"constructor",constructor);
               __LINE__ = 52;
               return BaseTest;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           DeriveTest = function () {
@@ -896,16 +896,16 @@
               try {
                 __LINE__ = 58;
                 return _mochaSuper.constructor.call(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function DeriveTest() {
               try {
                 __LINE__ = 57;
                 __Runtime.initializeClass(this,DeriveTest,_mochaPrivateHolder,constructor,arguments,'DeriveTest',57);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -930,8 +930,8 @@
                 try {
                   __LINE__ = 59;
                   return _mochaSuper.getName.call(this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -939,8 +939,8 @@
               __Runtime.createUnenumProp(DeriveTest.prototype,"constructor",constructor);
               __LINE__ = 57;
               return DeriveTest;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           Derive2 = function () {
@@ -948,16 +948,16 @@
               try {
                 __LINE__ = 64;
                 return _mochaSuper.constructor.call(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function Derive2() {
               try {
                 __LINE__ = 63;
                 __Runtime.initializeClass(this,Derive2,_mochaPrivateHolder,constructor,arguments,'Derive2',63);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -982,8 +982,8 @@
                 try {
                   __LINE__ = 65;
                   return __Runtime.getPrivateRecord(this)._addr;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -991,8 +991,8 @@
               __Runtime.createUnenumProp(Derive2.prototype,"constructor",constructor);
               __LINE__ = 63;
               return Derive2;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           Drive3 = function () {
@@ -1000,16 +1000,16 @@
               try {
                 __LINE__ = 71;
                 _mochaSuper.constructor.call(this,200,'tokyo',20);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function Drive3() {
               try {
                 __LINE__ = 69;
                 __Runtime.initializeClass(this,Drive3,_mochaPrivateHolder,constructor,arguments,'Drive3',69);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1033,8 +1033,8 @@
               __Runtime.createUnenumProp(Drive3.prototype,"constructor",constructor);
               __LINE__ = 69;
               return Drive3;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           TestClass = function () {
@@ -1048,16 +1048,16 @@
                 
                 __LINE__ = 77;
                 this.testProp = 1;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function _mochaLocalTmp6() {
               try {
                 __LINE__ = 75;
                 __Runtime.initializeClass(this,_mochaLocalTmp6,_mochaPrivateHolder,constructor,arguments,'_mochaLocalTmp6',75);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1073,8 +1073,8 @@
                 try {
                   __LINE__ = 79;
                   return __Runtime.getPrivateRecord(this)._name;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1083,8 +1083,8 @@
                 try {
                   __LINE__ = 80;
                   return __Runtime.getPrivateRecord(this)._age;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1093,8 +1093,8 @@
                 try {
                   __LINE__ = 81;
                   return __Runtime.getPrivateRecord(this).test();
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1105,8 +1105,8 @@
                   try {
                     __LINE__ = 82;
                     __Runtime.initializeClass(this,Inner,_mochaPrivateHolder,constructor,arguments,'Inner',82);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
                 try {
@@ -1121,8 +1121,8 @@
                   __Runtime.createUnenumProp(Inner.prototype,"constructor",constructor);
                   __LINE__ = 82;
                   return Inner;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }();
               
@@ -1131,8 +1131,8 @@
                 try {
                   __LINE__ = 85;
                   return __Runtime.getInstanceBody(this).testProp;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1140,8 +1140,8 @@
               __Runtime.createUnenumProp(_mochaLocalTmp6.prototype,"constructor",constructor);
               __LINE__ = 75;
               return _mochaLocalTmp6;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
       
@@ -1173,8 +1173,8 @@
                   arg = __Runtime.toArray(arguments,0);
                   __LINE__ = 97;
                   return arg[0];
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             },
@@ -1192,16 +1192,16 @@
                   arg = __Runtime.toArray(arguments,0);
                   __LINE__ = 102;
                   return arg[0];
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               testm3 : function testm3() {
                 try {
                   __LINE__ = 103;
                   return "ok";
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             },
@@ -1216,8 +1216,8 @@
               try {
                 __LINE__ = 106;
                 __Runtime.initializeClass(this,MixinTest,_mochaPrivateHolder,constructor,arguments,'MixinTest',106);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1233,8 +1233,8 @@
                 try {
                   __LINE__ = 107;
                   return "aaa";
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1243,8 +1243,8 @@
                 try {
                   __LINE__ = 108;
                   return "bbb";
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1266,8 +1266,8 @@
               __Runtime.createUnenumProp(MixinTest.prototype,"constructor",constructor);
               __LINE__ = 106;
               return MixinTest;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           instance2 = new MixinTest();
@@ -1287,16 +1287,16 @@
                 
                 __LINE__ = 119;
                 __Runtime.getPrivateRecord(this)._height = _mochaLocalTmp10 || 100;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function Box() {
               try {
                 __LINE__ = 118;
                 __Runtime.initializeClass(this,Box,_mochaPrivateHolder,constructor,arguments,'Box',118);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1312,8 +1312,8 @@
                 try {
                   __LINE__ = 120;
                   return __Runtime.getPrivateRecord(this)._height;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1322,8 +1322,8 @@
                 try {
                   __LINE__ = 121;
                   return __Runtime.getPrivateRecord(this)._width;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1343,8 +1343,8 @@
               __Runtime.createUnenumProp(Box.prototype,"constructor",constructor);
               __LINE__ = 118;
               return Box;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           inst = new Box();
@@ -1354,8 +1354,8 @@
       
       __LINE__ = 127;
       __Runtime.assert( true ,inst.width() === 100,"inst.width() === 100",127,'class_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

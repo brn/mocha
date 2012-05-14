@@ -475,8 +475,8 @@
                   a : i,
                   text : k
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function b(b) {
@@ -491,8 +491,8 @@
                 i += 1;
                 __LINE__ = 1;
                 return a;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function n() {
@@ -553,8 +553,8 @@
                 
                 __LINE__ = 1;
                 h("Bad number");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function l() {
@@ -611,8 +611,8 @@
                 
                 __LINE__ = 1;
                 h("Bad string");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function e() {
@@ -623,8 +623,8 @@
                   b(g);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function o() {
@@ -645,8 +645,8 @@
                 
                 __LINE__ = 1;
                 h("Unexpected '"+a+"'");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -679,7 +679,7 @@
                       
                       __LINE__ = 1;
                       var cv;
-                      __LINE__ = 749342600710206448;
+                      __LINE__ = 782230161735748352;
                       a : 
                       {
                         
@@ -756,7 +756,7 @@
                       __LINE__ = 1;
                       return cv;
                     case "[" :
-                      __LINE__ = 749405994427510168;
+                      __LINE__ = 782293555453052072;
                       a : 
                       {
                         
@@ -831,8 +831,8 @@
                       
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               __LINE__ = 1;
@@ -877,18 +877,18 @@
                       }
                       __LINE__ = 1;
                       return f.call(a,b,d);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }( {
                     "" : d
                   },"") : d;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
       
@@ -910,12 +910,12 @@
           
           __LINE__ = 9;
           __Runtime.assert( true ,json.test4.test5 === 5,"json[\"test4\"][\"test5\"] === 5",9,'json2_compiled.js');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

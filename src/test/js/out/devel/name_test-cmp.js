@@ -450,8 +450,8 @@
       try {
         __LINE__ = 43;
         return Runtime.createRecord(member);
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function Tuple(args) {
@@ -472,8 +472,8 @@
         Runtime.createTuple(ret,arguments.length);
         __LINE__ = 41;
         return ret;
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function b(){}
@@ -493,8 +493,8 @@
                 try {
                   __LINE__ = 6;
                   b();
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               test2 = function () {
@@ -505,12 +505,12 @@
                   
                   __LINE__ = 10;
                   l = b();
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -616,8 +616,8 @@
       
       __LINE__ = 58;
       var m = _mochaLocalTmp0;
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

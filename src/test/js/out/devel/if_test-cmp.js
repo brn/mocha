@@ -464,8 +464,8 @@
       try {
         __LINE__ = 3;
         return flg === 1?1 : flg === 2?2 : 3;
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     try {
@@ -480,8 +480,8 @@
       
       __LINE__ = 13;
       __Runtime.assert( true ,ifTest(3) === 3,"ifTest(3) === 3",13,'if_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

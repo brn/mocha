@@ -10,6 +10,7 @@ static const int file = 3;
 static const int org_name = 3;
 static const int file_scope = 4;
 static const int global_scope = 5;
+static const int prototype = 6;
 
 CompilationInfo::CompilationInfo() {
   versions_.insert(VersionPair(Consts::kVersionAll, 1));
@@ -17,6 +18,7 @@ CompilationInfo::CompilationInfo() {
   versions_.insert(VersionPair(Consts::kVersionCompat, 1));
   flags_.Set(file_scope);
   flags_.Set(global_scope);
+  SetPrototypeExtensions();
 }
 
 bool CompilationInfo::Debug() const {
@@ -102,6 +104,18 @@ bool CompilationInfo::HasVersion(const char* name) const {
   } else {
     return true;
   }
+}
+
+bool CompilationInfo::PrototypeExtensions() const {
+  return flags_.At(prototype);
+}
+
+void CompilationInfo::SetPrototypeExtensions() {
+  flags_.Set(prototype);
+}
+
+void CompilationInfo::UnsetPrototypeExtensions() {
+  flags_.UnSet(prototype);
 }
 
 bool CompilationInfo::ShowOrgName() const {

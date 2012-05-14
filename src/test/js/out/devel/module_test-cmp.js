@@ -495,8 +495,8 @@
               try {
                 __LINE__ = 3;
                 return 1;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -508,8 +508,8 @@
               _mochaLocalExport.testExport1 = testExport1;
               __LINE__ = 1;
               return _mochaLocalExport;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           testModule2 = __Runtime.modules.get('-839149963-module_test.js').testModule2 = function () {
@@ -521,8 +521,8 @@
                       try {
                         __LINE__ = 9;
                         return 2;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }
                     try {
@@ -539,14 +539,14 @@
                           };
                       __LINE__ = 8;
                       return _mochaLocalExport;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }();
               __LINE__ = 7;
               return _mochaLocalExport;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           testModule4 = __Runtime.modules.get('-839149963-module_test.js').testModule4 = function () {
@@ -554,8 +554,8 @@
               try {
                 __LINE__ = 15;
                 return 3;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -567,20 +567,20 @@
               _mochaLocalExport.testExport4 = testExport4;
               __LINE__ = 14;
               return _mochaLocalExport;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           testExport5 = __Runtime.modules.get('-839149963-module_test.js').testExport5 = function () {
             try {
               __LINE__ = 17;
               return 4;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

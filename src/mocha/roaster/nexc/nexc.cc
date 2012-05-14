@@ -278,8 +278,10 @@ void Nexc::AddRuntime(CompilationEvent* e) {
 }
 
 void Nexc::AddBase(CompilationEvent* e) {
-  AstNode* proto = Loader::GetRuntime("_prototype", pool_.Get(), this, e);
-  root_->InsertBefore(proto->first_child());
+  if (compilation_info_->PrototypeExtensions()) {
+    AstNode* proto = Loader::GetRuntime("_prototype", pool_.Get(), this, e);
+    root_->InsertBefore(proto->first_child());
+  }
   AstNode* root = Loader::GetRuntime("_base", pool_.Get(), this, e);
   root_->InsertBefore(root->first_child());
 }

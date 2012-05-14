@@ -638,8 +638,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 4;
@@ -648,12 +648,12 @@
                     try {
                       __LINE__ = 4;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -690,8 +690,8 @@
                 
                 __LINE__ = 21;
                 __Runtime.assert( true ,generator.next() === 9,"generator.next() === 9",21,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case2 : function () {
@@ -806,8 +806,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 25;
@@ -816,12 +816,12 @@
                     try {
                       __LINE__ = 25;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -843,8 +843,8 @@
                 
                 __LINE__ = 37;
                 __Runtime.assert( true ,generator.next() === 8,"generator.next() === 8",37,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case3 : function () {
@@ -998,8 +998,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 40;
@@ -1008,12 +1008,12 @@
                     try {
                       __LINE__ = 40;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -1170,8 +1170,8 @@
                 
                 __LINE__ = 108;
                 __Runtime.assert( true ,generator.next() === 8,"generator.next() === 8",108,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case4 : function () {
@@ -1255,8 +1255,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 111;
@@ -1265,12 +1265,12 @@
                     try {
                       __LINE__ = 111;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -1304,8 +1304,8 @@
                 
                 __LINE__ = 127;
                 __Runtime.assert( true ,generator.next() === 9,"generator.next() === 9",127,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case5 : function () {
@@ -1381,8 +1381,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 130;
@@ -1391,12 +1391,12 @@
                     try {
                       __LINE__ = 130;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -1433,8 +1433,8 @@
                 
                 __LINE__ = 147;
                 __Runtime.assert( true ,generator.next() === 9,"generator.next() === 9",147,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case6 : function () {
@@ -1598,8 +1598,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 150;
@@ -1608,12 +1608,12 @@
                     try {
                       __LINE__ = 150;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -1650,8 +1650,8 @@
                 
                 __LINE__ = 173;
                 __Runtime.assert( true ,generator.send( true ) === 5,"generator.send( true ) === 5",173,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case7 : function () {
@@ -1854,8 +1854,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 176;
@@ -1864,12 +1864,12 @@
                     try {
                       __LINE__ = 176;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -1933,8 +1933,8 @@
                 
                 __LINE__ = 211;
                 __Runtime.assert( true ,generator.send( true ) === 12,"generator.send( true ) === 12",211,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case8 : function () {
@@ -2137,8 +2137,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 215;
@@ -2147,12 +2147,12 @@
                     try {
                       __LINE__ = 215;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -2216,8 +2216,8 @@
                 
                 __LINE__ = 250;
                 __Runtime.assert( true ,generator.send( true ) === 0,"generator.send( true ) === 0",250,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case9 : function () {
@@ -2298,8 +2298,8 @@
                                     try {
                                       __LINE__ = 257;
                                       _yieldState = 3;
-                                    } catch(e){
-                                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                    } catch(__mocha_error){
+                                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                     }
                                   };
                                   
@@ -2307,8 +2307,8 @@
                                   _mochaFinallyCache = function () {
                                     try {
                                       flg =  true 
-                                    } catch(e){
-                                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                    } catch(__mocha_error){
+                                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                     }
                                   };
                                   
@@ -2393,8 +2393,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 254;
@@ -2410,12 +2410,12 @@
                         _mochaFinallyCache();
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -2437,8 +2437,8 @@
                 
                 __LINE__ = 272;
                 __Runtime.assert( true ,generator.next() === 1,"generator.next() === 1",272,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case10 : function () {
@@ -2596,8 +2596,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 275;
@@ -2606,12 +2606,12 @@
                     try {
                       __LINE__ = 275;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -2642,8 +2642,8 @@
                 
                 __LINE__ = 298;
                 __Runtime.assert( true ,generator.send( null ) === 700,"generator.send( null ) === 700",298,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case11 : function () {
@@ -2815,8 +2815,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 302;
@@ -2825,12 +2825,12 @@
                     try {
                       __LINE__ = 302;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -2870,8 +2870,8 @@
                 
                 __LINE__ = 332;
                 __Runtime.assert( true ,generator.send( null ) === 700,"generator.send( null ) === 700",332,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case12 : function () {
@@ -2990,8 +2990,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 336;
@@ -3000,12 +3000,12 @@
                     try {
                       __LINE__ = 336;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -3039,8 +3039,8 @@
                 
                 __LINE__ = 352;
                 __Runtime.assert( true ,ret[1] === 400,"ret[1] === 400",352,'yield_test.js');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             case13 : function () {
@@ -3171,8 +3171,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 355;
@@ -3181,12 +3181,12 @@
                     try {
                       __LINE__ = 355;
                       _yieldState = -1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -3215,8 +3215,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -3228,8 +3228,8 @@
         tests["case"+i]();
       }
       
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

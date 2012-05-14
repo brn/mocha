@@ -467,8 +467,8 @@
         
         __LINE__ = 343;
         __Runtime.assert( true ,array.length === 4,"array.length === 4",343,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function expressionTest() {
@@ -478,8 +478,8 @@
               try {
                 __LINE__ = 312;
                 return 1;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }();
         
@@ -511,8 +511,8 @@
           try {
             __LINE__ = 324;
             exp = 10;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }();
         
@@ -524,22 +524,22 @@
           try {
             __LINE__ = 330;
             exp = a+b;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }((function () {
           try {
             __LINE__ = 331;
             return 100;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         })(),function () {
           try {
             __LINE__ = 331;
             return 200;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }());
         
@@ -551,15 +551,15 @@
           try {
             __LINE__ = 336;
             exp = 1;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }();
         
         __LINE__ = 338;
         __Runtime.assert( true ,exp === 1,"exp === 1",338,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function memberExpressionTest() {
@@ -576,12 +576,12 @@
                           try {
                             __LINE__ = 300;
                             return 1;
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }
                   }
@@ -594,8 +594,8 @@
         
         __LINE__ = 307;
         __Runtime.assert( true ,test.test2["@test"][0]["1"]()() === 1,"test.test2[\"@test\"][0][\"1\"]()() === 1",307,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function unaryExpressionTest() {
@@ -636,8 +636,8 @@
         
         __LINE__ = 291;
         __Runtime.assert( true ,ret ===  true ,"ret ===  true ",291,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function postfixExpressionTest() {
@@ -695,8 +695,8 @@
         
         __LINE__ = 270;
         __Runtime.assert( true ,add === 0,"add === 0",270,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function binaryExpressionTest() {
@@ -730,8 +730,8 @@
               try {
                 __LINE__ = 101;
                 val = value;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
         
@@ -1015,8 +1015,8 @@
         
         __LINE__ = 245;
         __Runtime.assert( true ,testInAnd ===  true ,"testInAnd ===  true ",245,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function callExpressionTest() {
@@ -1032,16 +1032,16 @@
                       try {
                         __LINE__ = 66;
                         return  true ;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
         
@@ -1053,8 +1053,8 @@
           try {
             __LINE__ = 71;
             return inner1;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         };
         
@@ -1063,8 +1063,8 @@
               try {
                 __LINE__ = 72;
                 return inner2;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             inner2 = function (){},
@@ -1082,8 +1082,8 @@
         
         __LINE__ = 79;
         __Runtime.assert( true ,instance === inner2,"instance === inner2",79,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function objectAndNewTest() {
@@ -1105,8 +1105,8 @@
           try {
             __LINE__ = 23;
             return  true ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         };
         
@@ -1115,8 +1115,8 @@
           try {
             __LINE__ = 24;
             return  false ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         };
         
@@ -1125,8 +1125,8 @@
           try {
             __LINE__ = 25;
             return 2;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         };
         
@@ -1144,16 +1144,16 @@
               try {
                 __LINE__ = 31;
                 return inner1;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             inner1 = function () {
               try {
                 __LINE__ = 32;
                 return inner2;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             inner2 = function (){},
@@ -1203,8 +1203,8 @@
         
         __LINE__ = 59;
         __Runtime.assert( true ,instance9 instanceof inner2,"instance9 instanceof inner2",59,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function parseTest() {
@@ -1220,8 +1220,8 @@
           try {
             __LINE__ = 7;
             return 2.000000;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         };
         
@@ -1233,8 +1233,8 @@
           try {
             __LINE__ = 12;
             return /aaa/;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         };
         
@@ -1246,8 +1246,8 @@
         
         __LINE__ = 16;
         __Runtime.assert( true ,2.000000 === 2,".200*10 === 2",16,'expression_test.js');
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     try {
@@ -1283,8 +1283,8 @@
       
       __LINE__ = 354;
       primaryTest();
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

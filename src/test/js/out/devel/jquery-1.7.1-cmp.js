@@ -455,8 +455,8 @@
           try {
             __LINE__ = 9161;
             return jQuery.isWindow(elem)?elem : elem.nodeType === 9?elem.defaultView || elem.parentWindow :  false ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function defaultDisplay(nodeName) {
@@ -519,8 +519,8 @@
             }
             __LINE__ = 8892;
             return elemdisplay[nodeName];
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function genFx(type,num) {
@@ -534,22 +534,22 @@
               try {
                 __LINE__ = 8548;
                 obj[this] = type;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
             __LINE__ = 8551;
             return obj;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function clearFxNow() {
           try {
             __LINE__ = 8540;
             fxNow = undefined;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function createFxNow() {
@@ -558,8 +558,8 @@
             setTimeout(clearFxNow,0);
             __LINE__ = 8536;
             return (fxNow = jQuery.now());
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function createActiveXHR() {
@@ -571,8 +571,8 @@
               
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function createStandardXHR() {
@@ -584,8 +584,8 @@
               
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function ajaxConvert(s,response) {
@@ -678,8 +678,8 @@
             }
             __LINE__ = 7826;
             return response;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function ajaxHandleResponses(s,jqXHR,responses) {
@@ -759,8 +759,8 @@
               return responses[finalDataType];
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function buildParams(prefix,obj,traditional,add) {
@@ -773,8 +773,8 @@
                 try {
                   __LINE__ = 7636;
                   traditional || rbracket.test(prefix)?add(prefix,v) : buildParams(prefix+"["+(typeof v === "object" || jQuery.isArray(v)?i : "")+"]",v,traditional,add);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
             } else if (!traditional && obj !=  null  && typeof obj === "object"){
@@ -790,8 +790,8 @@
               add(prefix,obj);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function ajaxExtend(target,src) {
@@ -809,8 +809,8 @@
             
             __LINE__ = 6982;
             deep && jQuery.extend( true ,target,deep);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function inspectPrefiltersOrTransports(structure,options,originalOptions,jqXHR,dataType,inspected) {
@@ -860,8 +860,8 @@
             (executeOnly || !selection) && !inspected["*"] && (selection = inspectPrefiltersOrTransports(structure,options,originalOptions,jqXHR,"*",inspected));
             __LINE__ = 6967;
             return selection;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function addToPrefiltersOrTransports(structure) {
@@ -911,12 +911,12 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function getWH(elem,name,extra) {
@@ -974,8 +974,8 @@
             }
             __LINE__ = 6813;
             return val+"px";
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function evalScript(i,elem) {
@@ -989,8 +989,8 @@
             
             __LINE__ = 6437;
             elem.parentNode && elem.parentNode.removeChild(elem);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function shimCloneNode(elem) {
@@ -1005,8 +1005,8 @@
             div.innerHTML = elem.outerHTML;
             __LINE__ = 6198;
             return div.firstChild;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function findInputs(elem) {
@@ -1016,24 +1016,24 @@
             
             __LINE__ = 6185;
             nodeName === "input"?fixDefaultChecked(elem) : nodeName !== "script" && typeof elem.getElementsByTagName !== "undefined" && jQuery.grep(elem.getElementsByTagName("input"),fixDefaultChecked);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function fixDefaultChecked(elem) {
           try {
             __LINE__ = 6178;
             elem.type === "checkbox" || elem.type === "radio" && (elem.defaultChecked = elem.checked);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function getAll(elem) {
           try {
             __LINE__ = 6165;
             return typeof elem.getElementsByTagName !== "undefined"?elem.getElementsByTagName("*") : typeof elem.querySelectorAll !== "undefined"?elem.querySelectorAll("*") : [];
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function cloneFixAttributes(src,dest) {
@@ -1074,8 +1074,8 @@
             
             __LINE__ = 6082;
             dest.removeAttribute(jQuery.expando);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function cloneCopyEvent(src,dest) {
@@ -1117,16 +1117,16 @@
             
             __LINE__ = 6023;
             curData.data && (curData.data = jQuery.extend({},curData.data));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function root(elem,cur) {
           try {
             __LINE__ = 5993;
             return jQuery.nodeName(elem,"table")?(elem.getElementsByTagName("tbody")[0] || elem.appendChild(elem.ownerDocument.createElement("tbody"))) : elem;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function createSafeFragment(document) {
@@ -1146,8 +1146,8 @@
             }
             __LINE__ = 5639;
             return safeFrag;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function winnow(elements,qualifier,keep) {
@@ -1165,8 +1165,8 @@
                   var retVal = !!qualifier.call(elem,i,elem);
                   __LINE__ = 5600;
                   return retVal === keep;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
             } else if (qualifier.nodeType){
@@ -1176,8 +1176,8 @@
                 try {
                   __LINE__ = 5605;
                   return (elem === qualifier) === keep;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
             } else if (typeof qualifier === "string"){
@@ -1188,8 +1188,8 @@
                     try {
                       __LINE__ = 5610;
                       return elem.nodeType === 1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
               if (isSimple.test(qualifier)){
@@ -1206,36 +1206,36 @@
               try {
                 __LINE__ = 5621;
                 return (jQuery.inArray(elem,qualifier) >= 0) === keep;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isDisconnected(node) {
           try {
             __LINE__ = 5475;
             return !node || !node.parentNode || node.parentNode.nodeType === 11;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function returnTrue() {
           try {
             __LINE__ = 3469;
             return  true ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function returnFalse() {
           try {
             __LINE__ = 3466;
             return  false ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function handleQueueMarkDefer(elem,type,src) {
@@ -1259,12 +1259,12 @@
                   defer.fire();
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },0);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isEmptyDataObject(obj) {
@@ -1287,8 +1287,8 @@
             }
             __LINE__ = 1974;
             return  true ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function dataAttr(elem,key,data) {
@@ -1323,8 +1323,8 @@
             }
             __LINE__ = 1958;
             return data;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function createFlags(flags) {
@@ -1344,8 +1344,8 @@
             }
             __LINE__ = 971;
             return object;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -1377,8 +1377,8 @@
                     
                     __LINE__ = 952;
                     jQuery.ready();
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
                 try {
@@ -1388,8 +1388,8 @@
                         try {
                           __LINE__ = 27;
                           return new jQuery.fn.init(selector,context,rootjQuery);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       _jQuery = window.jQuery,
@@ -1414,8 +1414,8 @@
                         try {
                           __LINE__ = 71;
                           return (letter+"").toUpperCase();
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       userAgent = navigator.userAgent,
@@ -1583,8 +1583,8 @@
                         }
                         __LINE__ = 206;
                         return jQuery.makeArray(selector,this);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     selector : "",
@@ -1594,24 +1594,24 @@
                       try {
                         __LINE__ = 220;
                         return this.length;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     toArray : function () {
                       try {
                         __LINE__ = 224;
                         return slice.call(this,0);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     get : function (num) {
                       try {
                         __LINE__ = 230;
                         return num ==  null ?this.toArray() : (num<0?this[this.length+num] : this[num]);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     pushStack : function (elems,name,selector) {
@@ -1648,16 +1648,16 @@
                         }
                         __LINE__ = 264;
                         return ret;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     each : function (callback,args) {
                       try {
                         __LINE__ = 271;
                         return jQuery.each(this,callback,args);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     ready : function (fn) {
@@ -1669,8 +1669,8 @@
                         readyList.add(fn);
                         __LINE__ = 281;
                         return this;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     eq : function (i) {
@@ -1679,32 +1679,32 @@
                         i = +i;
                         __LINE__ = 286;
                         return i === -1?this.slice(i) : this.slice(i,i+1);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     first : function () {
                       try {
                         __LINE__ = 292;
                         return this.eq(0);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     last : function () {
                       try {
                         __LINE__ = 296;
                         return this.eq(-1);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     slice : function () {
                       try {
                         __LINE__ = 300;
                         return this.pushStack(slice.apply(this,arguments),"slice",slice.call(arguments).join(","));
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     map : function (callback) {
@@ -1715,20 +1715,20 @@
                           try {
                             __LINE__ = 306;
                             return callback.call(elem,i,elem);
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         }));
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     end : function () {
                       try {
                         __LINE__ = 311;
                         return this.prevObject || this.constructor( null );
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     push : push,
@@ -1829,8 +1829,8 @@
                       }
                       __LINE__ = 385;
                       return target;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
@@ -1853,8 +1853,8 @@
                         }
                         __LINE__ = 398;
                         return jQuery;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     isReady :  false ,
@@ -1872,8 +1872,8 @@
                           jQuery.ready( true );
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     ready : function (wait) {
@@ -1908,8 +1908,8 @@
                           
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     bindReady : function () {
@@ -1963,48 +1963,48 @@
                           
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     isFunction : function (obj) {
                       try {
                         __LINE__ = 493;
                         return jQuery.type(obj) === "function";
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     isArray : Array.isArray || function (obj) {
                       try {
                         __LINE__ = 497;
                         return jQuery.type(obj) === "array";
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     isWindow : function (obj) {
                       try {
                         __LINE__ = 502;
                         return obj && typeof obj === "object" && "setInterval" in obj;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     isNumeric : function (obj) {
                       try {
                         __LINE__ = 506;
                         return !isNaN(parseFloat(obj)) && isFinite(obj);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     type : function (obj) {
                       try {
                         __LINE__ = 510;
                         return obj ==  null ?String(obj) : class2type[toString.call(obj)] || "object";
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     isPlainObject : function (obj) {
@@ -2037,8 +2037,8 @@
                         }
                         __LINE__ = 541;
                         return key === undefined || hasOwn.call(obj,key);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     isEmptyObject : function (obj) {
@@ -2050,16 +2050,16 @@
                         }
                         __LINE__ = 548;
                         return  true ;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     error : function (msg) {
                       try {
                         __LINE__ = 552;
                         throw new Error(msg);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     parseJSON : function (data) {
@@ -2087,8 +2087,8 @@
                         
                         __LINE__ = 577;
                         jQuery.error("Invalid JSON: "+data);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     parseXML : function (data) {
@@ -2120,8 +2120,9 @@
                           }
                           
                         } catch(e){
+                          
                           __LINE__ = 593;
-                          return xml = undefined;
+                          xml = undefined;
                         }
                         
                         __LINE__ = 595;
@@ -2132,8 +2133,8 @@
                         }
                         __LINE__ = 598;
                         return xml;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     noop : function (){},
@@ -2147,30 +2148,30 @@
                             try {
                               __LINE__ = 612;
                               window["eval"].call(window,data);
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           })(data);
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     camelCase : function (string) {
                       try {
                         __LINE__ = 620;
                         return string.replace(rmsPrefix,"ms-").replace(rdashAlpha,fcamelCase);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     nodeName : function (elem,name) {
                       try {
                         __LINE__ = 624;
                         return elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     each : function (object,callback,args) {
@@ -2239,23 +2240,23 @@
                         }
                         __LINE__ = 665;
                         return object;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     trim : trim?function (text) {
                       try {
                         __LINE__ = 671;
                         return text ==  null ?"" : trim.call(text);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     } : function (text) {
                       try {
                         __LINE__ = 678;
                         return text ==  null ?"" : text.toString().replace(trimLeft,"").replace(trimRight,"");
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     makeArray : function (array,results) {
@@ -2283,8 +2284,8 @@
                         }
                         __LINE__ = 699;
                         return ret;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     inArray : function (elem,array,i) {
@@ -2321,8 +2322,8 @@
                         }
                         __LINE__ = 721;
                         return -1;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     merge : function (first,second) {
@@ -2356,8 +2357,8 @@
                         first.length = i;
                         __LINE__ = 741;
                         return first;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     grep : function (elems,callback,inv) {
@@ -2385,8 +2386,8 @@
                         }
                         __LINE__ = 757;
                         return ret;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     map : function (elems,callback,arg) {
@@ -2435,8 +2436,8 @@
                         }
                         __LINE__ = 790;
                         return ret.concat.apply([],ret);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     guid : 1,
@@ -2467,8 +2468,8 @@
                               try {
                                 __LINE__ = 814;
                                 return fn.apply(context,args.concat(slice.call(arguments)));
-                              } catch(e){
-                                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                              } catch(__mocha_error){
+                                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                               }
                             };
                         
@@ -2476,8 +2477,8 @@
                         proxy.guid = fn.guid = fn.guid || proxy.guid || jQuery.guid ++ ;
                         __LINE__ = 820;
                         return proxy;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     access : function (elems,key,value,exec,fn,pass) {
@@ -2515,16 +2516,16 @@
                         }
                         __LINE__ = 849;
                         return length?fn(elems[0],key) : undefined;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     now : function () {
                       try {
                         __LINE__ = 853;
                         return (new Date()).getTime();
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     uaMatch : function (ua) {
@@ -2539,8 +2540,8 @@
                           browser : match[1] || "",
                           version : match[2] || "0"
                         };
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     sub : function () {
@@ -2548,8 +2549,8 @@
                         try {
                           __LINE__ = 872;
                           return new jQuerySub.fn.init(selector,context);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                       try {
@@ -2580,8 +2581,8 @@
                             }
                             __LINE__ = 884;
                             return jQuery.fn.init.call(this,selector,context,rootjQuerySub);
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                         
@@ -2592,8 +2593,8 @@
                         var rootjQuerySub = jQuerySub(document);
                         __LINE__ = 888;
                         return jQuerySub;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     browser : {}
@@ -2605,8 +2606,8 @@
                     try {
                       __LINE__ = 896;
                       class2type["[object "+name+"]"] = name.toLowerCase();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                   
@@ -2647,8 +2648,8 @@
                       
                       __LINE__ = 923;
                       jQuery.ready();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   } : document.attachEvent && (DOMContentLoaded = function () {
                     try {
@@ -2662,14 +2663,14 @@
                         jQuery.ready();
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                   __LINE__ = 955;
                   return jQuery;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }(),
               flagsCache = {};
@@ -2710,8 +2711,8 @@
                         type === "array"?add(elem) : type === "function" && (!flags.unique || !self.has(elem)) && list.push(elem);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   fire = function (context,args) {
@@ -2771,8 +2772,8 @@
                         
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   self =  {
@@ -2804,8 +2805,8 @@
                         }
                         __LINE__ = 1084;
                         return this;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     remove : function () {
@@ -2865,8 +2866,8 @@
                         }
                         __LINE__ = 1115;
                         return this;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     has : function (fn) {
@@ -2892,8 +2893,8 @@
                         }
                         __LINE__ = 1128;
                         return  false ;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     empty : function () {
@@ -2902,8 +2903,8 @@
                         list = [];
                         __LINE__ = 1133;
                         return this;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     disable : function () {
@@ -2912,16 +2913,16 @@
                         list = stack = memory = undefined;
                         __LINE__ = 1138;
                         return this;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     disabled : function () {
                       try {
                         __LINE__ = 1142;
                         return !list;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     lock : function () {
@@ -2937,16 +2938,16 @@
                         }
                         __LINE__ = 1150;
                         return this;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     locked : function () {
                       try {
                         __LINE__ = 1154;
                         return !stack;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     fireWith : function (context,args) {
@@ -2973,8 +2974,8 @@
                         }
                         __LINE__ = 1167;
                         return this;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     fire : function () {
@@ -2983,23 +2984,23 @@
                         self.fireWith(this,arguments);
                         __LINE__ = 1172;
                         return this;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },
                     fired : function () {
                       try {
                         __LINE__ = 1176;
                         return !!memory;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }
                   };
               __LINE__ = 1180;
               return self;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -3028,8 +3029,8 @@
                         try {
                           __LINE__ = 1207;
                           return state;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       isResolved : doneList.fired,
@@ -3040,8 +3041,8 @@
                           deferred.done(doneCallbacks).fail(failCallbacks).progress(progressCallbacks);
                           __LINE__ = 1216;
                           return this;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       always : function () {
@@ -3050,8 +3051,8 @@
                           deferred.done.apply(deferred,arguments).fail.apply(deferred,arguments);
                           __LINE__ = 1220;
                           return this;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       pipe : function (fnDone,fnFail,fnProgress) {
@@ -3092,8 +3093,8 @@
                                           newDefer[action+"With"](this === deferred?newDefer : this,[returned]);
                                         }
                                         
-                                      } catch(e){
-                                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                      } catch(__mocha_error){
+                                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                       }
                                     });
                                   } else {
@@ -3102,16 +3103,16 @@
                                     deferred[handler](newDefer[action]);
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               });
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           }).promise();
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       promise : function (obj) {
@@ -3133,8 +3134,8 @@
                           }
                           __LINE__ = 1257;
                           return obj;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     },
@@ -3156,15 +3157,15 @@
                   try {
                     __LINE__ = 1270;
                     state = "resolved";
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },failList.disable,progressList.lock).fail(function () {
                   try {
                     __LINE__ = 1272;
                     state = "rejected";
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },doneList.disable,progressList.lock);
                 
@@ -3176,8 +3177,8 @@
                 }
                 __LINE__ = 1281;
                 return deferred;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             when : function (firstParam) {
@@ -3197,12 +3198,12 @@
                         deferred.resolveWith(deferred,args);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               function progressFunc(i) {
@@ -3215,12 +3216,12 @@
                       
                       __LINE__ = 1307;
                       deferred.notifyWith(promise,pValues);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -3267,8 +3268,8 @@
                 }
                 __LINE__ = 1324;
                 return promise;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -3361,8 +3362,9 @@
                 __LINE__ = 1437;
                 delete div.test;
               } catch(e){
+                
                 __LINE__ = 1439;
-                return support.deleteExpando =  false ;
+                support.deleteExpando =  false ;
               }
               
               __LINE__ = 1442;
@@ -3374,8 +3376,8 @@
                   try {
                     __LINE__ = 1446;
                     support.noCloneEvent =  false ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 
@@ -3638,14 +3640,14 @@
                   
                   __LINE__ = 1611;
                   jQuery.extend(support,offsetSupport);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
               __LINE__ = 1614;
               return support;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -3669,8 +3671,8 @@
                 elem = elem.nodeType?jQuery.cache[elem[jQuery.expando]] : elem[jQuery.expando];
                 __LINE__ = 1644;
                 return !!elem && !isEmptyDataObject(elem);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             data : function (elem,name,data,pvt) {
@@ -3795,8 +3797,8 @@
                 }
                 __LINE__ = 1745;
                 return ret;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             removeData : function (elem,name,pvt) {
@@ -3919,16 +3921,16 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             _data : function (elem,name,data) {
               try {
                 __LINE__ = 1847;
                 return jQuery.data(elem,name,data, true );
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             acceptData : function (elem) {
@@ -3948,8 +3950,8 @@
                 }
                 __LINE__ = 1860;
                 return  true ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -4010,8 +4012,8 @@
                     try {
                       __LINE__ = 1892;
                       jQuery.data(this,key);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -4055,14 +4057,14 @@
                       
                       __LINE__ = 1919;
                       self.triggerHandler("changeData"+parts[1]+"!",args);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             removeData : function (key) {
@@ -4072,12 +4074,12 @@
                   try {
                     __LINE__ = 1926;
                     jQuery.removeData(this,key);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -4096,8 +4098,8 @@
                   jQuery._data(elem,type,(jQuery._data(elem,type) || 0)+1);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             _unmark : function (force,elem,type) {
@@ -4141,8 +4143,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             queue : function (elem,type,data) {
@@ -4178,8 +4180,8 @@
                   return q || [];
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             dequeue : function (elem,type) {
@@ -4218,8 +4220,8 @@
                     try {
                       __LINE__ = 2067;
                       jQuery.dequeue(elem,type);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },hooks);
                 }
@@ -4234,8 +4236,8 @@
                   handleQueueMarkDefer(elem,type,"queue");
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -4272,12 +4274,12 @@
                       jQuery.dequeue(this,type);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             dequeue : function (type) {
@@ -4287,12 +4289,12 @@
                   try {
                     __LINE__ = 2098;
                     jQuery.dequeue(this,type);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             delay : function (time,type) {
@@ -4314,24 +4316,24 @@
                       try {
                         __LINE__ = 2110;
                         clearTimeout(timeout);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             clearQueue : function (type) {
               try {
                 __LINE__ = 2115;
                 return this.queue(type || "fx",[]);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             promise : function (type,object) {
@@ -4345,8 +4347,8 @@
                     defer.resolveWith(elements,[elements]);
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -4392,8 +4394,8 @@
                 resolve();
                 __LINE__ = 2148;
                 return defer.promise();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -4417,8 +4419,8 @@
               try {
                 __LINE__ = 2167;
                 return jQuery.access(this,name,value, true ,jQuery.attr);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             removeAttr : function (name) {
@@ -4428,20 +4430,20 @@
                   try {
                     __LINE__ = 2172;
                     jQuery.removeAttr(this,name);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             prop : function (name,value) {
               try {
                 __LINE__ = 2177;
                 return jQuery.access(this,name,value, true ,jQuery.prop);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             removeProp : function (name) {
@@ -4462,12 +4464,12 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             addClass : function (value) {
@@ -4488,8 +4490,8 @@
                     try {
                       __LINE__ = 2197;
                       jQuery(this).addClass(value.call(this,j,this.className));
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -4540,8 +4542,8 @@
                 }
                 __LINE__ = 2225;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             removeClass : function (value) {
@@ -4562,8 +4564,8 @@
                     try {
                       __LINE__ = 2233;
                       jQuery(this).removeClass(value.call(this,j,this.className));
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -4611,8 +4613,8 @@
                 }
                 __LINE__ = 2258;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             toggleClass : function (value,stateVal) {
@@ -4628,8 +4630,8 @@
                     try {
                       __LINE__ = 2267;
                       jQuery(this).toggleClass(value.call(this,i,this.className,stateVal),stateVal);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -4667,12 +4669,12 @@
                       this.className = this.className || value ===  false ?"" : jQuery._data(this,"__className__") || "";
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             hasClass : function (selector) {
@@ -4694,8 +4696,8 @@
                 }
                 __LINE__ = 2308;
                 return  false ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             val : function (value) {
@@ -4773,8 +4775,8 @@
                         try {
                           __LINE__ = 2357;
                           return value ==  null ?"" : value+"";
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       });
                     }
@@ -4789,12 +4791,12 @@
                       this.value = val;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -4809,8 +4811,8 @@
                     var val = elem.attributes.value;
                     __LINE__ = 2378;
                     return !val || val.specified?elem.value : elem.text;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               },
@@ -4870,8 +4872,8 @@
                     }
                     __LINE__ = 2422;
                     return values;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 set : function (elem,value) {
@@ -4884,8 +4886,8 @@
                       try {
                         __LINE__ = 2429;
                         this.selected = jQuery.inArray(jQuery(this).val(),values) >= 0;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                     
@@ -4897,8 +4899,8 @@
                     }
                     __LINE__ = 2435;
                     return values;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               }
@@ -4984,8 +4986,8 @@
                   return ret ===  null ?undefined : ret;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             removeAttr : function (elem,value) {
@@ -5037,8 +5039,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             attrHooks :  {
@@ -5066,8 +5068,8 @@
                       return value;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               },
@@ -5081,8 +5083,8 @@
                     }
                     __LINE__ = 2559;
                     return name in elem?elem.value :  null ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 set : function (elem,value,name) {
@@ -5095,8 +5097,8 @@
                     
                     __LINE__ = 2568;
                     elem.value = value;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               }
@@ -5165,8 +5167,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             propHooks :  {
@@ -5177,8 +5179,8 @@
                     var attributeNode = elem.getAttributeNode("tabindex");
                     __LINE__ = 2630;
                     return attributeNode && attributeNode.specified?parseInt(attributeNode.value,10) : rfocusable.test(elem.nodeName) || rclickable.test(elem.nodeName) && elem.href?0 : undefined;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               }
@@ -5197,8 +5199,8 @@
                     property = jQuery.prop(elem,name);
                 __LINE__ = 2650;
                 return property ===  true  || typeof property !== "boolean" && (attrNode = elem.getAttributeNode(name)) && attrNode.nodeValue !==  false ?name.toLowerCase() : undefined;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             set : function (elem,value,name) {
@@ -5226,8 +5228,8 @@
                 }
                 __LINE__ = 2670;
                 return name;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5252,8 +5254,8 @@
                   ret = elem.getAttributeNode(name);
                   __LINE__ = 2688;
                   return ret && (fixSpecified[name]?ret.nodeValue !== "" : ret.specified)?ret.nodeValue : undefined;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               set : function (elem,value,name) {
@@ -5272,8 +5274,8 @@
                   }
                   __LINE__ = 2699;
                   return (ret.nodeValue = value+"");
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             };
@@ -5298,13 +5300,13 @@
                         return value;
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
             
@@ -5322,8 +5324,8 @@
                   
                   __LINE__ = 2727;
                   nodeHook.set(elem,value,name);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             };
@@ -5341,13 +5343,13 @@
                     var ret = elem.getAttribute(name,2);
                     __LINE__ = 2739;
                     return ret ===  null ?undefined : ret;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               });
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -5357,16 +5359,16 @@
               try {
                 __LINE__ = 2750;
                 return elem.style.cssText.toLowerCase() || undefined;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             set : function (elem,value) {
               try {
                 __LINE__ = 2753;
                 return (elem.style.cssText = ""+value);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -5394,8 +5396,8 @@
                 }
                 __LINE__ = 2773;
                 return  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           }));
@@ -5413,13 +5415,13 @@
                   try {
                     __LINE__ = 2789;
                     return elem.getAttribute("value") ===  null ?"on" : elem.value;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -5437,13 +5439,13 @@
                       return (elem.checked = jQuery.inArray(jQuery(elem).val(),value) >= 0);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               });
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -5471,8 +5473,8 @@
                   }
                   __LINE__ = 2822;
                   return quick;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               quickIs = function (elem,m) {
@@ -5481,16 +5483,16 @@
                   var attrs = elem.attributes || {};
                   __LINE__ = 2826;
                   return ((!m[1] || elem.nodeName.toLowerCase() === m[1]) && (!m[2] || (attrs.id || {}).value === m[2]) && (!m[3] || m[3].test((attrs["class"] || {}).value)));
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               hoverHack = function (events) {
                 try {
                   __LINE__ = 2833;
                   return jQuery.event.special.hover?events : events.replace(rhoverHack,"mouseenter$1 mouseleave$1");
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
           
@@ -5556,8 +5558,8 @@
                     try {
                       __LINE__ = 2874;
                       return typeof jQuery !== "undefined" && (!e || jQuery.event.triggered !== e.type)?jQuery.event.dispatch.apply(eventHandle.elem,arguments) : undefined;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
@@ -5663,8 +5665,8 @@
                 
                 __LINE__ = 2950;
                 elem =  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             global : {},
@@ -5797,8 +5799,8 @@
                   jQuery.removeData(elem,["events","handle"], true );
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             customEvent :  {
@@ -6040,8 +6042,8 @@
                 }
                 __LINE__ = 3185;
                 return event.result;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             dispatch : function (event) {
@@ -6195,8 +6197,8 @@
                 }
                 __LINE__ = 3269;
                 return event.result;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             props : "attrChange attrName relatedNode srcElement altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
@@ -6213,8 +6215,8 @@
                   }
                   __LINE__ = 3287;
                   return event;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             },
@@ -6263,8 +6265,8 @@
                   }
                   __LINE__ = 3319;
                   return event;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             },
@@ -6318,8 +6320,8 @@
                 }
                 __LINE__ = 3356;
                 return fixHook.filter?fixHook.filter(event,originalEvent) : event;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             special :  {
@@ -6345,8 +6347,8 @@
                       this.onbeforeunload = eventHandle;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 teardown : function (namespaces,eventHandle) {
@@ -6358,8 +6360,8 @@
                       this.onbeforeunload =  null ;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               }
@@ -6391,8 +6393,8 @@
                   event.preventDefault();
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -6405,15 +6407,15 @@
             try {
               __LINE__ = 3423;
               elem.removeEventListener && elem.removeEventListener(type,handle, false );
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           } : function (elem,type,handle) {
             try {
               __LINE__ = 3428;
               elem.detachEvent && elem.detachEvent("on"+type,handle);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -6450,8 +6452,8 @@
               
               __LINE__ = 3462;
               this[jQuery.expando] =  true ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -6482,8 +6484,8 @@
                   e.returnValue =  false ;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             stopPropagation : function () {
@@ -6509,8 +6511,8 @@
                 
                 __LINE__ = 3504;
                 e.cancelBubble =  true ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             stopImmediatePropagation : function () {
@@ -6520,8 +6522,8 @@
                 
                 __LINE__ = 3508;
                 this.stopPropagation();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             isDefaultPrevented : returnFalse,
@@ -6563,13 +6565,13 @@
                     }
                     __LINE__ = 3538;
                     return ret;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -6605,8 +6607,8 @@
                             jQuery.event.simulate("submit",this.parentNode,event, true );
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       });
                       
@@ -6614,12 +6616,12 @@
                       form._submit_attached =  true ;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             teardown : function () {
@@ -6632,8 +6634,8 @@
                 
                 __LINE__ = 3578;
                 jQuery.event.remove(this,"._submit");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -6659,8 +6661,8 @@
                           this._just_changed =  true ;
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                     
@@ -6678,8 +6680,8 @@
                           jQuery.event.simulate("change",this,event, true );
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                   }
@@ -6708,8 +6710,8 @@
                             jQuery.event.simulate("change",this.parentNode,event, true );
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       });
                       
@@ -6717,12 +6719,12 @@
                       elem._change_attached =  true ;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             handle : function (event) {
@@ -6736,8 +6738,8 @@
                   return event.handleObj.handler.apply(this,arguments);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             teardown : function () {
@@ -6746,8 +6748,8 @@
                 jQuery.event.remove(this,"._change");
                 __LINE__ = 3636;
                 return rformElems.test(this.nodeName);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -6765,8 +6767,8 @@
                     try {
                       __LINE__ = 3648;
                       jQuery.event.simulate(fix,event.target,jQuery.event.fix(event), true );
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
               
@@ -6781,8 +6783,8 @@
                       document.addEventListener(orig,handler, true );
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 teardown : function () {
@@ -6794,13 +6796,13 @@
                       document.removeEventListener(orig,handler, true );
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -6888,8 +6890,8 @@
                       jQuery().off(event);
                       __LINE__ = 3712;
                       return origFn.apply(this,arguments);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
@@ -6901,20 +6903,20 @@
                   try {
                     __LINE__ = 3718;
                     jQuery.event.add(this,types,fn,data,selector);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             one : function (types,selector,data,fn) {
               try {
                 __LINE__ = 3722;
                 return this.on.call(this,types,selector,data,fn,1);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             off : function (types,selector,fn) {
@@ -6965,28 +6967,28 @@
                   try {
                     __LINE__ = 3751;
                     jQuery.event.remove(this,types,fn,selector);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             bind : function (types,data,fn) {
               try {
                 __LINE__ = 3756;
                 return this.on(types, null ,data,fn);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             unbind : function (types,fn) {
               try {
                 __LINE__ = 3759;
                 return this.off(types, null ,fn);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             live : function (types,data,fn) {
@@ -6995,8 +6997,8 @@
                 jQuery(this.context).on(types,this.selector,data,fn);
                 __LINE__ = 3764;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             die : function (types,fn) {
@@ -7005,24 +7007,24 @@
                 jQuery(this.context).off(types,this.selector || "**",fn);
                 __LINE__ = 3768;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             delegate : function (selector,types,data,fn) {
               try {
                 __LINE__ = 3772;
                 return this.on(types,selector,data,fn);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             undelegate : function (selector,types,fn) {
               try {
                 __LINE__ = 3776;
                 return arguments.length == 1?this.off(selector,"**") : this.off(types,selector,fn);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             trigger : function (type,data) {
@@ -7032,12 +7034,12 @@
                   try {
                     __LINE__ = 3781;
                     jQuery.event.trigger(type,data,this);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             triggerHandler : function (type,data) {
@@ -7048,8 +7050,8 @@
                   return jQuery.event.trigger(type,data,this[0], true );
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             toggle : function (fn) {
@@ -7070,8 +7072,8 @@
                         event.preventDefault();
                         __LINE__ = 3804;
                         return args[lastToggle].apply(this,arguments) ||  false ;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                 
@@ -7086,16 +7088,16 @@
                 }
                 __LINE__ = 3813;
                 return this.click(toggler);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             hover : function (fnOver,fnOut) {
               try {
                 __LINE__ = 3817;
                 return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -7118,8 +7120,8 @@
                   }
                   __LINE__ = 3832;
                   return arguments.length>0?this.on(name, null ,data,fn) : this.trigger(name);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -7131,8 +7133,8 @@
               
               __LINE__ = 3846;
               rmouseEvent.test(name) && (jQuery.event.fixHooks[name] = jQuery.event.mouseHooks);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -7211,8 +7213,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function dirNodeCheck(dir,cur,doneName,checkSet,nodeCheck,isXML) {
@@ -7273,8 +7275,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -7297,8 +7299,8 @@
                   baseHasDuplicate =  false ;
                   __LINE__ = 3876;
                   return 0;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
               
@@ -7490,8 +7492,8 @@
                       }
                       __LINE__ = 4023;
                       return results;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
               
@@ -7521,8 +7523,8 @@
                   }
                   __LINE__ = 4040;
                   return results;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -7531,8 +7533,8 @@
                 try {
                   __LINE__ = 4044;
                   return Sizzle(expr, null , null ,set);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -7541,8 +7543,8 @@
                 try {
                   __LINE__ = 4048;
                   return Sizzle(expr, null , null ,[node]).length>0;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -7609,8 +7611,8 @@
                     set : set,
                     expr : expr
                   };
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -7750,8 +7752,8 @@
                   }
                   __LINE__ = 4175;
                   return curLoop;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -7760,8 +7762,8 @@
                 try {
                   __LINE__ = 4179;
                   throw new Error("Syntax error, unrecognized expression: "+msg);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -7802,8 +7804,8 @@
                       }
                       __LINE__ = 4218;
                       return ret;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   Expr = Sizzle.selectors =  {
@@ -7828,16 +7830,16 @@
                         try {
                           __LINE__ = 4244;
                           return elem.getAttribute("href");
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       type : function (elem) {
                         try {
                           __LINE__ = 4247;
                           return elem.getAttribute("type");
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     },
@@ -7880,8 +7882,8 @@
                             Sizzle.filter(part,checkSet, true );
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       ">" : function (checkSet,part) {
@@ -7938,8 +7940,8 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       "" : function (checkSet,part,isXML) {
@@ -7964,8 +7966,8 @@
                           
                           __LINE__ = 4322;
                           checkFn("parentNode",part,doneName,checkSet,nodeCheck,isXML);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       "~" : function (checkSet,part,isXML) {
@@ -7990,8 +7992,8 @@
                           
                           __LINE__ = 4336;
                           checkFn("previousSibling",part,doneName,checkSet,nodeCheck,isXML);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     },
@@ -8007,8 +8009,8 @@
                             return m && m.parentNode?[m] : [];
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       NAME : function (match,context) {
@@ -8035,8 +8037,8 @@
                             return ret.length === 0? null  : ret;
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       TAG : function (match,context) {
@@ -8047,8 +8049,8 @@
                             return context.getElementsByTagName(match[1]);
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     },
@@ -8091,24 +8093,24 @@
                           }
                           __LINE__ = 4392;
                           return  false ;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       ID : function (match) {
                         try {
                           __LINE__ = 4396;
                           return match[1].replace(rBackslash,"");
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       TAG : function (match,curLoop) {
                         try {
                           __LINE__ = 4400;
                           return match[1].replace(rBackslash,"").toLowerCase();
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       CHILD : function (match) {
@@ -8144,8 +8146,8 @@
                           match[0] = done ++ ;
                           __LINE__ = 4427;
                           return match;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       ATTR : function (match,curLoop,inplace,result,not,isXML) {
@@ -8171,8 +8173,8 @@
                           }
                           __LINE__ = 4444;
                           return match;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       PSEUDO : function (match,curLoop,inplace,result,not) {
@@ -8204,8 +8206,8 @@
                           }
                           __LINE__ = 4467;
                           return match;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       POS : function (match) {
@@ -8214,8 +8216,8 @@
                           match.unshift( true );
                           __LINE__ = 4473;
                           return match;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     },
@@ -8224,24 +8226,24 @@
                         try {
                           __LINE__ = 4479;
                           return elem.disabled ===  false  && elem.type !== "hidden";
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       disabled : function (elem) {
                         try {
                           __LINE__ = 4483;
                           return elem.disabled ===  true ;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       checked : function (elem) {
                         try {
                           __LINE__ = 4487;
                           return elem.checked ===  true ;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       selected : function (elem) {
@@ -8254,40 +8256,40 @@
                           }
                           __LINE__ = 4497;
                           return elem.selected ===  true ;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       parent : function (elem) {
                         try {
                           __LINE__ = 4501;
                           return !!elem.firstChild;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       empty : function (elem) {
                         try {
                           __LINE__ = 4505;
                           return !elem.firstChild;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       has : function (elem,i,match) {
                         try {
                           __LINE__ = 4509;
                           return !!Sizzle(match[3],elem).length;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       header : function (elem) {
                         try {
                           __LINE__ = 4513;
                           return (/h\d/i).test(elem.nodeName);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       text : function (elem) {
@@ -8297,40 +8299,40 @@
                               type = elem.type;
                           __LINE__ = 4520;
                           return elem.nodeName.toLowerCase() === "input" && "text" === type && (attr === type || attr ===  null );
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       radio : function (elem) {
                         try {
                           __LINE__ = 4524;
                           return elem.nodeName.toLowerCase() === "input" && "radio" === elem.type;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       checkbox : function (elem) {
                         try {
                           __LINE__ = 4528;
                           return elem.nodeName.toLowerCase() === "input" && "checkbox" === elem.type;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       file : function (elem) {
                         try {
                           __LINE__ = 4532;
                           return elem.nodeName.toLowerCase() === "input" && "file" === elem.type;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       password : function (elem) {
                         try {
                           __LINE__ = 4536;
                           return elem.nodeName.toLowerCase() === "input" && "password" === elem.type;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       submit : function (elem) {
@@ -8339,16 +8341,16 @@
                           var name = elem.nodeName.toLowerCase();
                           __LINE__ = 4541;
                           return (name === "input" || name === "button") && "submit" === elem.type;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       image : function (elem) {
                         try {
                           __LINE__ = 4545;
                           return elem.nodeName.toLowerCase() === "input" && "image" === elem.type;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       reset : function (elem) {
@@ -8357,8 +8359,8 @@
                           var name = elem.nodeName.toLowerCase();
                           __LINE__ = 4550;
                           return (name === "input" || name === "button") && "reset" === elem.type;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       button : function (elem) {
@@ -8367,24 +8369,24 @@
                           var name = elem.nodeName.toLowerCase();
                           __LINE__ = 4555;
                           return name === "input" && "button" === elem.type || name === "button";
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       input : function (elem) {
                         try {
                           __LINE__ = 4559;
                           return (/input|select|textarea|button/i).test(elem.nodeName);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       focus : function (elem) {
                         try {
                           __LINE__ = 4563;
                           return elem === elem.ownerDocument.activeElement;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     },
@@ -8393,64 +8395,64 @@
                         try {
                           __LINE__ = 4568;
                           return i === 0;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       last : function (elem,i,match,array) {
                         try {
                           __LINE__ = 4572;
                           return i === array.length-1;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       even : function (elem,i) {
                         try {
                           __LINE__ = 4576;
                           return i%2 === 0;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       odd : function (elem,i) {
                         try {
                           __LINE__ = 4580;
                           return i%2 === 1;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       lt : function (elem,i,match) {
                         try {
                           __LINE__ = 4584;
                           return i<match[3]-0;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       gt : function (elem,i,match) {
                         try {
                           __LINE__ = 4588;
                           return i>match[3]-0;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       nth : function (elem,i,match) {
                         try {
                           __LINE__ = 4592;
                           return match[3]-0 === i;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       eq : function (elem,i,match) {
                         try {
                           __LINE__ = 4596;
                           return match[3]-0 === i;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     },
@@ -8489,8 +8491,8 @@
                             Sizzle.error(name);
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       CHILD : function (elem,match) {
@@ -8600,32 +8602,32 @@
                               
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       ID : function (elem,match) {
                         try {
                           __LINE__ = 4692;
                           return elem.nodeType === 1 && elem.getAttribute("id") === match;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       TAG : function (elem,match) {
                         try {
                           __LINE__ = 4696;
                           return (match === "*" && elem.nodeType === 1) || !!elem.nodeName && elem.nodeName.toLowerCase() === match;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       CLASS : function (elem,match) {
                         try {
                           __LINE__ = 4700;
                           return (" "+(elem.className || elem.getAttribute("class"))+" ").indexOf(match)>-1;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       ATTR : function (elem,match) {
@@ -8638,8 +8640,8 @@
                               check = match[4];
                           __LINE__ = 4717;
                           return result ==  null ?type === "!=" : !type && Sizzle.attr?result !=  null  : type === "="?value === check : type === "*="?value.indexOf(check) >= 0 : type === "~="?(" "+value+" ").indexOf(check) >= 0 : !check?value && result !==  false  : type === "!="?value !== check : type === "^="?value.indexOf(check) === 0 : type === "$="?value.substr(value.length-check.length) === check : type === "|="?value === check || value.substr(0,check.length+1) === check+"-" :  false ;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       POS : function (elem,match,i,array) {
@@ -8654,8 +8656,8 @@
                             return filter(elem,i,match,array);
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     }
@@ -8665,8 +8667,8 @@
                     try {
                       __LINE__ = 4753;
                       return "\\"+(num-1);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
               
@@ -8696,8 +8698,8 @@
                       }
                       __LINE__ = 4769;
                       return array;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
               
@@ -8706,8 +8708,9 @@
                 __LINE__ = 4777;
                 [].slice.call(document.documentElement.childNodes,0)[0].nodeType;
               } catch(e){
+                
                 __LINE__ = 4781;
-                return makeArray = function (array,results) {
+                makeArray = function (array,results) {
                   try {
                     __LINE__ = 4782;
                     var i = 0,
@@ -8738,8 +8741,8 @@
                     }
                     __LINE__ = 4801;
                     return ret;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
               }
@@ -8769,8 +8772,8 @@
                     }
                     __LINE__ = 4818;
                     return a.compareDocumentPosition(b)&4?-1 : 1;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
               } else {
@@ -8847,8 +8850,8 @@
                     }
                     __LINE__ = 4877;
                     return i === al?siblingCheck(a,bp[i],-1) : siblingCheck(ap[i],b,1);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 
@@ -8875,8 +8878,8 @@
                     }
                     __LINE__ = 4897;
                     return 1;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
               }
@@ -8910,8 +8913,8 @@
                           return m?m.id === match[1] || typeof m.getAttributeNode !== "undefined" && m.getAttributeNode("id").nodeValue === match[1]?[m] : undefined : [];
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                     
@@ -8922,8 +8925,8 @@
                         var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
                         __LINE__ = 4932;
                         return elem.nodeType === 1 && node && node.nodeValue === match;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                   }
@@ -8933,8 +8936,8 @@
                   
                   __LINE__ = 4939;
                   root = form =  null ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }();
               
@@ -8970,8 +8973,8 @@
                       }
                       __LINE__ = 4968;
                       return results;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                   
@@ -8983,15 +8986,15 @@
                     try {
                       __LINE__ = 4979;
                       return elem.getAttribute("href",2);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                   
                   __LINE__ = 4984;
                   div =  null ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }();
               
@@ -9102,8 +9105,8 @@
                       }
                       __LINE__ = 5083;
                       return oldSizzle(query,context,extra,seed);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
@@ -9116,8 +9119,8 @@
                   
                   __LINE__ = 5091;
                   div =  null ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }();
               
@@ -9140,8 +9143,9 @@
                       __LINE__ = 5108;
                       matches.call(document.documentElement,"[test!='']:sizzle");
                     } catch(pseudoError){
+                      
                       __LINE__ = 5111;
-                      return pseudoWorks =  true ;
+                      pseudoWorks =  true ;
                     }
                     
                     __LINE__ = 5114;
@@ -9175,14 +9179,14 @@
                         }
                         __LINE__ = 5134;
                         return Sizzle(expr, null , null ,[node]).length>0;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }();
               
@@ -9222,15 +9226,15 @@
                         return context.getElementsByClassName(match[1]);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
                   __LINE__ = 5165;
                   div =  null ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }();
               
@@ -9239,22 +9243,22 @@
                 try {
                   __LINE__ = 5244;
                   return a !== b && (a.contains?a.contains(b) :  true );
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               } : document.documentElement.compareDocumentPosition?Sizzle.contains = function (a,b) {
                 try {
                   __LINE__ = 5249;
                   return !!(a.compareDocumentPosition(b)&16);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               } : Sizzle.contains = function () {
                 try {
                   __LINE__ = 5254;
                   return  false ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -9265,8 +9269,8 @@
                   var documentElement = (elem?elem.ownerDocument || elem : 0).documentElement;
                   __LINE__ = 5263;
                   return documentElement?documentElement.nodeName !== "HTML" :  false ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -9300,8 +9304,8 @@
                       }
                       __LINE__ = 5285;
                       return Sizzle.filter(later,tmpSet);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
               
@@ -9331,8 +9335,8 @@
               
               __LINE__ = 5298;
               jQuery.contains = Sizzle.contains;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -9375,8 +9379,8 @@
                         
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -9423,8 +9427,8 @@
                 }
                 __LINE__ = 5354;
                 return ret;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             has : function (target) {
@@ -9445,36 +9449,36 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             not : function (selector) {
               try {
                 __LINE__ = 5369;
                 return this.pushStack(winnow(this,selector, false ),"not",selector);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             filter : function (selector) {
               try {
                 __LINE__ = 5373;
                 return this.pushStack(winnow(this,selector, true ),"filter",selector);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             is : function (selector) {
               try {
                 __LINE__ = 5377;
                 return !!selector && (typeof selector === "string"?POS.test(selector)?jQuery(selector,this.context).index(this[0]) >= 0 : jQuery.filter(selector,this).length>0 : this.filter(selector).length>0);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             closest : function (selectors,context) {
@@ -9558,8 +9562,8 @@
                 ret = ret.length>1?jQuery.unique(ret) : ret;
                 __LINE__ = 5433;
                 return this.pushStack(ret,"closest",selectors);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             index : function (elem) {
@@ -9577,8 +9581,8 @@
                 }
                 __LINE__ = 5451;
                 return jQuery.inArray(elem.jquery?elem[0] : elem,this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             add : function (selector,context) {
@@ -9588,16 +9592,16 @@
                     all = jQuery.merge(this.get(),set);
                 __LINE__ = 5462;
                 return this.pushStack(isDisconnected(set[0]) || isDisconnected(all[0])?all : jQuery.unique(all));
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             andSelf : function () {
               try {
                 __LINE__ = 5468;
                 return this.add(this.prevObject);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -9610,96 +9614,96 @@
                 var parent = elem.parentNode;
                 __LINE__ = 5481;
                 return parent && parent.nodeType !== 11?parent :  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             parents : function (elem) {
               try {
                 __LINE__ = 5484;
                 return jQuery.dir(elem,"parentNode");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             parentsUntil : function (elem,i,until) {
               try {
                 __LINE__ = 5487;
                 return jQuery.dir(elem,"parentNode",until);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             next : function (elem) {
               try {
                 __LINE__ = 5490;
                 return jQuery.nth(elem,2,"nextSibling");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             prev : function (elem) {
               try {
                 __LINE__ = 5493;
                 return jQuery.nth(elem,2,"previousSibling");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             nextAll : function (elem) {
               try {
                 __LINE__ = 5496;
                 return jQuery.dir(elem,"nextSibling");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             prevAll : function (elem) {
               try {
                 __LINE__ = 5499;
                 return jQuery.dir(elem,"previousSibling");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             nextUntil : function (elem,i,until) {
               try {
                 __LINE__ = 5502;
                 return jQuery.dir(elem,"nextSibling",until);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             prevUntil : function (elem,i,until) {
               try {
                 __LINE__ = 5505;
                 return jQuery.dir(elem,"previousSibling",until);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             siblings : function (elem) {
               try {
                 __LINE__ = 5508;
                 return jQuery.sibling(elem.parentNode.firstChild,elem);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             children : function (elem) {
               try {
                 __LINE__ = 5511;
                 return jQuery.sibling(elem.firstChild);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             contents : function (elem) {
               try {
                 __LINE__ = 5514;
                 return jQuery.nodeName(elem,"iframe")?elem.contentDocument || elem.contentWindow.document : jQuery.makeArray(elem.childNodes);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           },
@@ -9724,12 +9728,12 @@
                   (this.length>1 || rmultiselector.test(selector)) && rparentsprev.test(name) && (ret = ret.reverse());
                   __LINE__ = 5536;
                   return this.pushStack(ret,name,slice.call(arguments).join(","));
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -9745,8 +9749,8 @@
                 }
                 __LINE__ = 5546;
                 return elems.length === 1?jQuery.find.matchesSelector(elems[0],expr)?[elems[0]] : [] : jQuery.find.matches(expr,elems);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             dir : function (elem,dir,until) {
@@ -9770,8 +9774,8 @@
                 }
                 __LINE__ = 5561;
                 return matched;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             nth : function (cur,result,dir,elem) {
@@ -9794,8 +9798,8 @@
                 }
                 __LINE__ = 5574;
                 return cur;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             sibling : function (n,elem) {
@@ -9816,8 +9820,8 @@
                 }
                 __LINE__ = 5586;
                 return r;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -9874,8 +9878,8 @@
                       
                       __LINE__ = 5684;
                       self.text(text.call(this,i,self.text()));
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -9887,8 +9891,8 @@
                 }
                 __LINE__ = 5692;
                 return jQuery.text(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             wrapAll : function (html) {
@@ -9900,8 +9904,8 @@
                     try {
                       __LINE__ = 5698;
                       jQuery(this).wrapAll(html.call(this,i));
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -9933,15 +9937,15 @@
                       }
                       __LINE__ = 5717;
                       return elem;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }).append(this);
                 }
                 __LINE__ = 5721;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             wrapInner : function (html) {
@@ -9953,8 +9957,8 @@
                     try {
                       __LINE__ = 5727;
                       jQuery(this).wrapInner(html.call(this,i));
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -9976,12 +9980,12 @@
                       self.append(html);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             wrap : function (html) {
@@ -9993,12 +9997,12 @@
                   try {
                     __LINE__ = 5748;
                     jQuery(this).wrapAll(isFunction?html.call(this,i) : html);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             unwrap : function () {
@@ -10013,12 +10017,12 @@
                       jQuery(this).replaceWith(this.childNodes);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).end();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             append : function () {
@@ -10034,12 +10038,12 @@
                       this.appendChild(elem);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             prepend : function () {
@@ -10055,12 +10059,12 @@
                       this.insertBefore(elem,this.firstChild);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             before : function () {
@@ -10073,8 +10077,8 @@
                     try {
                       __LINE__ = 5779;
                       this.parentNode.insertBefore(elem,this);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } else if (arguments.length){
@@ -10088,8 +10092,8 @@
                   return this.pushStack(set,"before",arguments);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             after : function () {
@@ -10102,8 +10106,8 @@
                     try {
                       __LINE__ = 5791;
                       this.parentNode.insertBefore(elem,this.nextSibling);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } else if (arguments.length){
@@ -10117,8 +10121,8 @@
                   return set;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             remove : function (selector,keepData) {
@@ -10151,8 +10155,8 @@
                 }
                 __LINE__ = 5815;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             empty : function () {
@@ -10177,8 +10181,8 @@
                 }
                 __LINE__ = 5831;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             clone : function (dataAndEvents,deepDataAndEvents) {
@@ -10193,12 +10197,12 @@
                   try {
                     __LINE__ = 5839;
                     return jQuery.clone(this,dataAndEvents,deepDataAndEvents);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             html : function (value) {
@@ -10228,8 +10232,9 @@
                     }
                     
                   } catch(e){
+                    
                     __LINE__ = 5867;
-                    return this.empty().append(value);
+                    this.empty().append(value);
                   }
                   
                 } else if (jQuery.isFunction(value)){
@@ -10242,8 +10247,8 @@
                       
                       __LINE__ = 5874;
                       self.html(value.call(this,i,self.html()));
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } else {
@@ -10253,8 +10258,8 @@
                 }
                 __LINE__ = 5881;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             replaceWith : function (value) {
@@ -10273,8 +10278,8 @@
                         
                         __LINE__ = 5891;
                         self.replaceWith(value.call(this,i,old));
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                   }
@@ -10306,8 +10311,8 @@
                         jQuery(parent).append(value);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } else {
@@ -10315,16 +10320,16 @@
                   return this.length?this.pushStack(jQuery(jQuery.isFunction(value)?value() : value),"replaceWith",value) : this;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             detach : function (selector) {
               try {
                 __LINE__ = 5919;
                 return this.remove(selector, true );
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             domManip : function (args,table,callback) {
@@ -10344,8 +10349,8 @@
                     try {
                       __LINE__ = 5930;
                       jQuery(this).domManip(args,table,callback, true );
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -10363,8 +10368,8 @@
                       
                       __LINE__ = 5938;
                       self.domManip(args,table,callback);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -10427,8 +10432,8 @@
                 }
                 __LINE__ = 5988;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -10479,8 +10484,8 @@
                 fragment : fragment,
                 cacheable : cacheable
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -10530,12 +10535,12 @@
                     return this.pushStack(ret,name,insert.selector);
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -10605,8 +10610,8 @@
                 srcElements = destElements =  null ;
                 __LINE__ = 6253;
                 return clone;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             clean : function (elems,context,fragment,scripts) {
@@ -10755,8 +10760,8 @@
                     try {
                       __LINE__ = 6359;
                       return !elem.type || rscriptType.test(elem.type);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
@@ -10787,8 +10792,8 @@
                 }
                 __LINE__ = 6376;
                 return ret;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             cleanData : function (elems) {
@@ -10863,8 +10868,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -10901,12 +10906,12 @@
                 try {
                   __LINE__ = 6467;
                   return value !== undefined?jQuery.style(elem,name,value) : jQuery.css(elem,name);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -10928,8 +10933,8 @@
                       return elem.style.opacity;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               }
@@ -11016,8 +11021,8 @@
                   return style[name];
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             css : function (elem,name,extra) {
@@ -11051,8 +11056,8 @@
                   return curCSS(elem,name);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             swap : function (elem,options,callback) {
@@ -11080,8 +11085,8 @@
                   elem.style[name] = old[name];
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -11115,8 +11120,8 @@
                           try {
                             __LINE__ = 6619;
                             val = getWH(elem,name,extra);
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         });
                       }
@@ -11124,8 +11129,8 @@
                       return val;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 set : function (elem,value) {
@@ -11147,13 +11152,13 @@
                       return value;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -11163,8 +11168,8 @@
               try {
                 __LINE__ = 6647;
                 return ropacity.test((computed && elem.currentStyle?elem.currentStyle.filter : elem.style.filter) || "")?(parseFloat(RegExp.$1)/100)+"" : computed?"1" : "";
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             set : function (elem,value) {
@@ -11194,8 +11199,8 @@
                 
                 __LINE__ = 6677;
                 style.filter = ralpha.test(filter)?filter.replace(ralpha,opacity) : filter+" "+opacity;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -11227,19 +11232,19 @@
                           ret = elem.style.marginRight;
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                     __LINE__ = 6700;
                     return ret;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               });
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -11265,8 +11270,8 @@
               }
               __LINE__ = 6720;
               return ret;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -11309,8 +11314,8 @@
               }
               __LINE__ = 6761;
               return ret === ""?"auto" : ret;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -11328,8 +11333,8 @@
                     height = elem.offsetHeight;
                 __LINE__ = 6821;
                 return (width === 0 && height === 0) || (!jQuery.support.reliableHiddenOffsets && ((elem.style && elem.style.display) || jQuery.css(elem,"display")) === "none");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
             
@@ -11338,8 +11343,8 @@
               try {
                 __LINE__ = 6825;
                 return !jQuery.expr.filters.hidden(elem);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
           }
@@ -11378,8 +11383,9 @@
             
             __LINE__ = 6887;
             ajaxLocation.href = "";
+            
             __LINE__ = 6888;
-            return ajaxLocation = ajaxLocation.href;
+            ajaxLocation = ajaxLocation.href;
           }
           
           __LINE__ = 6892;
@@ -11458,8 +11464,8 @@
                           try {
                             __LINE__ = 7037;
                             responseText = r;
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         });
                         
@@ -11474,23 +11480,23 @@
                         self.each(callback,[responseText,status,jqXHR]);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 });
                 __LINE__ = 7060;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             serialize : function () {
               try {
                 __LINE__ = 7064;
                 return jQuery.param(this.serializeArray());
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             serializeArray : function () {
@@ -11500,15 +11506,15 @@
                   try {
                     __LINE__ = 7069;
                     return this.elements?jQuery.makeArray(this.elements) : this;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).filter(function () {
                   try {
                     __LINE__ = 7072;
                     return this.name && !this.disabled && (this.checked || rselectTextarea.test(this.nodeName) || rinput.test(this.type));
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).map(function (i,elem) {
                   try {
@@ -11523,19 +11529,19 @@
                           name : elem.name,
                           value : val.replace(rCRLF,"\r\n")
                         };
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }) :  {
                       name : elem.name,
                       value : val.replace(rCRLF,"\r\n")
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).get();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -11549,12 +11555,12 @@
                 try {
                   __LINE__ = 7093;
                   return this.on(o,f);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -11585,12 +11591,12 @@
                     success : callback,
                     dataType : type
                   });
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -11600,16 +11606,16 @@
               try {
                 __LINE__ = 7119;
                 return jQuery.get(url,undefined,callback,"script");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             getJSON : function (url,data,callback) {
               try {
                 __LINE__ = 7123;
                 return jQuery.get(url,data,callback,"json");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             ajaxSetup : function (target,settings) {
@@ -11632,8 +11638,8 @@
                 ajaxExtend(target,settings);
                 __LINE__ = 7139;
                 return target;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             ajaxSettings :  {
@@ -11757,8 +11763,9 @@
                         
                         __LINE__ = 7377;
                         statusText = "parsererror";
+                        
                         __LINE__ = 7378;
-                        return error = e;
+                        error = e;
                       }
                       
                     }
@@ -11829,8 +11836,8 @@
                     
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -11883,16 +11890,16 @@
                           }
                           __LINE__ = 7270;
                           return this;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       getAllResponseHeaders : function () {
                         try {
                           __LINE__ = 7275;
                           return state === 2?responseHeadersString :  null ;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       getResponseHeader : function (key) {
@@ -11923,8 +11930,8 @@
                           }
                           __LINE__ = 7290;
                           return match === undefined? null  : match;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       overrideMimeType : function (type) {
@@ -11937,8 +11944,8 @@
                           }
                           __LINE__ = 7298;
                           return this;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       abort : function (statusText) {
@@ -11957,8 +11964,8 @@
                           done(0,statusText);
                           __LINE__ = 7308;
                           return this;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     };
@@ -12006,8 +12013,8 @@
                     }
                     __LINE__ = 7444;
                     return this;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 
@@ -12171,8 +12178,8 @@
                       try {
                         __LINE__ = 7574;
                         jqXHR.abort("timeout");
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },s.timeout);
                   }
@@ -12186,8 +12193,9 @@
                     transport.send(requestHeaders,done);
                   } catch(e){
                     if (state<2){
+                      
                       __LINE__ = 7584;
-                      return done(-1,e);
+                      done(-1,e);
                     } else {
                       __LINE__ = 7587;
                       throw e;
@@ -12198,8 +12206,8 @@
                 }
                 __LINE__ = 7592;
                 return jqXHR;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             param : function (a,traditional) {
@@ -12213,8 +12221,8 @@
                         
                         __LINE__ = 7602;
                         s[s.length] = encodeURIComponent(key)+"="+encodeURIComponent(value);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                 
@@ -12234,8 +12242,8 @@
                     try {
                       __LINE__ = 7614;
                       add(this.name,this.value);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } else {
@@ -12250,8 +12258,8 @@
                 }
                 __LINE__ = 7626;
                 return s.join("&").replace(r20,"+");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -12274,8 +12282,8 @@
               try {
                 __LINE__ = 7839;
                 return jQuery.expando+"_"+(jsc ++ );
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -12327,8 +12335,8 @@
                   try {
                     __LINE__ = 7879;
                     responseContainer = [response];
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 
@@ -12340,8 +12348,8 @@
                     
                     __LINE__ = 7888;
                     responseContainer && jQuery.isFunction(previous) && window[jsonpCallback](responseContainer[0]);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 
@@ -12352,8 +12360,8 @@
                     !responseContainer && jQuery.error(jsonpCallback+" was not called");
                     __LINE__ = 7897;
                     return responseContainer[0];
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 
@@ -12363,8 +12371,8 @@
                 return "script";
               }
               
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -12383,8 +12391,8 @@
                   jQuery.globalEval(text);
                   __LINE__ = 7922;
                   return text;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             }
@@ -12407,8 +12415,8 @@
                 s.global =  false ;
               }
               
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -12470,15 +12478,15 @@
                             
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                       
                       __LINE__ = 7985;
                       head.insertBefore(script,head.firstChild);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   abort : function () {
@@ -12490,15 +12498,15 @@
                         script.onload(0,1);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
               }
               
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -12512,8 +12520,8 @@
                     xhrCallbacks[key](0,1);
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               } :  false ,
               xhrId = 0,
@@ -12524,8 +12532,8 @@
             try {
               __LINE__ = 8033;
               return !this.isLocal && createStandardXHR() || createActiveXHR();
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           } : createStandardXHR;
           
@@ -12537,8 +12545,8 @@
                 ajax : !!xhr,
                 cors : !!xhr && ("withCredentials" in xhr)
               });
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(jQuery.ajaxSettings.xhr());
           
@@ -12682,8 +12690,9 @@
                                   __LINE__ = 8153;
                                   statusText = xhr.statusText;
                                 } catch(e){
+                                  
                                   __LINE__ = 8156;
-                                  return statusText = "";
+                                  statusText = "";
                                 }
                                 if (!status && s.isLocal && !s.crossDomain){
                                   
@@ -12703,8 +12712,9 @@
                             
                             __LINE__ = 8173;
                             if (!isAbort){
+                              
                               __LINE__ = 8174;
-                              return complete(-1,firefoxAccessException);
+                              complete(-1,firefoxAccessException);
                             }
                             
                           }
@@ -12716,8 +12726,8 @@
                             complete(status,statusText,responses,responseHeaders);
                           }
                           
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                       
@@ -12748,8 +12758,8 @@
                         xhr.onreadystatechange = callback;
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   abort : function () {
@@ -12761,15 +12771,15 @@
                         callback(0,1);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
               }
               
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -12843,8 +12853,8 @@
                   return this;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             hide : function (speed,easing,callback) {
@@ -12893,8 +12903,8 @@
                   return this;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             _toggle : jQuery.fn.toggle,
@@ -12918,8 +12928,8 @@
                       
                       __LINE__ = 8324;
                       jQuery(this)[state?"show" : "hide"]();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } else {
@@ -12929,8 +12939,8 @@
                 }
                 __LINE__ = 8331;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             fadeTo : function (speed,to,easing,callback) {
@@ -12939,8 +12949,8 @@
                 return this.filter(":hidden").css("opacity",0).show().end().animate( {
                   opacity : to
                 },speed,easing,callback);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             animate : function (prop,speed,easing,callback) {
@@ -13116,8 +13126,8 @@
                   }
                   __LINE__ = 8463;
                   return  true ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -13134,8 +13144,8 @@
                 prop = jQuery.extend({},prop);
                 __LINE__ = 8466;
                 return optall.queue ===  false ?this.each(doAnimation) : this.queue(optall.queue,doAnimation);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             stop : function (type,clearQueue,gotoEnd) {
@@ -13172,8 +13182,8 @@
                       
                       __LINE__ = 8495;
                       hooks.stop(gotoEnd);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                   try {
@@ -13244,12 +13254,12 @@
                       jQuery.dequeue(this,type);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -13276,12 +13286,12 @@
                 try {
                   __LINE__ = 8564;
                   return this.animate(props,speed,easing,callback);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -13330,14 +13340,14 @@
                       jQuery._unmark(this);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 __LINE__ = 8600;
                 return opt;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             easing :  {
@@ -13345,16 +13355,16 @@
                 try {
                   __LINE__ = 8605;
                   return firstNum+diff*p;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               swing : function (p,n,firstNum,diff) {
                 try {
                   __LINE__ = 8608;
                   return ((-Math.cos(p*Math.PI)/2)+0.5)*diff+firstNum;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             },
@@ -13372,8 +13382,8 @@
                 
                 __LINE__ = 8619;
                 options.orig = options.orig || {};
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -13391,8 +13401,8 @@
                 
                 __LINE__ = 8631;
                 (jQuery.fx.step[this.prop] || jQuery.fx.step._default)(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             cur : function () {
@@ -13408,8 +13418,8 @@
                     r = jQuery.css(this.elem,this.prop);
                 __LINE__ = 8645;
                 return isNaN(parsed = parseFloat(r))?!r || r === "auto"?0 : r : parsed;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             custom : function (from,to,unit) {
@@ -13418,8 +13428,8 @@
                 try {
                   __LINE__ = 8660;
                   return self.step(gotoEnd);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -13458,8 +13468,8 @@
                       jQuery._data(self.elem,"fxshow"+self.prop,self.start);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 
@@ -13470,8 +13480,8 @@
                   timerId = setInterval(fx.tick,fx.interval);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             show : function () {
@@ -13498,8 +13508,8 @@
                 
                 __LINE__ = 8694;
                 jQuery(this.elem).show();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             hide : function () {
@@ -13512,8 +13522,8 @@
                 
                 __LINE__ = 8704;
                 this.custom(this.cur(),0);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             step : function (gotoEnd) {
@@ -13566,8 +13576,8 @@
                         try {
                           __LINE__ = 8733;
                           elem.style["overflow"+value] = options.overflow[index];
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       });
                     }
@@ -13638,8 +13648,8 @@
                 }
                 __LINE__ = 8782;
                 return  true ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -13675,8 +13685,8 @@
                   jQuery.fx.stop();
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             interval : 13,
@@ -13687,8 +13697,8 @@
                 
                 __LINE__ = 8809;
                 timerId =  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             speeds :  {
@@ -13701,8 +13711,8 @@
                 try {
                   __LINE__ = 8821;
                   jQuery.style(fx.elem,"opacity",fx.now);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               _default : function (fx) {
@@ -13718,8 +13728,8 @@
                     fx.elem[fx.prop] = fx.now;
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             }
@@ -13734,12 +13744,12 @@
                 try {
                   __LINE__ = 8838;
                   jQuery.style(fx.elem,prop,Math.max(0,fx.now)+fx.unit);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -13752,12 +13762,12 @@
                 try {
                   __LINE__ = 8845;
                   return elem === fn.elem;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }).length;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -13779,8 +13789,8 @@
                   try {
                     __LINE__ = 8907;
                     jQuery.offset.setOffset(this,options,i);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
               }
@@ -13835,8 +13845,8 @@
                 top : top,
                 left : left
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           } : jQuery.fn.offset = function (options) {
             try {
@@ -13850,8 +13860,8 @@
                   try {
                     __LINE__ = 8949;
                     jQuery.offset.setOffset(this,options,i);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
               }
@@ -13962,8 +13972,8 @@
                 top : top,
                 left : left
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -13989,8 +13999,8 @@
                   top : top,
                   left : left
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             setOffset : function (elem,options,i) {
@@ -14068,8 +14078,8 @@
                   curElem.css(props);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -14109,8 +14119,8 @@
                   top : offset.top-parentOffset.top,
                   left : offset.left-parentOffset.left
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             offsetParent : function () {
@@ -14129,12 +14139,12 @@
                     }
                     __LINE__ = 9114;
                     return offsetParent;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -14178,16 +14188,16 @@
                       
                       __LINE__ = 9148;
                       win?win.scrollTo(!i?val : jQuery(win).scrollLeft(),i?val : jQuery(win).scrollTop()) : this[method] = val;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -14205,8 +14215,8 @@
                   var elem = this[0];
                   __LINE__ = 9179;
                   return elem?elem.style?parseFloat(jQuery.css(elem,type,"padding")) : this[type]() :  null ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -14217,8 +14227,8 @@
                   var elem = this[0];
                   __LINE__ = 9189;
                   return elem?elem.style?parseFloat(jQuery.css(elem,type,margin?"margin" : "border")) : this[type]() :  null ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -14244,8 +14254,8 @@
                         
                         __LINE__ = 9206;
                         self[type](size.call(this,i,self[type]()));
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                   }
@@ -14273,12 +14283,12 @@
                     return this.css(type,typeof size === "string"?size : size+"px");
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -14291,16 +14301,16 @@
             try {
               __LINE__ = 9261;
               return jQuery;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(window);
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

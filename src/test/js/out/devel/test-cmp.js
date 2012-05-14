@@ -649,8 +649,8 @@
               try {
                 __LINE__ = 2;
                 __Runtime.initializeClass(this,x,_mochaPrivateHolder,constructor,arguments,'x',2);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -668,8 +668,8 @@
                   try {
                     __LINE__ = 3;
                     __Runtime.initializeClass(this,y,_mochaPrivateHolder,constructor,arguments,'y',3);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
                 try {
@@ -684,8 +684,8 @@
                   __Runtime.createUnenumProp(y.prototype,"constructor",constructor);
                   __LINE__ = 3;
                   return y;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }();
               
@@ -694,8 +694,8 @@
                 try {
                   __LINE__ = 6;
                   return __Runtime.getInstanceBody(this).y;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -703,8 +703,8 @@
               __Runtime.createUnenumProp(x.prototype,"constructor",constructor);
               __LINE__ = 2;
               return x;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }(),
           m = "\u30c6\u30b9\u30c8\u3067\u30fc\u305f\u3092\u8fd4\u3059\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\n\u30c6\u30b9\u30c8\u3067\u30fc\u305f\u3092\u8fd4\u3059\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042",
@@ -712,8 +712,8 @@
             try {
               __LINE__ = 15;
               return '\u30c7\u30fc\u30bf';
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           },
           m = [0,1,2,3,4],
@@ -721,8 +721,8 @@
       
       __LINE__ = 19;
       __Runtime.assert( true ,reg.test("\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe"),"reg.test(\"\u30c6\u30b9\u30c8\u6b63\u898f\u8868\u73fe\")",19,'test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

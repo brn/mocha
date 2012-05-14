@@ -32,14 +32,11 @@
 #include <mocha/roaster/scopes/scope.h>
 #include <mocha/roaster/ast/ast_foward_decl.h>
 #include <mocha/roaster/ast/visitors/ivisitor.h>
-#include <mocha/roaster/ast/analyzer/analyzer.h>
 #include <mocha/roaster/nexc/tokens/token_info.h>
 
 namespace mocha {
 #define NVI_ACCEPTOR_DECL virtual void NVIAccept_(IVisitor*)
 #define CALL_ACCEPTOR(name) void NVIAccept_(IVisitor* visitor){visitor->Visit##name(this);}
-#define NVI_ANALYZER_ACCEPTOR_DECL virtual JSValue* NVIAnalyzerAccept_(Analyzer*)
-#define CALL_ANALYZER_ACCEPTOR(name) JSValue* NVIAnalyzerAccept_(Analyzer* visitor){return visitor->Visit##name(this);}
 #define SET(num) flags_.Set(num)
 #define HAS(num) flags_.At(num)
 #define CLONE virtual AstNode* Clone(memory::Pool* pool);
@@ -367,13 +364,6 @@ class AstNode : public memory::Allocated {
   void Accept(IVisitor* visitor) { NVIAccept_(visitor); };
 
   /**
-   * @param {IVisitor}
-   * Function that accept visitor.
-   * This function call private virtual NVIAcceptor_.
-   */
-  JSValue* Accept(Analyzer* visitor) { return NVIAnalyzerAccept_(visitor); };
-
-  /**
    * @param {Statemet*}
    * Cast to statement.
    * Return 0 by default.
@@ -424,7 +414,6 @@ class AstNode : public memory::Allocated {
   AstNode(int type, const char* name, int64_t line);
  private :
   NVI_ACCEPTOR_DECL{};
-  NVI_ANALYZER_ACCEPTOR_DECL{return NULL;};
   int type_;
   int child_length_;
   int64_t line_;
@@ -453,7 +442,6 @@ class NodeList : public AstNode {
   CLONE;
  private :
   CALL_ACCEPTOR(NodeList);
-  CALL_ANALYZER_ACCEPTOR(NodeList);
 };
 
 
@@ -473,7 +461,6 @@ class Empty : public AstNode {
   CLONE;
  private :
   void NVIAccept_(IVisitor*){}
-  JSValue* NVIAnalyzerAccept_(){return NULL;}
 };
 
 /**
@@ -499,7 +486,6 @@ class AstRoot : public AstNode {
  private :
   Scope* scope_;
   CALL_ACCEPTOR(AstRoot);
-  CALL_ANALYZER_ACCEPTOR(AstRoot);
 };
 
 
@@ -545,7 +531,6 @@ class FileRoot : public AstNode {
   Modules modules_;
   Scope* scope_;
   CALL_ACCEPTOR(FileRoot);
-  CALL_ANALYZER_ACCEPTOR(FileRoot);
 };
 
 
@@ -610,7 +595,6 @@ class Statement : public AstNode {
 
  private :
   NVI_ACCEPTOR_DECL{};
-  NVI_ANALYZER_ACCEPTOR_DECL{return NULL;};
   BitVector8 flags_;
   DstaExtractedExpressions *destructuring_node_;
 };
@@ -632,7 +616,6 @@ class StatementList : public AstNode {
  private :
   bool auto_return_;
   CALL_ACCEPTOR(StatementList);
-  CALL_ANALYZER_ACCEPTOR(StatementList);
 };
 
 
@@ -690,7 +673,6 @@ class BlockStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(BlockStmt);
-  CALL_ANALYZER_ACCEPTOR(BlockStmt);
 };
 
 
@@ -875,7 +857,6 @@ class VariableStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(VariableStmt);
-  CALL_ANALYZER_ACCEPTOR(VariableStmt);
 };
 
 
@@ -910,7 +891,6 @@ class ExpressionStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(ExpressionStmt);
-  CALL_ANALYZER_ACCEPTOR(ExpressionStmt);
 };
 
 
@@ -949,7 +929,6 @@ class IFStmt : public Statement {
   AstNode* then_statement_;
   AstNode* else_statement_;
   CALL_ACCEPTOR(IFStmt);
-  CALL_ANALYZER_ACCEPTOR(IFStmt);
 };
 
 
@@ -964,7 +943,6 @@ class IterationStmt : public Statement {
  private:
   AstNode* expression_;
   CALL_ACCEPTOR(IterationStmt);
-  CALL_ANALYZER_ACCEPTOR(IterationStmt);
 };
 
 
@@ -975,7 +953,6 @@ class ContinueStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(ContinueStmt);
-  CALL_ANALYZER_ACCEPTOR(ContinueStmt);
 };
 
 
@@ -987,7 +964,6 @@ class BreakStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(BreakStmt);
-  CALL_ANALYZER_ACCEPTOR(BreakStmt);
 };
 
 
@@ -999,7 +975,6 @@ class ReturnStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(ReturnStmt);
-  CALL_ANALYZER_ACCEPTOR(ReturnStmt);
 };
 
 
@@ -1014,7 +989,6 @@ class WithStmt : public Statement {
  private :
   AstNode* expression_;
   CALL_ACCEPTOR(WithStmt);
-  CALL_ANALYZER_ACCEPTOR(WithStmt);
 };
 
 
@@ -1026,7 +1000,6 @@ class LabelledStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(LabelledStmt);
-  CALL_ANALYZER_ACCEPTOR(LabelledStmt);
 };
 
 
@@ -1042,7 +1015,6 @@ class SwitchStmt : public Statement {
  private :
   AstNode* expression_;
   CALL_ACCEPTOR(SwitchStmt);
-  CALL_ANALYZER_ACCEPTOR(SwitchStmt);
 };
 
 
@@ -1058,7 +1030,6 @@ class ThrowStmt : public Statement {
  private :
   AstNode* expression_;
   CALL_ACCEPTOR(ThrowStmt);
-  CALL_ANALYZER_ACCEPTOR(ThrowStmt);
 };
 
 
@@ -1076,7 +1047,6 @@ class TryStmt : public Statement {
   AstNode* catch_block_;
   AstNode* finally_block_;
   CALL_ACCEPTOR(TryStmt);
-  CALL_ANALYZER_ACCEPTOR(TryStmt);
 };
 
 class AssertStmt : public Statement {
@@ -1129,7 +1099,6 @@ class CaseClause : public AstNode {
  private :
   AstNode* expression_;
   CALL_ACCEPTOR(CaseClause);
-  CALL_ANALYZER_ACCEPTOR(CaseClause);
 };
 
 
@@ -1180,7 +1149,6 @@ class Expression : public AstNode {
  private :
   BitVector8 flags_;
   CALL_ACCEPTOR(Expression);
-  CALL_ANALYZER_ACCEPTOR(Expression);
 };
 
 
@@ -1197,7 +1165,6 @@ class VariableDeclarationList : public Expression {
   CLONE;
  private :
   CALL_ACCEPTOR(VariableDeclarationList);
-  CALL_ANALYZER_ACCEPTOR(VariableDeclarationList);
   BitVector8 flags_;
 };
 
@@ -1465,7 +1432,6 @@ class Function : public Expression {
   VariableList variable_list_;
   TryCatchList try_catch_list_;
   CALL_ACCEPTOR(Function);
-  CALL_ANALYZER_ACCEPTOR(Function);
 };
 
 
@@ -1504,7 +1470,6 @@ class CallExp : public Expression {
   AstNode* callable_;
   AstNode* args_;
   CALL_ACCEPTOR(CallExp);
-  CALL_ANALYZER_ACCEPTOR(CallExp);
 };
 
 
@@ -1515,7 +1480,6 @@ class NewExp : public Expression {
   CLONE;
  private :
   CALL_ACCEPTOR(NewExp);
-  CALL_ANALYZER_ACCEPTOR(NewExp);
 };
 
 class YieldExp : public Expression {
@@ -1544,7 +1508,6 @@ class PostfixExp : public Expression {
   int operand_;
   AstNode* expression_;
   CALL_ACCEPTOR(PostfixExp);
-  CALL_ANALYZER_ACCEPTOR(PostfixExp);
 };
 
 
@@ -1564,7 +1527,6 @@ class UnaryExp : public Expression {
   int operand_;
   AstNode* expression_;
   CALL_ACCEPTOR(UnaryExp);
-  CALL_ANALYZER_ACCEPTOR(UnaryExp);
 };
 
 
@@ -1588,7 +1550,6 @@ class BinaryExp : public Expression {
   AstNode* left_value_;
   AstNode* right_value_;
   CALL_ACCEPTOR(BinaryExp);
-  CALL_ANALYZER_ACCEPTOR(BinaryExp);
 };
 
 
@@ -1612,7 +1573,6 @@ class CompareExp : public Expression {
   AstNode* left_value_;
   AstNode* right_value_;
   CALL_ACCEPTOR(CompareExp);
-  CALL_ANALYZER_ACCEPTOR(CompareExp);
 };
 
 
@@ -1636,7 +1596,6 @@ class ConditionalExp : public Expression {
   AstNode* case_true_;
   AstNode* case_false_;
   CALL_ACCEPTOR(ConditionalExp);
-  CALL_ANALYZER_ACCEPTOR(ConditionalExp);
 };
 
 
@@ -1659,7 +1618,6 @@ class AssignmentExp : public Expression {
   AstNode* left_value_;
   AstNode* right_value_;
   CALL_ACCEPTOR(AssignmentExp);
-  CALL_ANALYZER_ACCEPTOR(AssignmentExp);
 };
 
 
@@ -1701,7 +1659,6 @@ class Literal : public Expression {
   TokenInfo* value_;
   AstNode* node_;
   CALL_ACCEPTOR(Literal);
-  CALL_ANALYZER_ACCEPTOR(Literal);
 };
 
 
@@ -1722,7 +1679,6 @@ class ArrayLikeLiteral : public Expression {
   CLONE;
  private :
   CALL_ACCEPTOR(ArrayLikeLiteral);
-  CALL_ANALYZER_ACCEPTOR(ArrayLikeLiteral);
   NodeList elements_;
   BitVector8 flags_;
 };
@@ -1743,7 +1699,6 @@ class ObjectLikeLiteral : public Expression {
   CLONE;
  private :
   CALL_ACCEPTOR(ObjectLikeLiteral);
-  CALL_ANALYZER_ACCEPTOR(ObjectLikeLiteral);
   NodeList elements_;
   BitVector8 flags_;
 };
@@ -1773,7 +1728,6 @@ class VersionStmt : public Statement {
   CLONE;
  private :
   CALL_ACCEPTOR(VersionStmt);
-  CALL_ANALYZER_ACCEPTOR(VersionStmt);
   TokenInfo *version_;
 };
 

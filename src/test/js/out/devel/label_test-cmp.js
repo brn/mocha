@@ -480,7 +480,7 @@
       
       __LINE__ = 7;
       __Runtime.assert( true ,ret === 100,"ret === 100",7,'label_test.js');
-      __LINE__ = 747789403096764912;
+      __LINE__ = 781481119439253760;
       TEST_LABEL2 : {
         
         __LINE__ = 9;
@@ -488,8 +488,8 @@
       }
       __LINE__ = 10;
       __Runtime.assert( true ,ret === 200,"ret === 200",10,'label_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

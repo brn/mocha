@@ -535,7 +535,9 @@ VISITOR_IMPL(TryStmt) {
   }
   ast_node->first_child()->Accept(this);
   if (!ast_node->catch_block()->IsEmpty()) {
-    builder()->SetAutoReturnFlag(ast_node->catch_block()->first_child());
+    if (ast_node->autoreturn()) {
+      builder()->SetAutoReturnFlag(ast_node->catch_block()->first_child());
+    }
     ast_node->catch_block()->first_child()->Accept(this);
   }
   if (ast_node->autoreturn()) {

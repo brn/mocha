@@ -522,8 +522,8 @@
         }
         __LINE__ = 32;
         return ret;
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     try {
@@ -553,8 +553,8 @@
       
       __LINE__ = 42;
       __Runtime.assert( true ,switchTest(8) === 100,"switchTest(8) === 100",42,'switch_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

@@ -699,8 +699,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 54;
@@ -709,21 +709,21 @@
                             try {
                               __LINE__ = 54;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function allValues(obj) {
@@ -838,8 +838,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 46;
@@ -848,21 +848,21 @@
                             try {
                               __LINE__ = 46;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function allKeys(obj) {
@@ -977,8 +977,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 38;
@@ -987,21 +987,21 @@
                             try {
                               __LINE__ = 38;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function items(obj) {
@@ -1138,8 +1138,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 28;
@@ -1148,21 +1148,21 @@
                             try {
                               __LINE__ = 28;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function values(obj) {
@@ -1299,8 +1299,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 18;
@@ -1309,21 +1309,21 @@
                             try {
                               __LINE__ = 18;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function keys(obj) {
@@ -1460,8 +1460,8 @@
                                     
                                   }
                                   
-                                } catch(e){
-                                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                                } catch(__mocha_error){
+                                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                                 }
                               };
                           __LINE__ = 6;
@@ -1470,21 +1470,21 @@
                             try {
                               __LINE__ = 6;
                               _yieldState = -1;
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           },this);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1512,12 +1512,12 @@
               _mochaLocalExport.allItems = allItems;
               __LINE__ = 2;
               return _mochaLocalExport;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
   
@@ -1537,7 +1537,7 @@
           },
           test = function () {
             try {
-              __LINE__ = 748282912018952232;
+              __LINE__ = 781936076734988168;
               var _mochaIsNewBorn = true,
                   _yieldResult = undefined,
                   _yieldState = 0,
@@ -1547,13 +1547,13 @@
                   _mochaLocalTmp2 = [],
                   _mochaGenerator = function (_isYieldSend,_isYieldSafe) {
                     try {
-                      __LINE__ = 748282912018952232;
+                      __LINE__ = 781936076734988168;
                       !_isYieldSend?_mochaIsNewBorn = false : _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined && __Runtime.exceptionHandler('attempt to send to newborn generator.');
                       
-                      __LINE__ = 748282912018952232;
+                      __LINE__ = 781936076734988168;
                       while (1){
                         
-                        __LINE__ = 748282912018952232;
+                        __LINE__ = 781936076734988168;
                         switch (_yieldState) {
                           case 0 :
                             
@@ -1580,7 +1580,7 @@
                             }
                           case 1 :
                             
-                            __LINE__ = 748282912018952232;
+                            __LINE__ = 781936076734988168;
                             _yieldState = 2;
                             
                             __LINE__ = 8;
@@ -1588,7 +1588,7 @@
                             
                             __LINE__ = 8;
                             x = testObject[x];
-                            __LINE__ = 748282912018952232;
+                            __LINE__ = 781936076734988168;
                             return x;
                           case 2 :
                             
@@ -1608,35 +1608,35 @@
                             }
                           case -1 :
                             
-                            __LINE__ = 748282912018952232;
+                            __LINE__ = 781936076734988168;
                             if (_isYieldSafe){
-                              __LINE__ = 748282912018952232;
+                              __LINE__ = 781936076734988168;
                               return undefined;
                             }
                             
-                            __LINE__ = 748282912018952232;
+                            __LINE__ = 781936076734988168;
                             __Runtime.throwStopIteration();
                             
                         }
                         
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
-              __LINE__ = 748282912018952232;
+              __LINE__ = 781936076734988168;
               return __Runtime.createGenerator(_mochaGenerator,
               function () {
                 try {
-                  __LINE__ = 748282912018952232;
+                  __LINE__ = 781936076734988168;
                   _yieldState = -1;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },this);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }.call(this);
       
@@ -1652,7 +1652,7 @@
       __LINE__ = 14;
       test = function () {
         try {
-          __LINE__ = 748368673925938728;
+          __LINE__ = 781847806567100224;
           var _mochaIsNewBorn = true,
               _yieldResult = undefined,
               _yieldState = 0,
@@ -1660,13 +1660,13 @@
               _mochaLocalTmp4 = keys(testObject),
               _mochaGenerator = function (_isYieldSend,_isYieldSafe) {
                 try {
-                  __LINE__ = 748368673925938728;
+                  __LINE__ = 781847806567100224;
                   !_isYieldSend?_mochaIsNewBorn = false : _isYieldSend && _mochaIsNewBorn && arguments[1] !== undefined && __Runtime.exceptionHandler('attempt to send to newborn generator.');
                   
-                  __LINE__ = 748368673925938728;
+                  __LINE__ = 781847806567100224;
                   while (1){
                     
-                    __LINE__ = 748368673925938728;
+                    __LINE__ = 781847806567100224;
                     switch (_yieldState) {
                       case 0 :
                         
@@ -1699,9 +1699,9 @@
                         }
                       case 2 :
                         
-                        __LINE__ = 748368673925938728;
+                        __LINE__ = 781847806567100224;
                         _yieldState = 3;
-                        __LINE__ = 748368673925938728;
+                        __LINE__ = 781847806567100224;
                         return x;
                       case 3 :
                         
@@ -1729,35 +1729,35 @@
                       case 6 :
                       case -1 :
                         
-                        __LINE__ = 748368673925938728;
+                        __LINE__ = 781847806567100224;
                         if (_isYieldSafe){
-                          __LINE__ = 748368673925938728;
+                          __LINE__ = 781847806567100224;
                           return undefined;
                         }
                         
-                        __LINE__ = 748368673925938728;
+                        __LINE__ = 781847806567100224;
                         __Runtime.throwStopIteration();
                         
                     }
                     
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-          __LINE__ = 748368673925938728;
+          __LINE__ = 781847806567100224;
           return __Runtime.createGenerator(_mochaGenerator,
           function () {
             try {
-              __LINE__ = 748368673925938728;
+              __LINE__ = 781847806567100224;
               _yieldState = -1;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           },this);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }.call(this);
       
@@ -1879,8 +1879,8 @@
                     
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
           __LINE__ = 20;
@@ -1889,12 +1889,12 @@
             try {
               __LINE__ = 20;
               _yieldState = -1;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           },this);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }.call(this);
       
@@ -2016,8 +2016,8 @@
                     
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
           __LINE__ = 23;
@@ -2026,19 +2026,19 @@
             try {
               __LINE__ = 23;
               _yieldState = -1;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           },this);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }.call(this);
       
       __LINE__ = 24;
       __Runtime.assert( true ,test.next() === "value2","test.next() === \"value2\"",24,'generator_expression_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

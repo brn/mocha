@@ -478,12 +478,12 @@
               try {
                 __LINE__ = 6;
                 return i;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }.call(this,i);
       }
@@ -494,12 +494,12 @@
           
           __LINE__ = 11;
           __Runtime.assert( true ,item() === index,"item() === index",11,'let_test.js');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       });
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

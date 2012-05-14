@@ -684,8 +684,8 @@ void SetCompilationOption(Handle<Object> options, CompilationInfo* info) {
   if (options->Get(String::New("globalScope"))->IsFalse()) {
     info->UnsetGlobalScope();
   }
-  if (options->Get(String::New("showVariableName"))->IsFalse()) {
-    info->SetOrgName();
+  if (options->Get(String::New("prototypeExtensions"))->IsFalse()) {
+    info->UnsetPrototypeExtensions();
   }
   if (options->Has(String::New("versions"))) {
     Handle<Array> versions = Handle<Array>::Cast(options->Get(String::New("versions")));

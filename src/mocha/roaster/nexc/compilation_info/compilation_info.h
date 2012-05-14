@@ -34,6 +34,9 @@ class CompilationInfo {
   bool HasVersion(const char*) const;
   void SetVersion(const char*);
   void UnsetVersion(const char*);
+  bool PrototypeExtensions() const;
+  void SetPrototypeExtensions();
+  void UnsetPrototypeExtensions();
   void SetCharset(const char* charset);
   bool HasCharset() const { return !charset_.empty();}
   const char* charset() const {return (HasCharset())? charset_.c_str() : NULL;};

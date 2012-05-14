@@ -1611,7 +1611,7 @@ AstNode* Parser::ParseDoWhileStatement(bool is_expression) {
       fn->AddChild(statement);
     }
     AstNode* node = fn->last_child();
-    if (node) {
+    if (node && node->node_type() != AstNode::kFunction) {
       if (node->CastToExpression() || node->node_type() == AstNode::kExpressionStmt) {
         ReturnStmt* stmt = 0;//init after
         if (node->node_type() == AstNode::kExpressionStmt) {
@@ -3684,7 +3684,7 @@ AstNode* Parser::ParseLiteral(bool reserved_usablity) {
       value_type = Literal::kThis;
       is_invalid_lhs = true;
       break;
-                                                                                                
+      
     case Token::JS_IDENTIFIER : {
       value_type = Literal::kIdentifier;
       const char* ident = token->token();

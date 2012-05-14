@@ -490,8 +490,8 @@
             try {
               __LINE__ = 9;
               return i;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
         }
@@ -527,8 +527,8 @@
       
       __LINE__ = 22;
       __Runtime.assert( true ,ret[9]() === 9,"ret[9]() === 9",22,'with_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

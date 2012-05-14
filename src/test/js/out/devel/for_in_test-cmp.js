@@ -580,8 +580,8 @@
       
       __LINE__ = 49;
       __Runtime.assert( true ,arr[3] === 400,"arr[3] === 400",49,'for_in_test.js');
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

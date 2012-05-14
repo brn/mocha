@@ -458,8 +458,8 @@
             
             __LINE__ = 2029;
             modelValue !== ko.selectExtensions.readValue(element) && ko.utils.triggerEvent(element,"change");
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function prepareOptions(evaluatorFunctionOrOptions,evaluatorFunctionTarget,options) {
@@ -484,8 +484,8 @@
             }
             __LINE__ = 1056;
             return options;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function applyExtenders(requestedExtenders) {
@@ -508,8 +508,8 @@
             }
             __LINE__ = 762;
             return target;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -533,8 +533,8 @@
               
               __LINE__ = 13;
               target[tokens[tokens.length-1]] = object;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -543,8 +543,8 @@
             try {
               __LINE__ = 16;
               owner[publicName] = object;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -568,8 +568,8 @@
                 var inputType = element.type.toLowerCase();
                 __LINE__ = 52;
                 return (inputType == "checkbox") || (inputType == "radio");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -619,8 +619,8 @@
                       }
                       __LINE__ = 43;
                       return version>4?version : undefined;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }()),
                   isIe6 = ieVersion === 6,
@@ -637,8 +637,8 @@
                       action(array[i]);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 arrayIndexOf : function (array,item) {
@@ -661,8 +661,8 @@
                     }
                     __LINE__ = 69;
                     return -1;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 arrayFirst : function (array,predicate,predicateOwner) {
@@ -679,8 +679,8 @@
                     }
                     __LINE__ = 76;
                     return  null ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 arrayRemoveItem : function (array,itemToRemove) {
@@ -695,8 +695,8 @@
                       array.splice(index,1);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 arrayGetDistinctValues : function (array) {
@@ -720,8 +720,8 @@
                     }
                     __LINE__ = 92;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 arrayMap : function (array,mapping) {
@@ -740,8 +740,8 @@
                     }
                     __LINE__ = 100;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 arrayFilter : function (array,predicate) {
@@ -765,8 +765,8 @@
                     }
                     __LINE__ = 109;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 arrayPushAll : function (array,valuesToPush) {
@@ -779,8 +779,8 @@
                     }
                     __LINE__ = 115;
                     return array;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 extend : function (target,source) {
@@ -798,8 +798,8 @@
                     }
                     __LINE__ = 124;
                     return target;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 emptyDomNode : function (domNode) {
@@ -811,8 +811,8 @@
                       ko.removeNode(domNode.firstChild);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 setDomNodeChildren : function (domNode,childNodes) {
@@ -829,14 +829,14 @@
                         try {
                           __LINE__ = 137;
                           domNode.appendChild(childNode);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       });
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 replaceDomNodes : function (nodeToReplaceOrNodeArray,newNodesArray) {
@@ -869,8 +869,8 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 setOptionNodeSelectionState : function (optionNode,isSelected) {
@@ -885,16 +885,16 @@
                       optionNode.selected = isSelected;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 stringTrim : function (string) {
                   try {
                     __LINE__ = 164;
                     return (string || "").replace(stringTrimRegex,"");
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 stringTokenize : function (string,delimiter) {
@@ -921,8 +921,8 @@
                     }
                     __LINE__ = 175;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 stringStartsWith : function (string,startsWith) {
@@ -937,8 +937,8 @@
                     }
                     __LINE__ = 182;
                     return string.substring(0,startsWith.length) === startsWith;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 evalWithinScope : function (expression) {
@@ -962,8 +962,8 @@
                     }
                     __LINE__ = 195;
                     return (new Function("sc",functionBody))(scopes);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 domNodeIsContainedBy : function (node,containedByNode) {
@@ -988,16 +988,16 @@
                     }
                     __LINE__ = 206;
                     return  false ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 domNodeIsAttachedToDocument : function (node) {
                   try {
                     __LINE__ = 210;
                     return ko.utils.domNodeIsContainedBy(node,document);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 registerEventHandler : function (element,eventType,handler) {
@@ -1029,8 +1029,8 @@
                             
                             __LINE__ = 226;
                             this.checked = jQuerySuppliedCheckedState;
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                       }
@@ -1049,8 +1049,8 @@
                         try {
                           __LINE__ = 234;
                           handler.call(element,event);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       });
                     } else {
@@ -1058,8 +1058,8 @@
                       throw new Error("Browser doesn't support addEventListener or attachEvent");
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 triggerEvent : function (element,eventType) {
@@ -1123,16 +1123,16 @@
                       throw new Error("Browser doesn't support triggering events");
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 unwrapObservable : function (value) {
                   try {
                     __LINE__ = 274;
                     return ko.isObservable(value)?value() : value;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 domNodeHasCssClass : function (node,className) {
@@ -1141,8 +1141,8 @@
                     var currentClassNames = (node.className || "").split(/\s+/);
                     __LINE__ = 279;
                     return ko.utils.arrayIndexOf(currentClassNames,className) >= 0;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 toggleDomNodeCssClass : function (node,className,shouldHaveClass) {
@@ -1177,8 +1177,8 @@
                       node.className = ko.utils.stringTrim(newClassName);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 outerHTML : function (node) {
@@ -1204,8 +1204,8 @@
                     dummyContainer.appendChild(node.cloneNode( true ));
                     __LINE__ = 308;
                     return dummyContainer.innerHTML;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 setTextContent : function (element,textContent) {
@@ -1230,8 +1230,8 @@
                       element.innerHTML = element.innerHTML;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 range : function (min,max) {
@@ -1253,8 +1253,8 @@
                     }
                     __LINE__ = 331;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 makeArray : function (arrayLikeObject) {
@@ -1270,8 +1270,8 @@
                     }
                     __LINE__ = 339;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 isIe6 : isIe6,
@@ -1286,15 +1286,15 @@
                           try {
                             __LINE__ = 348;
                             return field.name === fieldName;
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         } : function (field) {
                           try {
                             __LINE__ = 349;
                             return fieldName.test(field.name);
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                     
@@ -1314,8 +1314,8 @@
                     }
                     __LINE__ = 355;
                     return matches;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 parseJson : function (jsonString) {
@@ -1341,8 +1341,8 @@
                     }
                     __LINE__ = 367;
                     return  null ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 stringifyJson : function (data) {
@@ -1354,8 +1354,8 @@
                     }
                     __LINE__ = 373;
                     return JSON.stringify(ko.utils.unwrapObservable(data));
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 postJson : function (urlOrForm,data,options) {
@@ -1456,17 +1456,17 @@
                       try {
                         __LINE__ = 412;
                         form.parentNode.removeChild(form);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     },0);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -1479,8 +1479,8 @@
             try {
               __LINE__ = 439;
               ko.exportSymbol('ko.utils.'+item[0],item[1]);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -1496,12 +1496,12 @@
                 try {
                   __LINE__ = 448;
                   return originalFunction.apply(object,args.concat([].slice.call(arguments)));
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -1520,8 +1520,8 @@
                     var allDataForNode = ko.utils.domData.getAll(node, false );
                     __LINE__ = 459;
                     return allDataForNode === undefined?undefined : allDataForNode[key];
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 set : function (node,key,value) {
@@ -1542,8 +1542,8 @@
                     
                     __LINE__ = 468;
                     allDataForNode[key] = value;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 getAll : function (node,createIfNotFound) {
@@ -1571,8 +1571,8 @@
                     }
                     __LINE__ = 479;
                     return dataStore[dataStoreKey];
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 clear : function (node) {
@@ -1590,13 +1590,13 @@
                       node[dataStoreKeyExpandoPropertyName] =  null ;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -1632,16 +1632,16 @@
                 
                 __LINE__ = 524;
                 (typeof jQuery == "function") && (typeof jQuery.cleanData == "function") && jQuery.cleanData([node]);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function destroyCallbacksCollection(node) {
               try {
                 __LINE__ = 505;
                 ko.utils.domData.set(node,domDataKey,undefined);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function getDisposeCallbacksCollection(node,createIfNotFound) {
@@ -1660,8 +1660,8 @@
                 }
                 __LINE__ = 502;
                 return allDisposeCallbacks;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1680,8 +1680,8 @@
                     
                     __LINE__ = 531;
                     getDisposeCallbacksCollection(node, true ).push(callback);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 removeDisposeCallback : function (node,callback) {
@@ -1704,8 +1704,8 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 cleanNode : function (node) {
@@ -1732,8 +1732,8 @@
                       cleanSingleNode(descendants[i]);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 removeNode : function (node) {
@@ -1748,13 +1748,13 @@
                       node.parentNode.removeChild(node);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -1803,8 +1803,8 @@
                 }
                 __LINE__ = 621;
                 return elems;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function simpleHtmlParse(html) {
@@ -1825,8 +1825,8 @@
                 }
                 __LINE__ = 602;
                 return ko.utils.makeArray(div.lastChild.childNodes);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1839,8 +1839,8 @@
                 try {
                   __LINE__ = 625;
                   return typeof jQuery != 'undefined'?jQueryHtmlParse(html) : simpleHtmlParse(html);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -1875,12 +1875,12 @@
                     
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -1921,24 +1921,24 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function generateRandomId() {
               try {
                 __LINE__ = 660;
                 return randomMax8HexChars()+randomMax8HexChars();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function randomMax8HexChars() {
               try {
                 __LINE__ = 657;
                 return (((1+Math.random())*0x00000000)|0).toString(16).substring(1);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -1962,8 +1962,8 @@
                     memos[memoId] = callback;
                     __LINE__ = 681;
                     return "<!--[ko_memo:"+memoId+"]-->";
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 unmemoize : function (memoId,callbackParams) {
@@ -1989,8 +1989,8 @@
                       delete memos[memoId];
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 unmemoizeDomNodeAndDescendants : function (domNode,extraCallbackParamsArray) {
@@ -2032,8 +2032,8 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 parseMemoText : function (memoText) {
@@ -2042,13 +2042,13 @@
                     var match = memoText.match(/^\[ko_memo\:(.*?)\]$/);
                     __LINE__ = 712;
                     return match?match[1] :  null ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -2089,17 +2089,17 @@
                         try {
                           __LINE__ = 738;
                           target(value);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },timeout);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'notify' : function (target,notifyWhen) {
@@ -2109,14 +2109,14 @@
                   try {
                     __LINE__ = 746;
                     return  false ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 } : ko.observable["fn"]["equalityComparer"];
                 __LINE__ = 748;
                 return target;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -2135,8 +2135,8 @@
               
               __LINE__ = 769;
               ko.exportProperty(this,'dispose',this.dispose);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -2148,8 +2148,8 @@
               
               __LINE__ = 773;
               this.disposeCallback();
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -2170,8 +2170,8 @@
               
               __LINE__ = 782;
               ko.exportProperty(this,'getSubscriptionsCount',this.getSubscriptionsCount);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -2193,8 +2193,8 @@
                       try {
                         __LINE__ = 793;
                         ko.utils.arrayRemoveItem(this._subscriptions[event],subscription);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }.bind(this));
                 
@@ -2209,8 +2209,8 @@
                 this._subscriptions[event].push(subscription);
                 __LINE__ = 799;
                 return subscription;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             "notifySubscribers" : function (valueToNotify,event) {
@@ -2232,14 +2232,14 @@
                         subscription.callback(valueToNotify);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             getSubscriptionsCount : function () {
@@ -2260,8 +2260,8 @@
                 }
                 __LINE__ = 820;
                 return total;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             extend : applyExtenders
@@ -2272,8 +2272,8 @@
             try {
               __LINE__ = 828;
               return typeof instance.subscribe == "function" && typeof instance.notifySubscribers == "function";
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -2297,16 +2297,16 @@
                       callback : callback,
                       distinctDependencies : []
                     });
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 end : function () {
                   try {
                     __LINE__ = 843;
                     _frames.pop();
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 registerDependency : function (subscribable) {
@@ -2336,13 +2336,13 @@
                       topFrame.callback(subscribable);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -2383,8 +2383,8 @@
                   return _latestValue;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -2400,8 +2400,8 @@
                 try {
                   __LINE__ = 882;
                   observable.notifySubscribers(_latestValue);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -2410,8 +2410,8 @@
                 try {
                   __LINE__ = 883;
                   observable.notifySubscribers(_latestValue,"beforeChange");
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -2425,8 +2425,8 @@
               ko.exportProperty(observable,"valueWillMutate",observable.valueWillMutate);
               __LINE__ = 889;
               return observable;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -2439,8 +2439,8 @@
                 var oldValueIsPrimitive = (a ===  null ) || (typeof (a) in primitiveTypes);
                 __LINE__ = 897;
                 return oldValueIsPrimitive?(a === b) :  false ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -2461,8 +2461,8 @@
               }
               __LINE__ = 904;
               return ko.isObservable(instance.__ko_proto__);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -2482,8 +2482,8 @@
               }
               __LINE__ = 914;
               return  false ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -2533,8 +2533,8 @@
               ko.exportProperty(result,"replace",result.replace);
               __LINE__ = 939;
               return result;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -2553,8 +2553,8 @@
                       try {
                         __LINE__ = 946;
                         return value === valueOrPredicate;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                 
@@ -2594,8 +2594,8 @@
                 }
                 __LINE__ = 961;
                 return removedValues;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             removeAll : function (arrayOfValues) {
@@ -2631,12 +2631,12 @@
                   try {
                     __LINE__ = 978;
                     return ko.utils.arrayIndexOf(arrayOfValues,value) >= 0;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             destroy : function (valueOrPredicate) {
@@ -2649,8 +2649,8 @@
                       try {
                         __LINE__ = 984;
                         return value === valueOrPredicate;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                 
@@ -2674,8 +2674,8 @@
                 
                 __LINE__ = 991;
                 this.valueHasMutated();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             destroyAll : function (arrayOfValues) {
@@ -2687,8 +2687,8 @@
                     try {
                       __LINE__ = 997;
                       return  true ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
@@ -2703,12 +2703,12 @@
                   try {
                     __LINE__ = 1003;
                     return ko.utils.arrayIndexOf(arrayOfValues,value) >= 0;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             indexOf : function (item) {
@@ -2717,8 +2717,8 @@
                 var underlyingArray = this();
                 __LINE__ = 1009;
                 return ko.utils.arrayIndexOf(underlyingArray,item);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             replace : function (oldItem,newItem) {
@@ -2739,8 +2739,8 @@
                   this.valueHasMutated();
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -2765,12 +2765,12 @@
                   this.valueHasMutated();
                   __LINE__ = 1029;
                   return methodCallResult;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -2785,12 +2785,12 @@
                   var underlyingArray = this();
                   __LINE__ = 1037;
                   return underlyingArray[methodName].apply(underlyingArray,arguments);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -2827,8 +2827,8 @@
                   return _latestValue;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function evaluateImmediate() {
@@ -2856,8 +2856,8 @@
                     try {
                       __LINE__ = 1111;
                       _subscriptionsToDependencies.push(subscribable.subscribe(evaluatePossiblyAsync));
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                   
@@ -2883,8 +2883,8 @@
                 
                 __LINE__ = 1122;
                 _hasBeenEvaluated =  true ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function evaluatePossiblyAsync() {
@@ -2905,8 +2905,8 @@
                   evaluateImmediate();
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function disposeAllSubscriptionsToDependencies() {
@@ -2917,15 +2917,15 @@
                   try {
                     __LINE__ = 1082;
                     subscription.dispose();
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 
                 __LINE__ = 1084;
                 _subscriptionsToDependencies = [];
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -2945,8 +2945,8 @@
                   try {
                     __LINE__ = 1070;
                     dependentObservable.dispose();
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 
@@ -2961,8 +2961,8 @@
                   try {
                     __LINE__ = 1074;
                     return (!ko.utils.domNodeIsAttachedToDocument(disposeWhenNodeIsRemoved)) || ((typeof existingDisposeWhenFunction == "function") && existingDisposeWhenFunction());
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
               }
@@ -2978,8 +2978,8 @@
                 try {
                   __LINE__ = 1142;
                   return _subscriptionsToDependencies.length;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -2994,8 +2994,8 @@
                   
                   __LINE__ = 1147;
                   disposeAllSubscriptionsToDependencies();
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -3015,8 +3015,8 @@
               ko.exportProperty(dependentObservable,'getDependenciesCount',dependentObservable.getDependenciesCount);
               __LINE__ = 1159;
               return dependentObservable;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -3061,8 +3061,8 @@
                       values.push(value);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 
@@ -3073,12 +3073,12 @@
                     var existingIndex = ko.utils.arrayIndexOf(keys,key);
                     __LINE__ = 1249;
                     return (existingIndex >= 0)?values[existingIndex] : undefined;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function visitPropertiesOrArrayEntries(rootObject,visitorCallback) {
@@ -3102,8 +3102,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function mapJsObjectGraph(rootObject,mapInputCallback,visitedObjects) {
@@ -3160,14 +3160,14 @@
                         
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 1222;
                 return outputProperties;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -3195,12 +3195,12 @@
                       }
                       __LINE__ = 1182;
                       return valueToMap;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -3211,12 +3211,12 @@
                   var plainJavaScriptObject = ko.toJS(rootObject);
                   __LINE__ = 1188;
                   return ko.utils.stringifyJson(plainJavaScriptObject);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -3254,8 +3254,8 @@
                       return element.value;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 writeValue : function (element,value) {
@@ -3321,13 +3321,13 @@
                       element.value = value;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -3359,8 +3359,8 @@
                     
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function isWriteableValue(expression) {
@@ -3372,8 +3372,8 @@
                 }
                 __LINE__ = 1331;
                 return expression.match(javaScriptAssignmentTarget) !==  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function restoreTokens(string,tokens) {
@@ -3393,15 +3393,15 @@
                     try {
                       __LINE__ = 1322;
                       return tokens[tokenIndex];
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
                 __LINE__ = 1325;
                 return string;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -3622,8 +3622,8 @@
                     }
                     __LINE__ = 1431;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 insertPropertyAccessorsIntoJson : function (objectLiteralStringOrKeyValueArray) {
@@ -3700,8 +3700,8 @@
                     }
                     __LINE__ = 1467;
                     return combinedResult;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 keyValueArrayContainsKey : function (keyValueArray,key) {
@@ -3718,13 +3718,13 @@
                     }
                     __LINE__ = 1474;
                     return  false ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -3773,8 +3773,8 @@
                 }
                 __LINE__ = 1569;
                 return captureRemaining;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function nodeArrayToText(nodeArray,cleanNodes) {
@@ -3793,8 +3793,8 @@
                 }
                 __LINE__ = 1547;
                 return ''.concat.apply("",texts);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function getMatchingEndComment(startComment,allowUnbalanced) {
@@ -3817,8 +3817,8 @@
                   return  null ;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function getVirtualChildren(startComment,allowUnbalanced) {
@@ -3859,24 +3859,24 @@
                 }
                 __LINE__ = 1527;
                 return  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function isEndComment(node) {
               try {
                 __LINE__ = 1506;
                 return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(endCommentRegex);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function isStartComment(node) {
               try {
                 __LINE__ = 1502;
                 return (node.nodeType == 8) && (commentNodesHaveTextProperty?node.text : node.nodeValue).match(startCommentRegex);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -3897,8 +3897,8 @@
                   try {
                     __LINE__ = 1576;
                     return isStartComment(node)?getVirtualChildren(node) : node.childNodes;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 emptyNode : function (node) {
@@ -3922,8 +3922,8 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 setDomNodeChildren : function (node,childNodes) {
@@ -3950,8 +3950,8 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 prepend : function (containerNode,nodeToPrepend) {
@@ -3975,8 +3975,8 @@
                       containerNode.parentNode.insertBefore(nodeToPrepend,containerNode.nextSibling);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 insertAfter : function (containerNode,nodeToInsert,insertAfterNode) {
@@ -4000,8 +4000,8 @@
                       containerNode.parentNode.insertBefore(nodeToInsert,insertAfterNode.nextSibling);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 nextSibling : function (node) {
@@ -4021,8 +4021,8 @@
                       return getMatchingEndComment(node).nextSibling;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 virtualNodeBindingValue : function (node) {
@@ -4031,8 +4031,8 @@
                     var regexMatch = isStartComment(node);
                     __LINE__ = 1637;
                     return regexMatch?regexMatch[1] :  null ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 extractAnonymousTemplateIfVirtualElement : function (node) {
@@ -4053,8 +4053,8 @@
                       new ko.templateSources.anonymousTemplate(node).text(anonymousTemplateText);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 normaliseVirtualElementDomStructure : function (elementVerified) {
@@ -4108,13 +4108,13 @@
                       }while (childNode = childNode.nextSibling);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -4145,8 +4145,8 @@
                         
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 'getBindings' : function (node,bindingContext) {
@@ -4155,8 +4155,8 @@
                     var bindingsString = this['getBindingsString'](node,bindingContext);
                     __LINE__ = 1696;
                     return bindingsString?this['parseBindingsString'](bindingsString,bindingContext) :  null ;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 'getBindingsString' : function (node,bindingContext) {
@@ -4175,8 +4175,8 @@
                         
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 'parseBindingsString' : function (bindingsString,bindingContext) {
@@ -4195,16 +4195,16 @@
                       throw new Error("Unable to parse bindings.\nMessage: "+ex+";\nBindings value: "+bindingsString);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               });
               
               __LINE__ = 1722;
               ko.bindingProvider.instance = new ko.bindingProvider();
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -4218,8 +4218,8 @@
                 try {
                   __LINE__ = 1797;
                   return parsedBindings;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               function makeValueAccessor(bindingKey) {
@@ -4229,12 +4229,12 @@
                     try {
                       __LINE__ = 1794;
                       return parsedBindings[bindingKey];
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -4339,8 +4339,8 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }, null , {
                   'disposeWhenNodeIsRemoved' : node
@@ -4349,8 +4349,8 @@
                 return  {
                   shouldBindDescendants : bindingHandlerThatControlsDescendantBindings === undefined
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function applyBindingsToNodeAndDescendantsInternal(viewModel,nodeVerified,isRootNodeForBindingContext) {
@@ -4370,8 +4370,8 @@
                 
                 __LINE__ = 1776;
                 isElement && shouldBindDescendants && applyBindingsToDescendantsInternal(viewModel,nodeVerified);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function applyBindingsToDescendantsInternal(viewModel,elementVerified) {
@@ -4390,8 +4390,8 @@
                   applyBindingsToNodeAndDescendantsInternal(viewModel,currentChild, false );
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function validateThatBindingIsAllowedForVirtualElements(bindingName) {
@@ -4405,8 +4405,8 @@
                   throw new Error("The binding '"+bindingName+"' cannot be used with virtual elements");
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -4443,8 +4443,8 @@
                     this.$root = dataItem;
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -4453,8 +4453,8 @@
                 try {
                   __LINE__ = 1741;
                   return new ko.bindingContext(dataItem,this);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -4473,8 +4473,8 @@
                     return ko.utils.domData.get(node,storedBindingContextDomDataKey);
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -4485,8 +4485,8 @@
                   node.nodeType === 1 && ko.virtualElements.normaliseVirtualElementDomStructure(node);
                   __LINE__ = 1874;
                   return applyBindingsToNodeInternal(node,bindings,viewModel, true );
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -4495,8 +4495,8 @@
                 try {
                   __LINE__ = 1879;
                   rootNode.nodeType === 1 && applyBindingsToDescendantsInternal(viewModel,rootNode);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -4514,8 +4514,8 @@
                   
                   __LINE__ = 1887;
                   applyBindingsToNodeAndDescendantsInternal(viewModel,rootNode, true );
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -4547,8 +4547,8 @@
                   }
                   __LINE__ = 1901;
                   return undefined;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -4559,8 +4559,8 @@
                   var context = ko.contextFor(node);
                   __LINE__ = 1905;
                   return context?context.$data : undefined;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -4581,8 +4581,8 @@
               
               __LINE__ = 1913;
               ko.exportSymbol('ko.dataFor',ko.dataFor);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -4607,19 +4607,19 @@
                             result[eventName] = valueAccessor();
                             __LINE__ = 1923;
                             return result;
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                     __LINE__ = 1925;
                     return ko.bindingHandlers['event']['init'].call(this,element,newValueAccessor,allBindingsAccessor,viewModel);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -4708,20 +4708,20 @@
                               
                             }
                             
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         });
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   })();
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -4769,12 +4769,12 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -4800,8 +4800,8 @@
                   element.style.display = "none";
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -4824,8 +4824,8 @@
                   element.disabled =  true ;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -4840,12 +4840,12 @@
                   try {
                     __LINE__ = 2015;
                     return !ko.utils.unwrapObservable(valueAccessor());
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -4899,15 +4899,15 @@
                           try {
                             __LINE__ = 2053;
                             setTimeout(handler,0);
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         } : function (handler) {
                           try {
                             __LINE__ = 2054;
                             handler();
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                     
@@ -4941,20 +4941,20 @@
                               
                             }
                             
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         });
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -4983,8 +4983,8 @@
                         try {
                           __LINE__ = 2082;
                           ko.selectExtensions.writeValue(element,newValue);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   
@@ -5010,8 +5010,8 @@
                   ensureDropdownSelectionIsConsistentWithModelValue(element,newValue, false );
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5035,16 +5035,16 @@
                       try {
                         __LINE__ = 2107;
                         return node.tagName && node.tagName == "OPTION" && node.selected;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }),
                     function (node) {
                       try {
                         __LINE__ = 2109;
                         return ko.selectExtensions.readValue(node) || node.innerText || node.textContent;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                 
@@ -5185,8 +5185,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5220,8 +5220,8 @@
                 }
                 __LINE__ = 2193;
                 return result;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor) {
@@ -5250,12 +5250,12 @@
                       
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -5292,8 +5292,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5304,8 +5304,8 @@
               try {
                 __LINE__ = 2225;
                 ko.utils.setTextContent(element,valueAccessor());
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5318,8 +5318,8 @@
                 return  {
                   'controlsDescendantBindings' :  true 
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -5329,8 +5329,8 @@
                 
                 __LINE__ = 2236;
                 ko.utils.setHtml(element,value);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5357,8 +5357,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5385,8 +5385,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5410,8 +5410,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5482,8 +5482,8 @@
                           
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                 
@@ -5499,14 +5499,14 @@
                     try {
                       __LINE__ = 2315;
                       return  true ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -5534,8 +5534,8 @@
                   element.checked = (element.value == value);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5570,8 +5570,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5609,8 +5609,8 @@
                           
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     };
                 
@@ -5620,8 +5620,8 @@
                   try {
                     __LINE__ = 2369;
                     writeValue( true );
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 
@@ -5631,8 +5631,8 @@
                   try {
                     __LINE__ = 2370;
                     writeValue( true );
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 
@@ -5642,8 +5642,8 @@
                   try {
                     __LINE__ = 2371;
                     writeValue( false );
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 
@@ -5653,12 +5653,12 @@
                   try {
                     __LINE__ = 2372;
                     writeValue( false );
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor) {
@@ -5671,8 +5671,8 @@
                 
                 __LINE__ = 2377;
                 ko.utils.triggerEvent(element,value?"focusin" : "focusout");
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5692,28 +5692,28 @@
                       'data' : value,
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2387;
                 return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor));
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2390;
                 return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5736,28 +5736,28 @@
                       'if' : valueAccessor(),
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2402;
                 return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor));
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2405;
                 return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5780,28 +5780,28 @@
                       'ifnot' : valueAccessor(),
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2417;
                 return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor));
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2420;
                 return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5839,28 +5839,28 @@
                       'afterRender' : bindingValue['afterRender'],
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2449;
                 return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor(valueAccessor));
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2452;
                 return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -5882,8 +5882,8 @@
             try {
               __LINE__ = 2486;
               throw "Override renderTemplateSource";
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -5892,8 +5892,8 @@
             try {
               __LINE__ = 2490;
               throw "Override createJavaScriptEvaluatorBlock";
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -5918,8 +5918,8 @@
                 return new ko.templateSources.anonymousTemplate(template);
               }
               
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -5930,8 +5930,8 @@
               var templateSource = this.makeTemplateSource(template);
               __LINE__ = 2509;
               return this.renderTemplateSource(templateSource,bindingContext,options);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -5951,8 +5951,8 @@
               }
               __LINE__ = 2521;
               return this.makeTemplateSource(template).data("isRewritten");
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -5979,8 +5979,8 @@
                 this.knownRewrittenTemplates[template] =  true ;
               }
               
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -6004,8 +6004,8 @@
         })";
                 __LINE__ = 2570;
                 return templateEngine.createJavaScriptEvaluatorBlock(applyBindingsToNextSiblingScript)+tagToRetain;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function validateDataBindValuesForRewriting(keyValueArray) {
@@ -6046,8 +6046,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -6068,14 +6068,14 @@
                         try {
                           __LINE__ = 2577;
                           return ko.templateRewriting.memoizeBindingAttributeSyntax(htmlString,templateEngine);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       });
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 memoizeBindingAttributeSyntax : function (htmlString,templateEngine) {
@@ -6086,20 +6086,20 @@
                       try {
                         __LINE__ = 2583;
                         return constructMemoizedTagReplacement(arguments[6],arguments[1],templateEngine);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }).replace(memoizeVirtualContainerBindingSyntaxRegex,
                     function () {
                       try {
                         __LINE__ = 2585;
                         return constructMemoizedTagReplacement(arguments[1],"<!-- ko -->",templateEngine);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 applyMemoizedBindingsToNextSibling : function (bindings) {
@@ -6114,17 +6114,17 @@
                           ko.applyBindingsToNode(domNode.nextSibling,bindings,bindingContext);
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -6145,8 +6145,8 @@
                 try {
                   __LINE__ = 2624;
                   this.domElement = element;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6168,8 +6168,8 @@
                     this.domElement.tagName.toLowerCase() == "script"?this.domElement.text = valueToWrite : ko.utils.setHtml(this.domElement,valueToWrite);
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6184,8 +6184,8 @@
                   
                   __LINE__ = 2643;
                   ko.utils.domData.set(this.domElement,"templateSourceData_"+key,arguments[1]);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6197,8 +6197,8 @@
                 try {
                   __LINE__ = 2651;
                   this.domElement = element;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6223,8 +6223,8 @@
                     ko.utils.domData.set(this.domElement,anonymousTemplatesDomDataKey,valueToWrite);
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6236,8 +6236,8 @@
               
               __LINE__ = 2665;
               ko.exportSymbol('ko.templateSources.anonymousTemplate',ko.templateSources.anonymousTemplate);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -6253,8 +6253,8 @@
                 
                 __LINE__ = 2821;
                 ko.utils.domData.set(element,templateSubscriptionDomDataKey,newSubscription);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function executeTemplate(targetNodeOrNodeArray,renderMode,template,bindingContext,options) {
@@ -6320,16 +6320,16 @@
                 }
                 __LINE__ = 2742;
                 return renderedNodesArray;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function getFirstNodeFromPossibleArray(nodeOrNodeArray) {
               try {
                 __LINE__ = 2706;
                 return nodeOrNodeArray.nodeType?nodeOrNodeArray : nodeOrNodeArray.length>0?nodeOrNodeArray[0] :  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function invokeForEachNodeOrCommentInParent(nodeArray,parent,action) {
@@ -6347,8 +6347,8 @@
                   ((node.nodeType === 1) || (node.nodeType === 8)) && action(node);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -6367,8 +6367,8 @@
                   
                   __LINE__ = 2672;
                   _templateEngine = templateEngine;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6385,8 +6385,8 @@
                     try {
                       __LINE__ = 2698;
                       ko.applyBindings(bindingContext,node);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                   
@@ -6396,12 +6396,12 @@
                     try {
                       __LINE__ = 2701;
                       ko.memoization.unmemoizeDomNodeAndDescendants(node,[bindingContext]);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6431,8 +6431,8 @@
                           try {
                             __LINE__ = 2754;
                             return (!firstTargetNode) || !ko.utils.domNodeIsAttachedToDocument(firstTargetNode);
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                     
@@ -6456,8 +6456,8 @@
                           firstTargetNode = getFirstNodeFromPossibleArray(targetNodeOrNodeArray);
                         }
                         
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }, null , {
                       'disposeWhen' : whenToDispose,
@@ -6469,14 +6469,14 @@
                       try {
                         __LINE__ = 2779;
                         ko.renderTemplate(template,dataOrBindingContext,options,domNode,"replaceNode");
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6488,8 +6488,8 @@
                         try {
                           __LINE__ = 2786;
                           return parentBindingContext.createChildContext(ko.utils.unwrapObservable(arrayValue));
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },
                       activateBindingsCallback = function (arrayValue,addedNodesArray) {
@@ -6502,8 +6502,8 @@
                           
                           __LINE__ = 2794;
                           options.afterRender && options.afterRender(addedNodesArray,bindingContext.$data);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       };
                   __LINE__ = 2797;
@@ -6521,8 +6521,8 @@
                             try {
                               __LINE__ = 2804;
                               return options.includeDestroyed || item === undefined || item ===  null  || !ko.utils.unwrapObservable(item._destroy);
-                            } catch(e){
-                              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                            } catch(__mocha_error){
+                              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                             }
                           });
                       
@@ -6534,18 +6534,18 @@
                           var templateName = typeof (template) == 'function'?template(arrayValue) : template;
                           __LINE__ = 2810;
                           return executeTemplate( null ,"ignoreTargetNode",templateName,createInnerBindingContext(arrayValue),options);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       },options,activateBindingsCallback);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }, null , {
                     'disposeWhenNodeIsRemoved' : targetNode
                   });
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -6572,8 +6572,8 @@
                     return  {
                       'controlsDescendantBindings' :  true 
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
@@ -6637,8 +6637,8 @@
                     
                     __LINE__ = 2870;
                     disposeOldSubscriptionAndStoreNewOne(element,templateSubscription);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               };
@@ -6662,15 +6662,15 @@
                   }
                   __LINE__ = 2883;
                   return "This template engine does not support anonymous templates nested within its templates";
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
               __LINE__ = 2886;
               ko.virtualElements.allowedBindings.template =  true ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -6759,8 +6759,8 @@
                 }
                 __LINE__ = 2955;
                 return editScript.reverse();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function calculateEditDistanceMatrix(oldArray,newArray,maxAllowedDistance) {
@@ -6829,8 +6829,8 @@
                 }
                 __LINE__ = 2924;
                 return distances;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -6858,12 +6858,12 @@
                     return findEditScriptFromEditDistanceMatrix(editDistanceMatrix,oldArray,newArray);
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -6899,8 +6899,8 @@
                         
                         __LINE__ = 3024;
                         ko.utils.arrayPushAll(mappedNodes,newMappedNodes);
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }, null , {
                       'disposeWhenNodeIsRemoved' : containerNode,
@@ -6908,8 +6908,8 @@
                         try {
                           __LINE__ = 3025;
                           return (mappedNodes.length == 0) || !ko.utils.domNodeIsAttachedToDocument(mappedNodes[0]);
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }
                     });
@@ -6918,8 +6918,8 @@
                   mappedNodes : mappedNodes,
                   dependentObservable : dependentObservable
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function fixUpVirtualElements(contiguousNodeArray) {
@@ -6952,8 +6952,8 @@
                   [].splice.apply(contiguousNodeArray,[0,contiguousNodeArray.length].concat(newContiguousSet));
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -6978,8 +6978,8 @@
                         try {
                           __LINE__ = 3037;
                           return x.arrayEntry;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }),
                       editScript = ko.utils.compareArrays(lastArray,array),
@@ -7030,8 +7030,8 @@
                             
                             __LINE__ = 3069;
                             insertAfterNode = node;
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         });
                         
@@ -7104,8 +7104,8 @@
                     try {
                       __LINE__ = 3103;
                       ko.cleanNode(node.element);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                   
@@ -7147,19 +7147,19 @@
                     try {
                       __LINE__ = 3119;
                       ko.removeNode(node.element);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                   
                   __LINE__ = 3123;
                   ko.utils.domData.set(domNode,lastMappingResultDomDataKey,newMappingResult);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -7171,8 +7171,8 @@
             try {
               __LINE__ = 3129;
               this.allowTemplateRewriting =  false ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -7186,8 +7186,8 @@
               var templateText = templateSource.text();
               __LINE__ = 3135;
               return ko.utils.parseHtmlFragment(templateText);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -7209,8 +7209,8 @@
                   try {
                     __LINE__ = 3167;
                     return jQuery.tmpl(compiledTemplate,data,jQueryTemplateOptions);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
                 function ensureHasReferencedJQueryTemplates() {
@@ -7221,8 +7221,8 @@
                       throw new Error("Your version of jQuery.tmpl is too old. Please upgrade to jQuery.tmpl 1.0.0pre or later.");
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
                 try {
@@ -7249,8 +7249,8 @@
                           }
                           __LINE__ = 3158;
                           return 1;
-                        } catch(e){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                         }
                       }();
                   
@@ -7296,8 +7296,8 @@
                       jQuery.fragments = {};
                       __LINE__ = 3191;
                       return resultNodes;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
@@ -7306,8 +7306,8 @@
                     try {
                       __LINE__ = 3195;
                       return "{{ko_code ((function() { return "+script+" })()) }}";
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
@@ -7316,8 +7316,8 @@
                     try {
                       __LINE__ = 3199;
                       document.write("<script type='text/html' id='"+templateName+"'>"+templateMarkup+"</script>");
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                   
@@ -7336,8 +7336,8 @@
                     };
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -7352,16 +7352,16 @@
               
               __LINE__ = 3220;
               ko.exportSymbol('ko.jqueryTmplTemplateEngine',ko.jqueryTmplTemplateEngine);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(window);
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();

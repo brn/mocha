@@ -540,10 +540,10 @@ void CodeWriter::DebugBlockEnd(CodeStream* stream, Scope* scope) {
   if (is_line_) {
     if (is_pretty_print_) {
       base_->WriteOp('}', kBlockEndBrace, stream);
-      stream->Write(" catch(e)");
+      stream->Write(" catch(__mocha_error)");
       base_->WriteOp('{', kBlockBeginBrace, stream);
     } else {
-      stream->Write("}catch(e){");
+      stream->Write("}catch(__mocha_error){");
     }
     const char* runtime_str = SymbolList::symbol(SymbolList::kRuntime);
     if (is_pretty_print_) {
@@ -559,11 +559,11 @@ void CodeWriter::DebugBlockEnd(CodeStream* stream, Scope* scope) {
       } else {
         stream->Write(runtime_str);
       }
-      stream->Write(".exceptionHandler(__LINE__, __FILE__, e)");
+      stream->Write(".exceptionHandler(__LINE__, __FILE__, __mocha_error)");
       base_->WriteOp(';', 0, stream);
       base_->WriteOp('}', kBlockEndBrace, stream);
     } else {
-      stream->Write("}catch(e){");
+      stream->Write("}catch(__mocha_error){");
       TokenInfo* runtime = new(memory::Pool::Local()) TokenInfo(runtime_str, Token::JS_IDENTIFIER, 0);
       if (scope) {
         SymbolEntry entry = scope->Find(runtime);
@@ -576,7 +576,7 @@ void CodeWriter::DebugBlockEnd(CodeStream* stream, Scope* scope) {
       } else {
         stream->Write(runtime_str);
       }
-      stream->Write(".catchHandler(__LINE__,__FILE__,e);}");
+      stream->Write(".catchHandler(__LINE__,__FILE__,__mocha_error);}");
     }
   }
 }

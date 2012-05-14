@@ -464,24 +464,24 @@
         Object.isString(element) && (element = document.getElementById(element));
         __LINE__ = 1827;
         return Element.extend(element);
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function $R(start,end,exclusive) {
       try {
         __LINE__ = 1390;
         return new ObjectRange(start,end,exclusive);
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function $H(object) {
       try {
         __LINE__ = 1223;
         return new Hash(object);
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function $w(string) {
@@ -496,8 +496,8 @@
         string = string.strip();
         __LINE__ = 1078;
         return string?string.split(/\s+/) : [];
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     function $A(iterable) {
@@ -525,8 +525,8 @@
         }
         __LINE__ = 1071;
         return results;
-      } catch(e){
-        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+      } catch(__mocha_error){
+        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
       }
     }
     try {
@@ -551,8 +551,8 @@
                   Gecko : ua.indexOf('Gecko')>-1 && ua.indexOf('KHTML') === -1,
                   MobileSafari : /Apple.*Mobile/.test(ua)
                 };
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             })(),
             BrowserFeatures :  {
@@ -564,8 +564,8 @@
                   var constructor = window.Element || window.HTMLElement;
                   __LINE__ = 32;
                   return !!(constructor && constructor.prototype);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               })(),
               SpecificElementExtensions : (function () {
@@ -592,8 +592,8 @@
                   div = form =  null ;
                   __LINE__ = 48;
                   return isSupported;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               })()
             },
@@ -604,8 +604,8 @@
               try {
                 __LINE__ = 57;
                 return x;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -640,8 +640,8 @@
                 }
                 __LINE__ = 79;
                 return returnValue;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           },
@@ -683,12 +683,12 @@
                           try {
                             __LINE__ = 141;
                             return ancestor[m].apply(this,arguments);
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     }(property).wrap(method);
                     
@@ -704,8 +704,8 @@
                 }
                 __LINE__ = 150;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function create() {
@@ -713,8 +713,8 @@
                 try {
                   __LINE__ = 101;
                   this.initialize.apply(this,arguments);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
               try {
@@ -762,8 +762,8 @@
                 klass.prototype.constructor = klass;
                 __LINE__ = 121;
                 return klass;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function subclass(){}
@@ -786,8 +786,8 @@
                       }
                       __LINE__ = 91;
                       return  true ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }();
               __LINE__ = 153;
@@ -797,8 +797,8 @@
                   addMethods : addMethods
                 }
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
       
@@ -808,72 +808,72 @@
           try {
             __LINE__ = 343;
             return typeof object === "undefined";
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isDate(object) {
           try {
             __LINE__ = 339;
             return _toString.call(object) === DATE_CLASS;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isNumber(object) {
           try {
             __LINE__ = 335;
             return _toString.call(object) === NUMBER_CLASS;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isString(object) {
           try {
             __LINE__ = 331;
             return _toString.call(object) === STRING_CLASS;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isFunction(object) {
           try {
             __LINE__ = 327;
             return _toString.call(object) === FUNCTION_CLASS;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isHash(object) {
           try {
             __LINE__ = 323;
             return object instanceof Hash;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isArray(object) {
           try {
             __LINE__ = 312;
             return _toString.call(object) === ARRAY_CLASS;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isElement(object) {
           try {
             __LINE__ = 308;
             return !!(object && object.nodeType == 1);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function clone(object) {
           try {
             __LINE__ = 304;
             return extend({},object);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function values(object) {
@@ -889,8 +889,8 @@
             }
             __LINE__ = 300;
             return results;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function keys(object) {
@@ -912,32 +912,32 @@
             }
             __LINE__ = 293;
             return results;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toHTML(object) {
           try {
             __LINE__ = 282;
             return object && object.toHTML?object.toHTML() : String.interpret(object);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toQueryString(object) {
           try {
             __LINE__ = 278;
             return $H(object).toQueryString();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function stringify(object) {
           try {
             __LINE__ = 274;
             return JSON.stringify(object);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function Str(key,holder,stack) {
@@ -1052,8 +1052,8 @@
                 
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toJSON(value) {
@@ -1062,8 +1062,8 @@
             return Str('', {
               '' : value
             },[]);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function inspect(object) {
@@ -1094,8 +1094,8 @@
               throw e;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function extend(destination,source) {
@@ -1108,8 +1108,8 @@
             }
             __LINE__ = 197;
             return destination;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function Type(o) {
@@ -1143,8 +1143,8 @@
             }
             __LINE__ = 191;
             return OBJECT_TYPE;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -1190,8 +1190,8 @@
             isDate : isDate,
             isUndefined : isUndefined
           });
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -1214,12 +1214,12 @@
                 var a = update([this],arguments);
                 __LINE__ = 438;
                 return __method.apply( null ,a);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function wrap(wrapper) {
@@ -1233,12 +1233,12 @@
                 var a = update([__method.bind(this)],arguments);
                 __LINE__ = 429;
                 return wrapper.apply(this,a);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function defer() {
@@ -1247,8 +1247,8 @@
             var args = update([0.01],arguments);
             __LINE__ = 422;
             return this.delay.apply(this,args);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function delay(timeout) {
@@ -1264,12 +1264,12 @@
               try {
                 __LINE__ = 416;
                 return __method.apply(__method,args);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },timeout);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function curry() {
@@ -1290,12 +1290,12 @@
                 var a = merge(args,arguments);
                 __LINE__ = 408;
                 return __method.apply(this,a);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function bindAsEventListener(context) {
@@ -1310,12 +1310,12 @@
                 var a = update([event || window.event],args);
                 __LINE__ = 399;
                 return __method.apply(context,a);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function bind(context) {
@@ -1336,12 +1336,12 @@
                 var a = merge(args,arguments);
                 __LINE__ = 391;
                 return __method.apply(context,a);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function argumentNames() {
@@ -1350,8 +1350,8 @@
             var names = this.toString().match(/^[\s\(]*function[^(]*\(([^)]*)\)/)[1].replace(/\/\/.*?[\r\n]|\/\*(?:.|[\r\n])*?\*\//g,'').replace(/\s+/g,'').split(',');
             __LINE__ = 383;
             return names.length == 1 && !names[0]?[] : names;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function merge(array,args) {
@@ -1360,8 +1360,8 @@
             array = slice.call(array,0);
             __LINE__ = 376;
             return update(array,args);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function update(array,args) {
@@ -1377,8 +1377,8 @@
             }
             __LINE__ = 371;
             return array;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -1396,8 +1396,8 @@
             wrap : wrap,
             methodize : methodize
           };
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       })());
       
@@ -1407,16 +1407,16 @@
           try {
             __LINE__ = 470;
             return this.toISOString();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toISOString() {
           try {
             __LINE__ = 460;
             return this.getUTCFullYear()+'-'+(this.getUTCMonth()+1).toPaddedString(2)+'-'+this.getUTCDate().toPaddedString(2)+'T'+this.getUTCHours().toPaddedString(2)+':'+this.getUTCMinutes().toPaddedString(2)+':'+this.getUTCSeconds().toPaddedString(2)+'Z';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -1426,8 +1426,8 @@
           
           __LINE__ = 474;
           !proto.toJSON && (proto.toJSON = toJSON);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(Date.prototype);
       
@@ -1439,8 +1439,8 @@
         try {
           __LINE__ = 482;
           return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g,'\\$1');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       };
       
@@ -1459,24 +1459,24 @@
                 
                 __LINE__ = 490;
                 this.registerCallback();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             registerCallback : function () {
               try {
                 __LINE__ = 494;
                 this.timer = setInterval(this.onTimerEvent.bind(this),this.frequency*1000);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             execute : function () {
               try {
                 __LINE__ = 498;
                 this.callback(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             stop : function () {
@@ -1492,8 +1492,8 @@
                 
                 __LINE__ = 504;
                 this.timer =  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             onTimerEvent : function () {
@@ -1521,8 +1521,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -1533,8 +1533,8 @@
           try {
             __LINE__ = 522;
             return value ==  null ?'' : String(value);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         specialChar :  {
@@ -1553,24 +1553,24 @@
           try {
             __LINE__ = 745;
             return new Template(this,pattern).evaluate(object);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function blank() {
           try {
             __LINE__ = 741;
             return /^\s*$/.test(this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function empty() {
           try {
             __LINE__ = 737;
             return this == '';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function endsWith(pattern) {
@@ -1579,24 +1579,24 @@
             var d = this.length-pattern.length;
             __LINE__ = 733;
             return d >= 0 && this.indexOf(pattern,d) === d;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function startsWith(pattern) {
           try {
             __LINE__ = 728;
             return this.lastIndexOf(pattern,0) === 0;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function include(pattern) {
           try {
             __LINE__ = 724;
             return this.indexOf(pattern)>-1;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function parseJSON() {
@@ -1605,8 +1605,8 @@
             var json = this.unfilterJSON();
             __LINE__ = 720;
             return JSON.parse(json);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function evalJSON(sanitize) {
@@ -1621,8 +1621,8 @@
               try {
                 __LINE__ = 709;
                 return '\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }));
             
@@ -1639,8 +1639,8 @@
             }
             __LINE__ = 715;
             throw new SyntaxError('Badly formed JSON string: '+this.inspect());
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isJSON() {
@@ -1664,16 +1664,16 @@
             str = str.replace(/(?:^|:|,)(?:\s*\[)+/g,'');
             __LINE__ = 701;
             return (/^[\],:{}\s]*$/).test(str);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function unfilterJSON(filter) {
           try {
             __LINE__ = 692;
             return this.replace(filter || Prototype.JSONFilter,'$1');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function inspect(useDoubleQuotes) {
@@ -1689,8 +1689,8 @@
                     }
                     __LINE__ = 685;
                     return '\\u00'+character.charCodeAt().toPaddedString(2,16);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
             
@@ -1701,32 +1701,32 @@
             }
             __LINE__ = 688;
             return "'"+escapedString.replace(/'/g,'\\\'')+"'";
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function dasherize() {
           try {
             __LINE__ = 677;
             return this.replace(/_/g,'-');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function underscore() {
           try {
             __LINE__ = 669;
             return this.replace(/::/g,'/').replace(/([A-Z]+)([A-Z][a-z])/g,'$1_$2').replace(/([a-z\d])([A-Z])/g,'$1_$2').replace(/-/g,'_').toLowerCase();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function capitalize() {
           try {
             __LINE__ = 665;
             return this.charAt(0).toUpperCase()+this.substring(1).toLowerCase();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function camelize() {
@@ -1737,36 +1737,36 @@
               try {
                 __LINE__ = 660;
                 return chr?chr.toUpperCase() : '';
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function times(count) {
           try {
             __LINE__ = 655;
             return count<1?'' : new Array(count+1).join(this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function succ() {
           try {
             __LINE__ = 650;
             return this.slice(0,this.length-1)+String.fromCharCode(this.charCodeAt(this.length-1)+1);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toArray() {
           try {
             __LINE__ = 646;
             return this.split('');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toQueryParams(separator) {
@@ -1809,28 +1809,28 @@
                 }
                 __LINE__ = 641;
                 return hash;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function unescapeHTML() {
           try {
             __LINE__ = 620;
             return this.stripTags().replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function escapeHTML() {
           try {
             __LINE__ = 616;
             return this.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function evalScripts() {
@@ -1840,12 +1840,12 @@
               try {
                 __LINE__ = 612;
                 return eval(script);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function extractScripts() {
@@ -1858,36 +1858,36 @@
               try {
                 __LINE__ = 607;
                 return (scriptTag.match(matchOne) || ['',''])[1];
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function stripScripts() {
           try {
             __LINE__ = 600;
             return this.replace(new RegExp(Prototype.ScriptFragment,'img'),'');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function stripTags() {
           try {
             __LINE__ = 596;
             return this.replace(/<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>/gi,'');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function strip() {
           try {
             __LINE__ = 592;
             return this.replace(/^\s+/,'').replace(/\s+$/,'');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function truncate(length,truncation) {
@@ -1899,8 +1899,8 @@
             truncation = Object.isUndefined(truncation)?'...' : truncation;
             __LINE__ = 587;
             return this.length>length?this.slice(0,length-truncation.length)+truncation : String(this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function scan(pattern,iterator) {
@@ -1909,8 +1909,8 @@
             this.gsub(pattern,iterator);
             __LINE__ = 581;
             return String(this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function sub(pattern,replacement,count) {
@@ -1931,12 +1931,12 @@
                 }
                 __LINE__ = 575;
                 return replacement(match);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function gsub(pattern,replacement) {
@@ -1982,8 +1982,8 @@
             }
             __LINE__ = 566;
             return result;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function prepareReplacement(replacement) {
@@ -2001,12 +2001,12 @@
               try {
                 __LINE__ = 542;
                 return template.evaluate(match);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -2046,8 +2046,8 @@
             blank : blank,
             interpolate : interpolate
           };
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       })());
       
@@ -2060,8 +2060,8 @@
                 
                 __LINE__ = 785;
                 this.pattern = pattern || Template.Pattern;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             evaluate : function (object) {
@@ -2128,12 +2128,12 @@
                     }
                     __LINE__ = 812;
                     return before+String.interpret(ctx);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -2148,16 +2148,16 @@
               try {
                 __LINE__ = 1021;
                 return '#<Enumerable:'+this.toArray().inspect()+'>';
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function size() {
               try {
                 __LINE__ = 1017;
                 return this.toArray().length;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function zip() {
@@ -2176,20 +2176,20 @@
                   try {
                     __LINE__ = 1012;
                     return iterator(collections.pluck(index));
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function toArray() {
               try {
                 __LINE__ = 1002;
                 return this.map();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function sortBy(iterator,context) {
@@ -2202,8 +2202,8 @@
                       value : value,
                       criteria : iterator.call(context,value,index)
                     };
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).sort(function (left,right) {
                   try {
@@ -2212,12 +2212,12 @@
                         b = right.criteria;
                     __LINE__ = 997;
                     return a<b?-1 : a>b?1 : 0;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).pluck('value');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function reject(iterator,context) {
@@ -2230,14 +2230,14 @@
                   try {
                     __LINE__ = 984;
                     !iterator.call(context,value,index) && results.push(value);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 986;
                 return results;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function pluck(property) {
@@ -2250,14 +2250,14 @@
                   try {
                     __LINE__ = 975;
                     results.push(value[property]);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 977;
                 return results;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function partition(iterator,context) {
@@ -2274,14 +2274,14 @@
                   try {
                     __LINE__ = 966;
                     (iterator.call(context,value,index)?trues : falses).push(value);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 969;
                 return [trues,falses];
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function min(iterator,context) {
@@ -2300,14 +2300,14 @@
                     
                     __LINE__ = 957;
                     result ==  null  || value<result && (result = value);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 959;
                 return result;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function max(iterator,context) {
@@ -2326,14 +2326,14 @@
                     
                     __LINE__ = 946;
                     result ==  null  || value >= result && (result = value);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 948;
                 return result;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function invoke(method) {
@@ -2345,12 +2345,12 @@
                   try {
                     __LINE__ = 936;
                     return value[method].apply(value,args);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function inject(memo,iterator,context) {
@@ -2360,14 +2360,14 @@
                   try {
                     __LINE__ = 928;
                     memo = iterator.call(context,memo,value,index);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 930;
                 return memo;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function inGroupsOf(number,fillWith) {
@@ -2385,12 +2385,12 @@
                     }
                     __LINE__ = 922;
                     return slice;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function include(object) {
@@ -2420,14 +2420,14 @@
                       throw $break;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 915;
                 return found;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function grep(filter,iterator,context) {
@@ -2446,14 +2446,14 @@
                   try {
                     __LINE__ = 899;
                     filter.match(value) && results.push(iterator.call(context,value,index));
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 901;
                 return results;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function findAll(iterator,context) {
@@ -2466,14 +2466,14 @@
                   try {
                     __LINE__ = 885;
                     iterator.call(context,value,index) && results.push(value);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 887;
                 return results;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function detect(iterator,context) {
@@ -2493,14 +2493,14 @@
                       throw $break;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 878;
                 return result;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function collect(iterator,context) {
@@ -2516,14 +2516,14 @@
                   try {
                     __LINE__ = 865;
                     results.push(iterator.call(context,value,index));
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 867;
                 return results;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function any(iterator,context) {
@@ -2543,14 +2543,14 @@
                       throw $break;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 858;
                 return result;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function all(iterator,context) {
@@ -2573,14 +2573,14 @@
                       throw $break;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
                 __LINE__ = 848;
                 return result;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function eachSlice(number,iterator,context) {
@@ -2603,8 +2603,8 @@
                 }
                 __LINE__ = 838;
                 return slices.collect(iterator,context);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function each(iterator,context) {
@@ -2619,8 +2619,8 @@
                     try {
                       __LINE__ = 825;
                       iterator.call(context,value,index ++ );
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } catch(e){
@@ -2634,8 +2634,8 @@
                 }
                 __LINE__ = 830;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -2672,8 +2672,8 @@
                 inspect : inspect,
                 find : detect
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
       
@@ -2711,8 +2711,8 @@
             }
             __LINE__ = 1188;
             return array;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function lastIndexOf(item,i) {
@@ -2724,8 +2724,8 @@
             var n = this.slice(0,i).reverse().indexOf(item);
             __LINE__ = 1174;
             return (n<0)?n : i-n-1;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function indexOf(item,i) {
@@ -2750,32 +2750,32 @@
             }
             __LINE__ = 1168;
             return -1;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function inspect() {
           try {
             __LINE__ = 1159;
             return '['+this.map(Object.inspect).join(', ')+']';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function size() {
           try {
             __LINE__ = 1155;
             return this.length;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function clone() {
           try {
             __LINE__ = 1151;
             return slice.call(this,0);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function intersect(array) {
@@ -2788,16 +2788,16 @@
                   try {
                     __LINE__ = 1145;
                     return item === value;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function uniq(sorted) {
@@ -2810,20 +2810,20 @@
                 (0 == index || (sorted?array.last() != value : !array.include(value))) && array.push(value);
                 __LINE__ = 1139;
                 return array;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function reverse(inline) {
           try {
             __LINE__ = 1132;
             return (inline ===  false ?this.toArray() : this)._reverse();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function without() {
@@ -2835,12 +2835,12 @@
               try {
                 __LINE__ = 1127;
                 return !values.include(value);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function flatten() {
@@ -2859,12 +2859,12 @@
                 array.push(value);
                 __LINE__ = 1120;
                 return array;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function compact() {
@@ -2874,28 +2874,28 @@
               try {
                 __LINE__ = 1111;
                 return value !=  null ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function last() {
           try {
             __LINE__ = 1106;
             return this[this.length-1];
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function first() {
           try {
             __LINE__ = 1102;
             return this[0];
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function clear() {
@@ -2904,8 +2904,8 @@
             this.length = 0;
             __LINE__ = 1098;
             return this;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function each(iterator,context) {
@@ -2917,8 +2917,8 @@
               i in this && iterator.call(context,this[i],i,this);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -2960,8 +2960,8 @@
                 try {
                   __LINE__ = 1214;
                   return [].concat(arguments)[0][0] !== 1;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }(1,2);
           
@@ -2973,8 +2973,8 @@
           
           __LINE__ = 1220;
           !arrayProto.lastIndexOf && (arrayProto.lastIndexOf = lastIndexOf);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -2984,8 +2984,8 @@
               try {
                 __LINE__ = 1318;
                 return new Hash(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function inspect() {
@@ -2995,12 +2995,12 @@
                   try {
                     __LINE__ = 1313;
                     return pair.map(Object.inspect).join(': ');
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).join(', ')+'}>';
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function toQueryString() {
@@ -3040,12 +3040,12 @@
                     }
                     __LINE__ = 1307;
                     return results;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).join('&');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function toQueryPair(key,value) {
@@ -3057,8 +3057,8 @@
                 }
                 __LINE__ = 1290;
                 return key+'='+encodeURIComponent(String.interpret(value));
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function update(object) {
@@ -3071,20 +3071,20 @@
                     result.set(pair.key,pair.value);
                     __LINE__ = 1284;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function merge(object) {
               try {
                 __LINE__ = 1278;
                 return this.clone().update(object);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function index(value) {
@@ -3094,38 +3094,38 @@
                       try {
                         __LINE__ = 1272;
                         return pair.value === value;
-                      } catch(e){
-                        __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
                     });
                 __LINE__ = 1274;
                 return match && match.key;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function values() {
               try {
                 __LINE__ = 1267;
                 return this.pluck('value');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function keys() {
               try {
                 __LINE__ = 1263;
                 return this.pluck('key');
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function toObject() {
               try {
                 __LINE__ = 1257;
                 return Object.clone(this._object);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function unset(key) {
@@ -3137,8 +3137,8 @@
                 delete this._object[key];
                 __LINE__ = 1253;
                 return value;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function get(key) {
@@ -3149,16 +3149,16 @@
                   return this._object[key];
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function set(key,value) {
               try {
                 __LINE__ = 1242;
                 return this._object[key] = value;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function _each(iterator) {
@@ -3180,16 +3180,16 @@
                   iterator(pair);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function initialize(object) {
               try {
                 __LINE__ = 1228;
                 this._object = Object.isHash(object)?object.toObject() : Object.clone(object);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -3212,8 +3212,8 @@
                 toJSON : toObject,
                 clone : clone
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }());
       
@@ -3226,32 +3226,32 @@
           try {
             __LINE__ = 1374;
             return Math.floor(this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function ceil() {
           try {
             __LINE__ = 1370;
             return Math.ceil(this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function round() {
           try {
             __LINE__ = 1366;
             return Math.round(this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function abs() {
           try {
             __LINE__ = 1362;
             return Math.abs(this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toPaddedString(length,radix) {
@@ -3260,8 +3260,8 @@
             var string = this.toString(radix || 10);
             __LINE__ = 1358;
             return '0'.times(length-string.length)+string;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function times(iterator,context) {
@@ -3270,24 +3270,24 @@
             $R(0,this, true ).each(iterator,context);
             __LINE__ = 1353;
             return this;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function succ() {
           try {
             __LINE__ = 1348;
             return this+1;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toColorPart() {
           try {
             __LINE__ = 1344;
             return this.toPaddedString(2,16);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -3302,8 +3302,8 @@
             ceil : ceil,
             floor : floor
           };
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       })());
       
@@ -3324,8 +3324,8 @@
                 }
                 __LINE__ = 1413;
                 return value <= this.end;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function _each(iterator) {
@@ -3343,8 +3343,8 @@
                   value = value.succ();
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             function initialize(start,end,exclusive) {
@@ -3357,8 +3357,8 @@
                 
                 __LINE__ = 1397;
                 this.exclusive = exclusive;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             try {
@@ -3368,8 +3368,8 @@
                 _each : _each,
                 include : include
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }()),
           Ajax =  {
@@ -3380,28 +3380,28 @@
                   try {
                     __LINE__ = 1428;
                     return new XMLHttpRequest();
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 function () {
                   try {
                     __LINE__ = 1429;
                     return new ActiveXObject('Msxml2.XMLHTTP');
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 function () {
                   try {
                     __LINE__ = 1430;
                     return new ActiveXObject('Microsoft.XMLHTTP');
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }) ||  false ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             activeRequestCount : 0
@@ -3417,8 +3417,8 @@
             
             __LINE__ = 1442;
             this.responders._each(iterator);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         register : function (responder) {
@@ -3430,16 +3430,16 @@
               this.responders.push(responder);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         unregister : function (responder) {
           try {
             __LINE__ = 1451;
             this.responders = this.responders.without(responder);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         dispatch : function (callback,request,transport,json) {
@@ -3460,12 +3460,12 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       };
@@ -3479,16 +3479,16 @@
           try {
             __LINE__ = 1468;
             Ajax.activeRequestCount ++ ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         onComplete : function () {
           try {
             __LINE__ = 1469;
             Ajax.activeRequestCount -- ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -3521,8 +3521,8 @@
               this.options.parameters = this.options.parameters.toObject();
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -3540,8 +3540,8 @@
             
             __LINE__ = 1496;
             this.request(url);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         request : function (url) {
@@ -3620,12 +3620,13 @@
               }
               
             } catch(e){
+              
               __LINE__ = 1539;
-              return this.dispatchException(e);
+              this.dispatchException(e);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         onStateChange : function () {
@@ -3640,8 +3641,8 @@
               this.respondToReadyState(this.transport.readyState);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         setRequestHeaders : function () {
@@ -3690,8 +3691,8 @@
                   try {
                     __LINE__ = 1576;
                     headers[pair.key] = pair.value;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
               }
@@ -3705,8 +3706,8 @@
               this.transport.setRequestHeader(name,headers[name]);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         success : function () {
@@ -3715,8 +3716,8 @@
             var status = this.getStatus();
             __LINE__ = 1585;
             return !status || (status >= 200 && status<300) || status == 304;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getStatus : function () {
@@ -3735,8 +3736,8 @@
               return 0;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         respondToReadyState : function (readyState) {
@@ -3756,8 +3757,9 @@
                 __LINE__ = 1601;
                 (this.options['on'+response.status] || this.options['on'+(this.success()?'Success' : 'Failure')] || Prototype.emptyFunction)(response,response.headerJSON);
               } catch(e){
+                
                 __LINE__ = 1605;
-                return this.dispatchException(e);
+                this.dispatchException(e);
               }
               
               __LINE__ = 1608;
@@ -3780,8 +3782,9 @@
               __LINE__ = 1617;
               Ajax.Responders.dispatch('on'+state,this,response,response.headerJSON);
             } catch(e){
+              
               __LINE__ = 1619;
-              return this.dispatchException(e);
+              this.dispatchException(e);
             }
             
             __LINE__ = 1622;
@@ -3791,8 +3794,8 @@
               this.transport.onreadystatechange = Prototype.emptyFunction;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         isSameOrigin : function () {
@@ -3805,8 +3808,8 @@
               domain : document.domain,
               port : location.port?':'+location.port : ''
             }));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getHeader : function (name) {
@@ -3819,8 +3822,8 @@
               return  null ;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         evalResponse : function () {
@@ -3829,12 +3832,13 @@
               __LINE__ = 1644;
               return eval((this.transport.responseText || '').unfilterJSON());
             } catch(e){
+              
               __LINE__ = 1646;
-              return this.dispatchException(e);
+              this.dispatchException(e);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         dispatchException : function (exception) {
@@ -3844,8 +3848,8 @@
             
             __LINE__ = 1652;
             Ajax.Responders.dispatch('onException',this,exception);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -3893,8 +3897,8 @@
               this.responseJSON = this._getResponseJSON();
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         status : 0,
@@ -3910,8 +3914,8 @@
               return '';
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getHeader : Ajax.Request.prototype.getHeader,
@@ -3925,24 +3929,24 @@
               return  null ;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getResponseHeader : function (name) {
           try {
             __LINE__ = 1707;
             return this.transport.getResponseHeader(name);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getAllResponseHeaders : function () {
           try {
             __LINE__ = 1711;
             return this.transport.getAllResponseHeaders();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         _getHeaderJSON : function () {
@@ -3963,12 +3967,13 @@
               __LINE__ = 1719;
               return json.evalJSON(this.request.options.sanitizeJSON || !this.request.isSameOrigin());
             } catch(e){
+              
               __LINE__ = 1722;
-              return this.request.dispatchException(e);
+              this.request.dispatchException(e);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         _getResponseJSON : function () {
@@ -3986,12 +3991,13 @@
               __LINE__ = 1733;
               return this.responseText.evalJSON(options.sanitizeJSON || !this.request.isSameOrigin());
             } catch(e){
+              
               __LINE__ = 1736;
-              return this.request.dispatchException(e);
+              this.request.dispatchException(e);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -4025,15 +4031,15 @@
                   onComplete(response,json);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }).bind(this);
             
             __LINE__ = 1755;
             $super(url,options);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         updateContent : function (responseText) {
@@ -4078,8 +4084,8 @@
               
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -4111,8 +4117,8 @@
             
             __LINE__ = 1789;
             this.start();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         start : function () {
@@ -4122,8 +4128,8 @@
             
             __LINE__ = 1794;
             this.onTimerEvent();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         stop : function () {
@@ -4136,8 +4142,8 @@
             
             __LINE__ = 1800;
             (this.onComplete || Prototype.emptyFunction).apply(this,arguments);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         updateComplete : function (response) {
@@ -4154,16 +4160,16 @@
             
             __LINE__ = 1810;
             this.timer = this.onTimerEvent.bind(this).delay(this.decay*this.frequency);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         onTimerEvent : function () {
           try {
             __LINE__ = 1814;
             this.updater = new Ajax.Updater(this.container,this.url,this.options);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -4183,8 +4189,8 @@
           }
           __LINE__ = 1837;
           return results;
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       });
       
@@ -4227,8 +4233,8 @@
             }
             __LINE__ = 1868;
             return  true ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -4247,8 +4253,8 @@
                     return  false ;
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }(),
               element = global.Element;
@@ -4284,8 +4290,8 @@
               var node = shouldUseCache(tagName,attributes)?cache[tagName].cloneNode( false ) : document.createElement(tagName);
               __LINE__ = 1899;
               return Element.writeAttribute(node,attributes);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -4294,8 +4300,8 @@
           
           __LINE__ = 1903;
           element && (global.Element.prototype = element.prototype);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(this);
       
@@ -4324,8 +4330,8 @@
             delete Element.Storage[uid];
           }
           
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       };
       
@@ -4335,8 +4341,8 @@
           try {
             __LINE__ = 1921;
             return $(element).style.display != 'none';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         toggle : function (element) {
@@ -4348,8 +4354,8 @@
             Element[Element.visible(element)?'hide' : 'show'](element);
             __LINE__ = 1927;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         hide : function (element) {
@@ -4361,8 +4367,8 @@
             element.style.display = 'none';
             __LINE__ = 1933;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         show : function (element) {
@@ -4374,8 +4380,8 @@
             element.style.display = '';
             __LINE__ = 1939;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         remove : function (element) {
@@ -4387,8 +4393,8 @@
             element.parentNode.removeChild(element);
             __LINE__ = 1945;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         update : (function () {
@@ -4458,8 +4464,8 @@
                     try {
                       __LINE__ = 2035;
                       element.appendChild(node);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } else if (LINK_ELEMENT_INNERHTML_BUGGY && Object.isString(content) && content.indexOf('<link')>-1){
@@ -4479,8 +4485,8 @@
                     try {
                       __LINE__ = 2042;
                       element.appendChild(node);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   });
                 } else {
@@ -4499,8 +4505,8 @@
               content.evalScripts.bind(content).defer();
               __LINE__ = 2053;
               return element;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }
           try {
@@ -4525,8 +4531,8 @@
                     el =  null ;
                     __LINE__ = 1958;
                     return isBuggy;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 })();
             
@@ -4558,8 +4564,8 @@
                       return  true ;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 })();
             
@@ -4586,8 +4592,8 @@
                       return  true ;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 })();
             
@@ -4609,22 +4615,23 @@
                       __LINE__ = 1995;
                       isBuggy = !s.firstChild || s.firstChild && s.firstChild.nodeType !== 3;
                     } catch(e){
+                      
                       __LINE__ = 1998;
-                      return isBuggy =  true ;
+                      isBuggy =  true ;
                     }
                     
                     __LINE__ = 2000;
                     s =  null ;
                     __LINE__ = 2001;
                     return isBuggy;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 })();
             __LINE__ = 2056;
             return update;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         })(),
         replace : function (element,content) {
@@ -4659,8 +4666,8 @@
             element.parentNode.replaceChild(content,element);
             __LINE__ = 2070;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         insert : function (element,insertions) {
@@ -4735,8 +4742,8 @@
             }
             __LINE__ = 2106;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         wrap : function (element,wrapper,attributes) {
@@ -4769,8 +4776,8 @@
             wrapper.appendChild(element);
             __LINE__ = 2118;
             return wrapper;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         inspect : function (element) {
@@ -4799,14 +4806,14 @@
                   result += ' '+attribute+'='+value.inspect( true );
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
             __LINE__ = 2130;
             return result+'>';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         recursivelyCollect : function (element,property,maximumLength) {
@@ -4839,24 +4846,24 @@
             }
             __LINE__ = 2145;
             return elements;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         ancestors : function (element) {
           try {
             __LINE__ = 2149;
             return Element.recursivelyCollect(element,'parentNode');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         descendants : function (element) {
           try {
             __LINE__ = 2153;
             return Element.select(element,"*");
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         firstDescendant : function (element) {
@@ -4872,8 +4879,8 @@
             }
             __LINE__ = 2159;
             return $(element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         immediateDescendants : function (element) {
@@ -4897,24 +4904,24 @@
             }
             __LINE__ = 2170;
             return results;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         previousSiblings : function (element,maximumLength) {
           try {
             __LINE__ = 2174;
             return Element.recursivelyCollect(element,'previousSibling');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         nextSiblings : function (element) {
           try {
             __LINE__ = 2178;
             return Element.recursivelyCollect(element,'nextSibling');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         siblings : function (element) {
@@ -4923,8 +4930,8 @@
             element = $(element);
             __LINE__ = 2183;
             return Element.previousSiblings(element).reverse().concat(Element.nextSiblings(element));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         match : function (element,selector) {
@@ -4939,8 +4946,8 @@
             }
             __LINE__ = 2191;
             return selector.match(element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         up : function (element,expression,index) {
@@ -4958,8 +4965,8 @@
             var ancestors = Element.ancestors(element);
             __LINE__ = 2198;
             return Object.isNumber(expression)?ancestors[expression] : Prototype.Selector.find(ancestors,expression,index);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         down : function (element,expression,index) {
@@ -4974,8 +4981,8 @@
             }
             __LINE__ = 2205;
             return Object.isNumber(expression)?Element.descendants(element)[expression] : Element.select(element,expression)[index || 0];
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         previous : function (element,expression,index) {
@@ -5006,8 +5013,8 @@
               return element.recursivelyCollect("previousSibling",index+1)[index];
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         next : function (element,expression,index) {
@@ -5041,8 +5048,8 @@
               return element.recursivelyCollect("nextSibling",index+1)[index];
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         select : function (element) {
@@ -5054,8 +5061,8 @@
             var expressions = Array.prototype.slice.call(arguments,1).join(', ');
             __LINE__ = 2238;
             return Prototype.Selector.select(expressions,element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         adjacent : function (element) {
@@ -5067,8 +5074,8 @@
             var expressions = Array.prototype.slice.call(arguments,1).join(', ');
             __LINE__ = 2244;
             return Prototype.Selector.select(expressions,element.parentNode).without(element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         identify : function (element) {
@@ -5096,8 +5103,8 @@
             Element.writeAttribute(element,'id',id);
             __LINE__ = 2253;
             return id;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         readAttribute : function (element,name) {
@@ -5133,8 +5140,8 @@
             }
             __LINE__ = 2267;
             return element.getAttribute(name);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         writeAttribute : function (element,name,value) {
@@ -5189,32 +5196,32 @@
             }
             __LINE__ = 2287;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getHeight : function (element) {
           try {
             __LINE__ = 2291;
             return Element.getDimensions(element).height;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getWidth : function (element) {
           try {
             __LINE__ = 2295;
             return Element.getDimensions(element).width;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         classNames : function (element) {
           try {
             __LINE__ = 2299;
             return new Element.ClassNames(element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         hasClassName : function (element,className) {
@@ -5229,8 +5236,8 @@
             var elementClassName = element.className;
             __LINE__ = 2305;
             return (elementClassName.length>0 && (elementClassName == className || new RegExp("(^|\\s)"+className+"(\\s|$)").test(elementClassName)));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         addClassName : function (element,className) {
@@ -5249,8 +5256,8 @@
             }
             __LINE__ = 2313;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         removeClassName : function (element,className) {
@@ -5265,8 +5272,8 @@
             element.className = element.className.replace(new RegExp("(^|\\s+)"+className+"(\\s+|$)"),' ').strip();
             __LINE__ = 2320;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         toggleClassName : function (element,className) {
@@ -5278,8 +5285,8 @@
             }
             __LINE__ = 2325;
             return Element[Element.hasClassName(element,className)?'removeClassName' : 'addClassName'](element,className);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         cleanWhitespace : function (element) {
@@ -5308,16 +5315,16 @@
             }
             __LINE__ = 2338;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         empty : function (element) {
           try {
             __LINE__ = 2342;
             return $(element).innerHTML.blank();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         descendantOf : function (element,ancestor) {
@@ -5349,8 +5356,8 @@
             }
             __LINE__ = 2357;
             return  false ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         scrollTo : function (element) {
@@ -5365,8 +5372,8 @@
             window.scrollTo(pos[0],pos[1]);
             __LINE__ = 2364;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getStyle : function (element,style) {
@@ -5397,16 +5404,16 @@
             }
             __LINE__ = 2376;
             return value == 'auto'? null  : value;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getOpacity : function (element) {
           try {
             __LINE__ = 2380;
             return $(element).getStyle('opacity');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         setStyle : function (element,styles) {
@@ -5443,8 +5450,8 @@
             }
             __LINE__ = 2398;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         setOpacity : function (element,value) {
@@ -5456,8 +5463,8 @@
             element.style.opacity = (value == 1 || value === '')?'' : (value<0.00001)?0 : value;
             __LINE__ = 2405;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         makePositioned : function (element) {
@@ -5490,8 +5497,8 @@
             }
             __LINE__ = 2419;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         undoPositioned : function (element) {
@@ -5510,8 +5517,8 @@
             }
             __LINE__ = 2432;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         makeClipping : function (element) {
@@ -5536,8 +5543,8 @@
             }
             __LINE__ = 2441;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         undoClipping : function (element) {
@@ -5558,8 +5565,8 @@
             element._overflow =  null ;
             __LINE__ = 2449;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         clonePosition : function (element,source) {
@@ -5634,8 +5641,8 @@
             }
             __LINE__ = 2481;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       };
@@ -5704,8 +5711,8 @@
                     var val = proceed(element,property);
                     __LINE__ = 2524;
                     return val ===  null ?memo : memo-parseInt(val,10);
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 })+'px';
               default :
@@ -5714,8 +5721,8 @@
                 
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         });
         
@@ -5729,8 +5736,8 @@
             }
             __LINE__ = 2534;
             return proceed(element,attribute);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         });
       } else if (Prototype.Browser.IE){
@@ -5770,8 +5777,8 @@
             }
             __LINE__ = 2557;
             return value;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         };
         
@@ -5781,8 +5788,8 @@
             try {
               __LINE__ = 2562;
               return filter.replace(/alpha\([^\)]*\)/gi,'');
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }
           try {
@@ -5814,8 +5821,8 @@
             style.filter = stripAlpha(filter)+'alpha(opacity='+(value*100)+')';
             __LINE__ = 2578;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         };
         
@@ -5871,16 +5878,16 @@
                     try {
                       __LINE__ = 2617;
                       return element.getAttribute(attribute);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   _getAttr2 : function (element,attribute) {
                     try {
                       __LINE__ = 2620;
                       return element.getAttribute(attribute,2);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   _getAttrNode : function (element,attribute) {
@@ -5889,8 +5896,8 @@
                       var node = element.getAttributeNode(attribute);
                       __LINE__ = 2624;
                       return node?node.value : "";
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   _getEv : (function () {
@@ -5926,8 +5933,8 @@
                             attribute = attribute.split('}')[0];
                             __LINE__ = 2639;
                             return attribute.strip();
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                       } else if (value === ''){
@@ -5943,8 +5950,8 @@
                             }
                             __LINE__ = 2646;
                             return attribute.strip();
-                          } catch(e){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                          } catch(__mocha_error){
+                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
                         };
                       }
@@ -5953,39 +5960,39 @@
                       el =  null ;
                       __LINE__ = 2650;
                       return f;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   })(),
                   _flag : function (element,attribute) {
                     try {
                       __LINE__ = 2653;
                       return $(element).hasAttribute(attribute)?attribute :  null ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   style : function (element) {
                     try {
                       __LINE__ = 2656;
                       return element.style.cssText.toLowerCase();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   title : function (element) {
                     try {
                       __LINE__ = 2659;
                       return element.title;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 }
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }();
         
@@ -6000,16 +6007,16 @@
               try {
                 __LINE__ = 2673;
                 element.checked = !!value;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             style : function (element,value) {
               try {
                 __LINE__ = 2677;
                 element.style.cssText = value?value : '';
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           }
@@ -6026,8 +6033,8 @@
             
             __LINE__ = 2687;
             Element._attributeTranslations.has[attr.toLowerCase()] = attr;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         });
         
@@ -6063,8 +6070,8 @@
               onselect : v._getEv,
               onchange : v._getEv
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }(Element._attributeTranslations.read.values);
         
@@ -6084,8 +6091,8 @@
               }
               __LINE__ = 2728;
               return results;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }
           try {
@@ -6101,12 +6108,12 @@
                 }
                 __LINE__ = 2734;
                 return Object.isNumber(expression)?_descendants(element)[expression] : Element.select(element,expression)[index || 0];
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }();
       } else {
@@ -6120,8 +6127,8 @@
             element.style.opacity = (value == 1)?0.999999 : (value === '')?'' : (value<0.00001)?0 : value;
             __LINE__ = 2747;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         } : Prototype.Browser.WebKit && (Element.Methods.setOpacity = function (element,value) {
           try {
@@ -6158,8 +6165,8 @@
             }
             __LINE__ = 2766;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         });
       }
@@ -6204,15 +6211,15 @@
               try {
                 __LINE__ = 2788;
                 parent.insertBefore(node,nextSibling);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }) : fragments.each(function (node) {
               try {
                 __LINE__ = 2790;
                 parent.appendChild(node);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
           } else {
@@ -6224,8 +6231,8 @@
           content.evalScripts.bind(content).defer();
           __LINE__ = 2795;
           return element;
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       });
       
@@ -6242,8 +6249,8 @@
           result.top = t;
           __LINE__ = 2803;
           return result;
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       };
       
@@ -6289,8 +6296,8 @@
           }
           __LINE__ = 2827;
           return $A(div.childNodes);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       };
       
@@ -6300,32 +6307,32 @@
           try {
             __LINE__ = 2832;
             element.parentNode.insertBefore(node,element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         top : function (element,node) {
           try {
             __LINE__ = 2835;
             element.insertBefore(node,element.firstChild);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         bottom : function (element,node) {
           try {
             __LINE__ = 2838;
             element.appendChild(node);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         after : function (element,node) {
           try {
             __LINE__ = 2841;
             element.parentNode.insertBefore(node,element.nextSibling);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         tags :  {
@@ -6349,8 +6356,8 @@
             TFOOT : tags.TBODY,
             TH : tags.TD
           });
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -6365,8 +6372,8 @@
             var node = $(element).getAttributeNode(attribute);
             __LINE__ = 2865;
             return !!(node && node.specified);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       };
@@ -6395,8 +6402,8 @@
           
           __LINE__ = 2881;
           div =  null ;
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(document.createElement('div'));
       
@@ -6414,8 +6421,8 @@
               Object.isFunction(value) && !(property in element) && (element[property] = value.methodize());
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function checkDeficiency(tagName) {
@@ -6451,8 +6458,8 @@
             }
             __LINE__ = 2900;
             return  false ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -6490,8 +6497,8 @@
                   }
                   __LINE__ = 2924;
                   return element;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
             }
@@ -6524,8 +6531,8 @@
                   element._extendedByPrototype = Prototype.emptyFunction;
                   __LINE__ = 2944;
                   return element;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }, {
                 refresh : function () {
@@ -6540,8 +6547,8 @@
                       Object.extend(Methods,Element.Methods.Simulated);
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }
               });
@@ -6550,8 +6557,8 @@
           extend.refresh();
           __LINE__ = 2956;
           return extend;
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -6560,8 +6567,8 @@
         try {
           __LINE__ = 2961;
           return element.hasAttribute(attribute);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       } : Element.hasAttribute = Element.Methods.Simulated.hasAttribute;
       
@@ -6639,8 +6646,8 @@
             element =  null ;
             __LINE__ = 3035;
             return proto;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function copy(methods,destination,onlyIfAbsent) {
@@ -6664,8 +6671,8 @@
               (!onlyIfAbsent || !(property in destination)) && (destination[property] = value.methodize());
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function extend(tagName) {
@@ -6678,8 +6685,8 @@
             
             __LINE__ = 2998;
             Object.extend(Element.Methods.ByTag[tagName],methods);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -6764,8 +6771,8 @@
           
           __LINE__ = 3058;
           Element.cache = {};
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       };
       
@@ -6778,16 +6785,16 @@
               width : this.getWidth(),
               height : this.getHeight()
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getScrollOffsets : function () {
           try {
             __LINE__ = 3069;
             return Element._returnOffset(window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       };
@@ -6807,14 +6814,14 @@
               try {
                 __LINE__ = 3093;
                 return element[property[D]];
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
             __LINE__ = 3094;
             return viewport['get'+D]();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function getRootElement() {
@@ -6832,8 +6839,8 @@
             }
             __LINE__ = 3085;
             return document.documentElement;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -6849,8 +6856,8 @@
           
           __LINE__ = 3099;
           viewport.getHeight = define.curry('Height');
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(document.viewport);
       
@@ -6896,8 +6903,8 @@
             }
             __LINE__ = 3123;
             return Element.Storage[uid];
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         store : function (element,key,value) {
@@ -6920,8 +6927,8 @@
             }
             __LINE__ = 3135;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         retrieve : function (element,key,defaultValue) {
@@ -6947,8 +6954,8 @@
             }
             __LINE__ = 3147;
             return value;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         clone : function (element,deep) {
@@ -6982,8 +6989,8 @@
             }
             __LINE__ = 3161;
             return Element.extend(clone);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         purge : function (element) {
@@ -7012,8 +7019,8 @@
             }
             __LINE__ = 3175;
             return  null ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -7024,32 +7031,32 @@
           try {
             __LINE__ = 3904;
             return element !== document.body && !Element.descendantOf(element,document.body);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isDocument(element) {
           try {
             __LINE__ = 3900;
             return element.nodeType === Node.DOCUMENT_NODE;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isHtml(element) {
           try {
             __LINE__ = 3896;
             return element.nodeName.toUpperCase() === 'HTML';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isBody(element) {
           try {
             __LINE__ = 3892;
             return element.nodeName.toUpperCase() === 'BODY';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function relativize(element) {
@@ -7070,8 +7077,8 @@
             originalStyles && element.setStyle(originalStyles);
             __LINE__ = 3824;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function absolutize(element) {
@@ -7110,8 +7117,8 @@
             });
             __LINE__ = 3811;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function viewportOffset(forElement) {
@@ -7160,8 +7167,8 @@
             }while (element = element.parentNode);
             __LINE__ = 3779;
             return new Element.Offset(valueL,valueT);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function cumulativeScrollOffset(element) {
@@ -7184,8 +7191,8 @@
             }while (element);
             __LINE__ = 3757;
             return new Element.Offset(valueL,valueT);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function positionedOffset(element) {
@@ -7239,8 +7246,8 @@
             valueT -= layout.get('margin-left');
             __LINE__ = 3747;
             return new Element.Offset(valueL,valueT);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function cumulativeOffset(element) {
@@ -7270,8 +7277,8 @@
             }
             __LINE__ = 3724;
             return new Element.Offset(valueL,valueT);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function getOffsetParent(element) {
@@ -7305,8 +7312,8 @@
             }
             __LINE__ = 3710;
             return $(document.body);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function getDimensions(element) {
@@ -7354,24 +7361,24 @@
             Element.setStyle(element,originalStyles);
             __LINE__ = 3692;
             return dimensions;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function measure(element,property) {
           try {
             __LINE__ = 3657;
             return $(element).getLayout().get(property);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function getLayout(element,preCompute) {
           try {
             __LINE__ = 3653;
             return new Element.Layout(element,preCompute);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function cssNameFor(key) {
@@ -7380,8 +7387,8 @@
             key.include('border') && (key = key+'-width');
             __LINE__ = 3278;
             return key.camelize();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isDisplayed(element) {
@@ -7406,8 +7413,8 @@
             }
             __LINE__ = 3263;
             return  true ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toCSSPixels(number) {
@@ -7419,8 +7426,8 @@
             }
             __LINE__ = 3251;
             return number+'px';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function getPixelValue(value,property,context) {
@@ -7507,8 +7514,8 @@
             }
             __LINE__ = 3244;
             return 0;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function toDecimal(pctString) {
@@ -7523,8 +7530,8 @@
             }
             __LINE__ = 3184;
             return (Number(match[1])/100);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -7539,8 +7546,8 @@
               !element.currentStyle.hasLayout && (element.style.zoom = 1);
               __LINE__ = 3272;
               return element;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -7559,8 +7566,8 @@
                   try {
                     __LINE__ = 3287;
                     this._set(property, null );
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },this);
                 
@@ -7583,24 +7590,24 @@
                   this._preComputing =  false ;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             _set : function (property,value) {
               try {
                 __LINE__ = 3300;
                 return Hash.prototype.set.call(this,property,value);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             set : function (property,value) {
               try {
                 __LINE__ = 3304;
                 throw "Properties of Element.Layout are read-only.";
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             get : function ($super,property) {
@@ -7609,8 +7616,8 @@
                 var value = $super(property);
                 __LINE__ = 3309;
                 return value ===  null ?this._compute(property) : value;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             _begin : function () {
@@ -7700,8 +7707,8 @@
                 
                 __LINE__ = 3368;
                 this._prepared =  true ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             _end : function () {
@@ -7720,8 +7727,8 @@
                 
                 __LINE__ = 3376;
                 this._prepared =  false ;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             _compute : function (property) {
@@ -7736,8 +7743,8 @@
                 }
                 __LINE__ = 3385;
                 return this._set(property,COMPUTATIONS[property].call(this,this.element));
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             toObject : function () {
@@ -7770,14 +7777,14 @@
                       obj[key] = value;
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },this);
                 __LINE__ = 3398;
                 return obj;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             toHash : function () {
@@ -7786,8 +7793,8 @@
                 var obj = this.toObject.apply(this,arguments);
                 __LINE__ = 3403;
                 return new Hash(obj);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             toCSS : function () {
@@ -7826,22 +7833,22 @@
                       css[cssNameFor(key)] = value+'px';
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },this);
                 __LINE__ = 3419;
                 return css;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             inspect : function () {
               try {
                 __LINE__ = 3423;
                 return "#<Element.Layout>";
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -7892,8 +7899,8 @@
                   }
                   __LINE__ = 3450;
                   return bHeight-bTop-bBottom-pTop-pBottom;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'width' : function (element) {
@@ -7937,8 +7944,8 @@
                   }
                   __LINE__ = 3470;
                   return bWidth-bLeft-bRight-pLeft-pRight;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'padding-box-height' : function (element) {
@@ -7949,8 +7956,8 @@
                       pBottom = this.get('padding-bottom');
                   __LINE__ = 3478;
                   return height+pTop+pBottom;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'padding-box-width' : function (element) {
@@ -7961,8 +7968,8 @@
                       pRight = this.get('padding-right');
                   __LINE__ = 3486;
                   return width+pLeft+pRight;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'border-box-height' : function (element) {
@@ -7985,8 +7992,8 @@
                   }
                   __LINE__ = 3493;
                   return height;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'border-box-width' : function (element) {
@@ -8009,8 +8016,8 @@
                   }
                   __LINE__ = 3500;
                   return width;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'margin-box-height' : function (element) {
@@ -8027,8 +8034,8 @@
                   }
                   __LINE__ = 3510;
                   return bHeight+mTop+mBottom;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'margin-box-width' : function (element) {
@@ -8045,8 +8052,8 @@
                   }
                   __LINE__ = 3520;
                   return bWidth+mLeft+mRight;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'top' : function (element) {
@@ -8055,8 +8062,8 @@
                   var offset = element.positionedOffset();
                   __LINE__ = 3525;
                   return offset.top;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'bottom' : function (element) {
@@ -8070,8 +8077,8 @@
                   var mHeight = this.get('border-box-height');
                   __LINE__ = 3535;
                   return pHeight-mHeight-offset.top;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'left' : function (element) {
@@ -8080,8 +8087,8 @@
                   var offset = element.positionedOffset();
                   __LINE__ = 3540;
                   return offset.left;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'right' : function (element) {
@@ -8095,104 +8102,104 @@
                   var mWidth = this.get('border-box-width');
                   __LINE__ = 3550;
                   return pWidth-mWidth-offset.left;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'padding-top' : function (element) {
                 try {
                   __LINE__ = 3554;
                   return getPixelValue(element,'paddingTop');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'padding-bottom' : function (element) {
                 try {
                   __LINE__ = 3558;
                   return getPixelValue(element,'paddingBottom');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'padding-left' : function (element) {
                 try {
                   __LINE__ = 3562;
                   return getPixelValue(element,'paddingLeft');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'padding-right' : function (element) {
                 try {
                   __LINE__ = 3566;
                   return getPixelValue(element,'paddingRight');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'border-top' : function (element) {
                 try {
                   __LINE__ = 3570;
                   return getPixelValue(element,'borderTopWidth');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'border-bottom' : function (element) {
                 try {
                   __LINE__ = 3574;
                   return getPixelValue(element,'borderBottomWidth');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'border-left' : function (element) {
                 try {
                   __LINE__ = 3578;
                   return getPixelValue(element,'borderLeftWidth');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'border-right' : function (element) {
                 try {
                   __LINE__ = 3582;
                   return getPixelValue(element,'borderRightWidth');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'margin-top' : function (element) {
                 try {
                   __LINE__ = 3586;
                   return getPixelValue(element,'marginTop');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'margin-bottom' : function (element) {
                 try {
                   __LINE__ = 3590;
                   return getPixelValue(element,'marginBottom');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'margin-left' : function (element) {
                 try {
                   __LINE__ = 3594;
                   return getPixelValue(element,'marginLeft');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               'margin-right' : function (element) {
                 try {
                   __LINE__ = 3598;
                   return getPixelValue(element,'marginRight');
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               }
             }
@@ -8210,8 +8217,8 @@
                     pRect = parent.getBoundingClientRect();
                 __LINE__ = 3610;
                 return (pRect.right-rect.right).round();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             'bottom' : function (element) {
@@ -8224,8 +8231,8 @@
                     pRect = parent.getBoundingClientRect();
                 __LINE__ = 3618;
                 return (pRect.bottom-rect.bottom).round();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -8245,40 +8252,40 @@
                 
                 __LINE__ = 3629;
                 this[1] = this.top;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             relativeTo : function (offset) {
               try {
                 __LINE__ = 3633;
                 return new Element.Offset(this.left-offset.left,this.top-offset.top);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             inspect : function () {
               try {
                 __LINE__ = 3640;
                 return "#<Element.Offset left: #{left} top: #{top}>".interpolate(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             toString : function () {
               try {
                 __LINE__ = 3644;
                 return "[#{left}, #{top}]".interpolate(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             toArray : function () {
               try {
                 __LINE__ = 3648;
                 return [this.left,this.top];
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -8321,8 +8328,8 @@
                 });
                 __LINE__ = 3841;
                 return value;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
             
@@ -8367,8 +8374,8 @@
                 });
                 __LINE__ = 3858;
                 return value;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
           } else {
@@ -8403,8 +8410,8 @@
                 }while (element);
                 __LINE__ = 3873;
                 return new Element.Offset(valueL,valueT);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
           }
@@ -8441,13 +8448,13 @@
                     docEl = document.documentElement;
                 __LINE__ = 3916;
                 return new Element.Offset(rect.left-docEl.clientLeft,rect.top-docEl.clientTop);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -8458,8 +8465,8 @@
           var expression = $A(arguments).join(', ');
           __LINE__ = 3924;
           return Prototype.Selector.select(expression,document);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       };
       
@@ -8475,8 +8482,8 @@
             }
             __LINE__ = 3952;
             return elements;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function find(elements,expression,index) {
@@ -8500,24 +8507,24 @@
               
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function match() {
           try {
             __LINE__ = 3934;
             throw new Error('Method "Prototype.Selector.match" must be defined.');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function select() {
           try {
             __LINE__ = 3930;
             throw new Error('Method "Prototype.Selector.select" must be defined.');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -8532,8 +8539,8 @@
             extendElements : (Element.extend === K)?K : extendElements,
             extendElement : Element.extend
           };
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -8628,8 +8635,8 @@
               
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function dirNodeCheck(dir,cur,doneName,checkSet,nodeCheck,isXML) {
@@ -8703,8 +8710,8 @@
               
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -8723,8 +8730,8 @@
               baseHasDuplicate =  false ;
               __LINE__ = 3983;
               return 0;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -8903,8 +8910,8 @@
                   }
                   __LINE__ = 4101;
                   return results;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
           
@@ -8934,8 +8941,8 @@
               }
               __LINE__ = 4118;
               return results;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -8944,8 +8951,8 @@
             try {
               __LINE__ = 4122;
               return Sizzle(expr, null , null ,set);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -9009,8 +9016,8 @@
                 set : set,
                 expr : expr
               };
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -9133,8 +9140,8 @@
               }
               __LINE__ = 4228;
               return curLoop;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -9161,8 +9168,8 @@
                     try {
                       __LINE__ = 4250;
                       return elem.getAttribute("href");
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 },
@@ -9205,8 +9212,8 @@
                         Sizzle.filter(part,checkSet, true );
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   ">" : function (checkSet,part,isXML) {
@@ -9260,8 +9267,8 @@
                         
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   "" : function (checkSet,part,isXML) {
@@ -9282,8 +9289,8 @@
                       
                       __LINE__ = 4313;
                       checkFn("parentNode",part,doneName,checkSet,nodeCheck,isXML);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   "~" : function (checkSet,part,isXML) {
@@ -9304,8 +9311,8 @@
                       
                       __LINE__ = 4323;
                       checkFn("previousSibling",part,doneName,checkSet,nodeCheck,isXML);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 },
@@ -9321,8 +9328,8 @@
                         return m?[m] : [];
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   NAME : function (match,context,isXML) {
@@ -9349,16 +9356,16 @@
                         return ret.length === 0? null  : ret;
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   TAG : function (match,context) {
                     try {
                       __LINE__ = 4347;
                       return context.getElementsByTagName(match[1]);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 },
@@ -9401,16 +9408,16 @@
                       }
                       __LINE__ = 4369;
                       return  false ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   ID : function (match) {
                     try {
                       __LINE__ = 4372;
                       return match[1].replace(/\\/g,"");
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   TAG : function (match,curLoop) {
@@ -9421,8 +9428,8 @@
                       }
                       __LINE__ = 4376;
                       return curLoop[i] && isXML(curLoop[i])?match[1] : match[1].toUpperCase();
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   CHILD : function (match) {
@@ -9444,8 +9451,8 @@
                       match[0] = done ++ ;
                       __LINE__ = 4390;
                       return match;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   ATTR : function (match,curLoop,inplace,result,not,isXML) {
@@ -9468,8 +9475,8 @@
                       }
                       __LINE__ = 4403;
                       return match;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   PSEUDO : function (match,curLoop,inplace,result,not) {
@@ -9501,8 +9508,8 @@
                       }
                       __LINE__ = 4420;
                       return match;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   POS : function (match) {
@@ -9511,8 +9518,8 @@
                       match.unshift( true );
                       __LINE__ = 4424;
                       return match;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 },
@@ -9521,24 +9528,24 @@
                     try {
                       __LINE__ = 4429;
                       return elem.disabled ===  false  && elem.type !== "hidden";
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   disabled : function (elem) {
                     try {
                       __LINE__ = 4432;
                       return elem.disabled ===  true ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   checked : function (elem) {
                     try {
                       __LINE__ = 4435;
                       return elem.checked ===  true ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   selected : function (elem) {
@@ -9547,120 +9554,120 @@
                       elem.parentNode.selectedIndex;
                       __LINE__ = 4439;
                       return elem.selected ===  true ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   parent : function (elem) {
                     try {
                       __LINE__ = 4442;
                       return !!elem.firstChild;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   empty : function (elem) {
                     try {
                       __LINE__ = 4445;
                       return !elem.firstChild;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   has : function (elem,i,match) {
                     try {
                       __LINE__ = 4448;
                       return !!Sizzle(match[3],elem).length;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   header : function (elem) {
                     try {
                       __LINE__ = 4451;
                       return /h\d/i.test(elem.nodeName);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   text : function (elem) {
                     try {
                       __LINE__ = 4454;
                       return "text" === elem.type;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   radio : function (elem) {
                     try {
                       __LINE__ = 4457;
                       return "radio" === elem.type;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   checkbox : function (elem) {
                     try {
                       __LINE__ = 4460;
                       return "checkbox" === elem.type;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   file : function (elem) {
                     try {
                       __LINE__ = 4463;
                       return "file" === elem.type;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   password : function (elem) {
                     try {
                       __LINE__ = 4466;
                       return "password" === elem.type;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   submit : function (elem) {
                     try {
                       __LINE__ = 4469;
                       return "submit" === elem.type;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   image : function (elem) {
                     try {
                       __LINE__ = 4472;
                       return "image" === elem.type;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   reset : function (elem) {
                     try {
                       __LINE__ = 4475;
                       return "reset" === elem.type;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   button : function (elem) {
                     try {
                       __LINE__ = 4478;
                       return "button" === elem.type || elem.nodeName.toUpperCase() === "BUTTON";
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   input : function (elem) {
                     try {
                       __LINE__ = 4481;
                       return /input|select|textarea|button/i.test(elem.nodeName);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 },
@@ -9669,64 +9676,64 @@
                     try {
                       __LINE__ = 4486;
                       return i === 0;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   last : function (elem,i,match,array) {
                     try {
                       __LINE__ = 4489;
                       return i === array.length-1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   even : function (elem,i) {
                     try {
                       __LINE__ = 4492;
                       return i%2 === 0;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   odd : function (elem,i) {
                     try {
                       __LINE__ = 4495;
                       return i%2 === 1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   lt : function (elem,i,match) {
                     try {
                       __LINE__ = 4498;
                       return i<match[3]-0;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   gt : function (elem,i,match) {
                     try {
                       __LINE__ = 4501;
                       return i>match[3]-0;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   nth : function (elem,i,match) {
                     try {
                       __LINE__ = 4504;
                       return match[3]-0 == i;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   eq : function (elem,i,match) {
                     try {
                       __LINE__ = 4507;
                       return match[3]-0 == i;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 },
@@ -9761,8 +9768,8 @@
                         return  true ;
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   CHILD : function (elem,match) {
@@ -9861,32 +9868,32 @@
                           
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   ID : function (elem,match) {
                     try {
                       __LINE__ = 4574;
                       return elem.nodeType === 1 && elem.getAttribute("id") === match;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   TAG : function (elem,match) {
                     try {
                       __LINE__ = 4577;
                       return (match === "*" && elem.nodeType === 1) || elem.nodeName === match;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   CLASS : function (elem,match) {
                     try {
                       __LINE__ = 4580;
                       return (" "+(elem.className || elem.getAttribute("class"))+" ").indexOf(match)>-1;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   ATTR : function (elem,match) {
@@ -9899,8 +9906,8 @@
                           check = match[4];
                       __LINE__ = 4594;
                       return result ==  null ?type === "!=" : type === "="?value === check : type === "*="?value.indexOf(check) >= 0 : type === "~="?(" "+value+" ").indexOf(check) >= 0 : !check?value && result !==  false  : type === "!="?value != check : type === "^="?value.indexOf(check) === 0 : type === "$="?value.substr(value.length-check.length) === check : type === "|="?value === check || value.substr(0,check.length+1) === check+"-" :  false ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   POS : function (elem,match,i,array) {
@@ -9915,8 +9922,8 @@
                         return filter(elem,i,match,array);
                       }
                       
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 }
@@ -9949,8 +9956,8 @@
                   }
                   __LINE__ = 4639;
                   return array;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
           
@@ -9959,8 +9966,9 @@
             __LINE__ = 4643;
             [].slice.call(document.documentElement.childNodes,0);
           } catch(e){
+            
             __LINE__ = 4646;
-            return makeArray = function (array,results) {
+            makeArray = function (array,results) {
               try {
                 __LINE__ = 4647;
                 var ret = results || [];
@@ -9991,8 +9999,8 @@
                 }
                 __LINE__ = 4663;
                 return ret;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
           }
@@ -10019,8 +10027,8 @@
               ret === 0 && (hasDuplicate =  true );
               __LINE__ = 4682;
               return ret;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           } : "sourceIndex" in document.documentElement?sortOrder = function (a,b) {
             try {
@@ -10040,8 +10048,8 @@
               ret === 0 && (hasDuplicate =  true );
               __LINE__ = 4697;
               return ret;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           } : document.createRange && (sortOrder = function (a,b) {
             try {
@@ -10077,8 +10085,8 @@
               ret === 0 && (hasDuplicate =  true );
               __LINE__ = 4717;
               return ret;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -10113,8 +10121,8 @@
                       return m?m.id === match[1] || typeof m.getAttributeNode !== "undefined" && m.getAttributeNode("id").nodeValue === match[1]?[m] : undefined : [];
                     }
                     
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
                 
@@ -10125,8 +10133,8 @@
                     var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
                     __LINE__ = 4739;
                     return elem.nodeType === 1 && node && node.nodeValue === match;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 };
               }
@@ -10136,8 +10144,8 @@
               
               __LINE__ = 4744;
               root = form =  null ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -10173,8 +10181,8 @@
                   }
                   __LINE__ = 4768;
                   return results;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
               
@@ -10186,15 +10194,15 @@
                 try {
                   __LINE__ = 4776;
                   return elem.getAttribute("href",2);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
               
               __LINE__ = 4780;
               div =  null ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -10232,8 +10240,8 @@
                   }
                   __LINE__ = 4800;
                   return oldSizzle(query,context,extra,seed);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
@@ -10246,8 +10254,8 @@
               
               __LINE__ = 4807;
               div =  null ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -10287,15 +10295,15 @@
                     return context.getElementsByClassName(match[1]);
                   }
                   
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
               
               __LINE__ = 4829;
               div =  null ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           }();
           
@@ -10304,23 +10312,23 @@
                 try {
                   __LINE__ = 4912;
                   return a.compareDocumentPosition(b)&16;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               } : function (a,b) {
                 try {
                   __LINE__ = 4914;
                   return a !== b && (a.contains?a.contains(b) :  true );
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               isXML = function (elem) {
                 try {
                   __LINE__ = 4918;
                   return elem.nodeType === 9 && elem.documentElement.nodeName !== "HTML" || !!elem.ownerDocument && elem.ownerDocument.documentElement.nodeName !== "HTML";
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               },
               posProcess = function (selector,context) {
@@ -10352,15 +10360,15 @@
                   }
                   __LINE__ = 4937;
                   return Sizzle.filter(later,tmpSet);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
           
           __LINE__ = 4941;
           window.Sizzle = Sizzle;
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -10370,16 +10378,16 @@
           try {
             __LINE__ = 4953;
             return engine.matches(selector,[element]).length == 1;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function select(selector,scope) {
           try {
             __LINE__ = 4949;
             return extendElements(engine(selector,scope || document));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -10395,8 +10403,8 @@
           
           __LINE__ = 4958;
           Prototype.Selector.match = match;
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(Sizzle);
       
@@ -10417,8 +10425,8 @@
                 form.reset();
                 __LINE__ = 4968;
                 return form;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             serializeElements : function (elements,options) {
@@ -10471,8 +10479,8 @@
                       }
                       __LINE__ = 4983;
                       return result;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                 } else {
@@ -10485,8 +10493,8 @@
                     try {
                       __LINE__ = 4988;
                       return result+(result?'&' : '')+encodeURIComponent(key)+'='+encodeURIComponent(value);
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   };
                 }
@@ -10513,12 +10521,12 @@
                     }
                     __LINE__ = 5000;
                     return result;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -10529,8 +10537,8 @@
           try {
             __LINE__ = 5007;
             return Form.serializeElements(Form.getElements(form),options);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getElements : function (form) {
@@ -10559,12 +10567,12 @@
                 }
                 __LINE__ = 5021;
                 return elements;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getInputs : function (form,typeName,name) {
@@ -10598,8 +10606,8 @@
             }
             __LINE__ = 5038;
             return matchingInputs;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         disable : function (form) {
@@ -10611,8 +10619,8 @@
             Form.getElements(form).invoke('disable');
             __LINE__ = 5044;
             return form;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         enable : function (form) {
@@ -10624,8 +10632,8 @@
             Form.getElements(form).invoke('enable');
             __LINE__ = 5050;
             return form;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         findFirstElement : function (form) {
@@ -10635,8 +10643,8 @@
                   try {
                     __LINE__ = 5055;
                     return 'hidden' != element.type && !element.disabled;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 });
             
@@ -10645,15 +10653,15 @@
                   try {
                     __LINE__ = 5058;
                     return element.hasAttribute('tabIndex') && element.tabIndex >= 0;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).sortBy(function (element) {
                   try {
                     __LINE__ = 5059;
                     return element.tabIndex;
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }).first();
             __LINE__ = 5061;
@@ -10661,12 +10669,12 @@
               try {
                 __LINE__ = 5062;
                 return /^(?:input|select|textarea)$/i.test(element.tagName);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             });
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         focusFirstElement : function (form) {
@@ -10685,8 +10693,8 @@
             }
             __LINE__ = 5070;
             return form;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         request : function (form,options) {
@@ -10730,8 +10738,8 @@
             }
             __LINE__ = 5088;
             return new Ajax.Request(action,options);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       };
@@ -10744,8 +10752,8 @@
             $(element).focus();
             __LINE__ = 5098;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         select : function (element) {
@@ -10754,8 +10762,8 @@
             $(element).select();
             __LINE__ = 5103;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       };
@@ -10788,8 +10796,8 @@
             }
             __LINE__ = 5119;
             return '';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         getValue : function (element) {
@@ -10801,8 +10809,8 @@
             var method = element.tagName.toLowerCase();
             __LINE__ = 5125;
             return Form.Element.Serializers[method](element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         setValue : function (element,value) {
@@ -10817,8 +10825,8 @@
             Form.Element.Serializers[method](element,value);
             __LINE__ = 5132;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         clear : function (element) {
@@ -10827,16 +10835,16 @@
             $(element).value = '';
             __LINE__ = 5137;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         present : function (element) {
           try {
             __LINE__ = 5141;
             return $(element).value != '';
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         activate : function (element) {
@@ -10861,8 +10869,8 @@
             }
             __LINE__ = 5152;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         disable : function (element) {
@@ -10874,8 +10882,8 @@
             element.disabled =  true ;
             __LINE__ = 5158;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         enable : function (element) {
@@ -10887,8 +10895,8 @@
             element.disabled =  false ;
             __LINE__ = 5164;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       };
@@ -10903,8 +10911,8 @@
           try {
             __LINE__ = 5233;
             return Element.hasAttribute(opt,'value')?opt.value : opt.text;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function selectMany(element) {
@@ -10930,8 +10938,8 @@
             }
             __LINE__ = 5229;
             return values;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function selectOne(element) {
@@ -10940,8 +10948,8 @@
             var index = element.selectedIndex;
             __LINE__ = 5218;
             return index >= 0?optionValue(element.options[index]) :  null ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function select(element,value) {
@@ -10984,8 +10992,8 @@
               
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function valueSelector(element,value) {
@@ -10998,8 +11006,8 @@
             
             __LINE__ = 5195;
             element.value = value;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function inputSelector(element,value) {
@@ -11012,8 +11020,8 @@
             
             __LINE__ = 5190;
             element.checked = !!value;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function input(element,value) {
@@ -11030,8 +11038,8 @@
                 
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -11046,8 +11054,8 @@
             optionValue : optionValue,
             button : valueSelector
           };
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -11063,8 +11071,8 @@
             
             __LINE__ = 5255;
             this.lastValue = this.getValue();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         execute : function () {
@@ -11082,8 +11090,8 @@
               this.lastValue = value;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -11094,8 +11102,8 @@
           try {
             __LINE__ = 5270;
             return Form.Element.getValue(this.element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -11106,8 +11114,8 @@
           try {
             __LINE__ = 5276;
             return Form.serialize(this.element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -11135,8 +11143,8 @@
               this.registerCallback(this.element);
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         onElementEvent : function () {
@@ -11154,16 +11162,16 @@
               this.lastValue = value;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         registerFormCallbacks : function () {
           try {
             __LINE__ = 5303;
             Form.getElements(this.element).each(this.registerCallback,this);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         registerCallback : function (element) {
@@ -11191,8 +11199,8 @@
               
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -11203,8 +11211,8 @@
           try {
             __LINE__ = 5323;
             return Form.Element.getValue(this.element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -11215,8 +11223,8 @@
           try {
             __LINE__ = 5329;
             return Form.serialize(this.element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       });
@@ -11232,8 +11240,8 @@
             Object.isFunction(selector) && Object.isUndefined(callback) && (callback = selector, selector =  null );
             __LINE__ = 5773;
             return new Event.Handler(element,eventName,selector,callback).start();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function fire(element,eventName,memo,bubble) {
@@ -11277,8 +11285,8 @@
             document.createEvent?element.dispatchEvent(event) : element.fireEvent(event.eventType,event);
             __LINE__ = 5739;
             return Event.extend(event);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function stopObserving(element,eventName,handler) {
@@ -11306,8 +11314,8 @@
                   
                   __LINE__ = 5669;
                   stopObserving(element,eventName);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
               __LINE__ = 5671;
@@ -11331,8 +11339,8 @@
                 try {
                   __LINE__ = 5679;
                   stopObserving(element,eventName,r.handler);
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
               __LINE__ = 5681;
@@ -11390,8 +11398,8 @@
             registry.set(eventName,responders.without(responder));
             __LINE__ = 5710;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function observe(element,eventName,handler) {
@@ -11433,8 +11441,8 @@
             }
             __LINE__ = 5657;
             return element;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function _destroyCache() {
@@ -11449,8 +11457,8 @@
               CACHE[i] =  null ;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function _createResponder(element,eventName,handler) {
@@ -11510,8 +11518,8 @@
                 
                 __LINE__ = 5576;
                 handler.call(element,event);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             } : !MOUSEENTER_MOUSELEAVE_EVENTS_SUPPORTED && (eventName === "mouseenter" || eventName === "mouseleave")?eventName === "mouseenter" || eventName === "mouseleave" && (responder = function (event) {
               try {
@@ -11528,8 +11536,9 @@
                     __LINE__ = 5587;
                     parent = parent.parentNode;
                   } catch(e){
+                    
                     __LINE__ = 5588;
-                    return parent = element;
+                    parent = element;
                   }
                   
                 }
@@ -11542,8 +11551,8 @@
                 
                 __LINE__ = 5593;
                 handler.call(element,event);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }) : responder = function (event) {
               try {
@@ -11552,8 +11561,8 @@
                 
                 __LINE__ = 5599;
                 handler.call(element,event);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
             
@@ -11564,8 +11573,8 @@
             respondersForEvent.push(responder);
             __LINE__ = 5606;
             return responder;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function stop(event) {
@@ -11581,8 +11590,8 @@
             
             __LINE__ = 5471;
             event.stopped =  true ;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function pointerY(event) {
@@ -11594,8 +11603,8 @@
                 };
             __LINE__ = 5460;
             return event.pageY || (event.clientY+(docElement.scrollTop || body.scrollTop)-(docElement.clientTop || 0));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function pointerX(event) {
@@ -11607,8 +11616,8 @@
                 };
             __LINE__ = 5451;
             return event.pageX || (event.clientX+(docElement.scrollLeft || body.scrollLeft)-(docElement.clientLeft || 0));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function pointer(event) {
@@ -11618,8 +11627,8 @@
               x : pointerX(event),
               y : pointerY(event)
             };
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function findElement(event,expression) {
@@ -11646,8 +11655,8 @@
               element = element.parentNode;
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function element(event) {
@@ -11667,32 +11676,32 @@
             node.nodeType == Node.TEXT_NODE && (node = node.parentNode);
             __LINE__ = 5428;
             return Element.extend(node);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isRightClick(event) {
           try {
             __LINE__ = 5410;
             return _isButton(event,2);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isMiddleClick(event) {
           try {
             __LINE__ = 5408;
             return _isButton(event,1);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function isLeftClick(event) {
           try {
             __LINE__ = 5406;
             return _isButton(event,0);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function _isButtonForWebKit(event,code) {
@@ -11714,24 +11723,24 @@
                 
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function _isButtonForLegacyEvents(event,code) {
           try {
             __LINE__ = 5379;
             return event.button === legacyButtonMap[code];
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function _isButtonForDOMEvents(event,code) {
           try {
             __LINE__ = 5374;
             return event.which?(event.which === code+1) : (event.button === code);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -11760,8 +11769,8 @@
                 try {
                   __LINE__ = 5359;
                   return  false ;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               };
           
@@ -11770,15 +11779,15 @@
             try {
               __LINE__ = 5364;
               return !(event instanceof window.Event);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           } : isIELegacyEvent = function (event) {
             try {
               __LINE__ = 5367;
               return  true ;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           
@@ -11797,8 +11806,8 @@
             try {
               __LINE__ = 5396;
               return isIELegacyEvent(event)?_isButtonForLegacyEvents(event,code) : _isButtonForDOMEvents(event,code);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           } : Prototype.Browser.WebKit?_isButton = _isButtonForWebKit : _isButton = _isButtonForDOMEvents;
           
@@ -11823,8 +11832,8 @@
                   m[name] = Event.Methods[name].methodize();
                   __LINE__ = 5492;
                   return m;
-                } catch(e){
-                  __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                } catch(__mocha_error){
+                  __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
               });
           
@@ -11858,8 +11867,8 @@
                 }
                 __LINE__ = 5510;
                 return Element.extend(element);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
             __LINE__ = 5513;
@@ -11868,24 +11877,24 @@
                     try {
                       __LINE__ = 5514;
                       this.cancelBubble =  true ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   preventDefault : function () {
                     try {
                       __LINE__ = 5515;
                       this.returnValue =  false ;
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
                   inspect : function () {
                     try {
                       __LINE__ = 5516;
                       return '[object Event]';
-                    } catch(e){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                    } catch(__mocha_error){
+                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   }
                 };
@@ -11932,8 +11941,8 @@
                 Object.extend(event,additionalMethods);
                 __LINE__ = 5539;
                 return event;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             };
           } else {
@@ -11972,8 +11981,8 @@
             try {
               __LINE__ = 5630;
               return (translations[eventName] || eventName);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           });
           
@@ -11995,8 +12004,8 @@
                 
                 __LINE__ = 5748;
                 this.handler = this.handleEvent.bind(this);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             start : function () {
@@ -12005,8 +12014,8 @@
                 Event.observe(this.element,this.eventName,this.handler);
                 __LINE__ = 5753;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             stop : function () {
@@ -12015,8 +12024,8 @@
                 Event.stopObserving(this.element,this.eventName,this.handler);
                 __LINE__ = 5758;
                 return this;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             handleEvent : function (event) {
@@ -12031,8 +12040,8 @@
                   this.callback.call(this.element,event,element);
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -12067,8 +12076,8 @@
           
           __LINE__ = 5807;
           window.Event?Object.extend(window.Event,Event) : window.Event = Event;
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -12090,8 +12099,8 @@
             
             __LINE__ = 5837;
             fireContentLoadedEvent();
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function checkReadyState() {
@@ -12106,8 +12115,8 @@
               fireContentLoadedEvent();
             }
             
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         function fireContentLoadedEvent() {
@@ -12126,8 +12135,8 @@
             
             __LINE__ = 5821;
             document.fire('dom:loaded');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -12150,8 +12159,8 @@
           
           __LINE__ = 5848;
           Event.observe(window,'load',fireContentLoadedEvent);
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
       
@@ -12177,8 +12186,8 @@
                 return Element.insert(element, {
                   before : content
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             Top : function (element,content) {
@@ -12187,8 +12196,8 @@
                 return Element.insert(element, {
                   top : content
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             Bottom : function (element,content) {
@@ -12197,8 +12206,8 @@
                 return Element.insert(element, {
                   bottom : content
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             After : function (element,content) {
@@ -12207,8 +12216,8 @@
                 return Element.insert(element, {
                   after : content
                 });
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           },
@@ -12222,8 +12231,8 @@
                 
                 __LINE__ = 5889;
                 this.deltaY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             within : function (element,x,y) {
@@ -12244,8 +12253,8 @@
                 this.offset = Element.cumulativeOffset(element);
                 __LINE__ = 5902;
                 return (y >= this.offset[1] && y<this.offset[1]+element.offsetHeight && x >= this.offset[0] && x<this.offset[0]+element.offsetWidth);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             withinIncludingScrolloffsets : function (element,x,y) {
@@ -12263,8 +12272,8 @@
                 this.offset = Element.cumulativeOffset(element);
                 __LINE__ = 5915;
                 return (this.ycomp >= this.offset[1] && this.ycomp<this.offset[1]+element.offsetHeight && this.xcomp >= this.offset[0] && this.xcomp<this.offset[0]+element.offsetWidth);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             overlap : function (mode,element) {
@@ -12287,8 +12296,8 @@
                   return ((this.offset[0]+element.offsetWidth)-this.xcomp)/element.offsetWidth;
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             cumulativeOffset : Element.Methods.cumulativeOffset,
@@ -12299,8 +12308,8 @@
                 Position.prepare();
                 __LINE__ = 5938;
                 return Element.absolutize(element);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             relativize : function (element) {
@@ -12309,8 +12318,8 @@
                 Position.prepare();
                 __LINE__ = 5943;
                 return Element.relativize(element);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             realOffset : Element.Methods.cumulativeScrollOffset,
@@ -12322,8 +12331,8 @@
                 options = options || {};
                 __LINE__ = 5954;
                 return Element.clonePosition(target,source,options);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           };
@@ -12334,8 +12343,8 @@
           try {
             __LINE__ = 5962;
             return name.blank()? null  : "[contains(concat(' ', @class, ' '), ' "+name+" ')]";
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
         try {
@@ -12350,8 +12359,8 @@
               var cond = /\s/.test(className)?$w(className).map(iter).join('') : iter(className);
               __LINE__ = 5969;
               return cond?document._getElementsByXPath('.//*'+cond,element) : [];
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           } : function (element,className) {
             try {
@@ -12382,15 +12391,15 @@
                   try {
                     __LINE__ = 5981;
                     return !name.toString().blank() && cn.include(' '+name+' ');
-                  } catch(e){
-                    __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 }))) && elements.push(Element.extend(child));
               }
               __LINE__ = 5985;
               return elements;
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
           __LINE__ = 5988;
@@ -12398,12 +12407,12 @@
             try {
               __LINE__ = 5989;
               return $(parentElement || document.body).getElementsByClassName(className);
-            } catch(e){
-              __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+            } catch(__mocha_error){
+              __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
             }
           };
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }(Element.Methods));
       
@@ -12416,8 +12425,8 @@
           try {
             __LINE__ = 5998;
             this.element = $(element);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         _each : function (iterator) {
@@ -12427,20 +12436,20 @@
               try {
                 __LINE__ = 6003;
                 return name.length>0;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             })._each(iterator);
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         set : function (className) {
           try {
             __LINE__ = 6008;
             this.element.className = className;
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         add : function (classNameToAdd) {
@@ -12453,8 +12462,8 @@
             
             __LINE__ = 6013;
             this.set($A(this).concat(classNameToAdd).join(' '));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         remove : function (classNameToRemove) {
@@ -12467,16 +12476,16 @@
             
             __LINE__ = 6018;
             this.set($A(this).without(classNameToRemove).join(' '));
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
         toString : function () {
           try {
             __LINE__ = 6022;
             return $A(this).join(' ');
-          } catch(e){
-            __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+          } catch(__mocha_error){
+            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         }
       };
@@ -12493,40 +12502,40 @@
               try {
                 __LINE__ = 6033;
                 this.expression = expression.strip();
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             findElements : function (rootElement) {
               try {
                 __LINE__ = 6037;
                 return Prototype.Selector.select(this.expression,rootElement);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             match : function (element) {
               try {
                 __LINE__ = 6041;
                 return Prototype.Selector.match(element,this.expression);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             toString : function () {
               try {
                 __LINE__ = 6045;
                 return this.expression;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             inspect : function () {
               try {
                 __LINE__ = 6049;
                 return "#<Selector: "+this.expression+">";
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
@@ -12555,8 +12564,8 @@
                 }
                 __LINE__ = 6064;
                 return results;
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             findElement : function (elements,expression,index) {
@@ -12582,8 +12591,8 @@
                   
                 }
                 
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             },
             findChildElements : function (element,expressions) {
@@ -12592,17 +12601,17 @@
                 var selector = expressions.toArray().join(', ');
                 __LINE__ = 6080;
                 return Prototype.Selector.select(selector,element || document);
-              } catch(e){
-                __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+              } catch(__mocha_error){
+                __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
             }
           });
-        } catch(e){
-          __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+        } catch(__mocha_error){
+          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
         }
       }();
-    } catch(e){
-      __Runtime.exceptionHandler(__LINE__, __FILE__, e);
+    } catch(__mocha_error){
+      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
     }
   }();
 }();
