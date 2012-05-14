@@ -44,10 +44,13 @@ class Scope : public memory::Allocated {
   typedef std::pair<std::string,TokenInfo*> RefEntry;
   typedef std::pair<const char*,SymbolEntry> TableEntry;
   typedef std::pair<const char*,const char*> RenamedEntry;
+  typedef std::pair<JSSymbol*, JSValue*> JSValuePair;
+  typedef std::pair<const char*, JSValuePair> AliasPair;
   typedef roastlib::unordered_map<std::string,SymbolEntry> SymbolTable;
   typedef roastlib::unordered_map<std::string,TokenInfo*> RefTable;
   typedef roastlib::unordered_map<std::string,TokenInfo*> UsedTable;
   typedef roastlib::unordered_map<std::string,std::string> RenamedTable;
+  typedef roastlib::unordered_map<std::string,JSValuePair> AliasTable;
   typedef SymbolTable::iterator SymbolIterator;
   typedef RefTable::iterator RefIterator;
   typedef UsedTable::iterator UsedIterator;
@@ -77,11 +80,11 @@ class Scope : public memory::Allocated {
   Scope* parent_;
   ScopedPtr<CompressedNameAllocator> name_allocator_handle_;
   SymbolTable table_;
-  SymbolTable alias_table_;
   RefTable reference_table_;
   UsedTable used_table_;
   UsedTable renamed_table_;
   RenamedTable scope_renamed_table_;
+  AliasTable alias_table_;
 };
 
 class ScopeRegistry {

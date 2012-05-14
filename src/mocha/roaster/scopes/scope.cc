@@ -192,17 +192,17 @@ const char* Scope::FindRenamed(TokenInfo* info) {
   }
 }
 
-void Scope::InsertAlias(TokenInfo* info, AstNode* ast_node) {
-  const char* ident = info->token();
-  if (JsToken::IsBuiltin(ident)) {
-    return;
-  }
-  SymbolEntry sym_entry(info, ast_node);
-  alias_table_.insert(TableEntry(ident, sym_entry));
+void Scope::InsertAlias(JSSymbol* symbol, JSValue* value) {
+  const char* ident = symbol->node->value()->token();
+  alias_table_.insert(AliasPair(ident, JSValuePair(symbol, value)));
 }
 
-SymbolEntry Scope::FindAlias(TokenInfo*) {
-  return GetEmpty();
+AliasPair Scope::FindAlias(JSSymbol* symbol) {
+  AliasTable::interator find = alias_table_.find(symbol->node()->value()->token());
+  if (find != alias_table_.end()) {
+    return find->second;
+  }
+  return AliasPair(NULL, NULL);
 }
 
 void Scope::Rename() {

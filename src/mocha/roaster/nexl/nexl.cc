@@ -26,6 +26,7 @@
 #include <mocha/roaster/platform/fs/path/path.h>
 #include <mocha/roaster/ast/visitors/optimizer_visitor.h>
 #include <mocha/roaster/ast/visitors/symbol_collector.h>
+#include <mocha/roaster/ast/analyzer/analyzer.h>
 namespace mocha {
 Nexl::Nexl(const char* filename, CompilationInfo* info, DepsListHandle handle, memory::Pool* pool)
     : path_(new os::fs::Path(filename)),
@@ -48,6 +49,8 @@ CompilationResultHandle Nexl::Link(AstRoot* root, SharedPtr<ErrorReporter> repor
     DEBUG_LOG(Info, "debug mode = %s", (info_->Debug()? "yes" : "no"));
     OptimizerVisitor optimizer(info_);
     root->Accept(&optimizer);
+    Analyzer analyzer(info_);
+    root->Accept(&analyzer);
     if (info_->Compress()) {
       scope_registry.Rename();
     }

@@ -11,7 +11,6 @@
 #include <mocha/roaster/memory/pool.h>
 namespace mocha {
 
-#define TOKEN yy::ParserImplementation::token
 #define VISITOR_IMPL(type) void SymbolCollector::Visit##type(type* ast_node)
 #define UNREACHABLE_IMPL(type) void SymbolCollector::Visit##type(type*){FATAL("UNREACHABLE");}
 #define EMPTY_IMPL(type) void SymbolCollector::Visit##type(type*){}
