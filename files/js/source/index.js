@@ -12,7 +12,7 @@ class BinaryLinks {
   constructor(@_binLink = $('#download')){}
   public addEvent() {
     var {oscpu} = navigator;
-    if (oscpu.indexOf('Windows') > -1) {
+    if (!oscpu || oscpu.indexOf('Windows') > -1) {
       @_binLink.on('click', -> location.href = '../bin/win32/mocha.zip');
     } else if (oscpu.indexOf('Mac') > -1) {
       @_binLink.on('click', -> location.href = '../bin/macos/mocha.zip');
@@ -26,10 +26,12 @@ $(->{
   var filterBug = /MSIE [678]/.test(navigator.userAgent);
   if filterBug {
     index.BG_CACHE().show();
+    index.LINE_CACHE().show();
     if navigator.userAgent.indexOf('MSIE 6') > -1 {
       DD_belatedPNG.fix('#logo img');
       DD_belatedPNG.fix('dt.mark');
       DD_belatedPNG.fix('#bg');
+      DD_belatedPNG.fix('#line');
     }
   } else {
     setTimeout(->index.LINE_CACHE().fadeIn(2000), 2500);

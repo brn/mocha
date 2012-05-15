@@ -1,7 +1,7 @@
 @include 'jQuery.color';
 @include 'jQuery.easing';
 import {api} from './consts'.consts
-
+import {agent} from './agent';
 class LeftNav {
   constructor -> {
     private _leftBlock = api.LEFT_BLOCK;
@@ -43,7 +43,7 @@ class LeftNav {
     var target = $('#' + elem.attr('data-toggle')).addClass('active'),
         prettified = target.attr('data-prettified'),
         colorized;
-    if prettified === undefined {
+    if prettified === undefined && !agent.agent.legacy {
       var codes = target.find('pre.prettyprint code')
       target.attr('data-prettified', 1);
       loop(item, current)->{
