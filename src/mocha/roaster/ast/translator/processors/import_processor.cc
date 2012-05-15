@@ -166,7 +166,6 @@ void ImportProccessor::LoadModule() {
     std::string filename_buf;
     //Get full path of module.
     translator_data->compilation_event()->nexc()->ImportFile(&modkey, &filename_buf, js_path.c_str(), translator_data->compilation_event());
-    translator_data->compilation_event()->nexc()->set_current_directory(translator_data->compilation_event()->path());
     TokenInfo* key = new(pool()) TokenInfo(modkey.c_str(), Token::JS_IDENTIFIER, stmt_->line_number());
     TokenInfo* filename = new(pool()) TokenInfo(filename_buf.c_str(), Token::JS_IDENTIFIER, stmt_->line_number());
     //Reserve module key string for later code generation.

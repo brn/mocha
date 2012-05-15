@@ -129,10 +129,16 @@ class NativeWrap : private Static {
     DECL_METHOD(Exit);
   };
 
-  class ProcessSpawner {
+  class OS {
    public :
     INIT_DECL;
-    DECL_METHOD(Spawn);
+    class Process {
+     public :
+      DECL_METHOD(Spawn);
+      DECL_METHOD(System);
+      DECL_METHOD(Run);
+    };
+    DECL_METHOD(Name);
   };
 
   class InternalLogger {

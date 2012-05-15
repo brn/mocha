@@ -116,6 +116,7 @@ JavascriptObserver::JavascriptObserver()
 void JavascriptObserver::AddFileToWatcher(const char* filename, WatcherProxy* proxy) {
   os::fs::Stat stat(filename);
   if (stat.IsExist() && !stat.IsDir()) {
+    os::fs::Path path_info(filename);
     Roaster ro;
     const DepsListHandle handle = Roaster::CheckDepends(filename);
     for (DepsList::const_iterator it = handle->begin(); it != handle->end(); ++it) {
@@ -127,8 +128,9 @@ void JavascriptObserver::AddFileToWatcher(const char* filename, WatcherProxy* pr
         proxy->watcher()->AddWatch(it->c_str());
       }
     }
+    DEBUG_LOG(Log, "ADD %s", path_info.absolute_path());
     MutexHandle mutex_handle(new os::Mutex());
-    mutex_list_.insert(std::pair<const char*, MutexHandle>(filename, mutex_handle));
+    mutex_list_.insert(std::pair<const char*, MutexHandle>(path_info.absolute_path(), mutex_handle));
     proxy->watcher()->AddWatch(filename);
   }
 }

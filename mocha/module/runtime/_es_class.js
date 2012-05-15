@@ -32,7 +32,7 @@ do {
       }
       return ret;
     }
-  
+
   var privateRecord,
       createPrivateRecord,
       getPrivateRecord,
@@ -42,7 +42,7 @@ do {
     createPrivateRecord = (self, privateHolder, constructor) -> {
       var holder = new privateHolder;
       __Runtime.createUnenumProp(holder, "__is_private__", 1);
-      Rutnime.createUnenumProp(self, "constructor", constructor);
+      __Runtime.createUnenumProp(self, "constructor", constructor);
       privateRecord.set(self, holder);
       privateRecord.set(holder, self);
     }
@@ -79,9 +79,9 @@ do {
       return privateHolder.constructor.__parent__;
     }
   }
-  
+
   var hasProto = '__proto__' in {};
-  
+
   __Runtime.{
     extendClass : (hasProto)?
       (derived, base) -> {

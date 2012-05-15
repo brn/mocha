@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include <mocha/v8wrap/init.h>
 #include <mocha/v8wrap/initjs.h>
 #include <mocha/v8wrap/native_wrap/native_wrap.h>
@@ -12,6 +13,10 @@
 #include <mocha/misc/file_writer.h>
 #include <mocha/bootstrap/interactions/interaction.h>
 #include <mocha/process/process.h>
+#ifdef PLATFORM_POSIX
+#include<unistd.h>
+#include<sys/utsname.h>
+#endif
 using namespace v8;
 namespace mocha {
 #define METHOD_IMPL(name) Handle<Value> name(const Arguments& args)
@@ -49,7 +54,7 @@ void NativeWrap::Init(Handle<Object> object) {
   NativeWrap::Config::Init(object);
   NativeWrap::Compiler::Init(ns_setting);
   NativeWrap::Repl::Init(repl_ns);
-  NativeWrap::ProcessSpawner::Init(os_ns);
+  NativeWrap::OS::Init(os_ns);
   NativeWrap::InternalLogger::Init(logger_ns);
   ns_io->Set(String::New("nativeConsole"), ns_console);
   object->Set(String::New("fs"), ns_fs);
@@ -1013,15 +1018,21 @@ METHOD_IMPL(NativeWrap::Repl::Exit) {
   return Undefined();
 }
 
-void NativeWrap::ProcessSpawner::Init(Handle<Object> object) {
+void NativeWrap::OS::Init(Handle<Object> object) {
   HandleScope handle_scope;
   Persistent<Object> process = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Process");
-  Handle<FunctionTemplate> spawn_tmp = FunctionTemplate::New(NativeWrap::ProcessSpawner::Spawn);
+  Handle<FunctionTemplate> spawn_tmp = FunctionTemplate::New(NativeWrap::OS::Process::Spawn);
+  Handle<FunctionTemplate> system_tmp = FunctionTemplate::New(NativeWrap::OS::Process::System);
+  Handle<FunctionTemplate> run_tmp = FunctionTemplate::New(NativeWrap::OS::Process::Run);
+  Handle<FunctionTemplate> name_tmp = FunctionTemplate::New(NativeWrap::OS::Name);
   process->Set(String::New("spawn"), spawn_tmp->GetFunction());
+  process->Set(String::New("system"), system_tmp->GetFunction());
+  process->Set(String::New("run"), run_tmp->GetFunction());
+  object->Set(String::New("name"), name_tmp->GetFunction());
   object->Set(String::New("process"), handle_scope.Close(process));
 }
 
-METHOD_IMPL(NativeWrap::ProcessSpawner::Spawn) {
+METHOD_IMPL(NativeWrap::OS::Process::Spawn) {
   HandleScope handle_scope;
   if (args.Length() == 2) {
     String::Utf8Value name(args[0]->ToString());
@@ -1035,6 +1046,46 @@ METHOD_IMPL(NativeWrap::ProcessSpawner::Spawn) {
     }
   }
   return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::OS::Process::System) {
+  HandleScope handle_scope;
+  if (args.Length() > 0) {
+    String::Utf8Value arg(args[0]->ToString());
+    if (arg.length() > 0) {
+      return Integer::New(system(*arg));
+    }
+  }
+  return Undefined();
+}
+
+
+METHOD_IMPL(NativeWrap::OS::Process::Run) {
+  HandleScope handle_scope;
+  if (args.Length() > 0) {
+    String::Utf8Value arg(args[0]->ToString());
+    if (arg.length() > 0) {
+#ifdef PLATFORM_WIN32
+      std::string command = "start ";
+#elif defined PLATFORM_POSIX
+      std::string command = "open ";
+#endif
+      command += *arg;
+      return Integer::New(system(command.c_str()));
+    }
+  }
+  return Undefined();
+}
+
+METHOD_IMPL(NativeWrap::OS::Name) {
+  HandleScope handle_scope;
+#ifdef PLATFORM_POSIX
+  struct utsname s;
+	uname(&s);
+  return String::New(s.sysname);
+#elif defined PLATFORM_WIN32
+  return String::New("Windows");
+#endif
 }
 
 void NativeWrap::InternalLogger::Init(Handle<Object> object) {

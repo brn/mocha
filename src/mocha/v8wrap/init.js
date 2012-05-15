@@ -82,7 +82,6 @@
       return dir.entries((utils.isDefined(recursive))? !!recursive : false);
     },
     getcwd : function () {return natives.fs.Path.getcwd();},
-    chdir : function (path) {return natives.fs.Dir.chdir(utils.replaceHome(path));},
     makeDirectory : function (path, permiss) {
       natives.fs.Dir.mkdir(path, permiss);
     },
@@ -175,9 +174,21 @@
     }
   }, '-c -w');
 
+  utils.defProp(modules, 'os', {
+    name : function () {
+      return natives.os.name();
+    }
+  }, '-c -w');
+
   utils.defProp(modules, 'os.process', {
     spawn : function (path, args) {
       return natives.os.process.spawn(path, args);
+    },
+    system : function (arg) {
+      return natives.os.process.system(arg);
+    },
+    run : function (arg) {
+      return natives.os.process.run(arg);
     }
   }, '-c -w');
 
@@ -192,8 +203,8 @@
       removeSetting : function (path) {
         natives.script.watcher.removeSetting(path);
       },
-      getSettingList : function () {
-        return natives.script.wathcer._settingList;
+      getSetting : function (path) {
+        return natives.script.wathcer._settingList[path];
       }
     },
     compiler : {

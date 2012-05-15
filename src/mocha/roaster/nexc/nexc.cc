@@ -331,6 +331,7 @@ void Nexc::IncludeFile(std::string* buf, const char* path, CompilationEvent* e) 
       }
     }
   }
+  set_current_directory(e->path());
 }
 
 void Nexc::ImportFile(std::string* buf, std::string* filename_buf, const char* path, CompilationEvent* e) {
@@ -365,6 +366,7 @@ void Nexc::ImportFile(std::string* buf, std::string* filename_buf, const char* p
 #endif
     }
   }
+  set_current_directory(e->path());
 }
 
 void Nexc::SearchModule(const char* path, std::string* buf) {
