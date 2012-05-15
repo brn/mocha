@@ -550,22 +550,25 @@ VISITOR_IMPL(AssignmentExp) {
   if (exp) {
     exp->MarkAsLhs();
   }
-  ast_node->left_value()->Accept(this);
-  ast_node->right_value()->Accept(this);
   if (ast_node->parent_node()->node_type() == AstNode::kExpressionStmt ||
-       (ast_node->parent_node()->node_type() == AstNode::kExpression &&
-         ast_node->parent_node()->parent_node() &&
-         ast_node->parent_node()->parent_node()->node_type() == AstNode::kExpressionStmt)) {
+      (ast_node->parent_node()->node_type() == AstNode::kExpression &&
+       ast_node->parent_node()->parent_node() &&
+       ast_node->parent_node()->parent_node()->node_type() == AstNode::kExpressionStmt)) {
     if (left->CastToLiteral() &&
-         right->CastToLiteral()) {
+        right->CastToLiteral()) {
       Literal* left_literal = left->CastToLiteral();
       Literal* right_literal = right->CastToLiteral();
       if (left_literal->value_type() == Literal::kIdentifier &&
-           right_literal->value_type() == Literal::kIdentifier &&
-           strcmp(left_literal->value()->token(), right_literal->value()->token()) == 0) {
-        if (ast_node->parent_node()->node_type() == AstNode::kExpression) {
+          right_literal->value_type() == Literal::kIdentifier &&
+          strcmp(left_literal->value()->token(), right_literal->value()->token()) == 0) {
+        bool parent_is_expression = ast_node->parent_node()->node_type() == AstNode::kExpression;
+        if (parent_is_expression &&
+            ast_node->parent_node()->child_length() == 1) {
           ast_node->parent_node()->parent_node()->parent_node()->RemoveChild(ast_node->parent_node()->parent_node());
-        } else {
+        } else if (parent_is_expression &&
+                   ast_node->parent_node()->child_length() > 1) {
+          ast_node->parent_node()->RemoveChild(ast_node);
+        } else if (ast_node->parent_node()->child_length() == 1) {
           ast_node->parent_node()->parent_node()->RemoveChild(ast_node->parent_node());
         }
       }

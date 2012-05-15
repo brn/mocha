@@ -264,6 +264,7 @@ DEF_NAMES(Tuple, "_tuple");
 void Nexc::AddRuntime(CompilationEvent* e) {
   if (compilation_info_->Debug()) {
     e->Use(CompilationEvent::kDebug);
+    e->Use(CompilationEvent::kAssert);
   }
   memory::Pool* pool = pool_.Get();
   AddEachRuntime<CompilationEvent::kAssert, RuntimeNames::kAssert>(e, root_, pool);

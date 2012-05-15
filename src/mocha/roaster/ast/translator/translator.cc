@@ -210,31 +210,8 @@ VISITOR_IMPL(VariableStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   VariableProcessor::ProcessVarList(ast_node->first_child(), proc_info_.Get());
-  AstNode* node = NULL;
-  if (ast_node->IsContainDestructuring()) {
-    NodeList* list = DstaProcessor::CreateDstaExtractedVarStmt(ast_node, proc_info_.Get());
-    ast_node->first_child()->Append(list);
-    node = ast_node->destructuring_node()->last_child();
-    NodeIterator iterator = ast_node->first_child()->ChildNodes();
-    while (iterator.HasNext()) {
-      AstNode* var = iterator.Next();
-      Literal* var_literal = var->CastToLiteral();
-      if (var_literal->first_child()->CastToLiteral()) {
-        Literal* literal = var_literal->first_child()->CastToLiteral();
-        if (literal->value_type() == Literal::kIdentifier) {
-          if (strcmp(var_literal->value()->token(), literal->value()->token()) == 0) {
-            if (var_literal->parent_node()->child_length() == 1) {
-              ast_node->parent_node()->RemoveChild(ast_node);
-            } else {
-              var_literal->parent_node()->RemoveChild(var_literal);
-            }
-          }
-        }
-      }
-    }
-  }
-  if (ast_node->autoreturn()) {
-    node = ast_node->first_child()->last_child();
+  if (ast_node->autoreturn() && ast_node->parent_node() != 0) {
+    AstNode* node = ast_node->first_child()->last_child();
     if (node) {
       Literal* lit = node->CastToLiteral();
       if (lit) {
@@ -257,45 +234,47 @@ VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   ast_node->first_child()->Accept(this);
-  if (ast_node->IsContainDestructuring()) {
-    AstNode* result = NULL;
-    if (ast_node->IsNeedDestructuringTmpRef()) {
-      NodeIterator iterator = ast_node->destructuring_node()->refs()->ChildNodes();
-      VariableDeclarationList* var_list = new(pool()) VariableDeclarationList(ast_node->line_number());
-      while (iterator.HasNext()) {
-        Literal* node =
-            builder()->CreateVarInitiliser(iterator.Next()->CastToLiteral()->value(),
-                                         new(pool()) Empty, ast_node->line_number());
-        var_list->AddChild(node);
-      }
-      VariableStmt *var_stmt = builder()->CreateVarStmt(var_list, ast_node->line_number());
-      ast_node->parent_node()->InsertBefore(var_stmt, ast_node);
-      result = ast_node->destructuring_node()->refs()->last_child();
-    } else {
-      result = ast_node->first_child();
-    }
-    NodeList* list = DstaProcessor::CreateDstaExtractedAssignment(ast_node, proc_info_.Get());
-    NodeIterator iter = list->ChildNodes();
-    AstNode* last = 0;
-    while (iter.HasNext()) {
-      AstNode* item = iter.Next();
-      ExpressionStmt* stmt = builder()->CreateExpStmt(item, ast_node->line_number());
-      if (last) {
-        ast_node->parent_node()->InsertAfter(stmt, last);
-        last = stmt;
+  if (ast_node->parent_node()) {
+    if (ast_node->IsContainDestructuring()) {
+      AstNode* result = NULL;
+      if (ast_node->IsNeedDestructuringTmpRef()) {
+        NodeIterator iterator = ast_node->destructuring_node()->refs()->ChildNodes();
+        VariableDeclarationList* var_list = new(pool()) VariableDeclarationList(ast_node->line_number());
+        while (iterator.HasNext()) {
+          Literal* node =
+              builder()->CreateVarInitiliser(iterator.Next()->CastToLiteral()->value(),
+                                             new(pool()) Empty, ast_node->line_number());
+          var_list->AddChild(node);
+        }
+        VariableStmt *var_stmt = builder()->CreateVarStmt(var_list, ast_node->line_number());
+        ast_node->parent_node()->InsertBefore(var_stmt, ast_node);
+        result = ast_node->destructuring_node()->refs()->last_child();
       } else {
-        ast_node->parent_node()->InsertAfter(stmt, ast_node);
-        last = stmt;
+        result = ast_node->first_child();
       }
-    }
-    if (ast_node->autoreturn()) {
-      ReturnStmt* stmt = builder()->CreateReturnStmt(result, ast_node->line_number());
-      ast_node->parent_node()->ReplaceChild(ast_node, stmt);
-    }
-  } else {
-    if (ast_node->autoreturn()) {
-      ReturnStmt* stmt = builder()->CreateReturnStmt(ast_node->first_child(), ast_node->line_number());
-      ast_node->parent_node()->ReplaceChild(ast_node, stmt);
+      NodeList* list = DstaProcessor::CreateDstaExtractedAssignment(ast_node, proc_info_.Get());
+      NodeIterator iter = list->ChildNodes();
+      AstNode* last = 0;
+      while (iter.HasNext()) {
+        AstNode* item = iter.Next();
+        ExpressionStmt* stmt = builder()->CreateExpStmt(item, ast_node->line_number());
+        if (last) {
+          ast_node->parent_node()->InsertAfter(stmt, last);
+          last = stmt;
+        } else {
+          ast_node->parent_node()->InsertAfter(stmt, ast_node);
+          last = stmt;
+        }
+      }
+      if (ast_node->autoreturn()) {
+        ReturnStmt* stmt = builder()->CreateReturnStmt(result, ast_node->line_number());
+        ast_node->parent_node()->ReplaceChild(ast_node, stmt);
+      }
+    } else {
+      if (ast_node->autoreturn()) {
+        ReturnStmt* stmt = builder()->CreateReturnStmt(ast_node->first_child(), ast_node->line_number());
+        ast_node->parent_node()->ReplaceChild(ast_node, stmt);
+      }
     }
   }
 }
