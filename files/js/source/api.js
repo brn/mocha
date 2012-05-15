@@ -1,3 +1,5 @@
+@include 'jQuery.color';
+@include 'jQuery.easing';
 import {api} from './consts'.consts
 
 class LeftNav {
@@ -17,6 +19,7 @@ class LeftNav {
 
   public addEvent -> {
     $(document.body).on('click', api.LEFT_A_SELECTOR, private(this).clickHandler.bind(this));
+    $(document.body).on('click', 'a.collapseHead', private(this).collapseHandler.bind(this));
     $(document.body).on('mouseenter', api.LEFT_A_SELECTOR, private(this).hoverHandler.bind(this));
     $(document.body).on('mouseleave', api.LEFT_A_SELECTOR, private(this).hoverHandler.bind(this));
   }
@@ -25,11 +28,11 @@ class LeftNav {
     var elem = $(e.target),
         div = elem.parent().find('div').eq(0);
     if !elem.parent().hasClass('active') {
-      div.animate({left : -295}, 500);
+      div.animate({left : -295}, {duration : 500, easing : 'easeInOutCirc'});
       elem.parents('ul')
         .find('li.active').removeClass('active')
         .find('a').animate({color : '#FFFFFF'}, 300).end()
-        .find('div').eq(0).css('opacity', 1).animate({left : 0}, 500);
+        .find('div').eq(0).css('opacity', 1).animate({left : 0}, {duration : 500, easing : 'easeInOutCirc'});
       elem.parent().addClass('active');
       private(this).toggleHandler(elem);
     }
@@ -52,6 +55,14 @@ class LeftNav {
       }
       loop(codes, 0);
     }
+  }
+
+  private collapseHandler({target}) -> {
+    var elem = $(target),
+        id = "#" + elem.attr('data-collapse'),
+        slideTarget = $(id);
+    elem.toggleClass('active');
+    slideTarget.slideToggle(300);
   }
 
   private hoverHandler(e) -> {

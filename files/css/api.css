@@ -10,6 +10,10 @@ line-height : 1.5em;
 body{
 background : #333 url(images/stripes.gif);
 }
+h2 {
+font-size : 114%;
+margin-bottom : 10px;
+}
 #contents{
 width : 1000px;
 margin : 30px auto;
@@ -87,8 +91,9 @@ background : #333333;
 }
 
 li.active a,
+a.active,
 a:hover{
-text-shadow : 0px 0px 12px rgba(255,255,0,0.6)
+text-shadow : 0px 0px 12px rgba(255,255,0,0.9)
 }
 p.browserImp {
 border-top : 1px dotted #ffffff;
@@ -112,4 +117,25 @@ float : right;
 
 #rightBlock blockquote a:hover{
 color : #eebb00;
+}
+
+a.collapseHead{
+color : #66aaee;
+}
+
+a.active,
+a.collapseHead:hover{
+color : #eedd00;
+}
+
+div.collapsed {
+display : none;
+overflow : hidden;
+}
+
+pre.nobg {
+background : none !important;
+padding : 0 !important;
+margin : 0 !important;
+width : auto !important;
 }

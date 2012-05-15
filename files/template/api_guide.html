@@ -19,284 +19,248 @@
 				<div id="contents" class="clearfix">
 						<div id="leftBlock">
 								<ul class="text12">
-										<li class="active"><div class="togglableBg"></div><a data-toggle="running-mocha" href="javascript:void(0)">Runnning mocha</a></li>
-										<li><div class="togglableBg"></div><a data-toggle="config-js" href="javascript:void(0)">config.js</a></li>
-										<li><div class="togglableBg"></div><a data-toggle="compilation-setting" href="javascript:void(0)">compilation setting</a></li>
-										<li><div class="togglableBg"></div><a data-toggle="commands" href="javascript:void(0)">commands</a></li>
-										<li><div class="togglableBg"></div><a data-toggle="compiler-directive" href="javascript:void(0)">compiler directive</a></li>
-										<li><div class="togglableBg"></div><a data-toggle="use-phantomjs" href="javascript:void(0)">use phantomjs</a></li>
+										<li class="active"><div class="togglableBg"></div><a data-toggle="fs" href="javascript:void(0)">fs</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="os" href="javascript:void(0)">os</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="script" href="javascript:void(0)">script</a></li>
+										<li><div class="togglableBg"></div><a data-toggle="mocha" href="javascript:void(0)">mocha</a></li>
 								</ul>
 						</div>
 						<div id="rightBlock" class="text12">
 								<div class="tab-content">
-	<div id="running-mocha" class="tab-pane active">
-	    <h3>Running mocha</h3>
-	    <p>${first_step_sub1}</p>
-	    <pre class="prettyprint grammars"><code>cd ${first_step_sub2}</code></pre>
-	    <p>${first_step_sub3}</p>
-	    <pre class="prettyprint grammars"><code>./mchd</code></pre>
-	    <p>${first_step_sub4}</p>
-	    <pre class="prettyprint grammars"><code>mocha es-next-compiler(stand-alone)
-usage -> run 'help'
->></code></pre>
-	    <p>${first_step_sub5}</p>
-<pre class="prettyprint grammars"><code>.mocha
-     |_config.js
-     |_mocha.log</code></pre>
-	    <p>${first_step_sub6}</p>
-<pre class="prettyprint grammars"><code>config.set('compileSettingPath', './watch.js')
-config.set('logFilePath', './mocha.log')</code></pre>
-	    <p>${first_step_sub7}</p>
-
-<pre class="prettyprint grammars"><code>var script = mocha.import('script');
-script.watcher.addSetting('/home/foo/src/test.js', {
-  deployDir : '/home/foo/src/deploy',
-  deployName : 'test-deploy.js',
-  outputCharset : 'utf8',
-  inputCharset : 'utf8',
-  options : {
-    compress : false,
-    prettyPrint : true,
-    debug : true,
-    versions : [],
-		moduleDir : ['lib'],
-    libs : ['jQuery']
-    fileScope : true,
-    globalScope : true
-  }
-})</code></pre>
-	    <p>${first_step_sub8}</p>
-<pre class="prettyprint grammars"><code>>> .restart()</code></pre>
-	    <p>${first_step_sub9}</p>
-	    <p>${first_step_sub10}</p>
-	</div>
-	<div id="config-js" class="tab-pane">
-	    <h3>config.js</h3>
-	    <p>${config_js_sub1}</p>
-	    <p>${config_js_sub2}</p>
-	    <dl>
-		<dt>windows xp</dt> 
-		<dd><pre class="prettyprint"><code>${config_js_sub3}</code></pre></dd>
-		<dt>windows vista or later</dt>
-		<dd><pre class="prettyprint"><code>${config_js_sub4}</code></pre></dd>
-		<dt>osx</dt>
-		<dd><pre class="prettyprint"><code>${config_js_sub5}</code></pre></dd>
-		<dt>linux</dt>
-		<dd><pre class="prettyprint"><code>${config_js_sub6}</code></pre></dd>
-	    </dl>
-	    <p>${config_js_sub7}</p>
-	    <p>${config_js_sub8}</p>
-	    <p>${config_js_sub9}</p>
-	    <pre class="prettyprint"><code>config.set('compileSettingPath', './compile_setting.js');
-config.set('logFilePath', './mocha.log');</code></pre>
-	    <p>${config_js_sub10}</p>
-	    <table>
-		<tr>
-		    <th>${config_js_sub11}</th>
-		    <th>${config_js_sub12}</th>
-		</tr>
-		<tr><td>compileSettingPath</td><td>${config_js_sub13}</td></tr>
-		<tr><td>logFilePath</td><td>${config_js_sub14}</td></tr>
-		<tr><td>phantomInstallDir</td><td>${config_js_sub15}</td></tr>
-	    </table>
-	</div>
-	<div id="compilation-setting" class="tab-pane">
-	    <h3>compilation setting</h3>
-	    <p>${comp_setting_sub1}</p>
-	    <p>${comp_setting_sub2}</p>
- 	    <pre class="prettyprint grammars"><code>//${comp_setting_sub3}
-var watcher = mocha.import('script').watcher;
-//${comp_setting_sub4}
-//${comp_setting_sub5}
-watcher.addSetting("src/test.js", {
-  //${comp_setting_sub6}
-  deployDir : 'src/deploy',
-  //${comp_setting_sub7}
-  deployName : 'test-deploy.js',
-  //${comp_setting_sub8}
-  inputCharset : 'utf-8',
-  //${comp_setting_sub9}
-  outputCharset : 'utf-8',
-  //${comp_setting_sub10}
-  options : {
-    //${comp_setting_sub11}
-    prettyPrint : true,
-    //${comp_setting_sub12}
-    compress : false,
-    //${comp_setting_sub13}
-    debug : true,
-    //${comp_setting_sub14}
-    fileScope : true,
-    //${comp_setting_sub15}
-    globalScope : true,
-    //${comp_setting_versions_sub}
-    versions : ['foo'],
-    //${comp_setting_libs_sub}
-    libs : ['jQuery'],
-    //${comp_setting_module_dir_sub}
-    moduleDir : ['lib']
-  }
-})</code></pre>
-	    <p>${comp_setting_sub16}</p>
-	    <table>
-					<tr>
-							<th>${comp_setting_sub17}</th>
-							<th>${comp_setting_sub18}</th>
-							<th>${comp_setting_sub19}</th>
-					</tr>
-					<tr>
-							<td>deployDir</td><td>String</td><td>${comp_setting_sub20}</td>
-					</tr>
-					<tr>
-							<td>deployName</td><td>String</td><td>${comp_setting_sub21}</td>
-					</tr>
-					<tr>
-							<td>inputCharset</td><td>String</td><td>${comp_setting_sub22}</td>
-					</tr>
-					<tr>
-							<td>outputCharset</td><td>String</td><td>${comp_setting_sub23}</td>
-					</tr>
-					<tr>
-							<td>options</td><td>Object</td><td>${comp_setting_sub24}</td>
-					</tr>
-	    </table>
-	    <p>${comp_setting_sub25}</p>
-	    <table>
-					<tr>
-							<th>${comp_setting_sub26}</th>
-							<th>${comp_setting_sub27}</th>
-							<th>${comp_setting_sub28}</th>
-					</tr>
-					<tr>
-							<td>prettyPrint</td><td>Boolean</td><td>${comp_setting_sub29}</td>
-					</tr>
-					<tr>
-							<td>compress</td><td>Boolean</td><td>${comp_setting_sub30}</td>
-					</tr>
-					<tr>
-							<td>debug</td><td>Boolean</td><td>${comp_setting_sub31}</td>
-					</tr>
-					<tr>
-							<td>moduleDir</td><td>Array</td><td>${comp_setting_sub32}</td>
-					</tr>
-					<tr>
-							<td>versions</td><td>Array</td><td>${comp_setting_sub33}</td>
-					</tr>
-					<tr>
-							<td>fileScope</td><td>Boolean</td><td>${comp_setting_sub34}</td>
-					</tr>
-					<tr>
-							<td>globalScope</td><td>Boolean</td><td>${comp_setting_sub35}</td>
-					</tr>
-					<tr>
-							<td>libs</td><td>Array</td><td>${comp_setting_libs_exp}</td>
-					</tr>
-	    </table>
-	</div>
-	<div id="commands" class="tab-pane">
-	    <h3>commands</h3>
-	    <p>${command_sub1}</p>
-	    <pre class="prettyprint grammars"><code>mocha.addCommand('foo', function () {
-  console.log('test');
-}, 'test command!!');</code></pre>
-	    <p>${command_sub2}</p>
-	    <p>${command_sub3}</p>
-	    <pre class="prettyprint"><code>>> .foo()</code></pre>
-	    <p><strong>${command_sub4}</strong></p>
-	    <p>${command_sub5}</p>
-	    <table>
-		<tr>
-		    <th>${command_sub6}</th>
-		    <th>${command_sub7}</th>
-		    <th>${command_sub8}</th>
-		</tr>
-		<tr>
-		    <td>watch</td><td>watch()</td><td>${command_sub9}</td>
-		</tr>
-		<tr>
-		    <td>unwatch</td><td>unwatch()</td><td>${command_sub10}</td>
-		</tr>
-		<tr>
-		    <td>restart</td><td>restart()</td><td>${command_sub11}</td>
-		</tr>
-		<tr>
-		    <td>deploy</td><td>deploy([predicate], [option])</td><td>${command_sub12}</td>
-		</tr>
-		<tr>
-		    <td>test</td><td>test([predicate], [option])</td><td>${command_sub13}</td>
-		</tr>
-		<tr>
-		    <td>settingList</td><td>settingList([showDeploy], [showOpt], [predicate])</td><td>${command_sub14}</td>
-		</tr>
-		<tr>
-		    <td>help</td><td>help()</td><td>${command_sub15}</td>
-		</tr>
-		<tr>
-		    <td>exit</td><td>exit()</td><td>${command_sub16}</td>
-		</tr>
-	    </table>
-	</div>
-	<div id="compiler-directive" class="tab-pane">
-	    <h3>compiler directive</h3>
-	    <p>${comp_dir_sub1}</p>
-	    <table>
-		<tr>
-		    <th>${comp_dir_sub2}</th>
-		    <th>${comp_dir_sub3}</th>
-		    <th>${comp_dir_sub4}</th>
-		</tr>
-		<tr>
-		    <td>@assert</td><td>@assert(expect, expression)</td><td>${comp_dir_sub5}</td>
-		</tr>
-		<tr>
-		    <td>@version</td><td>@version(version){...}</td><td>${comp_dir_sub6}</td>
-		</tr>
-		<tr>
-		    <td>@source</td><td>@source &lt;filename&gt;</td><td>${comp_dir_source_exp}</td>
-		</tr>
-		<tr>
-		    <td>@include</td><td>@include &lt;filename&gt;</td><td>${comp_dir_sub7}</td>
-		</tr>
-	    </table>
-	    <p>@assert</p>
-	    <pre class="prettyprint grammars"><code>test(x,y) -> x + y;
-@assert(true, test(1,1) === 2);
-//${comp_dir_sub8}
-Runtime.assert(true, test(1,1) === 2, 'test(1,1) === 2', 'filename', 'linenumber')</code></pre>
-	    <p>@version</p>
-	    <pre class="prettyprint grammars"><code>var x = 0;
-@version(debug) {
-  x = 1;
-}
-@version(release) {
-  x = 2;
-}
-//${comp_dir_sub9}
-//${comp_dir_sub10}</code></pre>
-			<p>@source</p>
-	    <pre class="prettyprint grammars"><code>@source 'jQuery-min.js'
-$(->{
-...
-})
-//${comp_dir_source_sub}</code></pre>
-	    <p>@include</p>
-	    <pre class="prettyprint grammars"><code>@include 'jQuery.js'
-$(->{
-...
-})
-//${comp_dir_sub11}</code></pre>
-	</div>
-	<div id="use-phantomjs" class="tab-pane">
-	    <h3>use phantomjs</h3>
-	    <p>${comp_dir_sub12}</p>
-	    <p><strong>${comp_dir_sub13}</strong></p>
-	    <p>${comp_dir_sub14}</p>
-	    <pre class="prettyprint"><code>cofig.set('phantomInstallDir', '&lt;${comp_dir_sub15}&gt;');</code></pre>
-	    <p>${comp_dir_sub16}</p>
-	    <p><strong>${comp_dir_sub17}</strong></p>
-	    <p>${comp_dir_sub18}</p>
-	</div>
-    </div>
+										<div id="fs" class="tab-pane active">
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_api">fs</a></h2>
+												<div class="section collapsed" id="fs_api">
+														<p class="title">${static_member}</p>
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>open</td><td><pre class="prettyprint nobg"><code>open(path, mode)</code></pre></td><td>${fs_open}</td></tr>
+																<tr><td>read</td><td><pre class="prettyprint nobg"><code>read(path, opt_size)</code></pre></td><td>${fs_read}</td></tr>
+																<tr><td>write</td><td><pre class="prettyprint nobg"><code>write(path, string)</code></pre></td><td>${fs_write}</td></tr>
+																<tr><td>listdir</td><td><pre class="prettyprint nobg"><code>listdir(path, recursive)</code></pre></td><td>${fs_listdir}</td></tr>
+																<tr><td>getcwd</td><td><pre class="prettyprint nobg"><code>getcwd()</code></pre></td><td>${fs_getcwd}</td></tr>
+																<tr><td>makeDirectory</td><td><pre class="prettyprint nobg"><code>makeDirectory(dirname)</code></pre></td><td>${fs_make_directory}</td></tr>
+																<tr><td>changeDirectory</td><td><pre class="prettyprint nobg"><code>changeDirectory(dirname)</code></pre></td><td>${fs_chdir}</td></tr>
+																<tr><td>remove</td><td><pre class="prettyprint nobg"><code>remove(path)</code></pre></td><td>${fs_remove}</td></tr>
+																<tr><td>move</td><td><pre class="prettyprint nobg"><code>move(oldPath, newPath)</code></pre></td><td>${fs_move}</td></tr>
+																<tr><td>copy</td><td><pre class="prettyprint nobg"><code>copy(orgPath, newPath)</code></pre></td><td>${fs_copy}</td></tr>
+																<tr><td>copyTree</td><td><pre class="prettyprint nobg"><code>copyTree(orgPath, newPath)</code></pre></td><td>${fs_copy_tree}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_file_api">fs.File</a></h2>
+												<div class="section collapsed" id="fs_file_api">
+														<p class="title">${instance_member}</p>
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>write</td><td><pre class="prettyprint nobg"><code>write(str)</code></pre></td><td>${fs_file_write}</td></tr>
+																<tr><td>read</td><td><pre class="prettyprint nobg"><code>read(opt_size)</code></pre></td><td>${fs_file_read}</td></tr>
+																<tr><td>close</td><td><pre class="prettyprint nobg"><code>close()</code></pre></td><td>${fs_file_close}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_entry_api">fs.Entry</a></h2>
+												<div class="section collapsed" id="fs_entry_api">
+														<p class="title">${instance_member}</p>
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>dir</td><td><pre class="prettyprint nobg"><code>dir</code></pre></td><td>${fs_entry_dir}</td></tr>
+																<tr><td>isfile</td><td><pre class="prettyprint nobg"><code>isfile</code></pre></td><td>${fs_entry_isfile}</td></tr>
+																<tr><td>isdir</td><td><pre class="prettyprint nobg"><code>isdir</pre></code></td><td>${fs_entry_isdir}</td></tr>
+																<tr><td>name</td><td><pre class="prettyprint nobg"><code>name</code></pre></td><td>${fs_entry_name}</td></tr>
+																<tr><td>fullpath</td><td><pre class="prettyprint nobg"><code>fullpath</pre></code></td><td>${fs_entry_fullpath}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_path_api">fs.path</a></h2>
+												<div class="section collapsed" id="fs_path_api">
+														<p class="title">${static_member}</p>
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr>
+																		<td>abspath</td>
+																		<td><pre class="prettyprint nobg"><code>abspath(path)</code></pre></td>
+																		<td>${fs_path_abspath}</td>
+																</tr>
+																<tr>
+																		<td>basename</td>
+																		<td><pre class="prettyprint nobg"><code>basename(path)</code></pre></td>
+																		<td>${fs_path_basename}</td>
+																</tr>
+																<tr>
+																		<td>normal</td>
+																		<td><pre class="prettyprint nobg"><code>normal(path)</code></pre></td>
+																		<td>${fs_path_normal}</td>
+																</tr>
+																<tr>
+																		<td>join</td>
+																		<td><pre class="prettyprint nobg"><code>join(...pathCompenents)</code></pre></td>
+																		<td>${fs_path_join}</td>
+																</tr>
+																<tr>
+																		<td>split</td>
+																		<td><pre class="prettyprint nobg"><code>split(path)</code></pre></td>
+																		<td>${fs_path_split}</td>
+																</tr>
+																<tr>
+																		<td>relative</td>
+																		<td><pre class="prettyprint nobg"><code>relative(from, to)</code></pre></td>
+																		<td>${fs_path_relative}</td>
+																</tr>
+																<tr>
+																		<td>mtime</td>
+																		<td><pre class="prettyprint nobg"><code>mtime(path)</code></pre></td>
+																		<td>${fs_path_mtime}</td>
+																</tr>
+																<tr>
+																		<td>ctime</td>
+																		<td><pre class="prettyprint nobg"><code>ctime(dirname)</code></pre></td>
+																		<td>${fs_path_ctime}</td>
+																</tr>
+																<tr>
+																		<td>atime</td>
+																		<td><pre class="prettyprint nobg"><code>atime(dirname)</code></pre></td>
+																		<td>${fs_path_atime}</td>
+																</tr>
+																<tr>
+																		<td>isexist</td>
+																		<td><pre class="prettyprint nobg"><code>isexist(path)</code></pre></td>
+																		<td>${fs_path_isexist}</td>
+																</tr>
+																<tr>
+																		<td>isfile</td>
+																		<td><pre class="prettyprint nobg"><code>isfile(path)</code></pre></td>
+																		<td>${fs_path_isfile}</td>
+																</tr>
+																<tr>
+																		<td>isdir</td>
+																		<td><pre class="prettyprint nobg"><code>isdir(path)</code></pre></td>
+																		<td>${fs_path_isdir}</td>
+																</tr>
+														</table>
+												</div>
+										</div>
+										<div id="os" class="tab-pane">
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="os_process_api">os.process</a></h2>
+												<div class="section collapsed" id="os_process_api">
+														<p class="title">${static_member}</p>
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>spawn</td><td><pre class="prettyprint nobg"><code>spawn(path, args)</code></pre></td><td>${os_spawn}</td></tr>
+														</table>
+												</div>
+										</div>
+										<div id="script" class="tab-pane">
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="script_watcher_api">script.watcher</a></h2>
+												<div class="section collapsed" id="script_watcher_api">
+														<p class="title">${static_member}</p>
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>run</td><td>run()</td><td>${script_watcher_run}</td></tr>
+																<tr><td>exit</td><td>exit()</td><td>${script_watcher_exit}</td></tr>
+																<tr><td>isRunning</td><td>isRunning()</td><td>${script_watcher_isRunning}</td></tr>
+																<tr><td>addSetting</td><td>addSetting(filename, options)</td><td>${script_watcher_addSetting}</td></tr>
+																<tr><td>removeSetting</td><td>removeSetting(filename)</td><td>${script_watcher_removeSetting}</td></tr>
+																<tr><td>getSetting</td><td>getSetting(filename)</td><td>${script_watcher_getSetting}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="script_compiler_api">script.compiler</a></h2>
+												<div class="section collapsed" id="script_compiler_api">
+														<p class="title">${static_member}</p>
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>compile</td><td>compile(str, charset, options)</td><td>${script_compiler_compile}</td></tr>
+																<tr><td>compileFile</td><td>compileFile(path, charset, options)</td><td>${script_compiler_compileFile}</td></tr>
+																<tr><td>checkDependencies</td><td>checkDependencies(path, charset)</td><td>${script_compiler_checkDependencies}</td></tr>
+																<tr><td>deploy</td><td>deploy(pred, opt_option)</td><td>${script_compiler_deploy}</td></tr>
+														</table>
+												</div>
+										</div>
+										<div id="mocha" class="tab-pane">
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_config_api">mocha.config</a></h2>
+												<div class="section collapsed" id="mocha_config_api">
+														<p class="title">${static_member}</p>
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>set</td><td>set(key, val)</td><td>${mocha_config_get}</td></tr>
+																<tr><td>get</td><td>get(key)</td><td>${mocha_config_set}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_import_api">mocha.import</a></h2>
+												<div class="section collapsed" id="mocha_import_api">
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>import</td><td>import(path)</td><td>${mocha_import}</td></tr>
+														</table>
+														<table>
+																<tr>
+																		<th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>import('./path') or import('../path')</td><td>${mocha_import2}</td></tr>
+																<tr><td>import('path')</td><td>${mocha_import3}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_export_api">mocha.export</a></h2>
+												<div class="section collapsed" id="mocha_export_api">
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>export</td><td>export(name, value)</td><td>${mocha_export}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_loadfile_api">mocha.loadFile</a></h2>
+												<div class="section collapsed" id="mocha_loadfile_api">
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>loadFile</td><td>loadFile(path)</td><td>${mocha_loadfile}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_addcommand_api">mocha.addCommand</a></h2>
+												<div class="section collapsed" id="mocha_addcommand_api">
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>addCommand</td><td>addCommand(name, callback, help)</td><td>${mocha_addCommand}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_getcommand_api">mocha.getCommand</a></h2>
+												<div class="section collapsed" id="mocha_getcommand_api">
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>getCommand</td><td>getCommand(name)</td><td>${mocha_getCommand}</td></tr>
+														</table>
+												</div>
+												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_callcommand_api">mocha.callCommand</a></h2>
+												<div class="section collapsed" id="mocha_callcommand_api">
+														<table>
+																<tr>
+																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
+																</tr>
+																<tr><td>callCommand</td><td>callCommand(name, ...args)</td><td>${mocha_callCommand}</td></tr>
+														</table>
+												</div>
+										</div>
+								</div>
 						</div>
 				</div>
 				<!--[if lt IE 9]>

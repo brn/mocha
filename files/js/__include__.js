@@ -8,13 +8,13 @@ addWatcher(filename, depname, lib) ->
     deployName : depname,
     deployDir : './',
     options : {
-      debug : false,//true,
-      prettyPrint : false,//true,
+      debug : true,
+      prettyPrint : true,
       fileScope : true,
       globalScope : true,
       moduleDir : ['./lib'],
       libs : lib,
-      compress : true
+      compress : false
     }
   });
 
