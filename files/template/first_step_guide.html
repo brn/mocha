@@ -139,58 +139,61 @@ watcher.addSetting("src/test.js", {
 })</code></pre>
 	    <p>${comp_setting_sub16}</p>
 	    <table>
-					<tr>
-							<th>${comp_setting_sub17}</th>
-							<th>${comp_setting_sub18}</th>
-							<th>${comp_setting_sub19}</th>
-					</tr>
-					<tr>
-							<td>deployDir</td><td>String</td><td>${comp_setting_sub20}</td>
-					</tr>
-					<tr>
-							<td>deployName</td><td>String</td><td>${comp_setting_sub21}</td>
-					</tr>
-					<tr>
-							<td>inputCharset</td><td>String</td><td>${comp_setting_sub22}</td>
-					</tr>
-					<tr>
-							<td>outputCharset</td><td>String</td><td>${comp_setting_sub23}</td>
-					</tr>
-					<tr>
-							<td>options</td><td>Object</td><td>${comp_setting_sub24}</td>
-					</tr>
+		<tr>
+		    <th>${comp_setting_sub17}</th>
+		    <th>${comp_setting_sub18}</th>
+		    <th>${comp_setting_sub19}</th>
+		</tr>
+		<tr>
+		    <td>deployDir</td><td>String</td><td>${comp_setting_sub20}</td>
+		</tr>
+		<tr>
+		    <td>deployName</td><td>String</td><td>${comp_setting_sub21}</td>
+		</tr>
+		<tr>
+		    <td>inputCharset</td><td>String</td><td>${comp_setting_sub22}</td>
+		</tr>
+		<tr>
+		    <td>outputCharset</td><td>String</td><td>${comp_setting_sub23}</td>
+		</tr>
+		<tr>
+		    <td>options</td><td>Object</td><td>${comp_setting_sub24}</td>
+		</tr>
 	    </table>
 	    <p>${comp_setting_sub25}</p>
 	    <table>
-					<tr>
-							<th>${comp_setting_sub26}</th>
-							<th>${comp_setting_sub27}</th>
-							<th>${comp_setting_sub28}</th>
-					</tr>
-					<tr>
-							<td>prettyPrint</td><td>Boolean</td><td>${comp_setting_sub29}</td>
-					</tr>
-					<tr>
-							<td>compress</td><td>Boolean</td><td>${comp_setting_sub30}</td>
-					</tr>
-					<tr>
-							<td>debug</td><td>Boolean</td><td>${comp_setting_sub31}</td>
-					</tr>
-					<tr>
-							<td>moduleDir</td><td>Array</td><td>${comp_setting_sub32}</td>
-					</tr>
-					<tr>
-							<td>versions</td><td>Array</td><td>${comp_setting_sub33}</td>
-					</tr>
-					<tr>
-							<td>fileScope</td><td>Boolean</td><td>${comp_setting_sub34}</td>
-					</tr>
-					<tr>
-							<td>globalScope</td><td>Boolean</td><td>${comp_setting_sub35}</td>
-					</tr>
-					<tr>
-							<td>libs</td><td>Array</td><td>${comp_setting_libs_exp}</td>
-					</tr>
+		<tr>
+		    <th>${comp_setting_sub26}</th>
+		    <th>${comp_setting_sub27}</th>
+		    <th>${comp_setting_sub28}</th>
+		</tr>
+		<tr>
+		    <td>prettyPrint</td><td>Boolean</td><td>${comp_setting_sub29}</td>
+		</tr>
+		<tr>
+		    <td>compress</td><td>Boolean</td><td>${comp_setting_sub30}</td>
+		</tr>
+		<tr>
+		    <td>debug</td><td>Boolean</td><td>${comp_setting_sub31}</td>
+		</tr>
+		<tr>
+		    <td>moduleDir</td><td>Array</td><td>${comp_setting_sub32}</td>
+		</tr>
+		<tr>
+		    <td>versions</td><td>Array</td><td>${comp_setting_sub33}</td>
+		</tr>
+		<tr>
+		    <td>fileScope</td><td>Boolean</td><td>${comp_setting_sub34}</td>
+		</tr>
+		<tr>
+		    <td>globalScope</td><td>Boolean</td><td>${comp_setting_sub35}</td>
+		</tr>
+		<tr>
+		    <td>libs</td><td>Array</td><td>${comp_setting_libs_exp}</td>
+		</tr>
+		<tr>
+		    <td>prototypeExtensions</td><td>Boolean</td><td>${comp_setting_proto_ext_sub}</td>
+		</tr>
 	    </table>
 	</div>
 	<div id="commands" class="tab-pane">
@@ -257,6 +260,9 @@ watcher.addSetting("src/test.js", {
 		<tr>
 		    <td>@include</td><td>@include &lt;filename&gt;</td><td>${comp_dir_sub7}</td>
 		</tr>
+		<tr>
+		    <td>@, _@</td><td>@foo, @_bar</td><td>${comp_dir_inst_sub}</td>
+		</tr>
 	    </table>
 	    <p>@assert</p>
 	    <pre class="prettyprint grammars"><code>test(x,y) -> x + y;
@@ -285,6 +291,19 @@ $(->{
 ...
 })
 //${comp_dir_sub11}</code></pre>
+	    <p>@, @_</p>
+	    <pre class="prettyprint grammars"><code>class Test {
+  constructor() {
+    @publicMember = 200;
+    @_privateMember = 200;
+  }
+  public getPublicMember() -> @publicMember;
+  public getPrivateMember() -> @_privateMember;
+}
+//${after_compilation}
+@publicMember => this.publicMember
+@_privateMember => private(this)._privateMember;
+</code></pre>
 	</div>
 	<div id="use-phantomjs" class="tab-pane">
 	    <h3>use phantomjs</h3>
@@ -296,29 +315,29 @@ $(->{
 	    <p><strong>${comp_dir_sub17}</strong></p>
 	    <p>${comp_dir_sub18}</p>
 	</div>
-    </div>
+								</div>
 						</div>
 				</div>
 				<!--[if lt IE 9]>
-						<style>
-								.button{
-								background : #FFFF00;
-								display : block;
-								}
-								.button:hover{
-								background : #AAAA00;
-								}
-								.blueButton{
-								background : #69b7ff;
-								display : block;
-								}
-								.blueButton:hover{
-								background : #4795dd;
-								}
-								.fixed {
-								width : 300px;
-								}
-						</style>
-						<![endif]-->
-		</body>
+				    <style>
+					.button{
+					background : #FFFF00;
+					display : block;
+					}
+					.button:hover{
+					background : #AAAA00;
+					}
+					.blueButton{
+					background : #69b7ff;
+					display : block;
+					}
+					.blueButton:hover{
+					background : #4795dd;
+					}
+					.fixed {
+					width : 300px;
+					}
+				    </style>
+				    <![endif]-->
+    </body>
 </html>

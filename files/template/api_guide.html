@@ -1,288 +1,300 @@
 <!doctype html>
 <html>
     <head>
-				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-				<title>mocha</title>
-				$css{css/main.css}
-				$css{css/api.css}
-				$css{css/button.css}
-				$css{css/prettify.css}
-				$css{css/prettify_theme.css}
-				<link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css">
-				<!--[if IE 6]>
-						$script{js/lib/dd_belatedpng.js}
-						<![endif]-->
-				$script{js/api.js}
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>mocha</title>
+	$css{css/main.css}
+	$css{css/api.css}
+	$css{css/button.css}
+	$css{css/prettify.css}
+	$css{css/prettify_theme.css}
+	<link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css">
+	<!--[if IE 6]>
+	    $script{js/lib/dd_belatedpng.js}
+	    <![endif]-->
+	$script{js/api.js}
     </head>
     <body>
-				$include{template/_header.html}
-				<div id="contents" class="clearfix">
-						<div id="leftBlock">
-								<ul class="text12">
-										<li class="active"><div class="togglableBg"></div><a data-toggle="fs" href="javascript:void(0)">fs</a></li>
-										<li><div class="togglableBg"></div><a data-toggle="os" href="javascript:void(0)">os</a></li>
-										<li><div class="togglableBg"></div><a data-toggle="script" href="javascript:void(0)">script</a></li>
-										<li><div class="togglableBg"></div><a data-toggle="mocha" href="javascript:void(0)">mocha</a></li>
-								</ul>
-						</div>
-						<div id="rightBlock" class="text12">
-								<div class="tab-content">
-										<div id="fs" class="tab-pane active">
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_api">fs</a></h2>
-												<div class="section collapsed" id="fs_api">
-														<p class="title">${static_member}</p>
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>open</td><td><pre class="prettyprint nobg"><code>open(path, mode)</code></pre></td><td>${fs_open}</td></tr>
-																<tr><td>read</td><td><pre class="prettyprint nobg"><code>read(path, opt_size)</code></pre></td><td>${fs_read}</td></tr>
-																<tr><td>write</td><td><pre class="prettyprint nobg"><code>write(path, string)</code></pre></td><td>${fs_write}</td></tr>
-																<tr><td>listdir</td><td><pre class="prettyprint nobg"><code>listdir(path, recursive)</code></pre></td><td>${fs_listdir}</td></tr>
-																<tr><td>getcwd</td><td><pre class="prettyprint nobg"><code>getcwd()</code></pre></td><td>${fs_getcwd}</td></tr>
-																<tr><td>makeDirectory</td><td><pre class="prettyprint nobg"><code>makeDirectory(dirname)</code></pre></td><td>${fs_make_directory}</td></tr>
-																<tr><td>changeDirectory</td><td><pre class="prettyprint nobg"><code>changeDirectory(dirname)</code></pre></td><td>${fs_chdir}</td></tr>
-																<tr><td>remove</td><td><pre class="prettyprint nobg"><code>remove(path)</code></pre></td><td>${fs_remove}</td></tr>
-																<tr><td>move</td><td><pre class="prettyprint nobg"><code>move(oldPath, newPath)</code></pre></td><td>${fs_move}</td></tr>
-																<tr><td>copy</td><td><pre class="prettyprint nobg"><code>copy(orgPath, newPath)</code></pre></td><td>${fs_copy}</td></tr>
-																<tr><td>copyTree</td><td><pre class="prettyprint nobg"><code>copyTree(orgPath, newPath)</code></pre></td><td>${fs_copy_tree}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_file_api">fs.File</a></h2>
-												<div class="section collapsed" id="fs_file_api">
-														<p class="title">${instance_member}</p>
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>write</td><td><pre class="prettyprint nobg"><code>write(str)</code></pre></td><td>${fs_file_write}</td></tr>
-																<tr><td>read</td><td><pre class="prettyprint nobg"><code>read(opt_size)</code></pre></td><td>${fs_file_read}</td></tr>
-																<tr><td>close</td><td><pre class="prettyprint nobg"><code>close()</code></pre></td><td>${fs_file_close}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_entry_api">fs.Entry</a></h2>
-												<div class="section collapsed" id="fs_entry_api">
-														<p class="title">${instance_member}</p>
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>dir</td><td><pre class="prettyprint nobg"><code>dir</code></pre></td><td>${fs_entry_dir}</td></tr>
-																<tr><td>isfile</td><td><pre class="prettyprint nobg"><code>isfile</code></pre></td><td>${fs_entry_isfile}</td></tr>
-																<tr><td>isdir</td><td><pre class="prettyprint nobg"><code>isdir</pre></code></td><td>${fs_entry_isdir}</td></tr>
-																<tr><td>name</td><td><pre class="prettyprint nobg"><code>name</code></pre></td><td>${fs_entry_name}</td></tr>
-																<tr><td>fullpath</td><td><pre class="prettyprint nobg"><code>fullpath</pre></code></td><td>${fs_entry_fullpath}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_path_api">fs.path</a></h2>
-												<div class="section collapsed" id="fs_path_api">
-														<p class="title">${static_member}</p>
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr>
-																		<td>abspath</td>
-																		<td><pre class="prettyprint nobg"><code>abspath(path)</code></pre></td>
-																		<td>${fs_path_abspath}</td>
-																</tr>
-																<tr>
-																		<td>basename</td>
-																		<td><pre class="prettyprint nobg"><code>basename(path)</code></pre></td>
-																		<td>${fs_path_basename}</td>
-																</tr>
-																<tr>
-																		<td>normal</td>
-																		<td><pre class="prettyprint nobg"><code>normal(path)</code></pre></td>
-																		<td>${fs_path_normal}</td>
-																</tr>
-																<tr>
-																		<td>join</td>
-																		<td><pre class="prettyprint nobg"><code>join(...pathCompenents)</code></pre></td>
-																		<td>${fs_path_join}</td>
-																</tr>
-																<tr>
-																		<td>split</td>
-																		<td><pre class="prettyprint nobg"><code>split(path)</code></pre></td>
-																		<td>${fs_path_split}</td>
-																</tr>
-																<tr>
-																		<td>relative</td>
-																		<td><pre class="prettyprint nobg"><code>relative(from, to)</code></pre></td>
-																		<td>${fs_path_relative}</td>
-																</tr>
-																<tr>
-																		<td>mtime</td>
-																		<td><pre class="prettyprint nobg"><code>mtime(path)</code></pre></td>
-																		<td>${fs_path_mtime}</td>
-																</tr>
-																<tr>
-																		<td>ctime</td>
-																		<td><pre class="prettyprint nobg"><code>ctime(dirname)</code></pre></td>
-																		<td>${fs_path_ctime}</td>
-																</tr>
-																<tr>
-																		<td>atime</td>
-																		<td><pre class="prettyprint nobg"><code>atime(dirname)</code></pre></td>
-																		<td>${fs_path_atime}</td>
-																</tr>
-																<tr>
-																		<td>isexist</td>
-																		<td><pre class="prettyprint nobg"><code>isexist(path)</code></pre></td>
-																		<td>${fs_path_isexist}</td>
-																</tr>
-																<tr>
-																		<td>isfile</td>
-																		<td><pre class="prettyprint nobg"><code>isfile(path)</code></pre></td>
-																		<td>${fs_path_isfile}</td>
-																</tr>
-																<tr>
-																		<td>isdir</td>
-																		<td><pre class="prettyprint nobg"><code>isdir(path)</code></pre></td>
-																		<td>${fs_path_isdir}</td>
-																</tr>
-														</table>
-												</div>
-										</div>
-										<div id="os" class="tab-pane">
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="os_process_api">os.process</a></h2>
-												<div class="section collapsed" id="os_process_api">
-														<p class="title">${static_member}</p>
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>spawn</td><td><pre class="prettyprint nobg"><code>spawn(path, args)</code></pre></td><td>${os_spawn}</td></tr>
-														</table>
-												</div>
-										</div>
-										<div id="script" class="tab-pane">
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="script_watcher_api">script.watcher</a></h2>
-												<div class="section collapsed" id="script_watcher_api">
-														<p class="title">${static_member}</p>
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>run</td><td>run()</td><td>${script_watcher_run}</td></tr>
-																<tr><td>exit</td><td>exit()</td><td>${script_watcher_exit}</td></tr>
-																<tr><td>isRunning</td><td>isRunning()</td><td>${script_watcher_isRunning}</td></tr>
-																<tr><td>addSetting</td><td>addSetting(filename, options)</td><td>${script_watcher_addSetting}</td></tr>
-																<tr><td>removeSetting</td><td>removeSetting(filename)</td><td>${script_watcher_removeSetting}</td></tr>
-																<tr><td>getSetting</td><td>getSetting(filename)</td><td>${script_watcher_getSetting}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="script_compiler_api">script.compiler</a></h2>
-												<div class="section collapsed" id="script_compiler_api">
-														<p class="title">${static_member}</p>
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>compile</td><td>compile(str, charset, options)</td><td>${script_compiler_compile}</td></tr>
-																<tr><td>compileFile</td><td>compileFile(path, charset, options)</td><td>${script_compiler_compileFile}</td></tr>
-																<tr><td>checkDependencies</td><td>checkDependencies(path, charset)</td><td>${script_compiler_checkDependencies}</td></tr>
-																<tr><td>deploy</td><td>deploy(pred, opt_option)</td><td>${script_compiler_deploy}</td></tr>
-														</table>
-												</div>
-										</div>
-										<div id="mocha" class="tab-pane">
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_config_api">mocha.config</a></h2>
-												<div class="section collapsed" id="mocha_config_api">
-														<p class="title">${static_member}</p>
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>set</td><td>set(key, val)</td><td>${mocha_config_get}</td></tr>
-																<tr><td>get</td><td>get(key)</td><td>${mocha_config_set}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_import_api">mocha.import</a></h2>
-												<div class="section collapsed" id="mocha_import_api">
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>import</td><td>import(path)</td><td>${mocha_import}</td></tr>
-														</table>
-														<table>
-																<tr>
-																		<th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>import('./path') or import('../path')</td><td>${mocha_import2}</td></tr>
-																<tr><td>import('path')</td><td>${mocha_import3}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_export_api">mocha.export</a></h2>
-												<div class="section collapsed" id="mocha_export_api">
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>export</td><td>export(name, value)</td><td>${mocha_export}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_loadfile_api">mocha.loadFile</a></h2>
-												<div class="section collapsed" id="mocha_loadfile_api">
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>loadFile</td><td>loadFile(path)</td><td>${mocha_loadfile}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_addcommand_api">mocha.addCommand</a></h2>
-												<div class="section collapsed" id="mocha_addcommand_api">
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>addCommand</td><td>addCommand(name, callback, help)</td><td>${mocha_addCommand}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_getcommand_api">mocha.getCommand</a></h2>
-												<div class="section collapsed" id="mocha_getcommand_api">
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>getCommand</td><td>getCommand(name)</td><td>${mocha_getCommand}</td></tr>
-														</table>
-												</div>
-												<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_callcommand_api">mocha.callCommand</a></h2>
-												<div class="section collapsed" id="mocha_callcommand_api">
-														<table>
-																<tr>
-																		<th>${member}</th><th>${interface}</th><th>${explanation}</th>
-																</tr>
-																<tr><td>callCommand</td><td>callCommand(name, ...args)</td><td>${mocha_callCommand}</td></tr>
-														</table>
-												</div>
-										</div>
-								</div>
-						</div>
-				</div>
-				<!--[if lt IE 9]>
-						<style>
-								.button{
-								background : #FFFF00;
-								display : block;
-								}
-								.button:hover{
-								background : #AAAA00;
-								}
-								.blueButton{
-								background : #69b7ff;
-								display : block;
-								}
-								.blueButton:hover{
-								background : #4795dd;
-								}
-								.fixed {
-								width : 300px;
-								}
-						</style>
-						<![endif]-->
-		</body>
+	$include{template/_header.html}
+	<div id="contents" class="clearfix">
+	    <div id="leftBlock">
+		<ul class="text12">
+		    <li class="active"><div class="togglableBg"></div><a data-toggle="fs" href="javascript:void(0)">fs</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="os" href="javascript:void(0)">os</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="script" href="javascript:void(0)">script</a></li>
+		    <li><div class="togglableBg"></div><a data-toggle="mocha" href="javascript:void(0)">mocha</a></li>
+		</ul>
+	    </div>
+	    <div id="rightBlock" class="text12">
+		<div class="tab-content">
+		    <div id="fs" class="tab-pane active">
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_api">fs</a></h2>
+			<div class="section collapsed" id="fs_api">
+			    <p class="title">${static_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>open</td><td><pre class="prettyprint nobg"><code>open(path, mode)</code></pre></td><td>${fs_open}</td></tr>
+				<tr><td>read</td><td><pre class="prettyprint nobg"><code>read(path, opt_size)</code></pre></td><td>${fs_read}</td></tr>
+				<tr><td>write</td><td><pre class="prettyprint nobg"><code>write(path, string)</code></pre></td><td>${fs_write}</td></tr>
+				<tr><td>listdir</td><td><pre class="prettyprint nobg"><code>listdir(path, recursive)</code></pre></td><td>${fs_listdir}</td></tr>
+				<tr><td>getcwd</td><td><pre class="prettyprint nobg"><code>getcwd()</code></pre></td><td>${fs_getcwd}</td></tr>
+				<tr><td>makeDirectory</td><td><pre class="prettyprint nobg"><code>makeDirectory(dirname)</code></pre></td><td>${fs_make_directory}</td></tr>
+				<tr><td>changeDirectory</td><td><pre class="prettyprint nobg"><code>changeDirectory(dirname)</code></pre></td><td>${fs_chdir}</td></tr>
+				<tr><td>remove</td><td><pre class="prettyprint nobg"><code>remove(path)</code></pre></td><td>${fs_remove}</td></tr>
+				<tr><td>move</td><td><pre class="prettyprint nobg"><code>move(oldPath, newPath)</code></pre></td><td>${fs_move}</td></tr>
+				<tr><td>copy</td><td><pre class="prettyprint nobg"><code>copy(orgPath, newPath)</code></pre></td><td>${fs_copy}</td></tr>
+				<tr><td>copyTree</td><td><pre class="prettyprint nobg"><code>copyTree(orgPath, newPath)</code></pre></td><td>${fs_copy_tree}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_file_api">fs.File</a></h2>
+			<div class="section collapsed" id="fs_file_api">
+			    <p class="title">${instance_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>write</td><td><pre class="prettyprint nobg"><code>write(str)</code></pre></td><td>${fs_file_write}</td></tr>
+				<tr><td>read</td><td><pre class="prettyprint nobg"><code>read(opt_size)</code></pre></td><td>${fs_file_read}</td></tr>
+				<tr><td>close</td><td><pre class="prettyprint nobg"><code>close()</code></pre></td><td>${fs_file_close}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_entry_api">fs.Entry</a></h2>
+			<div class="section collapsed" id="fs_entry_api">
+			    <p class="title">${instance_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>dir</td><td><pre class="prettyprint nobg"><code>dir</code></pre></td><td>${fs_entry_dir}</td></tr>
+				<tr><td>isfile</td><td><pre class="prettyprint nobg"><code>isfile</code></pre></td><td>${fs_entry_isfile}</td></tr>
+				<tr><td>isdir</td><td><pre class="prettyprint nobg"><code>isdir</pre></code></td><td>${fs_entry_isdir}</td></tr>
+				<tr><td>name</td><td><pre class="prettyprint nobg"><code>name</code></pre></td><td>${fs_entry_name}</td></tr>
+				<tr><td>fullpath</td><td><pre class="prettyprint nobg"><code>fullpath</pre></code></td><td>${fs_entry_fullpath}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="fs_path_api">fs.path</a></h2>
+			<div class="section collapsed" id="fs_path_api">
+			    <p class="title">${static_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr>
+				    <td>abspath</td>
+				    <td><pre class="prettyprint nobg"><code>abspath(path)</code></pre></td>
+				    <td>${fs_path_abspath}</td>
+				</tr>
+				<tr>
+				    <td>basename</td>
+				    <td><pre class="prettyprint nobg"><code>basename(path)</code></pre></td>
+				    <td>${fs_path_basename}</td>
+				</tr>
+				<tr>
+				    <td>normal</td>
+				    <td><pre class="prettyprint nobg"><code>normal(path)</code></pre></td>
+				    <td>${fs_path_normal}</td>
+				</tr>
+				<tr>
+				    <td>join</td>
+				    <td><pre class="prettyprint nobg"><code>join(...pathCompenents)</code></pre></td>
+				    <td>${fs_path_join}</td>
+				</tr>
+				<tr>
+				    <td>split</td>
+				    <td><pre class="prettyprint nobg"><code>split(path)</code></pre></td>
+				    <td>${fs_path_split}</td>
+				</tr>
+				<tr>
+				    <td>relative</td>
+				    <td><pre class="prettyprint nobg"><code>relative(from, to)</code></pre></td>
+				    <td>${fs_path_relative}</td>
+				</tr>
+				<tr>
+				    <td>mtime</td>
+				    <td><pre class="prettyprint nobg"><code>mtime(path)</code></pre></td>
+				    <td>${fs_path_mtime}</td>
+				</tr>
+				<tr>
+				    <td>ctime</td>
+				    <td><pre class="prettyprint nobg"><code>ctime(dirname)</code></pre></td>
+				    <td>${fs_path_ctime}</td>
+				</tr>
+				<tr>
+				    <td>atime</td>
+				    <td><pre class="prettyprint nobg"><code>atime(dirname)</code></pre></td>
+				    <td>${fs_path_atime}</td>
+				</tr>
+				<tr>
+				    <td>isexist</td>
+				    <td><pre class="prettyprint nobg"><code>isexist(path)</code></pre></td>
+				    <td>${fs_path_isexist}</td>
+				</tr>
+				<tr>
+				    <td>isfile</td>
+				    <td><pre class="prettyprint nobg"><code>isfile(path)</code></pre></td>
+				    <td>${fs_path_isfile}</td>
+				</tr>
+				<tr>
+				    <td>isdir</td>
+				    <td><pre class="prettyprint nobg"><code>isdir(path)</code></pre></td>
+				    <td>${fs_path_isdir}</td>
+				</tr>
+			    </table>
+			</div>
+		    </div>
+		    <div id="os" class="tab-pane">
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="os_api">os</a></h2>
+			<div class="section collapsed" id="os_api">
+			    <p class="title">${static_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>name</td><td><pre class="prettyprint nobg"><code>name()</code></pre></td><td>${os_name}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="os_process_api">os.process</a></h2>
+			<div class="section collapsed" id="os_process_api">
+			    <p class="title">${static_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>spawn</td><td><pre class="prettyprint nobg"><code>spawn(path, args)</code></pre></td><td>${os_spawn}</td></tr>
+				<tr><td>system</td><td><pre class="prettyprint nobg"><code>system(args)</code></pre></td><td>${os_system}</td></tr>
+				<tr><td>run</td><td><pre class="prettyprint nobg"><code>run(args)</code></pre></td><td>${os_run}</td></tr>
+			    </table>
+			</div>
+		    </div>
+		    <div id="script" class="tab-pane">
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="script_watcher_api">script.watcher</a></h2>
+			<div class="section collapsed" id="script_watcher_api">
+			    <p class="title">${static_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>run</td><td>run()</td><td>${script_watcher_run}</td></tr>
+				<tr><td>exit</td><td>exit()</td><td>${script_watcher_exit}</td></tr>
+				<tr><td>isRunning</td><td>isRunning()</td><td>${script_watcher_isRunning}</td></tr>
+				<tr><td>addSetting</td><td>addSetting(filename, options)</td><td>${script_watcher_addSetting}</td></tr>
+				<tr><td>removeSetting</td><td>removeSetting(filename)</td><td>${script_watcher_removeSetting}</td></tr>
+				<tr><td>getSetting</td><td>getSetting(filename)</td><td>${script_watcher_getSetting}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="script_compiler_api">script.compiler</a></h2>
+			<div class="section collapsed" id="script_compiler_api">
+			    <p class="title">${static_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>compile</td><td>compile(str, charset, options)</td><td>${script_compiler_compile}</td></tr>
+				<tr><td>compileFile</td><td>compileFile(path, charset, options)</td><td>${script_compiler_compileFile}</td></tr>
+				<tr><td>checkDependencies</td><td>checkDependencies(path, charset)</td><td>${script_compiler_checkDependencies}</td></tr>
+				<tr><td>deploy</td><td>deploy(pred, opt_option)</td><td>${script_compiler_deploy}</td></tr>
+			    </table>
+			</div>
+		    </div>
+		    <div id="mocha" class="tab-pane">
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_config_api">mocha.config</a></h2>
+			<div class="section collapsed" id="mocha_config_api">
+			    <p class="title">${static_member}</p>
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>set</td><td>set(key, val)</td><td>${mocha_config_get}</td></tr>
+				<tr><td>get</td><td>get(key)</td><td>${mocha_config_set}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_import_api">mocha.import</a></h2>
+			<div class="section collapsed" id="mocha_import_api">
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>import</td><td>import(path)</td><td>${mocha_import}</td></tr>
+			    </table>
+			    <table>
+				<tr>
+				    <th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>import('./path') or import('../path')</td><td>${mocha_import2}</td></tr>
+				<tr><td>import('path')</td><td>${mocha_import3}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_export_api">mocha.export</a></h2>
+			<div class="section collapsed" id="mocha_export_api">
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>export</td><td>export(name, value)</td><td>${mocha_export}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_loadfile_api">mocha.loadFile</a></h2>
+			<div class="section collapsed" id="mocha_loadfile_api">
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>loadFile</td><td>loadFile(path)</td><td>${mocha_loadfile}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_addcommand_api">mocha.addCommand</a></h2>
+			<div class="section collapsed" id="mocha_addcommand_api">
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>addCommand</td><td>addCommand(name, callback, help)</td><td>${mocha_addCommand}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_getcommand_api">mocha.getCommand</a></h2>
+			<div class="section collapsed" id="mocha_getcommand_api">
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>getCommand</td><td>getCommand(name)</td><td>${mocha_getCommand}</td></tr>
+			    </table>
+			</div>
+			<h2><a class="collapseHead" href="javascript:void(0)" data-collapse="mocha_callcommand_api">mocha.callCommand</a></h2>
+			<div class="section collapsed" id="mocha_callcommand_api">
+			    <table>
+				<tr>
+				    <th>${member}</th><th>${interface}</th><th>${explanation}</th>
+				</tr>
+				<tr><td>callCommand</td><td>callCommand(name, ...args)</td><td>${mocha_callCommand}</td></tr>
+			    </table>
+			</div>
+		    </div>
+		</div>
+	    </div>
+	</div>
+	<!--[if lt IE 9]>
+	    <style>
+		.button{
+		background : #FFFF00;
+		display : block;
+		}
+		.button:hover{
+		background : #AAAA00;
+		}
+		.blueButton{
+		background : #69b7ff;
+		display : block;
+		}
+		.blueButton:hover{
+		background : #4795dd;
+		}
+		.fixed {
+		width : 300px;
+		}
+	    </style>
+	    <![endif]-->
+    </body>
 </html>
