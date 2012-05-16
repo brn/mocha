@@ -34,6 +34,9 @@
 		    <li><div class="togglableBg"></div><a data-toggle="for-of" href="javascript:void(0)">for of</a></li>
 		    <li><div class="togglableBg"></div><a data-toggle="arguments-extras" href="javascript:void(0)">arguments extras</a></li>
 		    <li><div class="togglableBg"></div><a data-toggle="spread" href="javascript:void(0)">spread</a></li>
+				<li><div class="togglableBg"></div><a data-toggle="array-comprehensions" href="javascript:void(0)">array comprehensions</a></li>
+				<li><div class="togglableBg"></div><a data-toggle="generator-expressions" href="javascript:void(0)">generator expressions</a></li>
+				<li><div class="togglableBg"></div><a data-toggle="paren-free" href="javascript:void(0)">paren free</a></li>
 		</ul>
 	    </div>
 	    <div id="rightBlock" class="text12">
@@ -698,13 +701,12 @@ generator = yieldTest();
 @assert( true , generator.send( true ) === 5 );</code></pre>
 			<p>${generator_iterator_ex2_comment1}</p>
 			<p>iterator</p>
-			<pre class="prettyprint grammars"><code>import {iterator} from "iterators";
-var iter = {
+			<pre class="prettyprint grammars"><code>var iter = {
       arr : [],
       add : function ( value ) {
         this.arr.push( value );
       },
-      [iterator] : function () {
+      iterator : function () {
         var arr = this.arr;
         return {
           index : 0,
@@ -730,12 +732,11 @@ var iter = {
 	<div id="for-of" class="tab-pane">
 	    <h3>for of</h3>
 	    <p>${for_of_sub1}</p>
-	    <p>${for_of_impl_sub}</p>
+	    <p class="browserImp">${for_of_impl_sub}</p>
 	    <div>
-		<pre class="prettyprint grammars"><code>import {iterator} from 'iterators';
-var items = function ( obj ) {
+		<pre class="prettyprint grammars"><code>var items = function ( obj ) {
       return {
-        [iterator] : function () {
+        iterator : function () {
           for( var i in obj ) {
             yield [i, obj[i]];
           }
@@ -747,7 +748,7 @@ var items = function ( obj ) {
       add : function ( value ) {
         this.arr.push( value );
       },
-      [iterator] : function () {
+      iterator : function () {
         var arr = this.arr;
         return {
           index : 0,
@@ -843,28 +844,137 @@ console.log(test(1,2,values))//6
 			    <p>${spread_sub5}</p>
 			</div>
 	</div>
-		</div>
-	    </div>
-	    <!--[if lt IE 9]>
-		<style>
-		    .button{
-		    background : #FFFF00;
-		    display : block;
-		    }
-		    .button:hover{
-		    background : #AAAA00;
-		    }
-		    .blueButton{
-		    background : #69b7ff;
-		    display : block;
-		    }
-		    .blueButton:hover{
-		    background : #4795dd;
-		    }
-		    .fixed {
-		    width : 300px;
-		    }
-		</style>
-		<![endif]-->
-    </body>
+	<div id="array-comprehensions" class="tab-pane">
+	    <h3>array comprehensions</h3>
+	    <p>${ac_sub}</p>
+	    <p class="browserImp">${ac_impl}</p>
+	    <div class="section">
+					<p class="title">${overview}</p>
+					<p>${ac_sub1}</p>
+					<pre class="prettyprint"><code>var testTarget = {
+      value1 : 100,
+      value2 : 200,
+      value3 : 300
+    }
+
+var cmpTest = [prop * 2 for each(prop in testTarget)];
+@assert( true , cmpTest[ 0 ] === 200 );
+@assert( true , cmpTest[ 1 ] === 400 );
+@assert( true , cmpTest[ 2 ] === 600 );
+</code></pre>
+					<p>${ac_sub2}</p>
+					<pre class="prettyprint"><code>var testTarget = {
+      value1 : 1,
+      value2 : 2,
+      value3 : 3,
+      value4 : 4
+    }
+
+var cmpTest = [prop for each (prop in testTarget) if (prop % 2 === 0)];
+@assert( true , cmpTest[ 0 ] === 2 );
+@assert( true , cmpTest[ 1 ] === 4 );
+</code></pre>
+			</div>
+			<div class="section">
+					<p class="title">${detail}</p>
+					<p>${ac_detail_sub}</p>
+			</div>
+			<div class="section">
+					<p class="title">${interface}</p>
+					<pre class="prettyprint grammars"><code><i>[</i>&lt;value receiver&gt; <i>for statements ...</i> <i>if statement(opt)]</i></code></pre>
+					<p>${ac_interface_sub}</p>
+			</div>
+	</div>
+	<div id="generator-expressions" class="tab-pane">
+	    <h3>generator expressions</h3>
+	    <p>${ge_sub}</p>
+	    <p class="browserImp">${ge_impl}</p>
+	    <div class="section">
+					<p class="title">${overview}</p>
+					<p>${ge_sub1}</p>
+					<pre class="prettyprint"><code>var testObject = {
+      value1 : 100,
+      value2 : 200,
+      value3 : 300
+    }
+var test = ( x for each ( x in testObject ) );
+@assert( true , test.next() === 100 );
+@assert( true , test.next() === 200 );
+@assert( true , test.next() === 300 );
+</code></pre>
+					<p>${ge_sub2}</p>
+					<pre class="prettyprint"><code>var testTarget = {
+      value1 : 1,
+      value2 : 2,
+      value3 : 3,
+      value4 : 4
+    }
+
+var test = (x for each (x in testTarget) if (x % 2 === 0));
+@assert( true , test.next() === 2 );
+@assert( true , test.next() === 4 );
+</code></pre>
+			</div>
+			<div class="section">
+					<p class="title">${detail}</p>
+					<p>${ge_detail_sub}</p>
+			</div>
+			<div class="section">
+					<p class="title">${interface}</p>
+					<pre class="prettyprint grammars"><code><i>(</i>&lt;value receiver&gt; <i>for statements ...</i> <i>if statement(opt))</i></code></pre>
+					<p>${ge_interface_sub}</p>
+			</div>
+	</div>
+	<div id="paren-free" class="tab-pane">
+	    <h3>paren free</h3>
+	    <p>${paren_free}</p>
+	    <p class="browserImp">${paren_free_impl}</p>
+	    <div class="section">
+					<p class="title">${overview}</p>
+					<p>${paren_free_sub1}</p>
+					<pre class="prettyprint"><code>if foo === bar {
+  ...
+}
+
+for var i = 0; i < 10; i++ {
+  ...
+}
+
+for var i in foo {
+  ...
+}
+
+for var i of foo {
+  ...
+}
+
+while foo {
+  ...
+}
+
+</code></pre>
+			</div>
+	</div>
+	<!--[if lt IE 9]>
+			<style>
+					.button{
+					background : #FFFF00;
+					display : block;
+					}
+					.button:hover{
+					background : #AAAA00;
+					}
+					.blueButton{
+					background : #69b7ff;
+					display : block;
+					}
+					.blueButton:hover{
+					background : #4795dd;
+					}
+					.fixed {
+					width : 300px;
+					}
+			</style>
+			<![endif]-->
+</body>
 </html>

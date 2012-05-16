@@ -203,6 +203,7 @@ public,privateなどの指定はclassを参照してください。""",
             'for_of_detail_sub1' : 'generatorかiteratorの定義されたオブジェクトを与えることで、次々にnextを呼び出し、StopIterationが投げられると処理を終了します。'
             },
         'en' : {
+            'interface' : 'Interface',
             'class_title' : 'The class is new syntax which is included in current harmony proposal. That is syntax sugar of the function and prototype definitions.',
             'class_imp_browsers' : 'implementation : none',
             'class_ex1_title' : 'In any case, we create a class with the function and prototypes.',
@@ -344,7 +345,22 @@ Second example is the destructuring assignment, all destructuring assignment can
             'spread_sub2' : 'See below example.',
             'spread_sub3' : 'Above example is a basic usage of spread. And below example shows other usage.',
             'spread_sub4' : 'That example shows spread in destructuring assignment. Spread can use in destructuring array. And next example is known as paramerter rest.',
-            'spread_sub5' : 'The basic behavior of spread is that to unfold an Array. If a spread written as reciever, a spread recieve the rest values as Array. If spread written as parameter, a spread gives unfolded Array like Function.prototype.apply.'
+            'spread_sub5' : 'The basic behavior of spread is that to unfold an Array. If a spread written as reciever, a spread recieve the rest values as Array. If spread written as parameter, a spread gives unfolded Array like Function.prototype.apply.',
+            'paren_free' : 'The syntax for paren free.',
+            'paaren_free_impl' : 'implementation : none',
+            'paren_free_sub1' : 'The paren free syntax can use for "for", "for in", "for of", "for each", "while", "if". But if you use paren free syntax, above statments cannot omit curly bracket. See the below examples.',
+            'ac_sub' : 'The array comprehensions is convenient syntax for the computed array.',
+            'ac_impl' : 'implementaion : Mozilla1.7 or later',
+            'ac_sub1' : 'See the below example.',
+            'ac_sub2' : 'Next example shows the usage of the conditional statement in the array comprehensions.',
+            'ac_detail_sub' : 'The array comprehensions create an array which contain values that computed by the loops and the functions. In array comprehensions, you can use the "for familly" statements and that statements can be nested.',
+            'ac_interface_sub' : 'The value receiver is a variable which receive the computed value. So if you apply functions to the receiver, that result is put in the result array. Like this, e.g <br /><code>var x = [Math.sqrt(ret) for each(ret in {a:1,b:2,c:3})]</code><br />A variable x become like this, [1, 1.4142135623730951, 1.7320508075688772]. The array comprehensions can have nested loops, but the conditional statement is allowed only one statement.',
+            'ge_sub' : 'The generator expressions is covenient syntax for the generator function creation.',
+            'ge_impl' : 'implementation : Mozilla1.8',
+            'ge_sub1' : 'See the below example.',
+            'ge_sub2' : 'Next example shows the usage of the conditional statement in the generator expressions.',
+            'ge_detail_sub' : 'The generator expressions create a generator function. In the generator expressions, you can use "for familly" statements and that statements can be nested.',
+            'ge_interface_sub' : 'The value receiver is a variable which is transformed to "yield expression". So, if you apply functions to the receiver, a generator\'s "next" method return the function applied result. The generator expressions can have nested loops, but the conditional statement is allowed only one statement.'
             }
         },
 'first_step_guide.html' : {

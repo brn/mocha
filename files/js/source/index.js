@@ -1,5 +1,6 @@
 import {index} from './consts'.consts
 import {imageCache} from './images_cache'
+import {agent} from './agent'.agent
 
 imageCache.cache(['images/stripes.gif',
                   'images/spot.png',
@@ -10,11 +11,11 @@ imageCache.cache(['images/stripes.gif',
 
 class BinaryLinks {
   constructor(@_binLink = $('#download')){}
-  public addEvent() {
-    var {oscpu} = navigator;
-    if (!oscpu || oscpu.indexOf('Windows') > -1) {
+  public addEvent() -> {
+    var {userAgent} = navigator;
+    if (userAgent.indexOf('Win') > -1) {
       @_binLink.on('click', -> location.href = '../bin/win32/mocha.zip');
-    } else if (oscpu.indexOf('Mac') > -1) {
+    } else if (userAgent.indexOf('Mac') > -1) {
       @_binLink.on('click', -> location.href = '../bin/macos/mocha.zip');
     } else {
       @_binLink.on('click', -> alert('Sorry, the binary file is not provided for your os. Please build from the sources.'));
@@ -23,11 +24,10 @@ class BinaryLinks {
 };
 
 $(->{
-  var filterBug = /MSIE [678]/.test(navigator.userAgent);
-  if filterBug {
+  if agent.legacy {
     index.BG_CACHE().show();
     index.LINE_CACHE().show();
-    if navigator.userAgent.indexOf('MSIE 6') > -1 {
+    if agent.IE6 {
       DD_belatedPNG.fix('#logo img');
       DD_belatedPNG.fix('dt.mark');
       DD_belatedPNG.fix('#bg');
