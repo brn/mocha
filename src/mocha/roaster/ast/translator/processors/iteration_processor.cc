@@ -33,7 +33,7 @@ void IterationProcessor::ProcessForNode(IterationStmt* ast_node, ProcessorInfo* 
   }
   if (incr_exp) {
     incr_exp->Accept(visitor);
-  }  
+  }
   ast_node->first_child()->Accept(visitor);
   if (ast_node->IsContainYield()) {
     info->translator_data()->function()->set_statement_in_generator(ast_node);
@@ -49,10 +49,13 @@ void IterationProcessor::ProcessForInNode(IterationStmt* ast_node, ProcessorInfo
   AstNode* target_exp = index_exp->next_sibling();
   Literal* dsta_value = 0;
   bool is_dst = false;
+  index_exp = (index_exp->node_type() == AstNode::kExpression)? index_exp->first_child() : index_exp;
   if (LocalBuilder()->IsDestructringLeftHandSide(index_exp)) {
     is_dst = true;
     DstaProcessor processor(index_exp, info);
     dsta_value = processor.ProcessNode();
+    index_exp->parent_node()->ReplaceChild(index_exp, dsta_value);
+    index_exp = dsta_value;
   } else {
     index_exp->Accept(visitor);
   }
@@ -62,9 +65,9 @@ void IterationProcessor::ProcessForInNode(IterationStmt* ast_node, ProcessorInfo
     dsta_value->RemoveAllChild();
     dsta_value->AddChild(new(LocalPool()) Empty);
   } else {
-    is_dst = ast_node->IsContainDestructuring();
+    is_dst = (is_dst)? is_dst : ast_node->IsContainDestructuring();
   }
-                                
+
   AstNode* dsta_stmt = 0;
   if (is_dst && has_variable) {
     VariableDeclarationList* decl_list = new(LocalPool()) VariableDeclarationList(ast_node->line_number());
@@ -75,13 +78,13 @@ void IterationProcessor::ProcessForInNode(IterationStmt* ast_node, ProcessorInfo
     NodeList* list = DstaProcessor::CreateDstaExtractedAssignment(ast_node, info);
     dsta_stmt = LocalBuilder()->CreateExpStmt(list, ast_node->line_number());
   }
-                                
+
   target_exp->Accept(visitor);
   ast_node->first_child()->Accept(visitor);
                                 
   AstNode* body = ast_node->first_child();
   if (is_dst) {
-    body->first_child()->InsertBefore(dsta_stmt);
+    body->InsertBefore(dsta_stmt);
   }
   if (ast_node->IsContainYield() && is_regist) {
     info->translator_data()->function()->set_statement_in_generator(ast_node);
@@ -119,18 +122,12 @@ void IterationProcessor::ProcessForOfNode(IterationStmt* ast_node, ProcessorInfo
     VariableDeclarationList* decl_list = LocalBuilder()->CreateVarDeclList(ast_node->line_number(), 1, init);
     VariableStmt* stmt = LocalBuilder()->CreateVarStmt(decl_list, ast_node->line_number());
     Literal* target = tmp->Clone(LocalPool())->CastToLiteral();
-
-    Literal* has_iterator = LocalBuilder()->CreateNameNode(SymbolList::symbol(SymbolList::kHasIterator),
-                                                      Token::JS_IDENTIFIER, 0, Literal::kProperty);
     Literal* get_iterator = LocalBuilder()->CreateNameNode(SymbolList::symbol(SymbolList::kGetIterator),
                                                       Token::JS_IDENTIFIER, 0, Literal::kProperty);
-    CallExp* runtime_key = LocalBuilder()->CreateRuntimeMod(has_iterator, ast_node->line_number());
-    CallExp* runtime_key2 = LocalBuilder()->CreateRuntimeMod(get_iterator, ast_node->line_number());
+    CallExp* runtime_key = LocalBuilder()->CreateRuntimeMod(get_iterator, ast_node->line_number());
     NodeList* args = LocalBuilder()->CreateNodeList(1, tmp->Clone(LocalPool()));
     CallExp* runtime_call = LocalBuilder()->CreateNormalAccessor(runtime_key, args, ast_node->line_number());
-    CallExp* get_iterator_call = LocalBuilder()->CreateNormalAccessor(runtime_key2, args->Clone(LocalPool()), ast_node->line_number());
-    ConditionalExp* cond_exp = new(LocalPool()) ConditionalExp(runtime_call, get_iterator_call, tmp->Clone(LocalPool()), ast_node->line_number());
-    AssignmentExp* assign = LocalBuilder()->CreateAssignment('=', target->Clone(LocalPool()), cond_exp, ast_node->line_number());
+    AssignmentExp* assign = LocalBuilder()->CreateAssignment('=', target->Clone(LocalPool()), runtime_call, ast_node->line_number());
     ExpressionStmt* exp_stmt = LocalBuilder()->CreateExpStmt(assign, ast_node->line_number());
     ast_node->parent_node()->InsertBefore(stmt, ast_node);
     ast_node->parent_node()->InsertBefore(exp_stmt, ast_node);
@@ -146,32 +143,21 @@ void IterationProcessor::ProcessForOfNode(IterationStmt* ast_node, ProcessorInfo
   Expression* expression = new(LocalPool()) Expression(ast_node->line_number());
   expression->AddChild(assign);
   expression->MarkParenthesis();
-  while_stmt->set_expression(expression);
+  Literal* js_null = LocalBuilder()->CreateNameNode(SymbolList::symbol(SymbolList::kSpNull),
+                                                    Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kIdentifier);
+  CallExp* runtime_call = LocalBuilder()->CreateRuntimeMod(js_null, ast_node->line_number());
+  CompareExp* comp = new (LocalPool()) CompareExp(Token::JS_NOT_EQ, expression, runtime_call, ast_node->line_number());
+  Expression* result_exp = new(LocalPool()) Expression(ast_node->line_number());
+  result_exp->AddChild(comp);
+  while_stmt->set_expression(result_exp);
 
   while_stmt->AddChild(ast_node->first_child());
-  Literal* handler = LocalBuilder()->CreateNameNode(SymbolList::symbol(SymbolList::kExceptionHandler),
-                                               Token::JS_IDENTIFIER, 0, Literal::kProperty);
-  CallExp* runtime_call = LocalBuilder()->CreateRuntimeMod(handler, ast_node->line_number());
-  std::stringstream st;
-  st << ast_node->line_number();
-  Literal* line_num = LocalBuilder()->CreateNameNode(st, Token::JS_NUMERIC_LITERAL, ast_node->line_number(), Literal::kNumeric);
-  std::string buf;
-  os::SPrintf(&buf, "'%s'", info->translator_data()->filename());
-  Literal* file_name = LocalBuilder()->CreateNameNode(buf.c_str(), Token::JS_STRING_LITERAL, ast_node->line_number(), Literal::kString);
-  Literal* error = LocalBuilder()->CreateNameNode("'for of statement expect iterator or generator object.'",
-                                             Token::JS_STRING_LITERAL, 0, Literal::kString);
-  NodeList* args = LocalBuilder()->CreateNodeList(3, line_num, file_name, error);
-  CallExp* handler_call = LocalBuilder()->CreateNormalAccessor(runtime_call, args, ast_node->line_number());
-  ExpressionStmt* handler_stmt = LocalBuilder()->CreateExpStmt(handler_call, ast_node->line_number());
-  BlockStmt* then_block = LocalBuilder()->CreateBlockStmt(ast_node->line_number(), 1, while_stmt);
-  BlockStmt* else_block = LocalBuilder()->CreateBlockStmt(ast_node->line_number(), 1, handler_stmt);
-  IFStmt* if_stmt = LocalBuilder()->CreateIFStmt(dot_exp, then_block, else_block, ast_node->line_number());
-  ast_node->parent_node()->ReplaceChild(ast_node, if_stmt);
+  ast_node->parent_node()->ReplaceChild(ast_node, while_stmt);
 
   if (ast_node->IsContainYield()) {
     info->translator_data()->function()->set_statement_in_generator(while_stmt);
-    info->translator_data()->function()->set_statement_in_generator(if_stmt);
   }
+  info->translator_data()->compilation_event()->Use(CompilationEvent::kGenerator);
 }
 
 
@@ -255,10 +241,9 @@ void IterationProcessor::ProcessWhileNode(IterationStmt *ast_node, ProcessorInfo
   if (is_dst) {
     Expression* exp = new(LocalPool()) Expression(ast_node->line_number());
     exp->AddChild(dsta_list);
-    exp->MarkParenthesis();
     ExpressionStmt* stmt = new(LocalPool()) ExpressionStmt(ast_node->line_number());
     stmt->AddChild(exp);
-    body->first_child()->InsertBefore(stmt);
+    body->InsertBefore(stmt);
     ast_node->parent_node()->InsertBefore(var_stmt, ast_node);
   }
   if (ast_node->IsContainYield()) {

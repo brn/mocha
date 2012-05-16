@@ -255,7 +255,7 @@ CallExp* AstBuilder::BuildPrivateRecordAccessor(int64_t line) {
 
 bool AstBuilder::IsDestructringLeftHandSide(AstNode* node) {
   return (node->node_type() == AstNode::kArrayLikeLiteral ||
-           node->node_type() == AstNode::kObjectLikeLiteral) &&
+          node->node_type() == AstNode::kObjectLikeLiteral) &&
       node->CastToExpression() && node->CastToExpression()->IsValidLhs();
 }
 

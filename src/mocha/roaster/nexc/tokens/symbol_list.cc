@@ -64,7 +64,8 @@ static const char runtime[][50] = {
   "modules",
   "Module",
   "add",
-  "get"
+  "get",
+  "_NULL"
 };
 
 

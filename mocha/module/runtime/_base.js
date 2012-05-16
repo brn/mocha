@@ -32,6 +32,7 @@ var global = (this !== null)?this : typeof window === 'object'? window : {};
  */
 var __Runtime = {
       _global : global,
+      _NULL : {},
       _push : Array.prototype.push,
       _slice : Array.prototype.slice,
       getErrorMessage (e) -> (e.message)? e.message : (e.description)? e.description : e.toString(),
@@ -40,7 +41,7 @@ var __Runtime = {
         isStopIteration( obj ) -> obj === __Runtime.StopIteration || rstopIteration.test( obj );
         isStopIteration;
       },
-      
+
       throwException (exception) {
         try {
           throw exception;
@@ -52,23 +53,23 @@ var __Runtime = {
           }
         }
       },
-      
+
       createUnenumProp(obj, prop, value) -> Object.defineProperty(obj, prop, {
         configurable : true,
         enumerable : false,
         writable : true,
         value : value
       }),
-      
+
       constant(obj, prop, value) -> Object.defineProperty(obj, prop, {
         configurable : false,
         enumerable : false,
         writable : false,
         value : value
       }),
-      
+
       toArray(likeArray, index) -> (likeArray)? this._slice.call(likeArray, index) : [],
-      
+
       extend(dest, source) {
         for (var prop in source) {
           dest[ prop ] = source[ prop ];
@@ -76,4 +77,3 @@ var __Runtime = {
         return dest;
       }
     }
-

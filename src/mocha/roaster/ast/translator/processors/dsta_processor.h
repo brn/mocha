@@ -48,7 +48,7 @@ class DstaProcessor : public Processor{
    * Begin process.
    * NO THROW
    */
-  Literal* ProcessNode();
+  Literal* ProcessNode(bool parent_is_exp_stmt = false);
 
   /**
    * @param {Statement*} stmt

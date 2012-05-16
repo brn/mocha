@@ -93,7 +93,12 @@ VISITOR_IMPL(BlockStmt) {
   PRINT_NODE_NAME;
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
-    iterator.Next()->Accept(this);
+    AstNode* item = iterator.Next();
+    if (item->IsEmpty()) {
+      ast_node->RemoveChild(item);
+    } else {
+      item->Accept(this);
+    }
   }
 }
 
@@ -550,6 +555,8 @@ VISITOR_IMPL(AssignmentExp) {
   if (exp) {
     exp->MarkAsLhs();
   }
+  left->Accept(this);
+  right->Accept(this);
   if (ast_node->parent_node()->node_type() == AstNode::kExpressionStmt ||
       (ast_node->parent_node()->node_type() == AstNode::kExpression &&
        ast_node->parent_node()->parent_node() &&
@@ -569,7 +576,7 @@ VISITOR_IMPL(AssignmentExp) {
                    ast_node->parent_node()->child_length() > 1) {
           ast_node->parent_node()->RemoveChild(ast_node);
         } else if (ast_node->parent_node()->child_length() == 1) {
-          ast_node->parent_node()->parent_node()->RemoveChild(ast_node->parent_node());
+          ast_node->parent_node()->parent_node()->parent_node()->RemoveChild(ast_node->parent_node()->parent_node());
         }
       }
     }
@@ -708,23 +715,10 @@ void OptimizerVisitor::ObjectProccessor_(AstNode* ast_node) {
 
 VISITOR_IMPL(Literal) {
   switch (ast_node->value_type()) {
-    case Literal::kVariable : {
+    case Literal::kVariable :
       ast_node->first_child()->Accept(this);
-      /*if (ast_node->first_child()->CastToLiteral()) {
-        Literal* literal = ast_node->first_child()->CastToLiteral();
-        if (literal->value_type() == Literal::kIdentifier) {
-          if (strcmp(ast_node->value()->token(), literal->value()->token()) == 0) {
-            if (ast_node->parent_node()->child_length() == 1) {
-              ast_node->parent_node()->parent_node()->parent_node()->RemoveChild(ast_node->parent_node()->parent_node());
-            } else {
-              ast_node->parent_node()->RemoveChild(ast_node);
-            }
-          }
-        }
-        }*/
-    }
       break;
-                        
+      
     case Literal::kIdentifier : {
       if (ast_node->child_length() > 0) {
         ast_node->first_child()->Accept(this);
@@ -739,12 +733,12 @@ VISITOR_IMPL(Literal) {
 
 VISITOR_IMPL(ArrayLikeLiteral) {
   PRINT_NODE_NAME;
-  ArrayProccessor_(ast_node);
+  ArrayProccessor_(ast_node->elements());
 }
 
 VISITOR_IMPL(ObjectLikeLiteral) {
   PRINT_NODE_NAME;
-  ObjectProccessor_(ast_node);
+  ObjectProccessor_(ast_node->elements());
 }
 
 UNREACHABLE_IMPL(GeneratorExpression);

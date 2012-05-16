@@ -461,7 +461,7 @@ NodeList* DstaProcessor::CreateDstaExtractedAssignment(Statement* stmt, Processo
 
 
 
-Literal* DstaProcessor::ProcessNode() {
+Literal* DstaProcessor::ProcessNode(bool parent_is_exp_stmt) {
   TranslatorData* translator_data = info()->translator_data();
   /**
    * Create a variable has the temporary referrence to assignment right hand side.
@@ -476,7 +476,7 @@ Literal* DstaProcessor::ProcessNode() {
       need_tmp = false;
       value = literal->Clone(pool())->CastToLiteral();
     }
-  } else {
+  } else if (parent_is_exp_stmt) {
     AstNode* parent = node()->parent_node();
     while (parent) {
       if (parent->node_type() == AstNode::kAssignmentExp) {

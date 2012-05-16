@@ -32,7 +32,7 @@ __Runtime.{
     Object.freeze(ret);
     return ret;
   },
-  
+
   throwStopIteration() {
     try {
       throw StopIteration;
@@ -44,32 +44,57 @@ __Runtime.{
   isGenerator(obj) -> obj instanceof @Generator,
 
   getIterator(obj) {
-    var ret = obj.iterator();
-    if (@isGenerator(ret)) {
-      return ret;
-    }
-    if (ret.next) {
-      var next = ret.next.bind(ret);
-      @createUnenumProp(ret, "next", function (nothrow) {
-        var result = next();
-        if (result === undefined && !nothrow) {
-          @throwStopIteration();
+    if ('iterator' in obj) {
+      var ret = obj.iterator();
+      if (@isGenerator(ret)) {
+        return ret;
+      }
+      if (ret.next) {
+        var next = ret.next.bind(ret);
+        @createUnenumProp(ret, "next", function (nothrow) {
+          var result = next();
+          if (result === __Runtime._NULL && !nothrow) {
+            @throwStopIteration();
+          }
+          return result;
+        });
+      } else {
+        return @getIterator(ret);
+      }
+      if (!("__nothrowNext__" in ret)) {
+        @createUnenumProp(ret, "__nothrowNext__", ret.next.bind(ret, true));
+      }
+      if (!("toString" in ret)) {
+        @createUnenumProp(ret, "toString", -> "[object Iterator]");
+      }
+    } else if (@isGenerator(obj)) {
+      return obj;
+    } else if (typeof obj === 'object'){
+      if Object.prototype.toString.call(obj) === '[object Object]' {
+        var ret = [];
+        for (var i in obj) {
+          ret.push(i);
         }
-        return result;
-      });
+        obj = ret;
+      }
+      return {
+        __index : 0,
+        __nothrowNext__ -> {
+          var ret = obj[this.__index];
+          this.__index++
+          if (this.__index > obj.length) {
+            this.__index = 0;
+            return __Runtime._NULL;
+          } else {
+            return ret;
+          }
+        }
+      }
     } else {
-      return {};
-    }
-    if (!("__nothrowNext__" in ret)) {
-      @createUnenumProp(ret, "__nothrowNext__", ret.next.bind(ret, true));
-    }
-    if (!("toString" in ret)) {
-      @createUnenumProp(ret, "toString", -> "[object Iterator]");
+      return {__nothrowNext__-> {return __Runtime._NULL;}}
     }
     return ret;
-  },
-
-  hasIterator(obj) -> 'iterator' in obj 
+  }
 };
 
 if (!("StopIteration" in __Runtime._global)) {

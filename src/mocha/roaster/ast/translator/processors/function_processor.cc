@@ -195,7 +195,12 @@ void FunctionProcessor::ProcessBody() {
   } else {
     NodeIterator iterator = function_->ChildNodes();
     while (iterator.HasNext()) {
-      iterator.Next()->Accept(visitor);
+      AstNode* item = iterator.Next();
+      if (item->IsEmpty()) {
+        function_->RemoveChild(item);
+      } else {
+        item->Accept(visitor);
+      }
     }
   }
 }
@@ -275,9 +280,10 @@ class YieldHelper : private Processor {
     ExpressionStmt* stmt = builder()->CreateExpStmt(runtime, function_->line_number());
     Literal* is_safe = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kYieldSafeFlag),
                                                  Token::JS_IDENTIFIER, function_->line_number(), Literal::kIdentifier);
-    Literal* undefined = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kUndefined),
-                                                   Token::JS_IDENTIFIER, function_->line_number(), Literal::kIdentifier);
-    ReturnStmt* ret = builder()->CreateReturnStmt(undefined, function_->line_number());
+    Literal* js_null = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kSpNull),
+                                                 Token::JS_IDENTIFIER, function_->line_number(), Literal::kIdentifier);
+    CallExp* runtime_call = builder()->CreateRuntimeMod(js_null, function_->line_number());
+    ReturnStmt* ret = builder()->CreateReturnStmt(runtime_call, function_->line_number());
     IFStmt* if_stmt = builder()->CreateIFStmt(is_safe, ret, stmt, function_->line_number());
     CreateCaseClause(0, true);
     clause_->AddChild(if_stmt);

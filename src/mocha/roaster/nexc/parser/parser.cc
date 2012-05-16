@@ -1776,6 +1776,10 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
                    << filename_ << " at line " << token->line_number());
       END(ForStatementError);
       return new(pool()) IterationStmt(IterationStmt::kFor, line);
+    } else if (exp_list->first_child()->child_length() > 1) {
+      SYNTAX_ERROR("Invalid expression in 'for in statement expression.'\\nin file "
+                 << filename_ << " at line " << Seek(-1)->line_number());
+      return new(pool()) IterationStmt(IterationStmt::kFor, line);
     }
     if (is_var_decl) {
       AstNode* initialiser = exp_list->first_child()->first_child();
@@ -1799,6 +1803,10 @@ AstNode* Parser::ParseForStatement(bool is_comprehensions) {
                    "\\nin file "
                    << filename_ << " at line " << token->line_number());
       END(ForStatementError);
+      return new(pool()) IterationStmt(IterationStmt::kFor, line);
+    } else if (exp_list->first_child()->child_length() > 1) {
+      SYNTAX_ERROR("Invalid expression in 'for in statement expression.'\\nin file "
+                 << filename_ << " at line " << Seek(-1)->line_number());
       return new(pool()) IterationStmt(IterationStmt::kFor, line);
     }
     if (is_var_decl) {
@@ -1874,6 +1882,11 @@ void Parser::ParseForInStatementCondition(NodeList* list, bool has_paren) {
   ENTER(ForInStatementCondition);
   AstNode* target_exp = ParseExpression(false);
   CHECK_ERROR(;);
+  if (target_exp->child_length() > 1) {
+    SYNTAX_ERROR("Invalid expression in 'for in statement expression.'\\nin file "
+                 << filename_ << " at line " << Seek(-1)->line_number());
+    return;
+  }
   TokenInfo* token = Seek();
   list->AddChild(target_exp);
   if ((has_paren && token->type() != ')') || (!has_paren && token->type() != '{')) {

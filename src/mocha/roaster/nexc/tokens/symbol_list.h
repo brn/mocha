@@ -67,7 +67,8 @@ class SymbolList : private Static {
     kModules,
     kModule,
     kAdd,
-    kGet
+    kGet,
+    kSpNull
   } RuntimeSymbol;
 
   typedef enum {

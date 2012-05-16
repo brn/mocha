@@ -131,7 +131,7 @@ VISITOR_IMPL(VersionStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   AstNode* body = ast_node->first_child();
-  ast_node->RemoveAllChild();
+  /*ast_node->RemoveAllChild();
   Function *fn_node =
       builder()->CreateFunctionDecl(new(pool()) Empty, new(pool()) Empty, body, ast_node->line_number());
   Expression* exp = new(pool()) Expression(ast_node->line_number());
@@ -145,7 +145,7 @@ VISITOR_IMPL(VersionStmt) {
                                                                            Literal::kThis));
   CallExp* fn_call = builder()->CreateNormalAccessor(call_accessor, args, ast_node->line_number());
   ExpressionStmt* an_stmt_node = builder()->CreateExpStmt(fn_call, ast_node->line_number());
-  ast_node->AddChild(an_stmt_node);
+  ast_node->AddChild(an_stmt_node);*/
   const char* ver = ast_node->version()->token();
   if (translator_data_->runtime() || (ver && event_->compilation_info()->HasVersion(ver))) {
     body->Accept(this);
@@ -234,48 +234,9 @@ VISITOR_IMPL(ExpressionStmt) {
   PRINT_NODE_NAME;
   REGIST(ast_node);
   ast_node->first_child()->Accept(this);
-  if (ast_node->parent_node()) {
-    if (ast_node->IsContainDestructuring()) {
-      AstNode* result = NULL;
-      if (ast_node->IsNeedDestructuringTmpRef()) {
-        NodeIterator iterator = ast_node->destructuring_node()->refs()->ChildNodes();
-        VariableDeclarationList* var_list = new(pool()) VariableDeclarationList(ast_node->line_number());
-        while (iterator.HasNext()) {
-          Literal* node =
-              builder()->CreateVarInitiliser(iterator.Next()->CastToLiteral()->value(),
-                                             new(pool()) Empty, ast_node->line_number());
-          var_list->AddChild(node);
-        }
-        VariableStmt *var_stmt = builder()->CreateVarStmt(var_list, ast_node->line_number());
-        ast_node->parent_node()->InsertBefore(var_stmt, ast_node);
-        result = ast_node->destructuring_node()->refs()->last_child();
-      } else {
-        result = ast_node->first_child();
-      }
-      NodeList* list = DstaProcessor::CreateDstaExtractedAssignment(ast_node, proc_info_.Get());
-      NodeIterator iter = list->ChildNodes();
-      AstNode* last = 0;
-      while (iter.HasNext()) {
-        AstNode* item = iter.Next();
-        ExpressionStmt* stmt = builder()->CreateExpStmt(item, ast_node->line_number());
-        if (last) {
-          ast_node->parent_node()->InsertAfter(stmt, last);
-          last = stmt;
-        } else {
-          ast_node->parent_node()->InsertAfter(stmt, ast_node);
-          last = stmt;
-        }
-      }
-      if (ast_node->autoreturn()) {
-        ReturnStmt* stmt = builder()->CreateReturnStmt(result, ast_node->line_number());
-        ast_node->parent_node()->ReplaceChild(ast_node, stmt);
-      }
-    } else {
-      if (ast_node->autoreturn()) {
-        ReturnStmt* stmt = builder()->CreateReturnStmt(ast_node->first_child(), ast_node->line_number());
-        ast_node->parent_node()->ReplaceChild(ast_node, stmt);
-      }
-    }
+  if (ast_node->autoreturn()) {
+    ReturnStmt* stmt = builder()->CreateReturnStmt(ast_node->first_child(), ast_node->line_number());
+    ast_node->parent_node()->ReplaceChild(ast_node, stmt);
   }
 }
 
@@ -305,7 +266,7 @@ VISITOR_IMPL(IFStmt) {
     exp->IsParenthesis();
     ExpressionStmt* exp_stmt = new(pool()) ExpressionStmt(ast_node->line_number());
     exp_stmt->AddChild(exp);
-    then_statement->first_child()->InsertBefore(exp_stmt);
+    then_statement->InsertBefore(exp_stmt);
     AstNode* parent = ast_node;
     AstNode* first_if = ast_node;
     while (parent->node_type() == AstNode::kIFStmt) {
@@ -490,9 +451,10 @@ VISITOR_IMPL(ThrowStmt) {
     if (exp->child_length() == 1) {
       Literal* name = exp->first_child()->CastToLiteral();
       if (name && name->value_type() == Literal::kIdentifier && strcmp(name->value()->token(), SymbolList::symbol(SymbolList::kStopIteration)) == 0) {
-        Literal* undefined = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kUndefined),
-                                                       Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kIdentifier);
-        ReturnStmt* stmt = builder()->CreateReturnStmt(undefined, ast_node->line_number());
+        Literal* js_null = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kSpNull),
+                                                     Token::JS_IDENTIFIER, ast_node->line_number(), Literal::kIdentifier);
+        CallExp* runtime_call = builder()->CreateRuntimeMod(js_null, ast_node->line_number());
+        ReturnStmt* stmt = builder()->CreateReturnStmt(runtime_call, ast_node->line_number());
         ast_node->parent_node()->ReplaceChild(ast_node, stmt);
       } else {
         ast_node->expression()->Accept(this);
@@ -677,10 +639,49 @@ VISITOR_IMPL(ConditionalExp) {
 
 VISITOR_IMPL(AssignmentExp) {
   PRINT_NODE_NAME;
+  Statement stmt;
   AstNode* left = ast_node->left_value();
   if (AstBuilder::IsDestructringLeftHandSide(left)) {
+    AstNode* parent = ast_node->parent_node();
+    while (!parent->CastToStatement()) {
+      parent = parent->parent_node();
+    }
+    bool parent_is_exp_stmt = parent->node_type() == AstNode::kExpressionStmt;
+    bool parent_is_for_stmt = parent->node_type() == AstNode::kFor;
+    if (parent_is_exp_stmt || parent_is_for_stmt) {
+      translator_data_->set_current_statement(&stmt);
+    }
     DstaProcessor processor(left, proc_info_.Get());
-    processor.ProcessNode();
+    processor.ProcessNode(parent_is_exp_stmt || parent_is_for_stmt);
+    if (parent_is_exp_stmt || parent_is_for_stmt) {
+      AstNode* result = NULL;
+      NodeList* list = DstaProcessor::CreateDstaExtractedAssignment(&stmt, proc_info_.Get());
+      if (stmt.IsNeedDestructuringTmpRef()) {
+        NodeIterator iterator = stmt.destructuring_node()->refs()->ChildNodes();
+        VariableDeclarationList* var_list = new(pool()) VariableDeclarationList(ast_node->line_number());
+        while (iterator.HasNext()) {
+          Literal* node =
+              builder()->CreateVarInitiliser(iterator.Next()->CastToLiteral()->value(),
+                                             new(pool()) Empty, ast_node->line_number());
+          var_list->AddChild(node);
+        }
+        VariableStmt *var_stmt = builder()->CreateVarStmt(var_list, ast_node->line_number());
+        parent->parent_node()->InsertBefore(var_stmt, parent);
+        stmt.destructuring_node()->refs()->last_child();
+      } else {
+        AstNode* first = list->first_child();
+        list->RemoveChild(first);
+        ast_node->parent_node()->ReplaceChild(ast_node, first);
+      }
+      NodeIterator iter = list->ChildNodes();
+      AstNode* exp = ast_node->parent_node();
+      AstNode* last = ast_node;
+      while (iter.HasNext()) {
+        AstNode* item = iter.Next();
+        exp->InsertAfter(item, last);
+        last = item;
+      }
+    }
   } else {
     ast_node->left_value()->Accept(this);
   }
