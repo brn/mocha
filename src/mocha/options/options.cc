@@ -3,9 +3,9 @@
 
 namespace mocha {
 
-static const char* kCompileOnly = {"--compile"};
-static const char* kConfigSpecified = {"--config"};
-static const char* kDependencieCheckOnly = {"--deps"};
+static const char* kCompileOnly = {"compile"};
+static const char* kConfigSpecified = {"config"};
+static const char* kDependencieCheckOnly = {"deps"};
 class OptionsState {
  public :
   enum {
@@ -40,8 +40,8 @@ void Options::Parse(int argc, char** argv) {
 
 void Options::Analyze(const char* arg) {
   int len = strlen(arg);
-  if (len > 2) {
-    if (arg[0] == '-' && arg[1] == '-') {
+  if (len > 0) {
+    if (state_->IsEmpty()) {
       ParseCommand(arg);
     } else {
       ParseArguments(arg);
@@ -87,6 +87,7 @@ void Options::ParseArguments(const char* arg) {
         os::SPrintf(&error_, "--compile and --deps options can not set together.\n", arg);
         errors_++;
       } else {
+        file_path_ = arg;
         flags_.Set(OptionsState::kDependencieCheckOnly);
       }
       state_->Reset();

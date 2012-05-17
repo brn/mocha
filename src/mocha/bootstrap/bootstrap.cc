@@ -40,6 +40,11 @@ void Bootstrap::Initialize(int argc, char** argv) {
     ci.SetGlobalScope();
     CompilationResultHandle ret = ro.CompileFile(options.file_path(), "utf8", &ci);
     os::Printf("%s\n", ret->source());
+  } else if (options.IsDependencieCheckOnly()) {
+    DepsListHandle ret = Roaster::CheckDepends(options.file_path());
+    for (DepsList::iterator it = ret->begin(); it != ret->end(); ++it) {
+      os::Printf("%s\n", it->c_str());
+    }
   } else {
     Setting::Initialize(options);
     CreateMochaDir();
