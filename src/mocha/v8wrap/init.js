@@ -198,7 +198,8 @@
       exit : function () {natives.script.watcher.exit();},
       isRunning : function () {return natives.script.watcher.isRunning();},
       addSetting : function (path, setting) {
-        natives.script.watcher.addSetting(path, setting);
+        var option = makeOptionList(null, false, setting);
+        natives.script.watcher.addSetting(path, option);
       },
       removeSetting : function (path) {
         natives.script.watcher.removeSetting(path);
@@ -209,15 +210,18 @@
     },
     compiler : {
       compile : function (path, charset, option) {
+        option = makeOptionList(path, false, option);
         return natives.script.Roaster.compile(path, charset, option);
       },
       compileFile : function (path, charset, option) {
+        option = makeOptionList(path, false, option);
         return natives.script.Roaster.compileFile(path, charset, option);
       },
       checkDependencies : function (path) {
         return natives.script.Roaster.checkDependencies(path);
       },
       deploy : function (path, charset, option) {
+        option = makeOptionList(path, false, option);
         return natives.script.Roaster.deploy(path, charset, option);
       }
     }
@@ -407,7 +411,7 @@
         utils.defProp(mocha, 'callCommand', function (source) {
           var isString = typeof source === 'string';
           if (isString && source[0] == '.') {
-            var compiled = natives.script.Roaster.compile('mocha._commands' + source + ';', 'utf-8', {prettyPrint : true, unversions : 'backCompat'});
+            var compiled = modules.script.compiler.compile('mocha._commands' + source + ';', 'utf-8', {prettyPrint : true, unversions : 'backCompat'});
             return compile(compiled);
           } else if (isString) {
             return mocha._commands[Array.prototype.shift.call(arguments)].apply(null, arguments);
@@ -447,22 +451,32 @@
         }
       }
 
+  var getBooleanOption = function (isString, option, defaultIsTrue) {
+        if (defaultIsTrue) {
+          option = utils.isDefined(option)? option : true;
+        }
+        return (isString)? (option? 'yes' : 'no') : !!option;
+      }
+
   var makeOptionList = function (i, isString, setting) {
         setting = setting || {};
-        merge(setting, natives.script.watcher._settingList[i]);
-        var path_info = new natives.fs.Path(i),
+        if (i && natives.script.watcher._settingList[i]) {
+          merge(setting, natives.script.watcher._settingList[i]);
+        }
+        var options = setting.options || {};
+        var path_info = (i)? new natives.fs.Path(i) : null,
             inputCharset = setting.inputCharset || 'utf8',
             outputCharset = setting.outputCharset || 'utf8',
-            deployDir = setting.deployDir || path_info.directory(),
-            deployName = setting.deployName || path_info.filename().replace('.js', '-cmp.js'),
-            options = setting.options || {},
+            deployDir = setting.deployDir || ((path_info !== null)? path_info.directory() : ''),
+            deployName = setting.deployName || ((path_info !== null)? path_info.filename().replace('.js', '-cmp.js') : ''),
             moduleDir = (isString)? '(' + (options.moduleDir || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.moduleDir || [],
             compress = (!isString)? ((utils.isDefined(options.compress))?options.compress : false) : options.compress? 'yes' : 'no',
             debug = (!isString)? ((utils.isDefined(options.debug))? options.debug : false) : options.debug? 'yes' : 'no',
-            prettyPrint = (!isString)? (utils.isDefined(options.prettyPrint)? options.prettyPrint : true) : options.prettyPrint? 'yes' : 'no',
-            fileScope = (!isString)? ((utils.isDefined(options.fileScope))? true : options.fileScope) : options.fileScope? 'yes' : (!('fileScope' in options))? 'yes' : (options.fileScope)? 'yes' : 'no',
-            globalScope = (!isString)? ((utils.isDefined(options.globalScope))? true : options.globalScope) : options.globalScope? 'yes' : (!('globalScope' in options))? 'yes' : (!options.globalScope)? 'no' : 'yes',
-            prototypeExt = (!isString)? ((utils.isDefined(options.prototypeExtensions))? options.prototypeExtensions : true) : options.prototypeExtensions? 'no' : 'yes',
+            prettyPrint = getBooleanOption(isString, options.prettyPrint, true),
+            fileScope = getBooleanOption(isString, options.fileScope, true),
+            globalScope = getBooleanOption(isString, options.globalScope, true),
+            runtime = getBooleanOption(isString, options.runtime, true),
+            prototypeExt = getBooleanOption(isString, options.prototypeExtensions, true),
             versions = (isString)? '(' + (options.versions || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.versions || [],
             libs = (isString)? '(' + (options.libs || ['']).reduce(function (item1, item2){ return item1 + ', ' + item2;}) + ')' : options.libs || []
         return {
@@ -471,15 +485,18 @@
           outputCharset : outputCharset,
           deployDir : deployDir,
           deployName : deployName,
-          moduleDir : (!isString)? Array.prototype.slice.call(moduleDir) : moduleDir,
-          compress : compress,
-          debug : debug,
-          prettyPrint : prettyPrint,
-          fileScope : fileScope,
-          globalScope : globalScope,
-          prototypeExtensions : prototypeExt,
-          versions : (!isString)? Array.prototype.slice.call(versions) : versions,
-          libs : (!isString)? Array.prototype.slice.call(libs) : libs
+          options : {
+            moduleDir : (!isString)? Array.prototype.slice.call(moduleDir) : moduleDir,
+            compress : compress,
+            debug : debug,
+            prettyPrint : prettyPrint,
+            fileScope : fileScope,
+            globalScope : globalScope,
+            runtime : runtime,
+            prototypeExtensions : prototypeExt,
+            versions : (!isString)? Array.prototype.slice.call(versions) : versions,
+            libs : (!isString)? Array.prototype.slice.call(libs) : libs
+          }
         }
       }
 
@@ -493,22 +510,22 @@
       var is_match = pred(option);
       if (is_match) {
         if (showDeploy && showOpt) {
-          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.prototypeExtensions, option.versions, option.libs]);
+          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.runtime, option.prototypeExtensions, option.versions, option.libs]);
         } else if (showOpt) {
-          ret.push([i, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.prototypeExtensions, option.versions, option.libs]);
+          ret.push([i, option.moduleDir, option.compress, option.debug, option.prettyPrint, option.fileScope, option.globalScope, option.runtime, option.prototypeExtensions, option.versions, option.libs]);
         } else if (showDeploy) {
-          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName, option.moduleDir]);
+          ret.push([i, option.inputCharset || '', option.outputCharset || '', option.deployDir, option.deployName]);
         } else {
           ret.push([i]);
         }
       }
     }
     if (showDeploy && showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'prototypeExt', 'versions', 'libs'], 2);
+      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'runtime', 'prototypeExt', 'versions', 'libs'], 2);
     } else if (showOpt) {
-      mocha.printAsciiBox(ret, ['name', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'prototypeExt', 'versions', 'libs'], 2);
+      mocha.printAsciiBox(ret, ['name', 'moduleDir', 'compress', 'debug', 'prettyPrint', 'fileScope', 'globalScope', 'runtime', 'prototypeExt', 'versions', 'libs'], 2);
     } else if (showDeploy) {
-      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)', 'moduleDir'], 2);
+      mocha.printAsciiBox(ret, ['name', 'charset(in)', 'charset(out)', 'deploy(dir)', 'deploy(name)'], 2);
     } else {
       mocha.printAsciiBox(ret, ['name'], 2);
     }
@@ -551,17 +568,6 @@
     }
     for (var i in natives.script.watcher._settingList) {
       var option = makeOptionList(i, false, opt);
-      option.options = {
-        compress : option.compress,
-        prettyPrint : option.prettyPrint,
-        debug : option.debug,
-        versions : option.versions,
-        moduleDir : option.moduleDir,
-        fileScope : option.fileScope,
-        globalScope : option.globalScope,
-        prototypeExtensions : option.prototypeExtensions,
-        libs : option.libs
-      }
       if (pred(option)) {
         natives.script.Roaster.deploy(i, option.inputCharset, option);
       }
@@ -594,18 +600,7 @@
       }
       for (var i in natives.script.watcher._settingList) {
         var option = makeOptionList(i, false, opt);
-        option.versions.push("test");
-        option.options = {
-          compress : option.compress,
-          prettyPrint : option.prettyPrint,
-          debug : option.debug,
-          versions : option.versions,
-          moduleDir : option.moduleDir,
-          fileScope : option.fileScope,
-          globalScope : option.globalScope,
-          prototypeExtensions : option.prototypeExtensions,
-          libs : option.libs
-        }
+        option.options.versions.push("test");
         if (pred(option)) {
           natives.script.Roaster.deploy(i, option.inputCharset, option);
           dir = natives.script.watcher._settingList[i].deployDir;
@@ -737,7 +732,7 @@
   natives.internalLogger.initialize();
   function runInConfigContext (source, path) {
     path = path || 'anonymous';
-    var compiled = natives.script.Roaster.compile(source, 'utf-8', {prettyPrint : true, unversions : "backCompat"});
+    var compiled = modules.script.compiler.compile(source, 'utf-8', {prettyPrint : true, unversions : "backCompat"});
     source = '(function(mocha) {\n' + compiled + '\n})';
     compile(source, path)(mocha);
   };

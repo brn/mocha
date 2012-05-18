@@ -171,7 +171,7 @@ void V8Init::Initialize() {
   context_ = REGIST_PERSISTENT(Context::New(NULL, config_global_template), "GlobalContext");
   Context::Scope context_scope(context_);
   native_ = REGIST_PERSISTENT(Object::New(), "Natives");
-  Handle<Value> fn = DoRun(packed_script::initjs);
+  Handle<Value> fn = DoRun(packed_script::initjs, "init.js");
   Handle<FunctionTemplate> compile_tmp = FunctionTemplate::New(Compile);
   Handle<v8::Function> callable = Handle<v8::Function>::Cast(fn);
   compile_ = REGIST_PERSISTENT(compile_tmp->GetFunction(), "CompileFunction");

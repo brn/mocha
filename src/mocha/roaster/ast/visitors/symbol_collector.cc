@@ -39,7 +39,6 @@ void SymbolCollector::Rename(Literal* lit) {
 VISITOR_IMPL(AstRoot) {
   PRINT_NODE_NAME;
   scope_ = scope_registry_->Assign();
-  virtual_scope_ = virtual_registry_.Assign();
   ast_node->set_scope(scope_);
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
@@ -51,12 +50,10 @@ VISITOR_IMPL(AstRoot) {
 
 VISITOR_IMPL(FileRoot) {
   PRINT_NODE_NAME;
-  virtual_scope_ = virtual_registry_.Assign();
   NodeIterator iterator = ast_node->ChildNodes();
   while (iterator.HasNext()) {
     iterator.Next()->Accept(this);
   }
-  virtual_scope_ = virtual_registry_.Return();
 }
 
 
@@ -350,15 +347,9 @@ VISITOR_IMPL(Function){
   AstNode* name = ast_node->name();
   Literal* name_node = name->CastToLiteral();
   if (!name->IsEmpty()) {
-    if (!info_->FileScope()) {
-      if (virtual_scope_ && virtual_scope_->IsFirstScope()) {
-        virtual_scope_->ScopeRename(name_node->value());
-      }
-    }
     scope_->Insert(name_node->value(), ast_node);
   }
   scope_ = scope_registry_->Assign();
-  virtual_scope_ = virtual_registry_.Assign();
   ast_node->set_scope(scope_);
   if (info_->Debug()) {
     TokenInfo* runtime = new(memory::Pool::Local()) TokenInfo(SymbolList::symbol(SymbolList::kRuntime),
@@ -377,7 +368,6 @@ VISITOR_IMPL(Function){
     body_iterator.Next()->Accept(this);
   }
   scope_ = scope_registry_->Return();
-  virtual_scope_ = virtual_registry_.Return();
 };
 
 
@@ -414,9 +404,6 @@ VISITOR_IMPL(Literal) {
       if (info_->FileScope()) {
         scope_->Insert(ast_node->value(), ast_node->first_child());
       } else {
-        if (virtual_scope_ && virtual_scope_->IsFirstScope()) {
-          virtual_scope_->ScopeRename(ast_node->value());
-        }
         scope_->Insert(ast_node->value(), ast_node->first_child());
       }
       break;
@@ -430,14 +417,6 @@ VISITOR_IMPL(Literal) {
     case Literal::kIdentifier : {
       if (strcmp(ast_node->value()->token(), SymbolList::symbol(SymbolList::kScopeModule)) == 0) {
         ast_node->value()->set_token(SymbolList::symbol(SymbolList::kGlobalAlias));
-      }
-      if (!info_->FileScope()) {
-        if (virtual_scope_) {
-          const char* renamed = virtual_scope_->FindRenamed(ast_node->value());
-          if (renamed) {
-            ast_node->value()->set_token(renamed);
-          }
-        }
       }
       scope_->Ref(ast_node->value());
       AstNode* first_child = ast_node->first_child();

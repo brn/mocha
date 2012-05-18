@@ -1,5 +1,9 @@
 var x = 100;
 
+module x {
+  export a = 0;
+}
+
 @version(compilation_test) {
   (function () {})();
 }

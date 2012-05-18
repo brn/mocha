@@ -47,6 +47,10 @@ CompilationResultHandle Nexl::Link(AstRoot* root, SharedPtr<ErrorReporter> repor
     DEBUG_LOG(Info, "compress mode = %s", (info_->Compress()? "yes" : "no"));
     DEBUG_LOG(Info, "pretty print mode = %s", (info_->PrettyPrint()? "yes" : "no"));
     DEBUG_LOG(Info, "debug mode = %s", (info_->Debug()? "yes" : "no"));
+    DEBUG_LOG(Info, "fileScope mode = %s", (info_->FileScope()? "yes" : "no"));
+    DEBUG_LOG(Info, "globalScope mode = %s", (info_->GlobalScope()? "yes" : "no"));
+    DEBUG_LOG(Info, "prototypeExtensions mode = %s", (info_->PrototypeExtensions()? "yes" : "no"));
+    DEBUG_LOG(Info, "runtime mode = %s", (info_->Runtime()? "yes" : "no"));
     OptimizerVisitor optimizer(info_);
     root->Accept(&optimizer);
     if (info_->Compress()) {

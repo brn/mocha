@@ -14,6 +14,7 @@ void FileRootProcessor::ProcessNode() {
   IVisitor* visitor = info()->visitor();
   bool is_runtime = translator_data->runtime();
   bool has_filescope = info()->translator_data()->compilation_info()->FileScope();
+  bool has_module = info()->translator_data()->compilation_event()->IsUsed(CompilationEvent::kModule);
   if (!is_runtime) {
     Literal* add = builder()->CreateNameNode(SymbolList::symbol(SymbolList::kAdd),
                                              Token::JS_IDENTIFIER, node()->line_number(), Literal::kProperty);
@@ -27,7 +28,8 @@ void FileRootProcessor::ProcessNode() {
     key_str.erase(key_str.size() - 4, 3);
 #endif
     ExpressionStmt* extend_global = NULL;
-    if (!info()->translator_data()->compilation_event()->nomodule()) {
+    if (!info()->translator_data()->compilation_event()->nomodule() &&
+        has_module) {
       Literal* key = builder()->CreateNameNode(key_str.c_str(), Token::JS_STRING_LITERAL, node()->line_number(), Literal::kString);
                                                                 
       CallExp* runtime_accessor = builder()->CreateRuntimeMod(module, node()->line_number());
@@ -58,7 +60,9 @@ void FileRootProcessor::ProcessNode() {
       fn->Accept(visitor);
     } else {
       info_->translator_data()->set_root(node());
-      node()->InsertBefore(extend_global);
+      if (extend_global != NULL) {
+        node()->InsertBefore(extend_global);
+      }
       NodeIterator iterator = node()->ChildNodes();
       while (iterator.HasNext()) {
         iterator.Next()->Accept(visitor);

@@ -10,7 +10,7 @@ watcher.addSetting('test/test.js', {
   options : {
     prettyPrint : true,
     debug : true,
-    fileScope : true,
+    fileScope : false,
     globalScope : true,
     moduleDir : ['test/lib'],
     versions : ['compilation_test'],

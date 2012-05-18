@@ -689,6 +689,9 @@ void SetCompilationOption(Handle<Object> options, CompilationInfo* info) {
   if (options->Get(String::New("globalScope"))->IsFalse()) {
     info->UnsetGlobalScope();
   }
+  if (options->Get(String::New("runtime"))->IsFalse()) {
+    info->UnsetRuntime();
+  }
   if (options->Get(String::New("prototypeExtensions"))->IsFalse()) {
     info->UnsetPrototypeExtensions();
   }

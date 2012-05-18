@@ -5,19 +5,20 @@
   var global = (this !==  null )?this : typeof window === 'object'?window : {},
       __Runtime =  {
         _global : global,
-        _push : Array.prototype.push,
-        _slice : Array.prototype.slice,
+        _NULL : {},
+        _push : [].push,
+        _slice : [].slice,
         getErrorMessage : function (e) {
           return (e.message)?e.message : (e.description)?e.description : e.toString();
         },
-        isStopIteration : (function () {
-          
+        isStopIteration : function () {
           function isStopIteration(obj) {
             return obj === __Runtime.StopIteration || rstopIteration.test(obj);
           }
+          
           var rstopIteration = /StopIteration/;
           return isStopIteration;
-        })(),
+        }(),
         throwException : function (exception) {
           try {
             throw exception;
@@ -25,10 +26,8 @@
             
             if (__Runtime.isStopIteration(e)){
               throw new Error(e);
-            } else {
-              throw new Error(this.getErrorMessage(e));
             }
-            
+            throw new Error(this.getErrorMessage(e));
           }
           
         },
@@ -60,371 +59,370 @@
         }
       };
   
-  !function () {
-    !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
-      function defineBuiltin(obj,name,value) {
-        return Object.defineProperty(obj,name, {
-          value : value,
-          configurable :  true ,
-          enumerable :  false ,
-          writable :  true 
-        });
-      }
-      function callbackCheck(callback,type) {
-        
-        __Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",40,'_prototype.js');
-        
-        typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
-      }
-      function builtinTypeError(message) {
-        try {
-          throw new TypeError(message);
-        } catch(e){
-          throw new Error(e);
-        }
-        
+  !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
+    function defineBuiltin(obj,name,value) {
+      return Object.defineProperty(obj,name, {
+        value : value,
+        configurable :  true ,
+        enumerable :  false ,
+        writable :  true 
+      });
+    }
+    function callbackCheck(callback,type) {
+      
+      __Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",40,'_prototype.js');
+      
+      typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
+    }
+    function builtinTypeError(message) {
+      try {
+        throw new TypeError(message);
+      } catch(e){
+        throw new Error(e);
       }
       
-      var stringProto = _mochaLocalTmp0.prototype,
-          arrayProto = _mochaLocalTmp1.prototype,
-          functionProto = _mochaLocalTmp2.prototype,
-          dateProto = _mochaLocalTmp3.prototype;
+    }
+    
+    var stringProto = _mochaLocalTmp0.prototype,
+        arrayProto = _mochaLocalTmp1.prototype,
+        functionProto = _mochaLocalTmp2.prototype,
+        dateProto = _mochaLocalTmp3.prototype;
+    
+    !Object.keys && (Object.keys = function (obj) {
+      !obj && builtinTypeError("Object.keys : first arguments is null or not defined.");
       
-      !Object.keys && (Object.keys = function (obj) {
-        !obj && builtinTypeError("Object.keys : first arguments is null or not defined.");
+      var ret = [],
+          iter = -1;
+      
+      for (var i in obj){
         
-        var ret = [],
-            iter = -1;
-        
-        for (var i in obj){
-          
-          obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
-        }
-        return ret;
-      });
-      
-      !Object.preventExtensions && (Object.preventExtensions = function (o) {
-        return o;
-      });
-      
-      !Object.seal && (Object.seal = function (o) {
-        return o;
-      });
-      
-      !Object.freeze && (Object.freeze = function (o) {
-        return o;
-      });
-      
-      var hasRealEcma5 = function () {
-            var ret;
-            
-            try {
-              
-              var obj = {};
-              
-              Object.defineProperty(obj,"test", {
-                configurable :  false ,
-                writable :  false ,
-                enumerable :  false ,
-                value : 0
-              });
-              
-              obj.test = 200;
-              
-              ret = (obj.test === 200)? false  :  true ;
-            } catch(e){
-              return ret =  false ;
-            }
-            return ret;
-          }();
-      
-      !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
-        "value" in valobj && (obj[prop] = valobj.value);
-      });
-      
-      if (!stringProto.trim){
-        
-        stringProto.trim = function () {
-          return this.replace(stringProto.trim.rtrim,"");
-        };
-        
-        stringProto.trim.rtrim = /^\s*|\s*$/g;
+        obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
       }
-      
-      !stringProto.repeat && defineBuiltin(stringProto,"repeat",
-      function (num) {
-        return Array(num+1).join(this.toString());
-      });
-      
-      !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
-      function (str) {
-        return !this.indexOf(str);
-      });
-      
-      !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
-      function (str) {
-        var t = String(str),
-            index = this.lastIndexOf(t);
-        return index >= 0 && index === this.length-t.length;
-      });
-      
-      !stringProto.contains && defineBuiltin(stringProto,"contains",
-      function (str) {
-        return this.indexOf(str) !== -1;
-      });
-      
-      !stringProto.toArray && defineBuiltin(stringProto,"toArray",
-      function (str) {
-        return this.split("");
-      });
-      
-      !functionProto.bind && defineBuiltin(functionProto,"bind",
-      function () {
-        var argArray = arrayProto.slice.call(arguments),
-            context = argArray.shift(),
-            ret = function () {
-              var args = argArray.concat(arrayProto.slice.call(arguments));
-              return this !==  null  && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
-            };
-        
-        ret.prototype = this.prototype;
-        
-        ret.context = this;
-        return ret;
-      });
-      
-      !arrayProto.forEach && defineBuiltin(arrayProto,"forEach",
-      function (callback,that) {
-        callbackCheck(callback,"Array.forEach");
-        
-        var iter = -1,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
-        
-        if (that){
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            callback.call(that,ta,iter,this);
-          }
+      return ret;
+    });
+    
+    !Object.preventExtensions && (Object.preventExtensions = function (o) {
+      return o;
+    });
+    
+    !Object.seal && (Object.seal = function (o) {
+      return o;
+    });
+    
+    !Object.freeze && (Object.freeze = function (o) {
+      return o;
+    });
+    
+    var hasRealEcma5 = function () {
+          var ret;
           
-        } else {
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            callback(ta,iter,this);
-          }
-          
-        }
-        
-      });
-      
-      !arrayProto.every && defineBuiltin(arrayProto,"every",
-      function (callback,that) {
-        callbackCheck(callback,"Array.every");
-        
-        var iter = -1,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.every : this is null or not defined");
-        
-        if (that){
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback.call(that,ta,iter,this))){
-              return  false ;
-            }
+          try {
             
-          }
-          
-        } else {
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback(ta,iter,this))){
-              return  false ;
-            }
+            var obj = {};
             
+            Object.defineProperty(obj,"test", {
+              configurable :  false ,
+              writable :  false ,
+              enumerable :  false ,
+              value : 0
+            });
+            
+            obj.test = 200;
+            
+            ret = (obj.test === 200)? false  :  true ;
+          } catch(e){
+            
+            ret =  false ;
           }
-          
-        }
-        return  true ;
-      });
+          return ret;
+        }();
+    
+    !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
+      "value" in valobj && (obj[prop] = valobj.value);
+    });
+    
+    if (!stringProto.trim){
       
-      !arrayProto.some && defineBuiltin(arrayProto,"some",
-      function (callback,that) {
-        callbackCheck(callback,"Array.some");
-        
-        var iter = -1,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.some : this is null or not defined");
-        
-        if (that){
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            if (callback.call(that,ta,iter,this)){
-              return  true ;
-            }
-            
-          }
-          
-        } else {
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            if (callback(ta,iter,this)){
-              return  true ;
-            }
-            
-          }
-          
-        }
-        return  false ;
-      });
+      stringProto.trim = function () {
+        return this.replace(stringProto.trim.rtrim,"");
+      };
       
-      !arrayProto.filter && defineBuiltin(arrayProto,"filter",
-      function (callback,that) {
-        callbackCheck(callback,"Array.filter");
-        
-        var len = this.length,
-            iter = -1,
-            ret = [],
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.filter : this is null or not defined");
-        
-        if (that){
-          for (var i = 0,len = this.length;i<len; ++ i){
-            
-            (ta = this[i]) !==  null  && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-          }
-          
-        } else {
-          for (var i = 0,len = this.length;i<len; ++ i){
-            
-            (ta = this[i]) !==  null  && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
-          }
-          
-        }
-        return ret;
-      });
+      stringProto.trim.rtrim = /^\s*|\s*$/g;
+    }
+    
+    !stringProto.repeat && defineBuiltin(stringProto,"repeat",
+    function (num) {
+      return Array(num+1).join(this.toString());
+    });
+    
+    !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
+    function (str) {
+      return !this.indexOf(str);
+    });
+    
+    !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
+    function (str) {
+      var t = String(str),
+          index = this.lastIndexOf(t);
+      return index >= 0 && index === this.length-t.length;
+    });
+    
+    !stringProto.contains && defineBuiltin(stringProto,"contains",
+    function (str) {
+      return this.indexOf(str) !== -1;
+    });
+    
+    !stringProto.toArray && defineBuiltin(stringProto,"toArray",
+    function (str) {
+      return this.split("");
+    });
+    
+    !functionProto.bind && defineBuiltin(functionProto,"bind",
+    function () {
+      var argArray = arrayProto.slice.call(arguments),
+          context = argArray.shift(),
+          ret = function () {
+            var args = argArray.concat(arrayProto.slice.call(arguments));
+            return this !==  null  && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
+          };
       
-      !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
-      function (subject,fromIndex) {
-        var iter = (fromIndex)?fromIndex-1 : -1,
-            index = -1,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
-        
+      ret.prototype = this.prototype;
+      
+      ret.context = this;
+      return ret;
+    });
+    
+    !arrayProto.forEach && defineBuiltin(arrayProto,"forEach",
+    function (callback,that) {
+      callbackCheck(callback,"Array.forEach");
+      
+      var iter = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
+      
+      if (that){
         while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-          if (ta === subject){
-            
-            index = iter;
-            break;
+          callback.call(that,ta,iter,this);
+        }
+        
+      } else {
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          callback(ta,iter,this);
+        }
+        
+      }
+      
+    });
+    
+    !arrayProto.every && defineBuiltin(arrayProto,"every",
+    function (callback,that) {
+      callbackCheck(callback,"Array.every");
+      
+      var iter = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.every : this is null or not defined");
+      
+      if (that){
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          if (!(callback.call(that,ta,iter,this))){
+            return  false ;
           }
           
         }
-        return index;
-      });
-      
-      !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
-      function (target,fromIndex) {
-        var len = this.length,
-            iter = (fromIndex)?fromIndex+1 : len,
-            index = -1,
-            ta;
         
-        this ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
-        
-        while ((ta = this[ -- iter]) !==  null  && ta !== undefined){
-          if (ta === target){
-            
-            index = iter;
-            break;
+      } else {
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          if (!(callback(ta,iter,this))){
+            return  false ;
           }
           
         }
-        return index;
-      });
+        
+      }
+      return  true ;
+    });
+    
+    !arrayProto.some && defineBuiltin(arrayProto,"some",
+    function (callback,that) {
+      callbackCheck(callback,"Array.some");
       
-      !arrayProto.map && defineBuiltin(arrayProto,"map",
-      function (callback,that) {
-        callbackCheck(callback,"Array.map");
-        
-        var ret = [],
-            iter = -1,
-            len = this.length,
-            i = 0,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.map : this is null or not defined.");
-        
-        if (that){
-          for (i;i<len; ++ i){
-            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-          }
-          
-        } else {
-          for (i;i<len; ++ i){
-            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+      var iter = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.some : this is null or not defined");
+      
+      if (that){
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          if (callback.call(that,ta,iter,this)){
+            return  true ;
           }
           
         }
-        return ret;
-      });
+        
+      } else {
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          if (callback(ta,iter,this)){
+            return  true ;
+          }
+          
+        }
+        
+      }
+      return  false ;
+    });
+    
+    !arrayProto.filter && defineBuiltin(arrayProto,"filter",
+    function (callback,that) {
+      callbackCheck(callback,"Array.filter");
       
-      !arrayProto.reduce && defineBuiltin(arrayProto,"reduce",
-      function (callback,initial) {
-        callbackCheck(callback,"Array.reduce");
+      var len = this.length,
+          iter = -1,
+          ret = [],
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.filter : this is null or not defined");
+      
+      if (that){
+        for (var i = 0,len = this.length;i<len; ++ i){
+          
+          (ta = this[i]) !==  null  && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+        }
         
-        var ret = initial || this[0],
-            i = (initial)?0 : 1,
-            len = this.length,
-            ta;
+      } else {
+        for (var i = 0,len = this.length;i<len; ++ i){
+          
+          (ta = this[i]) !==  null  && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+        }
         
-        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      }
+      return ret;
+    });
+    
+    !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
+    function (subject,fromIndex) {
+      var iter = (fromIndex)?fromIndex-1 : -1,
+          index = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
+      
+      while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+        if (ta === subject){
+          
+          index = iter;
+          break;
+        }
         
+      }
+      return index;
+    });
+    
+    !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
+    function (target,fromIndex) {
+      var len = this.length,
+          iter = (fromIndex)?fromIndex+1 : len,
+          index = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+      
+      while ((ta = this[ -- iter]) !==  null  && ta !== undefined){
+        if (ta === target){
+          
+          index = iter;
+          break;
+        }
+        
+      }
+      return index;
+    });
+    
+    !arrayProto.map && defineBuiltin(arrayProto,"map",
+    function (callback,that) {
+      callbackCheck(callback,"Array.map");
+      
+      var ret = [],
+          iter = -1,
+          len = this.length,
+          i = 0,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.map : this is null or not defined.");
+      
+      if (that){
         for (i;i<len; ++ i){
-          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
+          (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
         }
-        return ret;
-      });
-      
-      !arrayProto.reduceRight && defineBuiltin(arrayProto,"reduceRight",
-      function (callback,initial) {
-        callbackCheck(callback,"Array.reduceRight");
         
-        var len = this.length,
-            ret = initial || this[len-1],
-            i = (initial)?len-1 : len-2,
-            ta;
-        
-        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
-        
-        for (i;i>-1; -- i){
-          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
+      } else {
+        for (i;i<len; ++ i){
+          (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
         }
-        return ret;
-      });
+        
+      }
+      return ret;
+    });
+    
+    !arrayProto.reduce && defineBuiltin(arrayProto,"reduce",
+    function (callback,initial) {
+      callbackCheck(callback,"Array.reduce");
       
-      !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
-      function () {
-        var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            month = _mochaLocalTmp4[0],
-            date = _mochaLocalTmp4[1],
-            hour = _mochaLocalTmp4[2],
-            minute = _mochaLocalTmp4[3],
-            second = _mochaLocalTmp4[4];
-        return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
-      });
+      var ret = initial || this[0],
+          i = (initial)?0 : 1,
+          len = this.length,
+          ta;
       
-      !Date.now && defineBuiltin(Date,"now",
-      function () {
-        return +new Date();
-      });
+      (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
       
-      !Array.isArray && defineBuiltin(Array,"isArray",
-      function (arr) {
-        if (arguments.length === 0){
-          return  false ;
-        }
-        return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
-      });
-    }.call(this,String,Array,Function,Date);
-  }.call(this);
+      for (i;i<len; ++ i){
+        (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
+      }
+      return ret;
+    });
+    
+    !arrayProto.reduceRight && defineBuiltin(arrayProto,"reduceRight",
+    function (callback,initial) {
+      callbackCheck(callback,"Array.reduceRight");
+      
+      var len = this.length,
+          ret = initial || this[len-1],
+          i = (initial)?len-1 : len-2,
+          ta;
+      
+      (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      
+      for (i;i>-1; -- i){
+        (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
+      }
+      return ret;
+    });
+    
+    !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
+    function () {
+      var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+          month = _mochaLocalTmp4[0],
+          date = _mochaLocalTmp4[1],
+          hour = _mochaLocalTmp4[2],
+          minute = _mochaLocalTmp4[3],
+          second = _mochaLocalTmp4[4];
+      return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
+    });
+    
+    !Date.now && defineBuiltin(Date,"now",
+    function () {
+      return +new Date();
+    });
+    
+    !Array.isArray && defineBuiltin(Array,"isArray",
+    function (arr) {
+      if (arguments.length === 0){
+        return  false ;
+      }
+      return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
+    });
+  }.call(this,String,Array,Function,Date);
   
   __Runtime.extend(__Runtime, {
     Exception : function (line,file,e) {
@@ -433,14 +431,15 @@
       };
     },
     exceptionHandler : function (line,file,e) {
-      if (__Runtime.isStopIteration(e)){
-        
-        this.throwException(e);
-      } else {
-        
-        this.throwException(new this.Exception(line,file,e));
-      }
-      
+      __Runtime.isStopIteration(e)?this.throwException(e) : this.throwException(new this.Exception(line,file,e));
+    }
+  });
+  
+  __Runtime.extend(__Runtime, {
+    assert : (__Runtime._global.console && __Runtime._global.console.assert)?function (expect,exp,str,line,filename) {
+      return __Runtime._global.console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+    } : function (expect,exp,str,line,filename) {
+      expect !== exp && __Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
     }
   });
   
@@ -530,19 +529,15 @@
       }
     }
     try {
-      var __FILE__ = "-1506053293-prototype.js",
-          __LINE__ = 0;
       
       __LINE__ = 9;
       var Prototype =  {
             Version : '1.7',
-            Browser : (function () {
+            Browser : function () {
               try {
                 __LINE__ = 14;
-                var ua = navigator.userAgent;
-                
-                __LINE__ = 15;
-                var isOpera = Object.prototype.toString.call(window.opera) == '[object Opera]';
+                var ua = navigator.userAgent,
+                    isOpera = {}.toString.call(window.opera) == '[object Opera]';
                 __LINE__ = 16;
                 return  {
                   IE : !!window.attachEvent && !isOpera,
@@ -554,11 +549,11 @@
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
-            })(),
+            }(),
             BrowserFeatures :  {
               XPath : !!document.evaluate,
               SelectorsAPI : !!document.querySelector,
-              ElementExtensions : (function () {
+              ElementExtensions : function () {
                 try {
                   __LINE__ = 31;
                   var constructor = window.Element || window.HTMLElement;
@@ -567,8 +562,8 @@
                 } catch(__mocha_error){
                   __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
-              })(),
-              SpecificElementExtensions : (function () {
+              }(),
+              SpecificElementExtensions : function () {
                 try {
                   __LINE__ = 35;
                   if (typeof window.HTMLDivElement !== 'undefined'){
@@ -581,12 +576,8 @@
                       form = document.createElement('form'),
                       isSupported =  false ;
                   
-                  __LINE__ = 42;
-                  if (div['__proto__'] && (div['__proto__'] !== form['__proto__'])){
-                    
-                    __LINE__ = 43;
-                    isSupported =  true ;
-                  }
+                  __LINE__ = 43;
+                  div.__proto__ && (div.__proto__ !== form.__proto__) && (isSupported =  true );
                   
                   __LINE__ = 46;
                   div = form =  null ;
@@ -595,7 +586,7 @@
                 } catch(__mocha_error){
                   __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                 }
-              })()
+              }()
             },
             ScriptFragment : '<script[^>]*>([\\S\\s]*?)<\/script>',
             JSONFilter : /^\/\*-secure-([\s\S]*)\*\/\s*$/,
@@ -1500,7 +1491,6 @@
               try {
                 __LINE__ = 508;
                 if (!this.currentlyExecuting){
-                  
                   try {
                     
                     __LINE__ = 510;
@@ -2019,7 +2009,7 @@
             sub : sub,
             scan : scan,
             truncate : truncate,
-            strip : String.prototype.trim || strip,
+            strip : ''.trim || strip,
             stripTags : stripTags,
             stripScripts : stripScripts,
             extractScripts : extractScripts,
@@ -2066,12 +2056,8 @@
             },
             evaluate : function (object) {
               try {
-                __LINE__ = 789;
-                if (object && Object.isFunction(object.toTemplateReplacements)){
-                  
-                  __LINE__ = 790;
-                  object = object.toTemplateReplacements();
-                }
+                __LINE__ = 790;
+                object && Object.isFunction(object.toTemplateReplacements) && (object = object.toTemplateReplacements());
                 __LINE__ = 792;
                 return this.template.gsub(this.pattern,
                 function (match) {
@@ -3423,13 +3409,8 @@
         },
         register : function (responder) {
           try {
-            __LINE__ = 1446;
-            if (!this.include(responder)){
-              
-              __LINE__ = 1447;
-              this.responders.push(responder);
-            }
-            
+            __LINE__ = 1447;
+            !this.include(responder) && this.responders.push(responder);
           } catch(__mocha_error){
             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
@@ -3449,7 +3430,6 @@
               try {
                 __LINE__ = 1456;
                 if (Object.isFunction(responder[callback])){
-                  
                   try {
                     
                     __LINE__ = 1458;
@@ -3514,13 +3494,8 @@
             __LINE__ = 1484;
             this.options.method = this.options.method.toLowerCase();
             
-            __LINE__ = 1486;
-            if (Object.isHash(this.options.parameters)){
-              
-              __LINE__ = 1487;
-              this.options.parameters = this.options.parameters.toObject();
-            }
-            
+            __LINE__ = 1487;
+            Object.isHash(this.options.parameters) && (this.options.parameters = this.options.parameters.toObject());
           } catch(__mocha_error){
             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
@@ -3565,12 +3540,8 @@
               this.method = 'post';
             }
             
-            __LINE__ = 1511;
-            if (params && this.method === 'get'){
-              
-              __LINE__ = 1512;
-              this.url += (this.url.include('?')?'&' : '?')+params;
-            }
+            __LINE__ = 1512;
+            params && this.method === 'get' && (this.url += (this.url.include('?')?'&' : '?')+params);
             
             __LINE__ = 1515;
             this.parameters = params.toQueryParams();
@@ -3581,11 +3552,7 @@
               var response = new Ajax.Response(this);
               
               __LINE__ = 1519;
-              if (this.options.onCreate){
-                
-                __LINE__ = 1519;
-                this.options.onCreate(response);
-              }
+              this.options.onCreate && this.options.onCreate(response);
               
               __LINE__ = 1520;
               Ajax.Responders.dispatch('onCreate',this,response);
@@ -3594,11 +3561,7 @@
               this.transport.open(this.method.toUpperCase(),this.url,this.options.asynchronous);
               
               __LINE__ = 1525;
-              if (this.options.asynchronous){
-                
-                __LINE__ = 1525;
-                this.respondToReadyState.bind(this).defer(1);
-              }
+              this.options.asynchronous && this.respondToReadyState.bind(this).defer(1);
               
               __LINE__ = 1527;
               this.transport.onreadystatechange = this.onStateChange.bind(this);
@@ -3612,13 +3575,8 @@
               __LINE__ = 1531;
               this.transport.send(this.body);
               
-              __LINE__ = 1534;
-              if (!this.options.asynchronous && this.transport.overrideMimeType){
-                
-                __LINE__ = 1535;
-                this.onStateChange();
-              }
-              
+              __LINE__ = 1535;
+              !this.options.asynchronous && this.transport.overrideMimeType && this.onStateChange();
             } catch(e){
               
               __LINE__ = 1539;
@@ -3634,13 +3592,8 @@
             __LINE__ = 1544;
             var readyState = this.transport.readyState;
             
-            __LINE__ = 1545;
-            if (readyState>1 && !((readyState == 4) && this._complete)){
-              
-              __LINE__ = 1546;
-              this.respondToReadyState(this.transport.readyState);
-            }
-            
+            __LINE__ = 1546;
+            readyState>1 && !((readyState == 4) && this._complete) && this.respondToReadyState(this.transport.readyState);
           } catch(__mocha_error){
             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
@@ -3660,13 +3613,8 @@
               __LINE__ = 1557;
               headers['Content-type'] = this.options.contentType+(this.options.encoding?'; charset='+this.options.encoding : '');
               
-              __LINE__ = 1564;
-              if (this.transport.overrideMimeType && (navigator.userAgent.match(/Gecko\/(\d{4})/) || [0,2005])[1]<2005){
-                
-                __LINE__ = 1566;
-                headers['Connection'] = 'close';
-              }
-              
+              __LINE__ = 1566;
+              this.transport.overrideMimeType && (navigator.userAgent.match(/Gecko\/(\d{4})/) || [0,2005])[1]<2005 && (headers.Connection = 'close');
             }
             
             __LINE__ = 1569;
@@ -3677,7 +3625,6 @@
               
               __LINE__ = 1572;
               if (Object.isFunction(extras.push)){
-                
                 __LINE__ = 1573;
                 for (var i = 0,length = extras.length;i<length;i += 2){
                   
@@ -3765,13 +3712,8 @@
               __LINE__ = 1608;
               var contentType = response.getHeader('Content-type');
               
-              __LINE__ = 1609;
-              if (this.options.evalJS == 'force' || (this.options.evalJS && this.isSameOrigin() && contentType && contentType.match(/^\s*(text|application)\/(x-)?(java|ecma)script(;.*)?\s*$/i))){
-                
-                __LINE__ = 1612;
-                this.evalResponse();
-              }
-              
+              __LINE__ = 1612;
+              (this.options.evalJS == 'force' || (this.options.evalJS && this.isSameOrigin() && contentType && contentType.match(/^\s*(text|application)\/(x-)?(java|ecma)script(;.*)?\s*$/i))) && this.evalResponse();
             }
             
             try {
@@ -3787,13 +3729,8 @@
               this.dispatchException(e);
             }
             
-            __LINE__ = 1622;
-            if (state == 'Complete'){
-              
-              __LINE__ = 1623;
-              this.transport.onreadystatechange = Prototype.emptyFunction;
-            }
-            
+            __LINE__ = 1623;
+            state == 'Complete' && (this.transport.onreadystatechange = Prototype.emptyFunction);
           } catch(__mocha_error){
             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
@@ -4019,22 +3956,17 @@
             var onComplete = options.onComplete;
             
             __LINE__ = 1750;
-            options.onComplete = (function (response,json) {
+            options.onComplete = function (response,json) {
               try {
                 __LINE__ = 1751;
                 this.updateContent(response.responseText);
                 
                 __LINE__ = 1752;
-                if (Object.isFunction(onComplete)){
-                  
-                  __LINE__ = 1752;
-                  onComplete(response,json);
-                }
-                
+                Object.isFunction(onComplete) && onComplete(response,json);
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
-            }).bind(this);
+            }.bind(this);
             
             __LINE__ = 1755;
             $super(url,options);
@@ -4049,18 +3981,12 @@
                 options = this.options;
             
             __LINE__ = 1762;
-            if (!options.evalScripts){
-              
-              __LINE__ = 1762;
-              responseText = responseText.stripScripts();
-            }
+            !options.evalScripts && (responseText = responseText.stripScripts());
             
             __LINE__ = 1764;
             if (receiver = $(receiver)){
-              
               __LINE__ = 1765;
               if (options.insertion){
-                
                 __LINE__ = 1766;
                 if (Object.isString(options.insertion)){
                   
@@ -4397,33 +4323,25 @@
             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
         },
-        update : (function () {
-          
+        update : function () {
           function update(element,content) {
             try {
               __LINE__ = 2006;
               element = $(element);
               
               __LINE__ = 2007;
-              var purgeElement = Element._purgeElement;
-              
-              __LINE__ = 2009;
-              var descendants = element.getElementsByTagName('*'),
+              var purgeElement = Element._purgeElement,
+                  descendants = element.getElementsByTagName('*'),
                   i = descendants.length;
               
               __LINE__ = 2011;
               while (i -- ){
-                
                 __LINE__ = 2011;
                 purgeElement(descendants[i]);
               }
               
-              __LINE__ = 2013;
-              if (content && content.toElement){
-                
-                __LINE__ = 2014;
-                content = content.toElement();
-              }
+              __LINE__ = 2014;
+              content && content.toElement && (content = content.toElement());
               
               __LINE__ = 2016;
               if (Object.isElement(content)){
@@ -4448,13 +4366,11 @@
               
               __LINE__ = 2028;
               if (ANY_INNERHTML_BUGGY){
-                
                 __LINE__ = 2029;
                 if (tagName in Element._insertionTranslations.tags){
                   
                   __LINE__ = 2030;
                   while (element.firstChild){
-                    
                     __LINE__ = 2031;
                     element.removeChild(element.firstChild);
                   }
@@ -4472,7 +4388,6 @@
                   
                   __LINE__ = 2038;
                   while (element.firstChild){
-                    
                     __LINE__ = 2039;
                     element.removeChild(element.firstChild);
                   }
@@ -4490,13 +4405,11 @@
                     }
                   });
                 } else {
-                  
                   __LINE__ = 2045;
                   element.innerHTML = content.stripScripts();
                 }
                 
               } else {
-                
                 __LINE__ = 2049;
                 element.innerHTML = content.stripScripts();
               }
@@ -4510,8 +4423,9 @@
             }
           }
           try {
+            
             __LINE__ = 1950;
-            var SELECT_ELEMENT_INNERHTML_BUGGY = (function () {
+            var SELECT_ELEMENT_INNERHTML_BUGGY = function () {
                   try {
                     __LINE__ = 1951;
                     var el = document.createElement("select"),
@@ -4520,12 +4434,8 @@
                     __LINE__ = 1953;
                     el.innerHTML = "<option value=\"test\">test</option>";
                     
-                    __LINE__ = 1954;
-                    if (el.options && el.options[0]){
-                      
-                      __LINE__ = 1955;
-                      isBuggy = el.options[0].nodeName.toUpperCase() !== "OPTION";
-                    }
+                    __LINE__ = 1955;
+                    el.options && el.options[0] && (isBuggy = el.options[0].nodeName.toUpperCase() !== "OPTION");
                     
                     __LINE__ = 1957;
                     el =  null ;
@@ -4534,10 +4444,8 @@
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
-                })();
-            
-            __LINE__ = 1961;
-            var TABLE_ELEMENT_INNERHTML_BUGGY = (function () {
+                }(),
+                TABLE_ELEMENT_INNERHTML_BUGGY = function () {
                   try {
                     try {
                       
@@ -4567,10 +4475,8 @@
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
-                })();
-            
-            __LINE__ = 1975;
-            var LINK_ELEMENT_INNERHTML_BUGGY = (function () {
+                }(),
+                LINK_ELEMENT_INNERHTML_BUGGY = function () {
                   try {
                     try {
                       
@@ -4595,13 +4501,9 @@
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
-                })();
-            
-            __LINE__ = 1987;
-            var ANY_INNERHTML_BUGGY = SELECT_ELEMENT_INNERHTML_BUGGY || TABLE_ELEMENT_INNERHTML_BUGGY || LINK_ELEMENT_INNERHTML_BUGGY;
-            
-            __LINE__ = 1990;
-            var SCRIPT_ELEMENT_REJECTS_TEXTNODE_APPENDING = (function () {
+                }(),
+                ANY_INNERHTML_BUGGY = SELECT_ELEMENT_INNERHTML_BUGGY || TABLE_ELEMENT_INNERHTML_BUGGY || LINK_ELEMENT_INNERHTML_BUGGY,
+                SCRIPT_ELEMENT_REJECTS_TEXTNODE_APPENDING = function () {
                   try {
                     __LINE__ = 1991;
                     var s = document.createElement("script"),
@@ -4627,13 +4529,13 @@
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
-                })();
+                }();
             __LINE__ = 2056;
             return update;
           } catch(__mocha_error){
             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
-        })(),
+        }(),
         replace : function (element,content) {
           try {
             __LINE__ = 2060;
@@ -4641,7 +4543,6 @@
             
             __LINE__ = 2061;
             if (content && content.toElement){
-              
               __LINE__ = 2061;
               content = content.toElement();
             } else if (!Object.isElement(content)){
@@ -4675,14 +4576,10 @@
             __LINE__ = 2074;
             element = $(element);
             
-            __LINE__ = 2076;
-            if (Object.isString(insertions) || Object.isNumber(insertions) || Object.isElement(insertions) || (insertions && (insertions.toElement || insertions.toHTML))){
-              
-              __LINE__ = 2078;
-              insertions =  {
-                bottom : insertions
-              };
-            }
+            __LINE__ = 2078;
+            (Object.isString(insertions) || Object.isNumber(insertions) || Object.isElement(insertions) || (insertions && (insertions.toElement || insertions.toHTML))) && (insertions =  {
+              bottom : insertions
+            });
             
             __LINE__ = 2080;
             var content,
@@ -4703,11 +4600,7 @@
               insert = Element._insertionTranslations[position];
               
               __LINE__ = 2087;
-              if (content && content.toElement){
-                
-                __LINE__ = 2087;
-                content = content.toElement();
-              }
+              content && content.toElement && (content = content.toElement());
               
               __LINE__ = 2088;
               if (Object.isElement(content)){
@@ -4728,11 +4621,7 @@
               childNodes = Element._getContentFromAnonymousElement(tagName,content.stripScripts());
               
               __LINE__ = 2100;
-              if (position == 'top' || position == 'after'){
-                
-                __LINE__ = 2100;
-                childNodes.reverse();
-              }
+              position == 'top' || position == 'after' && childNodes.reverse();
               
               __LINE__ = 2101;
               childNodes.each(insert.curry(element));
@@ -4751,26 +4640,11 @@
             __LINE__ = 2110;
             element = $(element);
             
-            __LINE__ = 2111;
-            if (Object.isElement(wrapper)){
-              
-              __LINE__ = 2112;
-              $(wrapper).writeAttribute(attributes || {});
-            } else if (Object.isString(wrapper)){
-              
-              __LINE__ = 2113;
-              wrapper = new Element(wrapper,attributes);
-            } else {
-              __LINE__ = 2114;
-              wrapper = new Element('div',wrapper);
-            }
+            __LINE__ = 2112;
+            Object.isElement(wrapper)?$(wrapper).writeAttribute(attributes || {}) : Object.isString(wrapper)?wrapper = new Element(wrapper,attributes) : wrapper = new Element('div',wrapper);
             
-            __LINE__ = 2115;
-            if (element.parentNode){
-              
-              __LINE__ = 2116;
-              element.parentNode.replaceChild(wrapper,element);
-            }
+            __LINE__ = 2116;
+            element.parentNode && element.parentNode.replaceChild(wrapper,element);
             
             __LINE__ = 2117;
             wrapper.appendChild(element);
@@ -4800,12 +4674,7 @@
                     value = (element[property] || '').toString();
                 
                 __LINE__ = 2128;
-                if (value){
-                  
-                  __LINE__ = 2128;
-                  result += ' '+attribute+'='+value.inspect( true );
-                }
-                
+                value && (result += ' '+attribute+'='+value.inspect( true ));
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -4830,12 +4699,8 @@
             __LINE__ = 2138;
             while (element = element[property]){
               
-              __LINE__ = 2139;
-              if (element.nodeType == 1){
-                
-                __LINE__ = 2140;
-                elements.push(Element.extend(element));
-              }
+              __LINE__ = 2140;
+              element.nodeType == 1 && elements.push(Element.extend(element));
               
               __LINE__ = 2141;
               if (elements.length == maximumLength){
@@ -4873,7 +4738,6 @@
             
             __LINE__ = 2158;
             while (element && element.nodeType != 1){
-              
               __LINE__ = 2158;
               element = element.nextSibling;
             }
@@ -4892,12 +4756,8 @@
             __LINE__ = 2164;
             while (child){
               
-              __LINE__ = 2165;
-              if (child.nodeType === 1){
-                
-                __LINE__ = 2166;
-                results.push(Element.extend(child));
-              }
+              __LINE__ = 2166;
+              child.nodeType === 1 && results.push(Element.extend(child));
               
               __LINE__ = 2168;
               child = child.nextSibling;
@@ -4991,28 +4851,12 @@
             element = $(element);
             
             __LINE__ = 2211;
-            if (Object.isNumber(expression)){
-              
-              __LINE__ = 2211;
-              index = expression, expression =  false ;
-            }
+            Object.isNumber(expression) && (index = expression, expression =  false );
             
             __LINE__ = 2212;
-            if (!Object.isNumber(index)){
-              
-              __LINE__ = 2212;
-              index = 0;
-            }
-            
-            __LINE__ = 2214;
-            if (expression){
-              __LINE__ = 2215;
-              return Prototype.Selector.find(element.previousSiblings(),expression,index);
-            } else {
-              __LINE__ = 2217;
-              return element.recursivelyCollect("previousSibling",index+1)[index];
-            }
-            
+            !Object.isNumber(index) && (index = 0);
+            __LINE__ = 2215;
+            return expression?Prototype.Selector.find(element.previousSiblings(),expression,index) : element.recursivelyCollect("previousSibling",index+1)[index];
           } catch(__mocha_error){
             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
@@ -5023,24 +4867,18 @@
             element = $(element);
             
             __LINE__ = 2223;
-            if (Object.isNumber(expression)){
-              
-              __LINE__ = 2223;
-              index = expression, expression =  false ;
-            }
+            Object.isNumber(expression) && (index = expression, expression =  false );
             
             __LINE__ = 2224;
-            if (!Object.isNumber(index)){
-              
-              __LINE__ = 2224;
-              index = 0;
-            }
+            !Object.isNumber(index) && (index = 0);
             
             __LINE__ = 2226;
             if (expression){
               __LINE__ = 2227;
               return Prototype.Selector.find(element.nextSiblings(),expression,index);
-            } else {
+            }
+            
+            {
               
               __LINE__ = 2229;
               var maximumLength = Object.isNumber(index)?index+1 : 1;
@@ -5058,7 +4896,7 @@
             element = $(element);
             
             __LINE__ = 2237;
-            var expressions = Array.prototype.slice.call(arguments,1).join(', ');
+            var expressions = [].slice.call(arguments,1).join(', ');
             __LINE__ = 2238;
             return Prototype.Selector.select(expressions,element);
           } catch(__mocha_error){
@@ -5071,7 +4909,7 @@
             element = $(element);
             
             __LINE__ = 2243;
-            var expressions = Array.prototype.slice.call(arguments,1).join(', ');
+            var expressions = [].slice.call(arguments,1).join(', ');
             __LINE__ = 2244;
             return Prototype.Selector.select(expressions,element.parentNode).without(element);
           } catch(__mocha_error){
@@ -5094,7 +4932,6 @@
             
             __LINE__ = 2251;
             do {
-              
               __LINE__ = 2251;
               id = 'anonymous_element_'+Element.idCounter ++ ;
             }while ($(id));
@@ -5125,11 +4962,7 @@
               }
               
               __LINE__ = 2261;
-              if (t.names[name]){
-                
-                __LINE__ = 2261;
-                name = t.names[name];
-              }
+              t.names[name] && (name = t.names[name]);
               
               __LINE__ = 2262;
               if (name.include(':')){
@@ -5154,14 +4987,7 @@
                 t = Element._attributeTranslations.write;
             
             __LINE__ = 2274;
-            if (typeof name == 'object'){
-              
-              __LINE__ = 2274;
-              attributes = name;
-            } else {
-              __LINE__ = 2275;
-              attributes[name] = Object.isUndefined(value)? true  : value;
-            }
+            typeof name == 'object'?attributes = name : attributes[name] = Object.isUndefined(value)? true  : value;
             
             __LINE__ = 2277;
             for (var attr in attributes){
@@ -5173,26 +4999,10 @@
               value = attributes[attr];
               
               __LINE__ = 2280;
-              if (t.values[attr]){
-                
-                __LINE__ = 2280;
-                name = t.values[attr](element,value);
-              }
+              t.values[attr] && (name = t.values[attr](element,value));
               
-              __LINE__ = 2281;
-              if (value ===  false  || value ===  null ){
-                
-                __LINE__ = 2282;
-                element.removeAttribute(name);
-              } else if (value ===  true ){
-                
-                __LINE__ = 2284;
-                element.setAttribute(name,name);
-              } else {
-                __LINE__ = 2285;
-                element.setAttribute(name,value);
-              }
-              
+              __LINE__ = 2282;
+              value ===  false  || value ===  null ?element.removeAttribute(name) : value ===  true ?element.setAttribute(name,name) : element.setAttribute(name,value);
             }
             __LINE__ = 2287;
             return element;
@@ -5248,12 +5058,8 @@
               return ;
             }
             
-            __LINE__ = 2311;
-            if (!Element.hasClassName(element,className)){
-              
-              __LINE__ = 2312;
-              element.className += (element.className?' ' : '')+className;
-            }
+            __LINE__ = 2312;
+            !Element.hasClassName(element,className) && (element.className += (element.className?' ' : '')+className);
             __LINE__ = 2313;
             return element;
           } catch(__mocha_error){
@@ -5303,12 +5109,8 @@
               __LINE__ = 2333;
               var nextNode = node.nextSibling;
               
-              __LINE__ = 2334;
-              if (node.nodeType == 3 && !/\S/.test(node.nodeValue)){
-                
-                __LINE__ = 2335;
-                element.removeChild(node);
-              }
+              __LINE__ = 2335;
+              node.nodeType == 3 && !/\S/.test(node.nodeValue) && element.removeChild(node);
               
               __LINE__ = 2336;
               node = nextNode;
@@ -5346,7 +5148,6 @@
             
             __LINE__ = 2354;
             while (element = element.parentNode){
-              
               __LINE__ = 2355;
               if (element == ancestor){
                 __LINE__ = 2355;
@@ -5438,15 +5239,7 @@
             for (var property in styles){
               
               __LINE__ = 2392;
-              if (property == 'opacity'){
-                
-                __LINE__ = 2392;
-                element.setOpacity(styles[property]);
-              } else {
-                __LINE__ = 2394;
-                elementStyle[(property == 'float' || property == 'cssFloat')?(Object.isUndefined(elementStyle.styleFloat)?'cssFloat' : 'styleFloat') : property] = styles[property];
-              }
-              
+              property == 'opacity'?element.setOpacity(styles[property]) : elementStyle[(property == 'float' || property == 'cssFloat')?(Object.isUndefined(elementStyle.styleFloat)?'cssFloat' : 'styleFloat') : property] = styles[property];
             }
             __LINE__ = 2398;
             return element;
@@ -5535,12 +5328,8 @@
             __LINE__ = 2438;
             element._overflow = Element.getStyle(element,'overflow') || 'auto';
             
-            __LINE__ = 2439;
-            if (element._overflow !== 'hidden'){
-              
-              __LINE__ = 2440;
-              element.style.overflow = 'hidden';
-            }
+            __LINE__ = 2440;
+            element._overflow !== 'hidden' && (element.style.overflow = 'hidden');
             __LINE__ = 2441;
             return element;
           } catch(__mocha_error){
@@ -5613,32 +5402,16 @@
             }
             
             __LINE__ = 2477;
-            if (options.setLeft){
-              
-              __LINE__ = 2477;
-              element.style.left = (p[0]-delta[0]+options.offsetLeft)+'px';
-            }
+            options.setLeft && (element.style.left = (p[0]-delta[0]+options.offsetLeft)+'px');
             
             __LINE__ = 2478;
-            if (options.setTop){
-              
-              __LINE__ = 2478;
-              element.style.top = (p[1]-delta[1]+options.offsetTop)+'px';
-            }
+            options.setTop && (element.style.top = (p[1]-delta[1]+options.offsetTop)+'px');
             
             __LINE__ = 2479;
-            if (options.setWidth){
-              
-              __LINE__ = 2479;
-              element.style.width = source.offsetWidth+'px';
-            }
+            options.setWidth && (element.style.width = source.offsetWidth+'px');
             
             __LINE__ = 2480;
-            if (options.setHeight){
-              
-              __LINE__ = 2480;
-              element.style.height = source.offsetHeight+'px';
-            }
+            options.setHeight && (element.style.height = source.offsetHeight+'px');
             __LINE__ = 2481;
             return element;
           } catch(__mocha_error){
@@ -5900,7 +5673,7 @@
                       __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
                   },
-                  _getEv : (function () {
+                  _getEv : function () {
                     try {
                       __LINE__ = 2628;
                       var el = document.createElement('div'),
@@ -5911,50 +5684,44 @@
                       
                       __LINE__ = 2630;
                       var value = el.getAttribute('onclick');
-                      if (String(value).indexOf('{')>-1){
-                        
-                        __LINE__ = 2633;
-                        f = function (element,attribute) {
-                          try {
-                            __LINE__ = 2634;
-                            attribute = element.getAttribute(attribute);
-                            if (!attribute){
-                              __LINE__ = 2635;
-                              return  null ;
-                            }
-                            
-                            __LINE__ = 2636;
-                            attribute = attribute.toString();
-                            
-                            __LINE__ = 2637;
-                            attribute = attribute.split('{')[1];
-                            
-                            __LINE__ = 2638;
-                            attribute = attribute.split('}')[0];
-                            __LINE__ = 2639;
-                            return attribute.strip();
-                          } catch(__mocha_error){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                      
+                      __LINE__ = 2633;
+                      String(value).indexOf('{')>-1?f = function (element,attribute) {
+                        try {
+                          __LINE__ = 2634;
+                          attribute = element.getAttribute(attribute);
+                          if (!attribute){
+                            __LINE__ = 2635;
+                            return  null ;
                           }
-                        };
-                      } else if (value === ''){
-                        
-                        __LINE__ = 2643;
-                        f = function (element,attribute) {
-                          try {
-                            __LINE__ = 2644;
-                            attribute = element.getAttribute(attribute);
-                            if (!attribute){
-                              __LINE__ = 2645;
-                              return  null ;
-                            }
-                            __LINE__ = 2646;
-                            return attribute.strip();
-                          } catch(__mocha_error){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                          
+                          __LINE__ = 2636;
+                          attribute = attribute.toString();
+                          
+                          __LINE__ = 2637;
+                          attribute = attribute.split('{')[1];
+                          
+                          __LINE__ = 2638;
+                          attribute = attribute.split('}')[0];
+                          __LINE__ = 2639;
+                          return attribute.strip();
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                        }
+                      } : value === '' && (f = function (element,attribute) {
+                        try {
+                          __LINE__ = 2644;
+                          attribute = element.getAttribute(attribute);
+                          if (!attribute){
+                            __LINE__ = 2645;
+                            return  null ;
                           }
-                        };
-                      }
+                          __LINE__ = 2646;
+                          return attribute.strip();
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                        }
+                      });
                       
                       __LINE__ = 2649;
                       el =  null ;
@@ -5963,7 +5730,7 @@
                     } catch(__mocha_error){
                       __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
-                  })(),
+                  }(),
                   _flag : function (element,attribute) {
                     try {
                       __LINE__ = 2653;
@@ -6881,26 +6648,19 @@
             
             __LINE__ = 3112;
             if (element === window){
-              
               __LINE__ = 3113;
               uid = 0;
             } else {
-              if (typeof element._prototypeUID === "undefined"){
-                
-                __LINE__ = 3116;
-                element._prototypeUID = Element.Storage.UID ++ ;
-              }
+              
+              __LINE__ = 3116;
+              typeof element._prototypeUID === "undefined" && (element._prototypeUID = Element.Storage.UID ++ );
               
               __LINE__ = 3117;
               uid = element._prototypeUID;
             }
             
-            __LINE__ = 3120;
-            if (!Element.Storage[uid]){
-              
-              __LINE__ = 3121;
-              Element.Storage[uid] = $H();
-            }
+            __LINE__ = 3121;
+            !Element.Storage[uid] && (Element.Storage[uid] = $H());
             __LINE__ = 3123;
             return Element.Storage[uid];
           } catch(__mocha_error){
@@ -6915,16 +6675,8 @@
               return ;
             }
             
-            __LINE__ = 3129;
-            if (arguments.length === 2){
-              
-              __LINE__ = 3130;
-              Element.getStorage(element).update(key);
-            } else {
-              
-              __LINE__ = 3132;
-              Element.getStorage(element).set(key,value);
-            }
+            __LINE__ = 3130;
+            arguments.length === 2?Element.getStorage(element).update(key) : Element.getStorage(element).set(key,value);
             __LINE__ = 3135;
             return element;
           } catch(__mocha_error){
@@ -6981,7 +6733,6 @@
               
               __LINE__ = 3157;
               while (i -- ){
-                
                 __LINE__ = 3158;
                 descendants[i]._prototypeUID = void 0;
               }
@@ -7013,7 +6764,6 @@
             
             __LINE__ = 3173;
             while (i -- ){
-              
               __LINE__ = 3173;
               purgeElement(descendants[i]);
             }
@@ -7261,7 +7011,6 @@
             
             __LINE__ = 3717;
             if (element.parentNode){
-              
               __LINE__ = 3718;
               do {
                 
@@ -7676,18 +7425,14 @@
                 });
                 
                 __LINE__ = 3347;
-                var positionedWidth = element.getStyle('width');
-                
-                __LINE__ = 3349;
-                var newWidth;
+                var positionedWidth = element.getStyle('width'),
+                    newWidth;
                 
                 __LINE__ = 3350;
                 if (width && (positionedWidth === width)){
-                  
                   __LINE__ = 3351;
                   newWidth = getPixelValue(element,'width',context);
                 } else if (position === 'absolute' || position === 'fixed'){
-                  
                   __LINE__ = 3353;
                   newWidth = getPixelValue(element,'width',context);
                 } else {
@@ -7714,10 +7459,8 @@
             _end : function () {
               try {
                 __LINE__ = 3372;
-                var element = this.element;
-                
-                __LINE__ = 3373;
-                var originalStyles = element.retrieve('prototype_original_styles');
+                var element = this.element,
+                    originalStyles = element.retrieve('prototype_original_styles');
                 
                 __LINE__ = 3374;
                 element.store('prototype_original_styles', null );
@@ -7750,13 +7493,9 @@
             toObject : function () {
               try {
                 __LINE__ = 3389;
-                var args = $A(arguments);
-                
-                __LINE__ = 3390;
-                var keys = (args.length === 0)?Element.Layout.PROPERTIES : args.join(' ').split(' ');
-                
-                __LINE__ = 3392;
-                var obj = {};
+                var args = $A(arguments),
+                    keys = (args.length === 0)?Element.Layout.PROPERTIES : args.join(' ').split(' '),
+                    obj = {};
                 
                 __LINE__ = 3393;
                 keys.each(function (key) {
@@ -7771,12 +7510,7 @@
                     var value = this.get(key);
                     
                     __LINE__ = 3396;
-                    if (value !=  null ){
-                      
-                      __LINE__ = 3396;
-                      obj[key] = value;
-                    }
-                    
+                    value !=  null  && (obj[key] = value);
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -7800,13 +7534,9 @@
             toCSS : function () {
               try {
                 __LINE__ = 3407;
-                var args = $A(arguments);
-                
-                __LINE__ = 3408;
-                var keys = (args.length === 0)?Element.Layout.PROPERTIES : args.join(' ').split(' ');
-                
-                __LINE__ = 3410;
-                var css = {};
+                var args = $A(arguments),
+                    keys = (args.length === 0)?Element.Layout.PROPERTIES : args.join(' ').split(' '),
+                    css = {};
                 
                 __LINE__ = 3412;
                 keys.each(function (key) {
@@ -7827,12 +7557,7 @@
                     var value = this.get(key);
                     
                     __LINE__ = 3417;
-                    if (value !=  null ){
-                      
-                      __LINE__ = 3417;
-                      css[cssNameFor(key)] = value+'px';
-                    }
-                    
+                    value !=  null  && (css[cssNameFor(key)] = value+'px');
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -7861,11 +7586,7 @@
               'height' : function (element) {
                 try {
                   __LINE__ = 3434;
-                  if (!this._preComputing){
-                    
-                    __LINE__ = 3434;
-                    this._begin();
-                  }
+                  !this._preComputing && this._begin();
                   
                   __LINE__ = 3436;
                   var bHeight = this.get('border-box-height');
@@ -7874,29 +7595,19 @@
                   if (bHeight <= 0){
                     
                     __LINE__ = 3438;
-                    if (!this._preComputing){
-                      
-                      __LINE__ = 3438;
-                      this._end();
-                    }
+                    !this._preComputing && this._end();
                     __LINE__ = 3439;
                     return 0;
                   }
                   
                   __LINE__ = 3442;
                   var bTop = this.get('border-top'),
-                      bBottom = this.get('border-bottom');
-                  
-                  __LINE__ = 3445;
-                  var pTop = this.get('padding-top'),
+                      bBottom = this.get('border-bottom'),
+                      pTop = this.get('padding-top'),
                       pBottom = this.get('padding-bottom');
                   
                   __LINE__ = 3448;
-                  if (!this._preComputing){
-                    
-                    __LINE__ = 3448;
-                    this._end();
-                  }
+                  !this._preComputing && this._end();
                   __LINE__ = 3450;
                   return bHeight-bTop-bBottom-pTop-pBottom;
                 } catch(__mocha_error){
@@ -7906,11 +7617,7 @@
               'width' : function (element) {
                 try {
                   __LINE__ = 3454;
-                  if (!this._preComputing){
-                    
-                    __LINE__ = 3454;
-                    this._begin();
-                  }
+                  !this._preComputing && this._begin();
                   
                   __LINE__ = 3456;
                   var bWidth = this.get('border-box-width');
@@ -7919,29 +7626,19 @@
                   if (bWidth <= 0){
                     
                     __LINE__ = 3458;
-                    if (!this._preComputing){
-                      
-                      __LINE__ = 3458;
-                      this._end();
-                    }
+                    !this._preComputing && this._end();
                     __LINE__ = 3459;
                     return 0;
                   }
                   
                   __LINE__ = 3462;
                   var bLeft = this.get('border-left'),
-                      bRight = this.get('border-right');
-                  
-                  __LINE__ = 3465;
-                  var pLeft = this.get('padding-left'),
+                      bRight = this.get('border-right'),
+                      pLeft = this.get('padding-left'),
                       pRight = this.get('padding-right');
                   
                   __LINE__ = 3468;
-                  if (!this._preComputing){
-                    
-                    __LINE__ = 3468;
-                    this._end();
-                  }
+                  !this._preComputing && this._end();
                   __LINE__ = 3470;
                   return bWidth-bLeft-bRight-pLeft-pRight;
                 } catch(__mocha_error){
@@ -7975,21 +7672,13 @@
               'border-box-height' : function (element) {
                 try {
                   __LINE__ = 3490;
-                  if (!this._preComputing){
-                    
-                    __LINE__ = 3490;
-                    this._begin();
-                  }
+                  !this._preComputing && this._begin();
                   
                   __LINE__ = 3491;
                   var height = element.offsetHeight;
                   
                   __LINE__ = 3492;
-                  if (!this._preComputing){
-                    
-                    __LINE__ = 3492;
-                    this._end();
-                  }
+                  !this._preComputing && this._end();
                   __LINE__ = 3493;
                   return height;
                 } catch(__mocha_error){
@@ -7999,21 +7688,13 @@
               'border-box-width' : function (element) {
                 try {
                   __LINE__ = 3497;
-                  if (!this._preComputing){
-                    
-                    __LINE__ = 3497;
-                    this._begin();
-                  }
+                  !this._preComputing && this._begin();
                   
                   __LINE__ = 3498;
                   var width = element.offsetWidth;
                   
                   __LINE__ = 3499;
-                  if (!this._preComputing){
-                    
-                    __LINE__ = 3499;
-                    this._end();
-                  }
+                  !this._preComputing && this._end();
                   __LINE__ = 3500;
                   return width;
                 } catch(__mocha_error){
@@ -8071,10 +7752,8 @@
                   __LINE__ = 3529;
                   var offset = element.positionedOffset(),
                       parent = element.getOffsetParent(),
-                      pHeight = parent.measure('height');
-                  
-                  __LINE__ = 3533;
-                  var mHeight = this.get('border-box-height');
+                      pHeight = parent.measure('height'),
+                      mHeight = this.get('border-box-height');
                   __LINE__ = 3535;
                   return pHeight-mHeight-offset.top;
                 } catch(__mocha_error){
@@ -8096,10 +7775,8 @@
                   __LINE__ = 3544;
                   var offset = element.positionedOffset(),
                       parent = element.getOffsetParent(),
-                      pWidth = parent.measure('width');
-                  
-                  __LINE__ = 3548;
-                  var mWidth = this.get('border-box-width');
+                      pWidth = parent.measure('width'),
+                      mWidth = this.get('border-box-width');
                   __LINE__ = 3550;
                   return pWidth-mWidth-offset.left;
                 } catch(__mocha_error){
@@ -8210,10 +7887,8 @@
             'right' : function (element) {
               try {
                 __LINE__ = 3606;
-                var parent = hasLayout(element.getOffsetParent());
-                
-                __LINE__ = 3607;
-                var rect = element.getBoundingClientRect(),
+                var parent = hasLayout(element.getOffsetParent()),
+                    rect = element.getBoundingClientRect(),
                     pRect = parent.getBoundingClientRect();
                 __LINE__ = 3610;
                 return (pRect.right-rect.right).round();
@@ -8224,10 +7899,8 @@
             'bottom' : function (element) {
               try {
                 __LINE__ = 3614;
-                var parent = hasLayout(element.getOffsetParent());
-                
-                __LINE__ = 3615;
-                var rect = element.getBoundingClientRect(),
+                var parent = hasLayout(element.getOffsetParent()),
+                    rect = element.getBoundingClientRect(),
                     pRect = parent.getBoundingClientRect();
                 __LINE__ = 3618;
                 return (pRect.bottom-rect.bottom).round();
@@ -9181,12 +8854,8 @@
                           isTag = isPartStr && !/\W/.test(part),
                           isPartStrNotTag = isPartStr && !isTag;
                       
-                      __LINE__ = 4259;
-                      if (isTag && !isXML){
-                        
-                        __LINE__ = 4260;
-                        part = part.toUpperCase();
-                      }
+                      __LINE__ = 4260;
+                      isTag && !isXML && (part = part.toUpperCase());
                       
                       __LINE__ = 4263;
                       for (var i = 0,l = checkSet.length,elem;i<l;i ++ ){
@@ -9205,13 +8874,8 @@
                         
                       }
                       
-                      __LINE__ = 4273;
-                      if (isPartStrNotTag){
-                        
-                        __LINE__ = 4274;
-                        Sizzle.filter(part,checkSet, true );
-                      }
-                      
+                      __LINE__ = 4274;
+                      isPartStrNotTag && Sizzle.filter(part,checkSet, true );
                     } catch(__mocha_error){
                       __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
@@ -9252,19 +8916,13 @@
                           
                           __LINE__ = 4292;
                           var elem = checkSet[i];
-                          if (elem){
-                            
-                            __LINE__ = 4294;
-                            checkSet[i] = isPartStr?elem.parentNode : elem.parentNode === part;
-                          }
                           
-                        }
-                        if (isPartStr){
-                          
-                          __LINE__ = 4301;
-                          Sizzle.filter(part,checkSet, true );
+                          __LINE__ = 4294;
+                          elem && (checkSet[i] = isPartStr?elem.parentNode : elem.parentNode === part);
                         }
                         
+                        __LINE__ = 4301;
+                        isPartStr && Sizzle.filter(part,checkSet, true );
                       }
                       
                     } catch(__mocha_error){
@@ -9343,14 +9001,8 @@
                         
                         __LINE__ = 4337;
                         for (var i = 0,l = results.length;i<l;i ++ ){
-                          
-                          __LINE__ = 4338;
-                          if (results[i].getAttribute("name") === match[1]){
-                            
-                            __LINE__ = 4339;
-                            ret.push(results[i]);
-                          }
-                          
+                          __LINE__ = 4339;
+                          results[i].getAttribute("name") === match[1] && ret.push(results[i]);
                         }
                         __LINE__ = 4343;
                         return ret.length === 0? null  : ret;
@@ -9384,27 +9036,8 @@
                       __LINE__ = 4358;
                       for (var i = 0,elem;(elem = curLoop[i]) !=  null ;i ++ ){
                         
-                        __LINE__ = 4359;
-                        if (elem){
-                          
-                          __LINE__ = 4360;
-                          if (not^(elem.className && (" "+elem.className+" ").indexOf(match) >= 0)){
-                            
-                            __LINE__ = 4361;
-                            if (!inplace){
-                              
-                              __LINE__ = 4362;
-                              result.push(elem);
-                            }
-                            
-                          } else if (inplace){
-                            
-                            __LINE__ = 4364;
-                            curLoop[i] =  false ;
-                          }
-                          
-                        }
-                        
+                        __LINE__ = 4362;
+                        elem && not^(elem.className && (" "+elem.className+" ").indexOf(match) >= 0)?!inplace && result.push(elem) : inplace && (curLoop[i] =  false );
                       }
                       __LINE__ = 4369;
                       return  false ;
@@ -9460,19 +9093,11 @@
                       __LINE__ = 4393;
                       var name = match[1].replace(/\\/g,"");
                       
-                      __LINE__ = 4395;
-                      if (!isXML && Expr.attrMap[name]){
-                        
-                        __LINE__ = 4396;
-                        match[1] = Expr.attrMap[name];
-                      }
+                      __LINE__ = 4396;
+                      !isXML && Expr.attrMap[name] && (match[1] = Expr.attrMap[name]);
                       
-                      __LINE__ = 4399;
-                      if (match[2] === "~="){
-                        
-                        __LINE__ = 4400;
-                        match[4] = " "+match[4]+" ";
-                      }
+                      __LINE__ = 4400;
+                      match[2] === "~=" && (match[4] = " "+match[4]+" ");
                       __LINE__ = 4403;
                       return match;
                     } catch(__mocha_error){
@@ -9483,21 +9108,17 @@
                     try {
                       __LINE__ = 4406;
                       if (match[1] === "not"){
-                        
                         __LINE__ = 4407;
                         if ((chunker.exec(match[3]) || "").length>1 || /^\w/.test(match[3])){
-                          
                           __LINE__ = 4408;
                           match[3] = Sizzle(match[3], null , null ,curLoop);
                         } else {
                           
                           __LINE__ = 4410;
                           var ret = Sizzle.filter(match[3],curLoop,inplace, true ^not);
-                          if (!inplace){
-                            
-                            __LINE__ = 4412;
-                            result.push.apply(result,ret);
-                          }
+                          
+                          __LINE__ = 4412;
+                          !inplace && result.push.apply(result,ret);
                           __LINE__ = 4414;
                           return  false ;
                         }
@@ -10432,17 +10053,9 @@
             serializeElements : function (elements,options) {
               try {
                 __LINE__ = 4972;
-                if (typeof options != 'object'){
-                  
-                  __LINE__ = 4972;
-                  options =  {
-                    hash : !!options
-                  };
-                } else if (Object.isUndefined(options.hash)){
-                  
-                  __LINE__ = 4973;
-                  options.hash =  true ;
-                }
+                typeof options != 'object'?options =  {
+                  hash : !!options
+                } : Object.isUndefined(options.hash) && (options.hash =  true );
                 
                 __LINE__ = 4974;
                 var key,
@@ -10465,11 +10078,7 @@
                       if (key in result){
                         
                         __LINE__ = 4980;
-                        if (!Object.isArray(result[key])){
-                          
-                          __LINE__ = 4980;
-                          result[key] = [result[key]];
-                        }
+                        !Object.isArray(result[key]) && (result[key] = [result[key]]);
                         
                         __LINE__ = 4981;
                         result[key].push(value);
@@ -10511,13 +10120,8 @@
                       __LINE__ = 4994;
                       value = $(element).getValue();
                       
-                      __LINE__ = 4995;
-                      if (value !=  null  && element.type != 'file' && (element.type != 'submit' || (!submitted && submit !==  false  && (!submit || key == submit) && (submitted =  true )))){
-                        
-                        __LINE__ = 4997;
-                        result = accumulator(result,key,value);
-                      }
-                      
+                      __LINE__ = 4997;
+                      value !=  null  && element.type != 'file' && (element.type != 'submit' || (!submitted && submit !==  false  && (!submit || key == submit) && (submitted =  true ))) && (result = accumulator(result,key,value));
                     }
                     __LINE__ = 5000;
                     return result;
@@ -10559,12 +10163,8 @@
             return arr.inject([],
             function (elements,child) {
               try {
-                __LINE__ = 5019;
-                if (serializers[child.tagName.toLowerCase()]){
-                  
-                  __LINE__ = 5020;
-                  elements.push(Element.extend(child));
-                }
+                __LINE__ = 5020;
+                serializers[child.tagName.toLowerCase()] && elements.push(Element.extend(child));
                 __LINE__ = 5021;
                 return elements;
               } catch(__mocha_error){
@@ -10646,10 +10246,8 @@
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
-                });
-            
-            __LINE__ = 5057;
-            var firstByIndex = elements.findAll(function (element) {
+                }),
+                firstByIndex = elements.findAll(function (element) {
                   try {
                     __LINE__ = 5058;
                     return element.hasAttribute('tabIndex') && element.tabIndex >= 0;
@@ -10686,11 +10284,7 @@
             var element = form.findFirstElement();
             
             __LINE__ = 5069;
-            if (element){
-              
-              __LINE__ = 5069;
-              element.activate();
-            }
+            element && element.activate();
             __LINE__ = 5070;
             return form;
           } catch(__mocha_error){
@@ -10707,11 +10301,7 @@
                 action = form.readAttribute('action') || '';
             
             __LINE__ = 5077;
-            if (action.blank()){
-              
-              __LINE__ = 5077;
-              action = window.location.href;
-            }
+            action.blank() && (action = window.location.href);
             
             __LINE__ = 5078;
             options.parameters = form.serialize( true );
@@ -10720,22 +10310,14 @@
             if (params){
               
               __LINE__ = 5081;
-              if (Object.isString(params)){
-                
-                __LINE__ = 5081;
-                params = params.toQueryParams();
-              }
+              Object.isString(params) && (params = params.toQueryParams());
               
               __LINE__ = 5082;
               Object.extend(options.parameters,params);
             }
             
-            __LINE__ = 5085;
-            if (form.hasAttribute('method') && !options.method){
-              
-              __LINE__ = 5086;
-              options.method = form.method;
-            }
+            __LINE__ = 5086;
+            form.hasAttribute('method') && !options.method && (options.method = form.method);
             __LINE__ = 5088;
             return new Ajax.Request(action,options);
           } catch(__mocha_error){
@@ -10857,13 +10439,8 @@
               __LINE__ = 5147;
               element.focus();
               
-              __LINE__ = 5148;
-              if (element.select && (element.tagName.toLowerCase() != 'input' || !(/^(?:button|reset|submit)$/i.test(element.type)))){
-                
-                __LINE__ = 5150;
-                element.select();
-              }
-              
+              __LINE__ = 5150;
+              element.select && (element.tagName.toLowerCase() != 'input' || !(/^(?:button|reset|submit)$/i.test(element.type))) && element.select();
             } catch(e){
               
             }
@@ -11133,16 +10710,8 @@
             __LINE__ = 5287;
             this.lastValue = this.getValue();
             
-            __LINE__ = 5288;
-            if (this.element.tagName.toLowerCase() == 'form'){
-              
-              __LINE__ = 5289;
-              this.registerFormCallbacks();
-            } else {
-              __LINE__ = 5291;
-              this.registerCallback(this.element);
-            }
-            
+            __LINE__ = 5289;
+            this.element.tagName.toLowerCase() == 'form'?this.registerFormCallbacks() : this.registerCallback(this.element);
           } catch(__mocha_error){
             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
           }
@@ -11178,7 +10747,6 @@
           try {
             __LINE__ = 5307;
             if (element.type){
-              
               __LINE__ = 5308;
               switch (element.type.toLowerCase()) {
                 case 'checkbox' :
@@ -12034,12 +11602,7 @@
                 var element = Event.findElement(event,this.selector);
                 
                 __LINE__ = 5763;
-                if (element){
-                  
-                  __LINE__ = 5763;
-                  this.callback.call(this.element,event,element);
-                }
-                
+                element && this.callback.call(this.element,event,element);
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -12554,13 +12117,8 @@
                   __LINE__ = 6059;
                   var element = elements[i];
                   
-                  __LINE__ = 6060;
-                  if (match(element,expression)){
-                    
-                    __LINE__ = 6061;
-                    results.push(Element.extend(element));
-                  }
-                  
+                  __LINE__ = 6061;
+                  match(element,expression) && results.push(Element.extend(element));
                 }
                 __LINE__ = 6064;
                 return results;

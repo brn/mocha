@@ -5,19 +5,20 @@
   var global = (this !==  null )?this : typeof window === 'object'?window : {},
       __Runtime =  {
         _global : global,
-        _push : Array.prototype.push,
-        _slice : Array.prototype.slice,
+        _NULL : {},
+        _push : [].push,
+        _slice : [].slice,
         getErrorMessage : function (e) {
           return (e.message)?e.message : (e.description)?e.description : e.toString();
         },
-        isStopIteration : (function () {
-          
+        isStopIteration : function () {
           function isStopIteration(obj) {
             return obj === __Runtime.StopIteration || rstopIteration.test(obj);
           }
+          
           var rstopIteration = /StopIteration/;
           return isStopIteration;
-        })(),
+        }(),
         throwException : function (exception) {
           try {
             throw exception;
@@ -25,10 +26,8 @@
             
             if (__Runtime.isStopIteration(e)){
               throw new Error(e);
-            } else {
-              throw new Error(this.getErrorMessage(e));
             }
-            
+            throw new Error(this.getErrorMessage(e));
           }
           
         },
@@ -60,371 +59,370 @@
         }
       };
   
-  !function () {
-    !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
-      function defineBuiltin(obj,name,value) {
-        return Object.defineProperty(obj,name, {
-          value : value,
-          configurable :  true ,
-          enumerable :  false ,
-          writable :  true 
-        });
-      }
-      function callbackCheck(callback,type) {
-        
-        __Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",40,'_prototype.js');
-        
-        typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
-      }
-      function builtinTypeError(message) {
-        try {
-          throw new TypeError(message);
-        } catch(e){
-          throw new Error(e);
-        }
-        
+  !function (_mochaLocalTmp0,_mochaLocalTmp1,_mochaLocalTmp2,_mochaLocalTmp3) {
+    function defineBuiltin(obj,name,value) {
+      return Object.defineProperty(obj,name, {
+        value : value,
+        configurable :  true ,
+        enumerable :  false ,
+        writable :  true 
+      });
+    }
+    function callbackCheck(callback,type) {
+      
+      __Runtime.assert( true ,typeof type === "string","typeof type === \"string\"",40,'_prototype.js');
+      
+      typeof callback !== "function" && builtinTypeError(type+" : first argument is not callable");
+    }
+    function builtinTypeError(message) {
+      try {
+        throw new TypeError(message);
+      } catch(e){
+        throw new Error(e);
       }
       
-      var stringProto = _mochaLocalTmp0.prototype,
-          arrayProto = _mochaLocalTmp1.prototype,
-          functionProto = _mochaLocalTmp2.prototype,
-          dateProto = _mochaLocalTmp3.prototype;
+    }
+    
+    var stringProto = _mochaLocalTmp0.prototype,
+        arrayProto = _mochaLocalTmp1.prototype,
+        functionProto = _mochaLocalTmp2.prototype,
+        dateProto = _mochaLocalTmp3.prototype;
+    
+    !Object.keys && (Object.keys = function (obj) {
+      !obj && builtinTypeError("Object.keys : first arguments is null or not defined.");
       
-      !Object.keys && (Object.keys = function (obj) {
-        !obj && builtinTypeError("Object.keys : first arguments is null or not defined.");
+      var ret = [],
+          iter = -1;
+      
+      for (var i in obj){
         
-        var ret = [],
-            iter = -1;
-        
-        for (var i in obj){
-          
-          obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
-        }
-        return ret;
-      });
-      
-      !Object.preventExtensions && (Object.preventExtensions = function (o) {
-        return o;
-      });
-      
-      !Object.seal && (Object.seal = function (o) {
-        return o;
-      });
-      
-      !Object.freeze && (Object.freeze = function (o) {
-        return o;
-      });
-      
-      var hasRealEcma5 = function () {
-            var ret;
-            
-            try {
-              
-              var obj = {};
-              
-              Object.defineProperty(obj,"test", {
-                configurable :  false ,
-                writable :  false ,
-                enumerable :  false ,
-                value : 0
-              });
-              
-              obj.test = 200;
-              
-              ret = (obj.test === 200)? false  :  true ;
-            } catch(e){
-              return ret =  false ;
-            }
-            return ret;
-          }();
-      
-      !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
-        "value" in valobj && (obj[prop] = valobj.value);
-      });
-      
-      if (!stringProto.trim){
-        
-        stringProto.trim = function () {
-          return this.replace(stringProto.trim.rtrim,"");
-        };
-        
-        stringProto.trim.rtrim = /^\s*|\s*$/g;
+        obj.hasOwnProperty(i) && (ret[ ++ iter] = obj[i]);
       }
-      
-      !stringProto.repeat && defineBuiltin(stringProto,"repeat",
-      function (num) {
-        return Array(num+1).join(this.toString());
-      });
-      
-      !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
-      function (str) {
-        return !this.indexOf(str);
-      });
-      
-      !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
-      function (str) {
-        var t = String(str),
-            index = this.lastIndexOf(t);
-        return index >= 0 && index === this.length-t.length;
-      });
-      
-      !stringProto.contains && defineBuiltin(stringProto,"contains",
-      function (str) {
-        return this.indexOf(str) !== -1;
-      });
-      
-      !stringProto.toArray && defineBuiltin(stringProto,"toArray",
-      function (str) {
-        return this.split("");
-      });
-      
-      !functionProto.bind && defineBuiltin(functionProto,"bind",
-      function () {
-        var argArray = arrayProto.slice.call(arguments),
-            context = argArray.shift(),
-            ret = function () {
-              var args = argArray.concat(arrayProto.slice.call(arguments));
-              return this !==  null  && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
-            };
-        
-        ret.prototype = this.prototype;
-        
-        ret.context = this;
-        return ret;
-      });
-      
-      !arrayProto.forEach && defineBuiltin(arrayProto,"forEach",
-      function (callback,that) {
-        callbackCheck(callback,"Array.forEach");
-        
-        var iter = -1,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
-        
-        if (that){
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            callback.call(that,ta,iter,this);
-          }
+      return ret;
+    });
+    
+    !Object.preventExtensions && (Object.preventExtensions = function (o) {
+      return o;
+    });
+    
+    !Object.seal && (Object.seal = function (o) {
+      return o;
+    });
+    
+    !Object.freeze && (Object.freeze = function (o) {
+      return o;
+    });
+    
+    var hasRealEcma5 = function () {
+          var ret;
           
-        } else {
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            callback(ta,iter,this);
-          }
-          
-        }
-        
-      });
-      
-      !arrayProto.every && defineBuiltin(arrayProto,"every",
-      function (callback,that) {
-        callbackCheck(callback,"Array.every");
-        
-        var iter = -1,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.every : this is null or not defined");
-        
-        if (that){
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback.call(that,ta,iter,this))){
-              return  false ;
-            }
+          try {
             
-          }
-          
-        } else {
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            if (!(callback(ta,iter,this))){
-              return  false ;
-            }
+            var obj = {};
             
+            Object.defineProperty(obj,"test", {
+              configurable :  false ,
+              writable :  false ,
+              enumerable :  false ,
+              value : 0
+            });
+            
+            obj.test = 200;
+            
+            ret = (obj.test === 200)? false  :  true ;
+          } catch(e){
+            
+            ret =  false ;
           }
-          
-        }
-        return  true ;
-      });
+          return ret;
+        }();
+    
+    !hasRealEcma5 && (Object.defineProperty = function (obj,prop,valobj) {
+      "value" in valobj && (obj[prop] = valobj.value);
+    });
+    
+    if (!stringProto.trim){
       
-      !arrayProto.some && defineBuiltin(arrayProto,"some",
-      function (callback,that) {
-        callbackCheck(callback,"Array.some");
-        
-        var iter = -1,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.some : this is null or not defined");
-        
-        if (that){
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            if (callback.call(that,ta,iter,this)){
-              return  true ;
-            }
-            
-          }
-          
-        } else {
-          while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-            if (callback(ta,iter,this)){
-              return  true ;
-            }
-            
-          }
-          
-        }
-        return  false ;
-      });
+      stringProto.trim = function () {
+        return this.replace(stringProto.trim.rtrim,"");
+      };
       
-      !arrayProto.filter && defineBuiltin(arrayProto,"filter",
-      function (callback,that) {
-        callbackCheck(callback,"Array.filter");
-        
-        var len = this.length,
-            iter = -1,
-            ret = [],
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.filter : this is null or not defined");
-        
-        if (that){
-          for (var i = 0,len = this.length;i<len; ++ i){
-            
-            (ta = this[i]) !==  null  && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
-          }
-          
-        } else {
-          for (var i = 0,len = this.length;i<len; ++ i){
-            
-            (ta = this[i]) !==  null  && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
-          }
-          
-        }
-        return ret;
-      });
+      stringProto.trim.rtrim = /^\s*|\s*$/g;
+    }
+    
+    !stringProto.repeat && defineBuiltin(stringProto,"repeat",
+    function (num) {
+      return Array(num+1).join(this.toString());
+    });
+    
+    !stringProto.startsWith && defineBuiltin(stringProto,"startsWith",
+    function (str) {
+      return !this.indexOf(str);
+    });
+    
+    !stringProto.endsWith && defineBuiltin(stringProto,"endsWith",
+    function (str) {
+      var t = String(str),
+          index = this.lastIndexOf(t);
+      return index >= 0 && index === this.length-t.length;
+    });
+    
+    !stringProto.contains && defineBuiltin(stringProto,"contains",
+    function (str) {
+      return this.indexOf(str) !== -1;
+    });
+    
+    !stringProto.toArray && defineBuiltin(stringProto,"toArray",
+    function (str) {
+      return this.split("");
+    });
+    
+    !functionProto.bind && defineBuiltin(functionProto,"bind",
+    function () {
+      var argArray = arrayProto.slice.call(arguments),
+          context = argArray.shift(),
+          ret = function () {
+            var args = argArray.concat(arrayProto.slice.call(arguments));
+            return this !==  null  && this !== global && this instanceof ret?ret.context.apply(this,args) : ret.context.apply(context,args);
+          };
       
-      !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
-      function (subject,fromIndex) {
-        var iter = (fromIndex)?fromIndex-1 : -1,
-            index = -1,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
-        
+      ret.prototype = this.prototype;
+      
+      ret.context = this;
+      return ret;
+    });
+    
+    !arrayProto.forEach && defineBuiltin(arrayProto,"forEach",
+    function (callback,that) {
+      callbackCheck(callback,"Array.forEach");
+      
+      var iter = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.forEach : this is null or not defined");
+      
+      if (that){
         while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
-          if (ta === subject){
-            
-            index = iter;
-            break;
+          callback.call(that,ta,iter,this);
+        }
+        
+      } else {
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          callback(ta,iter,this);
+        }
+        
+      }
+      
+    });
+    
+    !arrayProto.every && defineBuiltin(arrayProto,"every",
+    function (callback,that) {
+      callbackCheck(callback,"Array.every");
+      
+      var iter = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.every : this is null or not defined");
+      
+      if (that){
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          if (!(callback.call(that,ta,iter,this))){
+            return  false ;
           }
           
         }
-        return index;
-      });
-      
-      !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
-      function (target,fromIndex) {
-        var len = this.length,
-            iter = (fromIndex)?fromIndex+1 : len,
-            index = -1,
-            ta;
         
-        this ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
-        
-        while ((ta = this[ -- iter]) !==  null  && ta !== undefined){
-          if (ta === target){
-            
-            index = iter;
-            break;
+      } else {
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          if (!(callback(ta,iter,this))){
+            return  false ;
           }
           
         }
-        return index;
-      });
+        
+      }
+      return  true ;
+    });
+    
+    !arrayProto.some && defineBuiltin(arrayProto,"some",
+    function (callback,that) {
+      callbackCheck(callback,"Array.some");
       
-      !arrayProto.map && defineBuiltin(arrayProto,"map",
-      function (callback,that) {
-        callbackCheck(callback,"Array.map");
-        
-        var ret = [],
-            iter = -1,
-            len = this.length,
-            i = 0,
-            ta;
-        
-        this ===  null  && builtinTypeError("Array.map : this is null or not defined.");
-        
-        if (that){
-          for (i;i<len; ++ i){
-            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
-          }
-          
-        } else {
-          for (i;i<len; ++ i){
-            (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
+      var iter = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.some : this is null or not defined");
+      
+      if (that){
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          if (callback.call(that,ta,iter,this)){
+            return  true ;
           }
           
         }
-        return ret;
-      });
+        
+      } else {
+        while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+          if (callback(ta,iter,this)){
+            return  true ;
+          }
+          
+        }
+        
+      }
+      return  false ;
+    });
+    
+    !arrayProto.filter && defineBuiltin(arrayProto,"filter",
+    function (callback,that) {
+      callbackCheck(callback,"Array.filter");
       
-      !arrayProto.reduce && defineBuiltin(arrayProto,"reduce",
-      function (callback,initial) {
-        callbackCheck(callback,"Array.reduce");
+      var len = this.length,
+          iter = -1,
+          ret = [],
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.filter : this is null or not defined");
+      
+      if (that){
+        for (var i = 0,len = this.length;i<len; ++ i){
+          
+          (ta = this[i]) !==  null  && ta !== undefined && callback.call(that,ta,i,this) && (ret[ ++ iter] = ta);
+        }
         
-        var ret = initial || this[0],
-            i = (initial)?0 : 1,
-            len = this.length,
-            ta;
+      } else {
+        for (var i = 0,len = this.length;i<len; ++ i){
+          
+          (ta = this[i]) !==  null  && ta !== undefined && callback(ta,i,this) && (ret[ ++ iter] = ta);
+        }
         
-        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      }
+      return ret;
+    });
+    
+    !arrayProto.indexOf && defineBuiltin(arrayProto,"indexOf",
+    function (subject,fromIndex) {
+      var iter = (fromIndex)?fromIndex-1 : -1,
+          index = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.indexOf : this is null or not defined.");
+      
+      while ((ta = this[ ++ iter]) !==  null  && ta !== undefined){
+        if (ta === subject){
+          
+          index = iter;
+          break;
+        }
         
+      }
+      return index;
+    });
+    
+    !arrayProto.lastIndexOf && defineBuiltin(arrayProto,"lastIndexOf",
+    function (target,fromIndex) {
+      var len = this.length,
+          iter = (fromIndex)?fromIndex+1 : len,
+          index = -1,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.lastIndexOf : this is null or not defined.");
+      
+      while ((ta = this[ -- iter]) !==  null  && ta !== undefined){
+        if (ta === target){
+          
+          index = iter;
+          break;
+        }
+        
+      }
+      return index;
+    });
+    
+    !arrayProto.map && defineBuiltin(arrayProto,"map",
+    function (callback,that) {
+      callbackCheck(callback,"Array.map");
+      
+      var ret = [],
+          iter = -1,
+          len = this.length,
+          i = 0,
+          ta;
+      
+      this ===  null  && builtinTypeError("Array.map : this is null or not defined.");
+      
+      if (that){
         for (i;i<len; ++ i){
-          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
+          (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback.call(that,ta,i,this));
         }
-        return ret;
-      });
-      
-      !arrayProto.reduceRight && defineBuiltin(arrayProto,"reduceRight",
-      function (callback,initial) {
-        callbackCheck(callback,"Array.reduceRight");
         
-        var len = this.length,
-            ret = initial || this[len-1],
-            i = (initial)?len-1 : len-2,
-            ta;
-        
-        (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
-        
-        for (i;i>-1; -- i){
-          (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
+      } else {
+        for (i;i<len; ++ i){
+          (ta = this[i]) !==  null  && ta !== undefined && (ret[ ++ iter] = callback(ta,i,this));
         }
-        return ret;
-      });
+        
+      }
+      return ret;
+    });
+    
+    !arrayProto.reduce && defineBuiltin(arrayProto,"reduce",
+    function (callback,initial) {
+      callbackCheck(callback,"Array.reduce");
       
-      !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
-      function () {
-        var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
-            month = _mochaLocalTmp4[0],
-            date = _mochaLocalTmp4[1],
-            hour = _mochaLocalTmp4[2],
-            minute = _mochaLocalTmp4[3],
-            second = _mochaLocalTmp4[4];
-        return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
-      });
+      var ret = initial || this[0],
+          i = (initial)?0 : 1,
+          len = this.length,
+          ta;
       
-      !Date.now && defineBuiltin(Date,"now",
-      function () {
-        return +new Date();
-      });
+      (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
       
-      !Array.isArray && defineBuiltin(Array,"isArray",
-      function (arr) {
-        if (arguments.length === 0){
-          return  false ;
-        }
-        return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
-      });
-    }.call(this,String,Array,Function,Date);
-  }.call(this);
+      for (i;i<len; ++ i){
+        (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
+      }
+      return ret;
+    });
+    
+    !arrayProto.reduceRight && defineBuiltin(arrayProto,"reduceRight",
+    function (callback,initial) {
+      callbackCheck(callback,"Array.reduceRight");
+      
+      var len = this.length,
+          ret = initial || this[len-1],
+          i = (initial)?len-1 : len-2,
+          ta;
+      
+      (len === 0 || len ===  null ) && arguments.length<2 && builtinTypeError("Array length is 0 and no second argument");
+      
+      for (i;i>-1; -- i){
+        (ta = this[i]) !==  null  && ta !== undefined && (ret = callback(ret,ta,i,this));
+      }
+      return ret;
+    });
+    
+    !dateProto.toJSON && defineBuiltin(dateProto,"toJSON",
+    function () {
+      var _mochaLocalTmp4 = [this.getUTCMonth(),this.getUTCDate(),this.getUTCHours(),this.getMinutes(),this.getSeconds()],
+          month = _mochaLocalTmp4[0],
+          date = _mochaLocalTmp4[1],
+          hour = _mochaLocalTmp4[2],
+          minute = _mochaLocalTmp4[3],
+          second = _mochaLocalTmp4[4];
+      return '"'+this.getUTCFullYear()+'-'+(month>8?month+1 : "0"+(month+1))+'-'+(date>9?date : "0"+date)+'T'+(hour>9?hour : "0"+hour)+':'+(minute>9?minute : "0"+minute)+':'+(second>9?second : "0"+second)+'.'+this.getUTCMilliseconds()+'Z"';
+    });
+    
+    !Date.now && defineBuiltin(Date,"now",
+    function () {
+      return +new Date();
+    });
+    
+    !Array.isArray && defineBuiltin(Array,"isArray",
+    function (arr) {
+      if (arguments.length === 0){
+        return  false ;
+      }
+      return (arr)?({}).toString.call(arr) === "[object Array]" :  false ;
+    });
+  }.call(this,String,Array,Function,Date);
   
   __Runtime.extend(__Runtime, {
     Exception : function (line,file,e) {
@@ -433,22 +431,21 @@
       };
     },
     exceptionHandler : function (line,file,e) {
-      if (__Runtime.isStopIteration(e)){
-        
-        this.throwException(e);
-      } else {
-        
-        this.throwException(new this.Exception(line,file,e));
-      }
-      
+      __Runtime.isStopIteration(e)?this.throwException(e) : this.throwException(new this.Exception(line,file,e));
+    }
+  });
+  
+  __Runtime.extend(__Runtime, {
+    assert : (__Runtime._global.console && __Runtime._global.console.assert)?function (expect,exp,str,line,filename) {
+      return __Runtime._global.console.assert(expect === exp,"assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
+    } : function (expect,exp,str,line,filename) {
+      expect !== exp && __Runtime.throwException("assertion failed : "+str+"\nexpect "+expect+" but got "+exp+"\nin file "+filename+" at : "+line);
     }
   });
   
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-1506053293-knockout-2.0.0.debug.js",
-          __LINE__ = 0;
       __LINE__ = 5;
       !function (window,undefined) {
         function ensureDropdownSelectionIsConsistentWithModelValue(element,modelValue,preferModelValue) {
@@ -644,9 +641,9 @@
                 arrayIndexOf : function (array,item) {
                   try {
                     __LINE__ = 64;
-                    if (typeof Array.prototype.indexOf == "function"){
+                    if (typeof [].indexOf == "function"){
                       __LINE__ = 65;
-                      return Array.prototype.indexOf.call(array,item);
+                      return [].indexOf.call(array,item);
                     }
                     
                     __LINE__ = 66;
@@ -688,13 +685,8 @@
                     __LINE__ = 80;
                     var index = ko.utils.arrayIndexOf(array,itemToRemove);
                     
-                    __LINE__ = 81;
-                    if (index >= 0){
-                      
-                      __LINE__ = 82;
-                      array.splice(index,1);
-                    }
-                    
+                    __LINE__ = 82;
+                    index >= 0 && array.splice(index,1);
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -710,13 +702,8 @@
                     __LINE__ = 88;
                     for (var i = 0,j = array.length;i<j;i ++ ){
                       
-                      __LINE__ = 89;
-                      if (ko.utils.arrayIndexOf(result,array[i])<0){
-                        
-                        __LINE__ = 90;
-                        result.push(array[i]);
-                      }
-                      
+                      __LINE__ = 90;
+                      ko.utils.arrayIndexOf(result,array[i])<0 && result.push(array[i]);
                     }
                     __LINE__ = 92;
                     return result;
@@ -755,13 +742,8 @@
                     __LINE__ = 106;
                     for (var i = 0,j = array.length;i<j;i ++ ){
                       
-                      __LINE__ = 107;
-                      if (predicate(array[i])){
-                        
-                        __LINE__ = 108;
-                        result.push(array[i]);
-                      }
-                      
+                      __LINE__ = 108;
+                      predicate(array[i]) && result.push(array[i]);
                     }
                     __LINE__ = 109;
                     return result;
@@ -788,13 +770,8 @@
                     __LINE__ = 119;
                     for (var prop in source){
                       
-                      __LINE__ = 120;
-                      if (source.hasOwnProperty(prop)){
-                        
-                        __LINE__ = 121;
-                        target[prop] = source[prop];
-                      }
-                      
+                      __LINE__ = 121;
+                      source.hasOwnProperty(prop) && (target[prop] = source[prop]);
                     }
                     __LINE__ = 124;
                     return target;
@@ -806,7 +783,6 @@
                   try {
                     __LINE__ = 128;
                     while (domNode.firstChild){
-                      
                       __LINE__ = 129;
                       ko.removeNode(domNode.firstChild);
                     }
@@ -820,21 +796,16 @@
                     __LINE__ = 134;
                     ko.utils.emptyDomNode(domNode);
                     
-                    __LINE__ = 135;
-                    if (childNodes){
-                      
-                      __LINE__ = 136;
-                      ko.utils.arrayForEach(childNodes,
-                      function (childNode) {
-                        try {
-                          __LINE__ = 137;
-                          domNode.appendChild(childNode);
-                        } catch(__mocha_error){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
-                        }
-                      });
-                    }
-                    
+                    __LINE__ = 136;
+                    childNodes && ko.utils.arrayForEach(childNodes,
+                    function (childNode) {
+                      try {
+                        __LINE__ = 137;
+                        domNode.appendChild(childNode);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                      }
+                    });
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -855,14 +826,12 @@
                       
                       __LINE__ = 147;
                       for (var i = 0,j = newNodesArray.length;i<j;i ++ ){
-                        
                         __LINE__ = 148;
                         parent.insertBefore(newNodesArray[i],insertionPoint);
                       }
                       
                       __LINE__ = 149;
                       for (var i = 0,j = nodesToReplaceArray.length;i<j;i ++ ){
-                        
                         __LINE__ = 150;
                         ko.removeNode(nodesToReplaceArray[i]);
                       }
@@ -875,16 +844,8 @@
                 },
                 setOptionNodeSelectionState : function (optionNode,isSelected) {
                   try {
-                    __LINE__ = 157;
-                    if (navigator.userAgent.indexOf("MSIE 6") >= 0){
-                      
-                      __LINE__ = 158;
-                      optionNode.setAttribute("selected",isSelected);
-                    } else {
-                      __LINE__ = 160;
-                      optionNode.selected = isSelected;
-                    }
-                    
+                    __LINE__ = 158;
+                    navigator.userAgent.indexOf("MSIE 6") >= 0?optionNode.setAttribute("selected",isSelected) : optionNode.selected = isSelected;
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -900,10 +861,8 @@
                 stringTokenize : function (string,delimiter) {
                   try {
                     __LINE__ = 168;
-                    var result = [];
-                    
-                    __LINE__ = 169;
-                    var tokens = (string || "").split(delimiter);
+                    var result = [],
+                        tokens = (string || "").split(delimiter);
                     
                     __LINE__ = 170;
                     for (var i = 0,j = tokens.length;i<j;i ++ ){
@@ -911,13 +870,8 @@
                       __LINE__ = 171;
                       var trimmed = ko.utils.stringTrim(tokens[i]);
                       
-                      __LINE__ = 172;
-                      if (trimmed !== ""){
-                        
-                        __LINE__ = 173;
-                        result.push(trimmed);
-                      }
-                      
+                      __LINE__ = 173;
+                      trimmed !== "" && result.push(trimmed);
                     }
                     __LINE__ = 175;
                     return result;
@@ -944,24 +898,17 @@
                 evalWithinScope : function (expression) {
                   try {
                     __LINE__ = 189;
-                    var scopes = Array.prototype.slice.call(arguments,1);
-                    
-                    __LINE__ = 190;
-                    var functionBody = "return ("+expression+")";
+                    var scopes = [].slice.call(arguments,1),
+                        functionBody = "return ("+expression+")";
                     
                     __LINE__ = 191;
                     for (var i = 0;i<scopes.length;i ++ ){
                       
-                      __LINE__ = 192;
-                      if (scopes[i] && typeof scopes[i] == "object"){
-                        
-                        __LINE__ = 193;
-                        functionBody = "with(sc["+i+"]) { "+functionBody+" } ";
-                      }
-                      
+                      __LINE__ = 193;
+                      scopes[i] && typeof scopes[i] == "object" && (functionBody = "with(sc["+i+"]) { "+functionBody+" } ");
                     }
                     __LINE__ = 195;
-                    return (new Function("sc",functionBody))(scopes);
+                    return (Function("sc",functionBody))(scopes);
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -1017,12 +964,8 @@
                             __LINE__ = 222;
                             var jQuerySuppliedCheckedState = this.checked;
                             
-                            __LINE__ = 223;
-                            if (eventData){
-                              
-                              __LINE__ = 224;
-                              this.checked = eventData.checkedStateBeforeEvent !==  true ;
-                            }
+                            __LINE__ = 224;
+                            eventData && (this.checked = eventData.checkedStateBeforeEvent !==  true );
                             
                             __LINE__ = 225;
                             originalHandler.call(this,event);
@@ -1036,13 +979,11 @@
                       }
                       
                       __LINE__ = 229;
-                      jQuery(element)['bind'](eventType,handler);
+                      jQuery(element).bind(eventType,handler);
                     } else if (typeof element.addEventListener == "function"){
-                      
                       __LINE__ = 231;
                       element.addEventListener(eventType,handler, false );
                     } else if (typeof element.attachEvent != "undefined"){
-                      
                       __LINE__ = 233;
                       element.attachEvent("on"+eventType,
                       function (event) {
@@ -1076,17 +1017,13 @@
                       __LINE__ = 245;
                       var eventData = [];
                       
-                      __LINE__ = 246;
-                      if (isClickOnCheckableElement(element,eventType)){
-                        
-                        __LINE__ = 248;
-                        eventData.push( {
-                          checkedStateBeforeEvent : element.checked
-                        });
-                      }
+                      __LINE__ = 248;
+                      isClickOnCheckableElement(element,eventType) && eventData.push( {
+                        checkedStateBeforeEvent : element.checked
+                      });
                       
                       __LINE__ = 250;
-                      jQuery(element)['trigger'](eventType,eventData);
+                      jQuery(element).trigger(eventType,eventData);
                     } else if (typeof document.createEvent == "function"){
                       if (typeof element.dispatchEvent == "function"){
                         
@@ -1107,14 +1044,9 @@
                       }
                       
                     } else if (typeof element.fireEvent != "undefined"){
-                      if (eventType == "click"){
-                        if ((element.tagName == "INPUT") && ((element.type.toLowerCase() == "checkbox") || (element.type.toLowerCase() == "radio"))){
-                          
-                          __LINE__ = 265;
-                          element.checked = element.checked !==  true ;
-                        }
-                        
-                      }
+                      
+                      __LINE__ = 265;
+                      eventType == "click" && (element.tagName == "INPUT") && ((element.type.toLowerCase() == "checkbox") || (element.type.toLowerCase() == "radio")) && (element.checked = element.checked !==  true );
                       
                       __LINE__ = 267;
                       element.fireEvent("on"+eventType);
@@ -1152,7 +1084,6 @@
                     
                     __LINE__ = 284;
                     if (shouldHaveClass && !hasClass){
-                      
                       __LINE__ = 285;
                       node.className = (node.className || "")+" "+className;
                     } else if (hasClass && !shouldHaveClass){
@@ -1165,12 +1096,8 @@
                       
                       __LINE__ = 289;
                       for (var i = 0;i<currentClassNames.length;i ++ ){
-                        if (currentClassNames[i] != className){
-                          
-                          __LINE__ = 291;
-                          newClassName += currentClassNames[i]+" ";
-                        }
-                        
+                        __LINE__ = 291;
+                        currentClassNames[i] != className && (newClassName += currentClassNames[i]+" ");
                       }
                       
                       __LINE__ = 292;
@@ -1213,23 +1140,14 @@
                     __LINE__ = 312;
                     var value = ko.utils.unwrapObservable(textContent);
                     
-                    __LINE__ = 313;
-                    if ((value ===  null ) || (value === undefined)){
-                      
-                      __LINE__ = 314;
-                      value = "";
-                    }
+                    __LINE__ = 314;
+                    ((value ===  null ) || (value === undefined)) && (value = "");
                     
                     __LINE__ = 316;
                     'innerText' in element?element.innerText = value : element.textContent = value;
                     
-                    __LINE__ = 319;
-                    if (ieVersion >= 9){
-                      
-                      __LINE__ = 321;
-                      element.innerHTML = element.innerHTML;
-                    }
-                    
+                    __LINE__ = 321;
+                    ieVersion >= 9 && (element.innerHTML = element.innerHTML);
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -1279,10 +1197,8 @@
                 getFormFields : function (form,fieldName) {
                   try {
                     __LINE__ = 346;
-                    var fields = ko.utils.makeArray(form.getElementsByTagName("INPUT")).concat(ko.utils.makeArray(form.getElementsByTagName("TEXTAREA")));
-                    
-                    __LINE__ = 347;
-                    var isMatchingField = (typeof fieldName == 'string')?function (field) {
+                    var fields = ko.utils.makeArray(form.getElementsByTagName("INPUT")).concat(ko.utils.makeArray(form.getElementsByTagName("TEXTAREA"))),
+                        isMatchingField = (typeof fieldName == 'string')?function (field) {
                           try {
                             __LINE__ = 348;
                             return field.name === fieldName;
@@ -1296,21 +1212,14 @@
                           } catch(__mocha_error){
                             __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                           }
-                        };
-                    
-                    __LINE__ = 350;
-                    var matches = [];
+                        },
+                        matches = [];
                     
                     __LINE__ = 351;
                     for (var i = fields.length-1;i >= 0;i -- ){
                       
-                      __LINE__ = 352;
-                      if (isMatchingField(fields[i])){
-                        
-                        __LINE__ = 353;
-                        matches.push(fields[i]);
-                      }
-                      
+                      __LINE__ = 353;
+                      isMatchingField(fields[i]) && matches.push(fields[i]);
                     }
                     __LINE__ = 355;
                     return matches;
@@ -1335,7 +1244,7 @@
                           return window.JSON.parse(jsonString);
                         }
                         __LINE__ = 364;
-                        return (new Function("return "+jsonString))();
+                        return (Function("return "+jsonString))();
                       }
                       
                     }
@@ -1364,13 +1273,9 @@
                     options = options || {};
                     
                     __LINE__ = 378;
-                    var params = options['params'] || {};
-                    
-                    __LINE__ = 379;
-                    var includeFields = options['includeFields'] || this.fieldsIncludedWithJsonPost;
-                    
-                    __LINE__ = 380;
-                    var url = urlOrForm;
+                    var params = options.params || {},
+                        includeFields = options.includeFields || this.fieldsIncludedWithJsonPost,
+                        url = urlOrForm;
                     
                     __LINE__ = 383;
                     if ((typeof urlOrForm == 'object') && (urlOrForm.tagName == "FORM")){
@@ -1389,7 +1294,6 @@
                         
                         __LINE__ = 388;
                         for (var j = fields.length-1;j >= 0;j -- ){
-                          
                           __LINE__ = 389;
                           params[fields[j].name] = fields[j].value;
                         }
@@ -1449,7 +1353,7 @@
                     document.body.appendChild(form);
                     
                     __LINE__ = 411;
-                    options['submitter']?options['submitter'](form) : form.submit();
+                    options.submitter?options.submitter(form) : form.submit();
                     
                     __LINE__ = 412;
                     setTimeout(function () {
@@ -1528,7 +1432,6 @@
                   try {
                     __LINE__ = 462;
                     if (value === undefined){
-                      
                       __LINE__ = 464;
                       if (ko.utils.domData.getAll(node, false ) === undefined){
                         __LINE__ = 465;
@@ -1549,10 +1452,8 @@
                 getAll : function (node,createIfNotFound) {
                   try {
                     __LINE__ = 471;
-                    var dataStoreKey = node[dataStoreKeyExpandoPropertyName];
-                    
-                    __LINE__ = 472;
-                    var hasExistingDataStore = dataStoreKey && (dataStoreKey !== "null");
+                    var dataStoreKey = node[dataStoreKeyExpandoPropertyName],
+                        hasExistingDataStore = dataStoreKey && (dataStoreKey !== "null");
                     
                     __LINE__ = 473;
                     if (!hasExistingDataStore){
@@ -1695,13 +1596,8 @@
                       __LINE__ = 537;
                       ko.utils.arrayRemoveItem(callbacksCollection,callback);
                       
-                      __LINE__ = 538;
-                      if (callbacksCollection.length == 0){
-                        
-                        __LINE__ = 539;
-                        destroyCallbacksCollection(node);
-                      }
-                      
+                      __LINE__ = 539;
+                      callbacksCollection.length == 0 && destroyCallbacksCollection(node);
                     }
                     
                   } catch(__mocha_error){
@@ -1741,13 +1637,8 @@
                     __LINE__ = 556;
                     ko.cleanNode(node);
                     
-                    __LINE__ = 557;
-                    if (node.parentNode){
-                      
-                      __LINE__ = 558;
-                      node.parentNode.removeChild(node);
-                    }
-                    
+                    __LINE__ = 558;
+                    node.parentNode && node.parentNode.removeChild(node);
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -2010,12 +1901,8 @@
                       __LINE__ = 700;
                       var combinedParams = [node];
                       
-                      __LINE__ = 701;
-                      if (extraCallbackParamsArray){
-                        
-                        __LINE__ = 702;
-                        ko.utils.arrayPushAll(combinedParams,extraCallbackParamsArray);
-                      }
+                      __LINE__ = 702;
+                      extraCallbackParamsArray && ko.utils.arrayPushAll(combinedParams,extraCallbackParamsArray);
                       
                       __LINE__ = 703;
                       ko.memoization.unmemoize(memos[i].memoId,combinedParams);
@@ -2023,13 +1910,8 @@
                       __LINE__ = 704;
                       node.nodeValue = "";
                       
-                      __LINE__ = 705;
-                      if (node.parentNode){
-                        
-                        __LINE__ = 706;
-                        node.parentNode.removeChild(node);
-                      }
-                      
+                      __LINE__ = 706;
+                      node.parentNode && node.parentNode.removeChild(node);
                     }
                     
                   } catch(__mocha_error){
@@ -2072,7 +1954,7 @@
             'throttle' : function (target,timeout) {
               try {
                 __LINE__ = 728;
-                target['throttleEvaluation'] = timeout;
+                target.throttleEvaluation = timeout;
                 
                 __LINE__ = 732;
                 var writeTimeoutInstance =  null ;
@@ -2105,14 +1987,14 @@
             'notify' : function (target,notifyWhen) {
               try {
                 __LINE__ = 745;
-                target["equalityComparer"] = notifyWhen == "always"?function () {
+                target.equalityComparer = notifyWhen == "always"?function () {
                   try {
                     __LINE__ = 746;
                     return  false ;
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
-                } : ko.observable["fn"]["equalityComparer"];
+                } : ko.observable.fn.equalityComparer;
                 __LINE__ = 748;
                 return target;
               } catch(__mocha_error){
@@ -2186,10 +2068,8 @@
                 event = event || defaultEvent;
                 
                 __LINE__ = 790;
-                var boundCallback = callbackTarget?callback.bind(callbackTarget) : callback;
-                
-                __LINE__ = 792;
-                var subscription = new ko.subscription(boundCallback,function () {
+                var boundCallback = callbackTarget?callback.bind(callbackTarget) : callback,
+                    subscription = new ko.subscription(boundCallback,function () {
                       try {
                         __LINE__ = 793;
                         ko.utils.arrayRemoveItem(this._subscriptions[event],subscription);
@@ -2198,12 +2078,8 @@
                       }
                     }.bind(this));
                 
-                __LINE__ = 796;
-                if (!this._subscriptions[event]){
-                  
-                  __LINE__ = 797;
-                  this._subscriptions[event] = [];
-                }
+                __LINE__ = 797;
+                !this._subscriptions[event] && (this._subscriptions[event] = []);
                 
                 __LINE__ = 798;
                 this._subscriptions[event].push(subscription);
@@ -2218,26 +2094,16 @@
                 __LINE__ = 803;
                 event = event || defaultEvent;
                 
-                __LINE__ = 804;
-                if (this._subscriptions[event]){
-                  
-                  __LINE__ = 805;
-                  ko.utils.arrayForEach(this._subscriptions[event].slice(0),
-                  function (subscription) {
-                    try {
-                      __LINE__ = 808;
-                      if (subscription && (subscription.isDisposed !==  true )){
-                        
-                        __LINE__ = 809;
-                        subscription.callback(valueToNotify);
-                      }
-                      
-                    } catch(__mocha_error){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
-                    }
-                  });
-                }
-                
+                __LINE__ = 805;
+                this._subscriptions[event] && ko.utils.arrayForEach(this._subscriptions[event].slice(0),
+                function (subscription) {
+                  try {
+                    __LINE__ = 809;
+                    subscription && (subscription.isDisposed !==  true ) && subscription.callback(valueToNotify);
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                  }
+                });
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -2250,13 +2116,8 @@
                 __LINE__ = 816;
                 for (var eventName in this._subscriptions){
                   
-                  __LINE__ = 817;
-                  if (this._subscriptions.hasOwnProperty(eventName)){
-                    
-                    __LINE__ = 818;
-                    total += this._subscriptions[eventName].length;
-                  }
-                  
+                  __LINE__ = 818;
+                  this._subscriptions.hasOwnProperty(eventName) && (total += this._subscriptions[eventName].length);
                 }
                 __LINE__ = 820;
                 return total;
@@ -2543,13 +2404,9 @@
             remove : function (valueOrPredicate) {
               try {
                 __LINE__ = 944;
-                var underlyingArray = this();
-                
-                __LINE__ = 945;
-                var removedValues = [];
-                
-                __LINE__ = 946;
-                var predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function (value) {
+                var underlyingArray = this(),
+                    removedValues = [],
+                    predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function (value) {
                       try {
                         __LINE__ = 946;
                         return value === valueOrPredicate;
@@ -2567,12 +2424,8 @@
                   __LINE__ = 949;
                   if (predicate(value)){
                     
-                    __LINE__ = 950;
-                    if (removedValues.length === 0){
-                      
-                      __LINE__ = 951;
-                      this.valueWillMutate();
-                    }
+                    __LINE__ = 951;
+                    removedValues.length === 0 && this.valueWillMutate();
                     
                     __LINE__ = 953;
                     removedValues.push(value);
@@ -2586,12 +2439,8 @@
                   
                 }
                 
-                __LINE__ = 958;
-                if (removedValues.length){
-                  
-                  __LINE__ = 959;
-                  this.valueHasMutated();
-                }
+                __LINE__ = 959;
+                removedValues.length && this.valueHasMutated();
                 __LINE__ = 961;
                 return removedValues;
               } catch(__mocha_error){
@@ -2642,10 +2491,8 @@
             destroy : function (valueOrPredicate) {
               try {
                 __LINE__ = 983;
-                var underlyingArray = this();
-                
-                __LINE__ = 984;
-                var predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function (value) {
+                var underlyingArray = this(),
+                    predicate = typeof valueOrPredicate == "function"?valueOrPredicate : function (value) {
                       try {
                         __LINE__ = 984;
                         return value === valueOrPredicate;
@@ -2663,13 +2510,8 @@
                   __LINE__ = 987;
                   var value = underlyingArray[i];
                   
-                  __LINE__ = 988;
-                  if (predicate(value)){
-                    
-                    __LINE__ = 989;
-                    underlyingArray[i]["_destroy"] =  true ;
-                  }
-                  
+                  __LINE__ = 989;
+                  predicate(value) && (underlyingArray[i]._destroy =  true );
                 }
                 
                 __LINE__ = 991;
@@ -3246,12 +3088,9 @@
                       }
                       __LINE__ = 1266;
                       return element.getAttribute("value");
-                    } else if (element.tagName == 'SELECT'){
-                      __LINE__ = 1268;
-                      return element.selectedIndex >= 0?ko.selectExtensions.readValue(element.options[element.selectedIndex]) : undefined;
                     } else {
-                      __LINE__ = 1270;
-                      return element.value;
+                      __LINE__ = 1268;
+                      return element.tagName == 'SELECT'?element.selectedIndex >= 0?ko.selectExtensions.readValue(element.options[element.selectedIndex]) : undefined : element.value;
                     }
                     
                   } catch(__mocha_error){
@@ -3262,7 +3101,6 @@
                   try {
                     __LINE__ = 1274;
                     if (element.tagName == 'OPTION'){
-                      
                       __LINE__ = 1275;
                       switch (typeof value) {
                         case "string" :
@@ -3270,12 +3108,8 @@
                           __LINE__ = 1277;
                           ko.utils.domData.set(element,ko.bindingHandlers.options.optionValueDomDataKey,undefined);
                           
-                          __LINE__ = 1278;
-                          if (hasDomDataExpandoProperty in element){
-                            
-                            __LINE__ = 1279;
-                            delete element[hasDomDataExpandoProperty];
-                          }
+                          __LINE__ = 1279;
+                          hasDomDataExpandoProperty in element && delete element[hasDomDataExpandoProperty];
                           
                           __LINE__ = 1281;
                           element.value = value;
@@ -3297,7 +3131,6 @@
                       }
                       
                     } else if (element.tagName == 'SELECT'){
-                      
                       __LINE__ = 1293;
                       for (var i = element.options.length-1;i >= 0;i -- ){
                         if (ko.selectExtensions.readValue(element.options[i]) == value){
@@ -3311,11 +3144,9 @@
                       }
                       
                     } else {
-                      if ((value ===  null ) || (value === undefined)){
-                        
-                        __LINE__ = 1301;
-                        value = "";
-                      }
+                      
+                      __LINE__ = 1301;
+                      ((value ===  null ) || (value === undefined)) && (value = "");
                       
                       __LINE__ = 1302;
                       element.value = value;
@@ -3424,18 +3255,12 @@
                       return [];
                     }
                     
-                    __LINE__ = 1355;
-                    if (str.charAt(0) === "{"){
-                      
-                      __LINE__ = 1356;
-                      str = str.substring(1,str.length-1);
-                    }
+                    __LINE__ = 1356;
+                    str.charAt(0) === "{" && (str = str.substring(1,str.length-1));
                     
                     __LINE__ = 1359;
-                    var tokens = [];
-                    
-                    __LINE__ = 1360;
-                    var tokenStart =  null ,
+                    var tokens = [],
+                        tokenStart =  null ,
                         tokenEndChar;
                     
                     __LINE__ = 1361;
@@ -3446,7 +3271,6 @@
                       
                       __LINE__ = 1363;
                       if (tokenStart ===  null ){
-                        
                         __LINE__ = 1364;
                         switch (c) {
                           case '"' :
@@ -3504,7 +3328,6 @@
                       
                       __LINE__ = 1388;
                       if (tokenStart ===  null ){
-                        
                         __LINE__ = 1389;
                         switch (c) {
                           case "{" :
@@ -3550,7 +3373,6 @@
                       
                       __LINE__ = 1402;
                       if (c === tokenStartChar){
-                        
                         __LINE__ = 1403;
                         tokenDepth ++ ;
                       } else if (c === tokenEndChar){
@@ -3583,10 +3405,8 @@
                     }
                     
                     __LINE__ = 1418;
-                    var result = [];
-                    
-                    __LINE__ = 1419;
-                    var keyValuePairs = str.split(",");
+                    var result = [],
+                        keyValuePairs = str.split(",");
                     
                     __LINE__ = 1420;
                     for (var i = 0,j = keyValuePairs.length;i<j;i ++ ){
@@ -3612,7 +3432,6 @@
                           'value' : restoreTokens(value,tokens)
                         });
                       } else {
-                        
                         __LINE__ = 1428;
                         result.push( {
                           'unknown' : restoreTokens(pair,tokens)
@@ -3629,31 +3448,23 @@
                 insertPropertyAccessorsIntoJson : function (objectLiteralStringOrKeyValueArray) {
                   try {
                     __LINE__ = 1435;
-                    var keyValueArray = typeof objectLiteralStringOrKeyValueArray === "string"?ko.jsonExpressionRewriting.parseObjectLiteral(objectLiteralStringOrKeyValueArray) : objectLiteralStringOrKeyValueArray;
-                    
-                    __LINE__ = 1438;
-                    var resultStrings = [],
-                        propertyAccessorResultStrings = [];
-                    
-                    __LINE__ = 1440;
-                    var keyValueEntry;
+                    var keyValueArray = typeof objectLiteralStringOrKeyValueArray === "string"?ko.jsonExpressionRewriting.parseObjectLiteral(objectLiteralStringOrKeyValueArray) : objectLiteralStringOrKeyValueArray,
+                        resultStrings = [],
+                        propertyAccessorResultStrings = [],
+                        keyValueEntry;
                     
                     __LINE__ = 1441;
                     for (var i = 0;keyValueEntry = keyValueArray[i];i ++ ){
                       
-                      __LINE__ = 1442;
-                      if (resultStrings.length>0){
-                        
-                        __LINE__ = 1443;
-                        resultStrings.push(",");
-                      }
+                      __LINE__ = 1443;
+                      resultStrings.length>0 && resultStrings.push(",");
                       
                       __LINE__ = 1445;
-                      if (keyValueEntry['key']){
+                      if (keyValueEntry.key){
                         
                         __LINE__ = 1446;
-                        var quotedKey = ensureQuoted(keyValueEntry['key']),
-                            val = keyValueEntry['value'];
+                        var quotedKey = ensureQuoted(keyValueEntry.key),
+                            val = keyValueEntry.value;
                         
                         __LINE__ = 1447;
                         resultStrings.push(quotedKey);
@@ -3667,21 +3478,16 @@
                         __LINE__ = 1451;
                         if (isWriteableValue(ko.utils.stringTrim(val))){
                           
-                          __LINE__ = 1452;
-                          if (propertyAccessorResultStrings.length>0){
-                            
-                            __LINE__ = 1453;
-                            propertyAccessorResultStrings.push(", ");
-                          }
+                          __LINE__ = 1453;
+                          propertyAccessorResultStrings.length>0 && propertyAccessorResultStrings.push(", ");
                           
                           __LINE__ = 1454;
                           propertyAccessorResultStrings.push(quotedKey+" : function(__ko_value) { "+val+" = __ko_value; }");
                         }
                         
-                      } else if (keyValueEntry['unknown']){
-                        
+                      } else {
                         __LINE__ = 1457;
-                        resultStrings.push(keyValueEntry['unknown']);
+                        keyValueEntry.unknown && resultStrings.push(keyValueEntry.unknown);
                       }
                       
                     }
@@ -3710,7 +3516,7 @@
                     for (var i = 0;i<keyValueArray.length;i ++ ){
                       
                       __LINE__ = 1472;
-                      if (ko.utils.stringTrim(keyValueArray[i]['key']) == key){
+                      if (ko.utils.stringTrim(keyValueArray[i].key) == key){
                         __LINE__ = 1473;
                         return  true ;
                       }
@@ -3750,7 +3556,6 @@
                 
                 __LINE__ = 1554;
                 if (childNode){
-                  
                   __LINE__ = 1555;
                   do {
                     __LINE__ = 1556;
@@ -3905,7 +3710,6 @@
                   try {
                     __LINE__ = 1580;
                     if (!isStartComment(node)){
-                      
                       __LINE__ = 1581;
                       ko.utils.emptyDomNode(node);
                     } else {
@@ -3915,7 +3719,6 @@
                       
                       __LINE__ = 1584;
                       for (var i = 0,j = virtualChildren.length;i<j;i ++ ){
-                        
                         __LINE__ = 1585;
                         ko.removeNode(virtualChildren[i]);
                       }
@@ -3930,7 +3733,6 @@
                   try {
                     __LINE__ = 1590;
                     if (!isStartComment(node)){
-                      
                       __LINE__ = 1591;
                       ko.utils.setDomNodeChildren(node,childNodes);
                     } else {
@@ -3943,7 +3745,6 @@
                       
                       __LINE__ = 1595;
                       for (var i = 0,j = childNodes.length;i<j;i ++ ){
-                        
                         __LINE__ = 1596;
                         endCommentNode.parentNode.insertBefore(childNodes[i],endCommentNode);
                       }
@@ -3956,50 +3757,16 @@
                 },
                 prepend : function (containerNode,nodeToPrepend) {
                   try {
-                    __LINE__ = 1601;
-                    if (!isStartComment(containerNode)){
-                      
-                      __LINE__ = 1602;
-                      if (containerNode.firstChild){
-                        
-                        __LINE__ = 1603;
-                        containerNode.insertBefore(nodeToPrepend,containerNode.firstChild);
-                      } else {
-                        __LINE__ = 1605;
-                        containerNode.appendChild(nodeToPrepend);
-                      }
-                      
-                    } else {
-                      
-                      __LINE__ = 1608;
-                      containerNode.parentNode.insertBefore(nodeToPrepend,containerNode.nextSibling);
-                    }
-                    
+                    __LINE__ = 1603;
+                    !isStartComment(containerNode)?containerNode.firstChild?containerNode.insertBefore(nodeToPrepend,containerNode.firstChild) : containerNode.appendChild(nodeToPrepend) : containerNode.parentNode.insertBefore(nodeToPrepend,containerNode.nextSibling);
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
                 },
                 insertAfter : function (containerNode,nodeToInsert,insertAfterNode) {
                   try {
-                    __LINE__ = 1613;
-                    if (!isStartComment(containerNode)){
-                      
-                      __LINE__ = 1615;
-                      if (insertAfterNode.nextSibling){
-                        
-                        __LINE__ = 1616;
-                        containerNode.insertBefore(nodeToInsert,insertAfterNode.nextSibling);
-                      } else {
-                        __LINE__ = 1618;
-                        containerNode.appendChild(nodeToInsert);
-                      }
-                      
-                    } else {
-                      
-                      __LINE__ = 1621;
-                      containerNode.parentNode.insertBefore(nodeToInsert,insertAfterNode.nextSibling);
-                    }
-                    
+                    __LINE__ = 1616;
+                    !isStartComment(containerNode)?insertAfterNode.nextSibling?containerNode.insertBefore(nodeToInsert,insertAfterNode.nextSibling) : containerNode.appendChild(nodeToInsert) : containerNode.parentNode.insertBefore(nodeToInsert,insertAfterNode.nextSibling);
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -4070,10 +3837,8 @@
                     
                     __LINE__ = 1660;
                     if (childNode){
-                      
                       __LINE__ = 1661;
                       do {
-                        
                         __LINE__ = 1662;
                         if (childNode.nodeType === 1){
                           
@@ -4088,17 +3853,8 @@
                             
                             __LINE__ = 1667;
                             for (var i = 0;i<unbalancedTags.length;i ++ ){
-                              
-                              __LINE__ = 1668;
-                              if (nodeToInsertBefore){
-                                
-                                __LINE__ = 1669;
-                                elementVerified.insertBefore(unbalancedTags[i],nodeToInsertBefore);
-                              } else {
-                                __LINE__ = 1671;
-                                elementVerified.appendChild(unbalancedTags[i]);
-                              }
-                              
+                              __LINE__ = 1669;
+                              nodeToInsertBefore?elementVerified.insertBefore(unbalancedTags[i],nodeToInsertBefore) : elementVerified.appendChild(unbalancedTags[i]);
                             }
                             
                           }
@@ -4152,9 +3908,9 @@
                 'getBindings' : function (node,bindingContext) {
                   try {
                     __LINE__ = 1695;
-                    var bindingsString = this['getBindingsString'](node,bindingContext);
+                    var bindingsString = this.getBindingsString(node,bindingContext);
                     __LINE__ = 1696;
-                    return bindingsString?this['parseBindingsString'](bindingsString,bindingContext) :  null ;
+                    return bindingsString?this.parseBindingsString(bindingsString,bindingContext) :  null ;
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -4184,7 +3940,7 @@
                     try {
                       
                       __LINE__ = 1713;
-                      var viewModel = bindingContext['$data'];
+                      var viewModel = bindingContext.$data;
                       
                       __LINE__ = 1714;
                       var rewrittenBindings = " { "+ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson(bindingsString)+" } ";
@@ -4612,7 +4368,7 @@
                           }
                         };
                     __LINE__ = 1925;
-                    return ko.bindingHandlers['event']['init'].call(this,element,newValueAccessor,allBindingsAccessor,viewModel);
+                    return ko.bindingHandlers.event.init.call(this,element,newValueAccessor,allBindingsAccessor,viewModel);
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -4634,90 +4390,65 @@
                 for (var eventNameOutsideClosure in eventsToHandle){
                   
                   __LINE__ = 1935;
-                  (function () {
+                  !function () {
                     try {
                       __LINE__ = 1936;
                       var eventName = eventNameOutsideClosure;
                       
-                      __LINE__ = 1937;
-                      if (typeof eventName == "string"){
-                        
-                        __LINE__ = 1938;
-                        ko.utils.registerEventHandler(element,eventName,
-                        function (event) {
-                          try {
-                            __LINE__ = 1939;
-                            var handlerReturnValue;
-                            
-                            __LINE__ = 1940;
-                            var handlerFunction = valueAccessor()[eventName];
-                            
-                            __LINE__ = 1941;
-                            if (!handlerFunction){
-                              __LINE__ = 1942;
-                              return ;
-                            }
-                            
-                            __LINE__ = 1943;
-                            var allBindings = allBindingsAccessor();
-                            
-                            try {
-                              
-                              __LINE__ = 1947;
-                              var argsForHandler = ko.utils.makeArray(arguments);
-                              
-                              __LINE__ = 1948;
-                              argsForHandler.unshift(viewModel);
-                              
-                              __LINE__ = 1949;
-                              handlerReturnValue = handlerFunction.apply(viewModel,argsForHandler);
-                            } finally {
-                              
-                              __LINE__ = 1951;
-                              if (handlerReturnValue !==  true ){
-                                
-                                __LINE__ = 1952;
-                                if (event.preventDefault){
-                                  
-                                  __LINE__ = 1953;
-                                  event.preventDefault();
-                                } else {
-                                  __LINE__ = 1955;
-                                  event.returnValue =  false ;
-                                }
-                                
-                              }
-                              
-                            }
-                            
-                            __LINE__ = 1959;
-                            var bubble = allBindings[eventName+'Bubble'] !==  false ;
-                            
-                            __LINE__ = 1960;
-                            if (!bubble){
-                              
-                              __LINE__ = 1961;
-                              event.cancelBubble =  true ;
-                              
-                              __LINE__ = 1962;
-                              if (event.stopPropagation){
-                                
-                                __LINE__ = 1963;
-                                event.stopPropagation();
-                              }
-                              
-                            }
-                            
-                          } catch(__mocha_error){
-                            __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                      __LINE__ = 1938;
+                      typeof eventName == "string" && ko.utils.registerEventHandler(element,eventName,
+                      function (event) {
+                        try {
+                          __LINE__ = 1939;
+                          var handlerReturnValue,
+                              handlerFunction = valueAccessor()[eventName];
+                          
+                          __LINE__ = 1941;
+                          if (!handlerFunction){
+                            __LINE__ = 1942;
+                            return ;
                           }
-                        });
-                      }
-                      
+                          
+                          __LINE__ = 1943;
+                          var allBindings = allBindingsAccessor();
+                          
+                          try {
+                            
+                            __LINE__ = 1947;
+                            var argsForHandler = ko.utils.makeArray(arguments);
+                            
+                            __LINE__ = 1948;
+                            argsForHandler.unshift(viewModel);
+                            
+                            __LINE__ = 1949;
+                            handlerReturnValue = handlerFunction.apply(viewModel,argsForHandler);
+                          } finally {
+                            
+                            __LINE__ = 1953;
+                            handlerReturnValue !==  true  && event.preventDefault?event.preventDefault() : event.returnValue =  false ;
+                          }
+                          
+                          __LINE__ = 1959;
+                          var bubble = allBindings[eventName+'Bubble'] !==  false ;
+                          
+                          __LINE__ = 1960;
+                          if (!bubble){
+                            
+                            __LINE__ = 1961;
+                            event.cancelBubble =  true ;
+                            
+                            __LINE__ = 1963;
+                            event.stopPropagation && event.stopPropagation();
+                          }
+                          
+                        } catch(__mocha_error){
+                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                        }
+                      });
                     } catch(__mocha_error){
                       __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                     }
-                  })();
+                  }();
                 }
                 
               } catch(__mocha_error){
@@ -4741,10 +4472,8 @@
                 function (event) {
                   try {
                     __LINE__ = 1977;
-                    var handlerReturnValue;
-                    
-                    __LINE__ = 1978;
-                    var value = valueAccessor();
+                    var handlerReturnValue,
+                        value = valueAccessor();
                     
                     try {
                       
@@ -4752,21 +4481,8 @@
                       handlerReturnValue = value.call(viewModel,element);
                     } finally {
                       
-                      __LINE__ = 1981;
-                      if (handlerReturnValue !==  true ){
-                        
-                        __LINE__ = 1982;
-                        if (event.preventDefault){
-                          
-                          __LINE__ = 1983;
-                          event.preventDefault();
-                        } else {
-                          __LINE__ = 1985;
-                          event.returnValue =  false ;
-                        }
-                        
-                      }
-                      
+                      __LINE__ = 1983;
+                      handlerReturnValue !==  true  && event.preventDefault?event.preventDefault() : event.returnValue =  false ;
                     }
                     
                   } catch(__mocha_error){
@@ -4784,22 +4500,11 @@
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 1994;
-                var value = ko.utils.unwrapObservable(valueAccessor());
+                var value = ko.utils.unwrapObservable(valueAccessor()),
+                    isCurrentlyVisible = !(element.style.display == "none");
                 
-                __LINE__ = 1995;
-                var isCurrentlyVisible = !(element.style.display == "none");
-                
-                __LINE__ = 1996;
-                if (value && !isCurrentlyVisible){
-                  
-                  __LINE__ = 1997;
-                  element.style.display = "";
-                } else if ((!value) && isCurrentlyVisible){
-                  
-                  __LINE__ = 1999;
-                  element.style.display = "none";
-                }
-                
+                __LINE__ = 1997;
+                value && !isCurrentlyVisible?element.style.display = "" : (!value) && isCurrentlyVisible && (element.style.display = "none");
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -4813,17 +4518,8 @@
                 __LINE__ = 2005;
                 var value = ko.utils.unwrapObservable(valueAccessor());
                 
-                __LINE__ = 2006;
-                if (value && element.disabled){
-                  
-                  __LINE__ = 2007;
-                  element.removeAttribute("disabled");
-                } else if ((!value) && (!element.disabled)){
-                  
-                  __LINE__ = 2009;
-                  element.disabled =  true ;
-                }
-                
+                __LINE__ = 2007;
+                value && element.disabled?element.removeAttribute("disabled") : (!value) && (!element.disabled) && (element.disabled =  true );
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -4835,7 +4531,7 @@
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2015;
-                ko.bindingHandlers['enable']['update'](element,
+                ko.bindingHandlers.enable.update(element,
                 function () {
                   try {
                     __LINE__ = 2015;
@@ -4855,20 +4551,14 @@
             'init' : function (element,valueAccessor,allBindingsAccessor) {
               try {
                 __LINE__ = 2035;
-                var eventsToCatch = ["change"];
-                
-                __LINE__ = 2036;
-                var requestedEventsToCatch = allBindingsAccessor()["valueUpdate"];
+                var eventsToCatch = ["change"],
+                    requestedEventsToCatch = allBindingsAccessor().valueUpdate;
                 
                 __LINE__ = 2037;
                 if (requestedEventsToCatch){
                   
-                  __LINE__ = 2038;
-                  if (typeof requestedEventsToCatch == "string"){
-                    
-                    __LINE__ = 2039;
-                    requestedEventsToCatch = [requestedEventsToCatch];
-                  }
+                  __LINE__ = 2039;
+                  typeof requestedEventsToCatch == "string" && (requestedEventsToCatch = [requestedEventsToCatch]);
                   
                   __LINE__ = 2040;
                   ko.utils.arrayPushAll(eventsToCatch,requestedEventsToCatch);
@@ -4919,26 +4609,20 @@
                         runEventHandler(function () {
                           try {
                             __LINE__ = 2058;
-                            var modelValue = valueAccessor();
-                            
-                            __LINE__ = 2059;
-                            var elementValue = ko.selectExtensions.readValue(element);
+                            var modelValue = valueAccessor(),
+                                elementValue = ko.selectExtensions.readValue(element);
                             
                             __LINE__ = 2060;
                             if (ko.isWriteableObservable(modelValue)){
-                              
                               __LINE__ = 2061;
                               modelValue(elementValue);
                             } else {
                               
                               __LINE__ = 2063;
                               var allBindings = allBindingsAccessor();
-                              if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['value']){
-                                
-                                __LINE__ = 2065;
-                                allBindings['_ko_property_writers']['value'](elementValue);
-                              }
                               
+                              __LINE__ = 2065;
+                              allBindings._ko_property_writers && allBindings._ko_property_writers.value && allBindings._ko_property_writers.value(elementValue);
                             }
                             
                           } catch(__mocha_error){
@@ -4960,20 +4644,12 @@
             'update' : function (element,valueAccessor) {
               try {
                 __LINE__ = 2072;
-                var newValue = ko.utils.unwrapObservable(valueAccessor());
+                var newValue = ko.utils.unwrapObservable(valueAccessor()),
+                    elementValue = ko.selectExtensions.readValue(element),
+                    valueHasChanged = (newValue != elementValue);
                 
-                __LINE__ = 2073;
-                var elementValue = ko.selectExtensions.readValue(element);
-                
-                __LINE__ = 2074;
-                var valueHasChanged = (newValue != elementValue);
-                
-                __LINE__ = 2078;
-                if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")){
-                  
-                  __LINE__ = 2079;
-                  valueHasChanged =  true ;
-                }
+                __LINE__ = 2079;
+                (newValue === 0) && (elementValue !== 0) && (elementValue !== "0") && (valueHasChanged =  true );
                 
                 __LINE__ = 2081;
                 if (valueHasChanged){
@@ -4994,22 +4670,12 @@
                   __LINE__ = 2088;
                   var alsoApplyAsynchronously = element.tagName == "SELECT";
                   
-                  __LINE__ = 2089;
-                  if (alsoApplyAsynchronously){
-                    
-                    __LINE__ = 2090;
-                    setTimeout(applyValueAction,0);
-                  }
-                  
+                  __LINE__ = 2090;
+                  alsoApplyAsynchronously && setTimeout(applyValueAction,0);
                 }
                 
-                __LINE__ = 2095;
-                if ((element.tagName == "SELECT") && (element.length>0)){
-                  
-                  __LINE__ = 2096;
-                  ensureDropdownSelectionIsConsistentWithModelValue(element,newValue, false );
-                }
-                
+                __LINE__ = 2096;
+                (element.tagName == "SELECT") && (element.length>0) && ensureDropdownSelectionIsConsistentWithModelValue(element,newValue, false );
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5027,10 +4693,8 @@
                 }
                 
                 __LINE__ = 2105;
-                var selectWasPreviouslyEmpty = element.length == 0;
-                
-                __LINE__ = 2106;
-                var previousSelectedValues = ko.utils.arrayMap(ko.utils.arrayFilter(element.childNodes,
+                var selectWasPreviouslyEmpty = element.length == 0,
+                    previousSelectedValues = ko.utils.arrayMap(ko.utils.arrayFilter(element.childNodes,
                     function (node) {
                       try {
                         __LINE__ = 2107;
@@ -5046,19 +4710,15 @@
                       } catch(__mocha_error){
                         __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
-                    });
-                
-                __LINE__ = 2111;
-                var previousScrollTop = element.scrollTop;
+                    }),
+                    previousScrollTop = element.scrollTop;
                 
                 __LINE__ = 2112;
                 element.scrollTop = 0;
                 
                 __LINE__ = 2114;
-                var value = ko.utils.unwrapObservable(valueAccessor());
-                
-                __LINE__ = 2115;
-                var selectedValue = element.value;
+                var value = ko.utils.unwrapObservable(valueAccessor()),
+                    selectedValue = element.value;
                 
                 __LINE__ = 2119;
                 while (element.length>0){
@@ -5076,21 +4736,17 @@
                   __LINE__ = 2125;
                   var allBindings = allBindingsAccessor();
                   
-                  __LINE__ = 2126;
-                  if (typeof value.length != "number"){
-                    
-                    __LINE__ = 2127;
-                    value = [value];
-                  }
+                  __LINE__ = 2127;
+                  typeof value.length != "number" && (value = [value]);
                   
                   __LINE__ = 2128;
-                  if (allBindings['optionsCaption']){
+                  if (allBindings.optionsCaption){
                     
                     __LINE__ = 2129;
                     var option = document.createElement("OPTION");
                     
                     __LINE__ = 2130;
-                    ko.utils.setHtml(option,allBindings['optionsCaption']);
+                    ko.utils.setHtml(option,allBindings.optionsCaption);
                     
                     __LINE__ = 2131;
                     ko.selectExtensions.writeValue(option,undefined);
@@ -5106,7 +4762,7 @@
                     var option = document.createElement("OPTION");
                     
                     __LINE__ = 2138;
-                    var optionValue = typeof allBindings['optionsValue'] == "string"?value[i][allBindings['optionsValue']] : value[i];
+                    var optionValue = typeof allBindings.optionsValue == "string"?value[i][allBindings.optionsValue] : value[i];
                     
                     __LINE__ = 2139;
                     optionValue = ko.utils.unwrapObservable(optionValue);
@@ -5115,31 +4771,16 @@
                     ko.selectExtensions.writeValue(option,optionValue);
                     
                     __LINE__ = 2143;
-                    var optionsTextValue = allBindings['optionsText'];
+                    var optionsTextValue = allBindings.optionsText;
                     
                     __LINE__ = 2144;
                     var optionText;
                     
-                    __LINE__ = 2145;
-                    if (typeof optionsTextValue == "function"){
-                      
-                      __LINE__ = 2146;
-                      optionText = optionsTextValue(value[i]);
-                    } else if (typeof optionsTextValue == "string"){
-                      
-                      __LINE__ = 2148;
-                      optionText = value[i][optionsTextValue];
-                    } else {
-                      __LINE__ = 2150;
-                      optionText = optionValue;
-                    }
+                    __LINE__ = 2146;
+                    typeof optionsTextValue == "function"?optionText = optionsTextValue(value[i]) : typeof optionsTextValue == "string"?optionText = value[i][optionsTextValue] : optionText = optionValue;
                     
-                    __LINE__ = 2151;
-                    if ((optionText ===  null ) || (optionText === undefined)){
-                      
-                      __LINE__ = 2152;
-                      optionText = "";
-                    }
+                    __LINE__ = 2152;
+                    ((optionText ===  null ) || (optionText === undefined)) && (optionText = "");
                     
                     __LINE__ = 2154;
                     ko.utils.setTextContent(option,optionText);
@@ -5156,7 +4797,6 @@
                   
                   __LINE__ = 2163;
                   for (var i = 0,j = newOptions.length;i<j;i ++ ){
-                    
                     __LINE__ = 2164;
                     if (ko.utils.arrayIndexOf(previousSelectedValues,ko.selectExtensions.readValue(newOptions[i])) >= 0){
                       
@@ -5169,20 +4809,11 @@
                     
                   }
                   
-                  __LINE__ = 2170;
-                  if (previousScrollTop){
-                    
-                    __LINE__ = 2171;
-                    element.scrollTop = previousScrollTop;
-                  }
+                  __LINE__ = 2171;
+                  previousScrollTop && (element.scrollTop = previousScrollTop);
                   
-                  __LINE__ = 2173;
-                  if (selectWasPreviouslyEmpty && ('value' in allBindings)){
-                    
-                    __LINE__ = 2177;
-                    ensureDropdownSelectionIsConsistentWithModelValue(element,ko.utils.unwrapObservable(allBindings['value']), true );
-                  }
-                  
+                  __LINE__ = 2177;
+                  selectWasPreviouslyEmpty && ('value' in allBindings) && ensureDropdownSelectionIsConsistentWithModelValue(element,ko.utils.unwrapObservable(allBindings.value), true );
                 }
                 
               } catch(__mocha_error){
@@ -5199,10 +4830,8 @@
             getSelectedValuesFromSelectNode : function (selectNode) {
               try {
                 __LINE__ = 2186;
-                var result = [];
-                
-                __LINE__ = 2187;
-                var nodes = selectNode.childNodes;
+                var result = [],
+                    nodes = selectNode.childNodes;
                 
                 __LINE__ = 2188;
                 for (var i = 0,j = nodes.length;i<j;i ++ ){
@@ -5210,13 +4839,8 @@
                   __LINE__ = 2189;
                   var node = nodes[i];
                   
-                  __LINE__ = 2190;
-                  if ((node.tagName == "OPTION") && node.selected){
-                    
-                    __LINE__ = 2191;
-                    result.push(ko.selectExtensions.readValue(node));
-                  }
-                  
+                  __LINE__ = 2191;
+                  (node.tagName == "OPTION") && node.selected && result.push(ko.selectExtensions.readValue(node));
                 }
                 __LINE__ = 2193;
                 return result;
@@ -5235,19 +4859,15 @@
                     
                     __LINE__ = 2198;
                     if (ko.isWriteableObservable(value)){
-                      
                       __LINE__ = 2199;
-                      value(ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode(this));
+                      value(ko.bindingHandlers.selectedOptions.getSelectedValuesFromSelectNode(this));
                     } else {
                       
                       __LINE__ = 2201;
                       var allBindings = allBindingsAccessor();
-                      if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['value']){
-                        
-                        __LINE__ = 2203;
-                        allBindings['_ko_property_writers']['value'](ko.bindingHandlers['selectedOptions'].getSelectedValuesFromSelectNode(this));
-                      }
                       
+                      __LINE__ = 2203;
+                      allBindings._ko_property_writers && allBindings._ko_property_writers.value && allBindings._ko_property_writers.value(ko.bindingHandlers.selectedOptions.getSelectedValuesFromSelectNode(this));
                     }
                     
                   } catch(__mocha_error){
@@ -5281,13 +4901,8 @@
                     __LINE__ = 2215;
                     var node = nodes[i];
                     
-                    __LINE__ = 2216;
-                    if (node.tagName == "OPTION"){
-                      
-                      __LINE__ = 2217;
-                      ko.utils.setOptionNodeSelectionState(node,ko.utils.arrayIndexOf(newValue,ko.selectExtensions.readValue(node)) >= 0);
-                    }
-                    
+                    __LINE__ = 2217;
+                    node.tagName == "OPTION" && ko.utils.setOptionNodeSelectionState(node,ko.utils.arrayIndexOf(newValue,ko.selectExtensions.readValue(node)) >= 0);
                   }
                   
                 }
@@ -5399,15 +5014,10 @@
                 if (valueAccessor()){
                   
                   __LINE__ = 2267;
-                  element.name = "ko_unique_"+( ++ ko.bindingHandlers['uniqueName'].currentIndex);
+                  element.name = "ko_unique_"+( ++ ko.bindingHandlers.uniqueName.currentIndex);
                   
-                  __LINE__ = 2272;
-                  if (ko.utils.isIe6 || ko.utils.isIe7){
-                    
-                    __LINE__ = 2273;
-                    element.mergeAttributes(document.createElement("<input name='"+element.name+"'/>"), false );
-                  }
-                  
+                  __LINE__ = 2273;
+                  (ko.utils.isIe6 || ko.utils.isIe7) && element.mergeAttributes(document.createElement("<input name='"+element.name+"'/>"), false );
                 }
                 
               } catch(__mocha_error){
@@ -5431,11 +5041,9 @@
                         
                         __LINE__ = 2283;
                         if (element.type == "checkbox"){
-                          
                           __LINE__ = 2284;
                           valueToWrite = element.checked;
                         } else if ((element.type == "radio") && (element.checked)){
-                          
                           __LINE__ = 2286;
                           valueToWrite = element.value;
                         } else {
@@ -5452,34 +5060,18 @@
                           __LINE__ = 2295;
                           var existingEntryIndex = ko.utils.arrayIndexOf(ko.utils.unwrapObservable(modelValue),element.value);
                           
-                          __LINE__ = 2296;
-                          if (element.checked && (existingEntryIndex<0)){
-                            
-                            __LINE__ = 2297;
-                            modelValue.push(element.value);
-                          } else if ((!element.checked) && (existingEntryIndex >= 0)){
-                            
-                            __LINE__ = 2299;
-                            modelValue.splice(existingEntryIndex,1);
-                          }
-                          
+                          __LINE__ = 2297;
+                          element.checked && (existingEntryIndex<0)?modelValue.push(element.value) : (!element.checked) && (existingEntryIndex >= 0) && modelValue.splice(existingEntryIndex,1);
                         } else if (ko.isWriteableObservable(modelValue)){
-                          if (modelValue() !== valueToWrite){
-                            
-                            __LINE__ = 2302;
-                            modelValue(valueToWrite);
-                          }
-                          
+                          __LINE__ = 2302;
+                          modelValue() !== valueToWrite && modelValue(valueToWrite);
                         } else {
                           
                           __LINE__ = 2305;
                           var allBindings = allBindingsAccessor();
-                          if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['checked']){
-                            
-                            __LINE__ = 2307;
-                            allBindings['_ko_property_writers']['checked'](valueToWrite);
-                          }
                           
+                          __LINE__ = 2307;
+                          allBindings._ko_property_writers && allBindings._ko_property_writers.checked && allBindings._ko_property_writers.checked(valueToWrite);
                         }
                         
                       } catch(__mocha_error){
@@ -5490,21 +5082,16 @@
                 __LINE__ = 2311;
                 ko.utils.registerEventHandler(element,"click",updateHandler);
                 
-                __LINE__ = 2314;
-                if ((element.type == "radio") && !element.name){
-                  
-                  __LINE__ = 2315;
-                  ko.bindingHandlers['uniqueName']['init'](element,
-                  function () {
-                    try {
-                      __LINE__ = 2315;
-                      return  true ;
-                    } catch(__mocha_error){
-                      __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
-                    }
-                  });
-                }
-                
+                __LINE__ = 2315;
+                (element.type == "radio") && !element.name && ko.bindingHandlers.uniqueName.init(element,
+                function () {
+                  try {
+                    __LINE__ = 2315;
+                    return  true ;
+                  } catch(__mocha_error){
+                    __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                  }
+                });
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5514,26 +5101,8 @@
                 __LINE__ = 2318;
                 var value = ko.utils.unwrapObservable(valueAccessor());
                 
-                __LINE__ = 2320;
-                if (element.type == "checkbox"){
-                  
-                  __LINE__ = 2321;
-                  if (value instanceof Array){
-                    
-                    __LINE__ = 2323;
-                    element.checked = ko.utils.arrayIndexOf(value,element.value) >= 0;
-                  } else {
-                    
-                    __LINE__ = 2326;
-                    element.checked = value;
-                  }
-                  
-                } else if (element.type == "radio"){
-                  
-                  __LINE__ = 2329;
-                  element.checked = (element.value == value);
-                }
-                
+                __LINE__ = 2323;
+                element.type == "checkbox"?value instanceof Array?element.checked = ko.utils.arrayIndexOf(value,element.value) >= 0 : element.checked = value : element.type == "radio" && (element.checked = (element.value == value));
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5556,16 +5125,8 @@
                     __LINE__ = 2339;
                     var attrValue = ko.utils.unwrapObservable(value[attrName]);
                     
-                    __LINE__ = 2344;
-                    if ((attrValue ===  false ) || (attrValue ===  null ) || (attrValue === undefined)){
-                      
-                      __LINE__ = 2345;
-                      element.removeAttribute(attrName);
-                    } else {
-                      __LINE__ = 2347;
-                      element.setAttribute(attrName,attrValue.toString());
-                    }
-                    
+                    __LINE__ = 2345;
+                    (attrValue ===  false ) || (attrValue ===  null ) || (attrValue === undefined)?element.removeAttribute(attrName) : element.setAttribute(attrName,attrValue.toString());
                   }
                   
                 }
@@ -5594,19 +5155,15 @@
                         
                         __LINE__ = 2360;
                         if (ko.isWriteableObservable(modelValue)){
-                          
                           __LINE__ = 2361;
                           modelValue(valueToWrite);
                         } else {
                           
                           __LINE__ = 2363;
                           var allBindings = allBindingsAccessor();
-                          if (allBindings['_ko_property_writers'] && allBindings['_ko_property_writers']['hasfocus']){
-                            
-                            __LINE__ = 2365;
-                            allBindings['_ko_property_writers']['hasfocus'](valueToWrite);
-                          }
                           
+                          __LINE__ = 2365;
+                          allBindings._ko_property_writers && allBindings._ko_property_writers.hasfocus && allBindings._ko_property_writers.hasfocus(valueToWrite);
                         }
                         
                       } catch(__mocha_error){
@@ -5703,7 +5260,7 @@
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2387;
-                return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor));
+                return ko.bindingHandlers.template.init(element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor));
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5711,7 +5268,7 @@
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2390;
-                return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
+                return ko.bindingHandlers.template.update(element,ko.bindingHandlers['with'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5747,7 +5304,7 @@
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2402;
-                return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor));
+                return ko.bindingHandlers.template.init(element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor));
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5755,7 +5312,7 @@
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2405;
-                return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
+                return ko.bindingHandlers.template.update(element,ko.bindingHandlers['if'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5791,7 +5348,7 @@
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2417;
-                return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor));
+                return ko.bindingHandlers.template.init(element,ko.bindingHandlers.ifnot.makeTemplateValueAccessor(valueAccessor));
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5799,7 +5356,7 @@
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2420;
-                return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['ifnot'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
+                return ko.bindingHandlers.template.update(element,ko.bindingHandlers.ifnot.makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5832,11 +5389,11 @@
                     }
                     __LINE__ = 2438;
                     return  {
-                      'foreach' : bindingValue['data'],
-                      'includeDestroyed' : bindingValue['includeDestroyed'],
-                      'afterAdd' : bindingValue['afterAdd'],
-                      'beforeRemove' : bindingValue['beforeRemove'],
-                      'afterRender' : bindingValue['afterRender'],
+                      'foreach' : bindingValue.data,
+                      'includeDestroyed' : bindingValue.includeDestroyed,
+                      'afterAdd' : bindingValue.afterAdd,
+                      'beforeRemove' : bindingValue.beforeRemove,
+                      'afterRender' : bindingValue.afterRender,
                       'templateEngine' : ko.nativeTemplateEngine.instance
                     };
                   } catch(__mocha_error){
@@ -5850,7 +5407,7 @@
             'init' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2449;
-                return ko.bindingHandlers['template']['init'](element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor(valueAccessor));
+                return ko.bindingHandlers.template.init(element,ko.bindingHandlers.foreach.makeTemplateValueAccessor(valueAccessor));
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -5858,7 +5415,7 @@
             'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
               try {
                 __LINE__ = 2452;
-                return ko.bindingHandlers['template']['update'](element,ko.bindingHandlers['foreach'].makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
+                return ko.bindingHandlers.template.update(element,ko.bindingHandlers.foreach.makeTemplateValueAccessor(valueAccessor),allBindingsAccessor,viewModel,bindingContext);
               } catch(__mocha_error){
                 __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
               }
@@ -6059,21 +5616,16 @@
               return  {
                 ensureTemplateIsRewritten : function (template,templateEngine) {
                   try {
-                    __LINE__ = 2575;
-                    if (!templateEngine['isTemplateRewritten'](template)){
-                      
-                      __LINE__ = 2576;
-                      templateEngine['rewriteTemplate'](template,
-                      function (htmlString) {
-                        try {
-                          __LINE__ = 2577;
-                          return ko.templateRewriting.memoizeBindingAttributeSyntax(htmlString,templateEngine);
-                        } catch(__mocha_error){
-                          __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
-                        }
-                      });
-                    }
-                    
+                    __LINE__ = 2576;
+                    !templateEngine.isTemplateRewritten(template) && templateEngine.rewriteTemplate(template,
+                    function (htmlString) {
+                      try {
+                        __LINE__ = 2577;
+                        return ko.templateRewriting.memoizeBindingAttributeSyntax(htmlString,templateEngine);
+                      } catch(__mocha_error){
+                        __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
+                      }
+                    });
                   } catch(__mocha_error){
                     __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                   }
@@ -6107,13 +5659,8 @@
                     __LINE__ = 2590;
                     return ko.memoization.memoize(function (domNode,bindingContext) {
                       try {
-                        __LINE__ = 2591;
-                        if (domNode.nextSibling){
-                          
-                          __LINE__ = 2592;
-                          ko.applyBindingsToNode(domNode.nextSibling,bindings,bindingContext);
-                        }
-                        
+                        __LINE__ = 2592;
+                        domNode.nextSibling && ko.applyBindingsToNode(domNode.nextSibling,bindings,bindingContext);
                       } catch(__mocha_error){
                         __Runtime.exceptionHandler(__LINE__, __FILE__, __mocha_error);
                       }
@@ -6579,34 +6126,24 @@
                 'update' : function (element,valueAccessor,allBindingsAccessor,viewModel,bindingContext) {
                   try {
                     __LINE__ = 2836;
-                    var bindingValue = ko.utils.unwrapObservable(valueAccessor());
-                    
-                    __LINE__ = 2837;
-                    var templateName;
-                    
-                    __LINE__ = 2838;
-                    var shouldDisplay =  true ;
+                    var bindingValue = ko.utils.unwrapObservable(valueAccessor()),
+                        templateName,
+                        shouldDisplay =  true ;
                     
                     __LINE__ = 2840;
                     if (typeof bindingValue == "string"){
-                      
                       __LINE__ = 2841;
                       templateName = bindingValue;
                     } else {
                       
                       __LINE__ = 2843;
                       templateName = bindingValue.name;
-                      if ('if' in bindingValue){
-                        
-                        __LINE__ = 2847;
-                        shouldDisplay = shouldDisplay && ko.utils.unwrapObservable(bindingValue['if']);
-                      }
-                      if ('ifnot' in bindingValue){
-                        
-                        __LINE__ = 2849;
-                        shouldDisplay = shouldDisplay && !ko.utils.unwrapObservable(bindingValue['ifnot']);
-                      }
                       
+                      __LINE__ = 2847;
+                      'if' in bindingValue && (shouldDisplay = shouldDisplay && ko.utils.unwrapObservable(bindingValue['if']));
+                      
+                      __LINE__ = 2849;
+                      'ifnot' in bindingValue && (shouldDisplay = shouldDisplay && !ko.utils.unwrapObservable(bindingValue.ifnot));
                     }
                     
                     __LINE__ = 2852;
@@ -6616,7 +6153,7 @@
                     if ((typeof bindingValue === 'object') && ('foreach' in bindingValue)){
                       
                       __LINE__ = 2856;
-                      var dataArray = (shouldDisplay && bindingValue['foreach']) || [];
+                      var dataArray = (shouldDisplay && bindingValue.foreach) || [];
                       
                       __LINE__ = 2857;
                       templateSubscription = ko.renderTemplateForEach(templateName || element,dataArray,bindingValue,element,bindingContext);
@@ -6624,7 +6161,7 @@
                       if (shouldDisplay){
                         
                         __LINE__ = 2861;
-                        var innerBindingContext = (typeof bindingValue == 'object') && ('data' in bindingValue)?bindingContext['createChildContext'](ko.utils.unwrapObservable(bindingValue['data'])) : bindingContext;
+                        var innerBindingContext = (typeof bindingValue == 'object') && ('data' in bindingValue)?bindingContext.createChildContext(ko.utils.unwrapObservable(bindingValue.data)) : bindingContext;
                         
                         __LINE__ = 2864;
                         templateSubscription = ko.renderTemplate(templateName || element,innerBindingContext,bindingValue,element);

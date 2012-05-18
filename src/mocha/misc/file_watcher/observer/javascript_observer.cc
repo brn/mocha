@@ -120,7 +120,7 @@ void JavascriptObserver::AddFileToWatcher(const char* filename, WatcherProxy* pr
     Roaster ro;
     const DepsListHandle handle = Roaster::CheckDepends(filename);
     for (DepsList::const_iterator it = handle->begin(); it != handle->end(); ++it) {
-      depends_.insert(std::pair<const char*,const char*>(it->c_str(), filename));
+      depends_.insert(std::pair<const char*,const char*>(it->c_str(), path_info.absolute_path()));
       MutexHandle handle(new os::Mutex());
       DEBUG_LOG(Log, "DEPENDS %s", it->c_str());
       if (mutex_list_.find(it->c_str()) == mutex_list_.end()) {

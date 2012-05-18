@@ -23,9 +23,7 @@ class SymbolCollector : public IVisitor {
   int scope_index_;
   CompilationInfo* info_;
   ScopeRegistry* scope_registry_;
-  ScopeRegistry virtual_registry_;
   Scope* scope_;
-  Scope* virtual_scope_;
 };
 
 }

@@ -364,6 +364,7 @@ AstNode* Parser::ParseSourceElement() {
   switch (info->type()) {
     case Token::JS_CLASS :{
       result = ParseClassDecl(false);
+      CHECK_ERROR(result);
       Class* cls = result->CastToExpression()->CastToClass();
       if (!IsValidNamedDeclaration(cls)) {
         return cls;
@@ -2568,7 +2569,7 @@ AstNode* Parser::ParseClassMemberStatement() {
     } else if (token->type() == Token::JS_PRIVATE) {
       member_type = ClassMember::kPrivate;
     } else {
-      member_type = ClassMember::kPrivate;
+      member_type = ClassMember::kPublic;
     }
     AstNode* node = ParseExportableDefinition();
     CHECK_ERROR(node);
@@ -2641,7 +2642,7 @@ AstNode* Parser::ParseExportableDefinition() {
   if (token->type() == Token::JS_IDENTIFIER || token->type() == '{' || token->type() == '[') {
     token = Seek(2);
     if (token->type() == '(' || token->type() == Token::JS_FUNCTION_GLYPH ||
-         token->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
+        token->type() == Token::JS_FUNCTION_GLYPH_WITH_CONTEXT) {
       END(ExportableDefinition);
       AstNode* ret = ParseFunctionDecl();
       CHECK_ERROR(ret);
@@ -3983,6 +3984,13 @@ AstNode* Parser::ParseFormalParameter() {
         break;
       }
       token = Advance();
+    } else {
+      SYNTAX_ERROR("unexpected token "
+                   << TokenConverter(token).cstr()
+                   << " in 'formal parameter' expect ')'\\nin file "
+                   << filename_ << " at line " << token->line_number());
+      END(FormalParameter);
+      return list;
     }
   }
   if (IsEnd(token->type())) {

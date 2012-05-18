@@ -11,6 +11,7 @@ static const int org_name = 3;
 static const int file_scope = 4;
 static const int global_scope = 5;
 static const int prototype = 6;
+static const int runtime = 7;
 
 CompilationInfo::CompilationInfo() {
   versions_.insert(VersionPair(Consts::kVersionAll, 1));
@@ -18,6 +19,8 @@ CompilationInfo::CompilationInfo() {
   versions_.insert(VersionPair(Consts::kVersionCompat, 1));
   flags_.Set(file_scope);
   flags_.Set(global_scope);
+  flags_.Set(prototype);
+  flags_.Set(runtime);
   SetPrototypeExtensions();
 }
 
@@ -82,6 +85,16 @@ void CompilationInfo::UnsetGlobalScope() {
   flags_.UnSet(global_scope);
 }
 
+bool CompilationInfo::Runtime() const {
+  return flags_.At(runtime);
+}
+void CompilationInfo::SetRuntime() {
+  flags_.Set(runtime);
+}
+
+void CompilationInfo::UnsetRuntime() {
+  flags_.UnSet(runtime);
+}
 
 void CompilationInfo::SetVersion(const char* name) {
   Versions::iterator entry = versions_.find(name);

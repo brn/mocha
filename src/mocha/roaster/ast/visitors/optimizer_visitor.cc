@@ -707,7 +707,9 @@ void OptimizerVisitor::ObjectProccessor_(AstNode* ast_node) {
     while (iterator.HasNext()) {
       AstNode* element = iterator.Next();
       element->Accept(this);
-      element->first_child()->Accept(this);
+      if (element->first_child()) {
+        element->first_child()->Accept(this);
+      }
     }
   }
 }

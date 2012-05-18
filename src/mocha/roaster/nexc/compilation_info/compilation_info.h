@@ -31,6 +31,9 @@ class CompilationInfo {
   bool GlobalScope() const;
   void SetGlobalScope();
   void UnsetGlobalScope();
+  void SetRuntime();
+  void UnsetRuntime();
+  bool Runtime() const;
   bool HasVersion(const char*) const;
   void SetVersion(const char*);
   void UnsetVersion(const char*);
@@ -48,7 +51,7 @@ class CompilationInfo {
   std::string charset_;
   LibDirectories lib_dir_;
   Libs libs_;
-  BitVector8 flags_;
+  BitVector16 flags_;
   Versions versions_;
 };
 

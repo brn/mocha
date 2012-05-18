@@ -262,20 +262,22 @@ DEF_NAMES(Tuple, "_tuple");
 #undef DEF_NAMES
 
 void Nexc::AddRuntime(CompilationEvent* e) {
-  if (compilation_info_->Debug()) {
-    e->Use(CompilationEvent::kDebug);
-    e->Use(CompilationEvent::kAssert);
+  if (compilation_info_->Runtime()) {
+    if (compilation_info_->Debug()) {
+      e->Use(CompilationEvent::kDebug);
+      e->Use(CompilationEvent::kAssert);
+    }
+    memory::Pool* pool = pool_.Get();
+    AddEachRuntime<CompilationEvent::kAssert, RuntimeNames::kAssert>(e, root_, pool);
+    AddEachRuntime<CompilationEvent::kClass, RuntimeNames::kClass>(e, root_, pool);
+    AddEachRuntime<CompilationEvent::kDebug, RuntimeNames::kDebug>(e, root_, pool);
+    AddEachRuntime<CompilationEvent::kGenerator, RuntimeNames::kGenerator>(e, root_, pool);
+    AddEachRuntime<CompilationEvent::kModule, RuntimeNames::kModule>(e, root_, pool);
+    AddEachRuntime<CompilationEvent::kRecord, RuntimeNames::kRecord>(e, root_, pool);
+    AddEachRuntime<CompilationEvent::kSpread, RuntimeNames::kSpread>(e, root_, pool);
+    AddEachRuntime<CompilationEvent::kTrait, RuntimeNames::kTrait>(e, root_, pool);
+    AddEachRuntime<CompilationEvent::kTuple, RuntimeNames::kTuple>(e, root_, pool);
   }
-  memory::Pool* pool = pool_.Get();
-  AddEachRuntime<CompilationEvent::kAssert, RuntimeNames::kAssert>(e, root_, pool);
-  AddEachRuntime<CompilationEvent::kClass, RuntimeNames::kClass>(e, root_, pool);
-  AddEachRuntime<CompilationEvent::kDebug, RuntimeNames::kDebug>(e, root_, pool);
-  AddEachRuntime<CompilationEvent::kGenerator, RuntimeNames::kGenerator>(e, root_, pool);
-  AddEachRuntime<CompilationEvent::kModule, RuntimeNames::kModule>(e, root_, pool);
-  AddEachRuntime<CompilationEvent::kRecord, RuntimeNames::kRecord>(e, root_, pool);
-  AddEachRuntime<CompilationEvent::kSpread, RuntimeNames::kSpread>(e, root_, pool);
-  AddEachRuntime<CompilationEvent::kTrait, RuntimeNames::kTrait>(e, root_, pool);
-  AddEachRuntime<CompilationEvent::kTuple, RuntimeNames::kTuple>(e, root_, pool);
 }
 
 void Nexc::AddBase(CompilationEvent* e) {

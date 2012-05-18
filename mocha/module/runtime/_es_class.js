@@ -144,7 +144,7 @@ do {
         }
         return ret;
       }
-      return ret;
+      return obj;
     }
   };
 }
