@@ -123,7 +123,7 @@ BuildLibUV()
     if [ ! -f ${DEPS_DIR}/libuv/${UV_LIB} ]; then
         if [ "${PLATFORM}" = "macos" ]; then
             ./gyp_uv -f xcode
-            xcodebuild -arch x86_64 -project uv.xcodeproj -configuration Release -target All
+            xcodebuild -project uv.xcodeproj -configuration Release -target All ARCHS="x86_64"
             CopyLibUV
             xcodebuild clean
         elif [ "${PLATFORM}" = "linux" ]; then

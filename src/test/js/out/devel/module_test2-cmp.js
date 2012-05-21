@@ -483,13 +483,13 @@
   __LINE__ = 0;
   !function () {
     try {
-      var __FILE__ = "-759650552-module_test2.js",
+      var __FILE__ = "-783136005-module_test2.js",
           __LINE__ = 0;
       __LINE__ = 2;
-      __Runtime.modules.add('-759650552-module_test2.js');
+      __Runtime.modules.add('-783136005-module_test2.js');
       
       __LINE__ = 1;
-      var testModule2Module = __Runtime.modules.get('-759650552-module_test2.js').testModule2Module = function () {
+      var testModule2Module = __Runtime.modules.get('-783136005-module_test2.js').testModule2Module = function () {
             function test2(){}
             function test1(){}
             try {

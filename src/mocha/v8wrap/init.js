@@ -370,9 +370,11 @@
               throw new Error(path + ' No such module.');
             }
           } else {
+            path = utils.replaceHome(path);
             var pathInfo = new natives.fs.Path(path),
                 stat = new natives.fs.Stat(pathInfo.fullpath()),
                 fullpath = pathInfo.fullpath();
+            console.log(fullpath);
             if (stat.isExist() && stat.isReg()) {
               if (!(path in utils.globalExports) || force) {
                 var source = utils.loadFile(fullpath);
@@ -458,6 +460,15 @@
         return (isString)? (option? 'yes' : 'no') : !!option;
       }
 
+  var getArrayOptions = function (isString, item) {
+        item = item || [];
+        if (isString) {
+          return (item.length > 0)? item.reduce(function (item1, item2) { return item1 + ', ' + item2; }) : '()'
+        } else {
+          return item;
+        }
+      }
+
   var makeOptionList = function (i, isString, setting) {
         setting = setting || {};
         if (i && natives.script.watcher._settingList[i]) {
@@ -469,16 +480,16 @@
             outputCharset = setting.outputCharset || 'utf8',
             deployDir = setting.deployDir || ((path_info !== null)? path_info.directory() : ''),
             deployName = setting.deployName || ((path_info !== null)? path_info.filename().replace('.js', '-cmp.js') : ''),
-            moduleDir = (isString)? '(' + (options.moduleDir || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.moduleDir || [],
-            compress = (!isString)? ((utils.isDefined(options.compress))?options.compress : false) : options.compress? 'yes' : 'no',
-            debug = (!isString)? ((utils.isDefined(options.debug))? options.debug : false) : options.debug? 'yes' : 'no',
+            moduleDir = getArrayOptions(isString, options.moduleDir),
+            compress = getBooleanOption(isString, options.compress),
+            debug = getBooleanOption(isString, options.debug),
             prettyPrint = getBooleanOption(isString, options.prettyPrint, true),
             fileScope = getBooleanOption(isString, options.fileScope, true),
             globalScope = getBooleanOption(isString, options.globalScope, true),
             runtime = getBooleanOption(isString, options.runtime, true),
             prototypeExt = getBooleanOption(isString, options.prototypeExtensions, true),
-            versions = (isString)? '(' + (options.versions || ['']).reduce(function (item1, item2) { return item1 + ', ' + item2; }) + ')' : options.versions || [],
-            libs = (isString)? '(' + (options.libs || ['']).reduce(function (item1, item2){ return item1 + ', ' + item2;}) + ')' : options.libs || []
+            versions = getArrayOptions(isString, options.versions),
+            libs = getArrayOptions(isString, options.libs)
         return {
           name : i,
           inputCharset : inputCharset,
@@ -616,7 +627,7 @@
         }
       }
       if (natives.config.has('testDriver') && argList.length > 0) {
-        console.log(natives.os.process.spawn(phantom, natives.config.get('testDriver') + " " + argList.join(' ')));
+        console.log(natives.os.process.spawn(phantom + '/phantomjs', natives.config.get('testDriver') + " " + argList.join(' ')));
       }
     }
   }, "test(predicate, [option]) : Start test with the file that selected by predicate function.");

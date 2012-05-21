@@ -253,10 +253,18 @@ CallExp* AstBuilder::BuildPrivateRecordAccessor(int64_t line) {
   return 0;
 }
 
-bool AstBuilder::IsDestructringLeftHandSide(AstNode* node) {
-  return (node->node_type() == AstNode::kArrayLikeLiteral ||
-          node->node_type() == AstNode::kObjectLikeLiteral) &&
+AstNode* AstBuilder::IsDestructringLeftHandSide(AstNode* node) {
+  if (node->node_type() == AstNode::kExpression) {
+    AstNode* tmp = node;
+    while (tmp->node_type() != AstNode::kExpression) {
+      tmp = tmp->first_child();
+    }
+    node = tmp;
+  }
+  bool node_is_dsta = (node->node_type() == AstNode::kArrayLikeLiteral ||
+                       node->node_type() == AstNode::kObjectLikeLiteral) &&
       node->CastToExpression() && node->CastToExpression()->IsValidLhs();
+  return (node_is_dsta)? node : NULL;
 }
 
 void AstBuilder::SetAutoReturnFlag(AstNode* node) {

@@ -17,7 +17,7 @@ ROOT = 'src'
 LIB_PREFIX = CURRENT + "/src/lib/icu"
 WIN32_ICU = "src/third_party/icu/lib-win32/icuuc.lib src/third_party/icu/lib-win32/icuin.lib src/third_party/icu/lib-win32/icuio.lib src/third_party/icu/lib-win32/icutu.lib src/third_party/icu/lib-win32/icudt.lib src/third_party/icu/lib-win32/iculx.lib src/third_party/icu/lib-win32/icule.lib";
 LINUX_INCLUDE = '-Isrc/.deps/linux/v8/include -Isrc/.deps/linux/libuv/include -Isrc/.deps/linux/icu/include -Isrc/.deps/linux/libedit/include'
-MACOS_INCLUDE = '-Isrc/.deps/macos/v8/include -Isrc/.deps/macos/libuv/include -Isrc/.deps/macos/icu/include -Isrc/.deps/macos/libedit/include'
+MACOS_INCLUDE = '-I/opt/local/include -Isrc/.deps/macos/v8/include -Isrc/.deps/macos/libuv/include -Isrc/.deps/macos/icu/include -Isrc/.deps/macos/libedit/include'
 PLATFORM_CONFIG = {
     "linux" : {
         "TARGET" : 'bin/linux/mchd',

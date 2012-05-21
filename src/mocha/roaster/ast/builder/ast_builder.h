@@ -71,7 +71,7 @@ class AstBuilder : private Uncopyable {
   CallExp* BuildPrivateRecordAccessor(int64_t line);
   void SetAutoReturnFlag(AstNode* node);
   void ReplaceAutoReturnStatement(AstNode* stmt);
-  static bool IsDestructringLeftHandSide(AstNode* node);
+  static AstNode* IsDestructringLeftHandSide(AstNode* node);
  private :
   memory::Pool* pool() { return pool_; }
   memory::Pool* pool_;

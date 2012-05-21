@@ -641,7 +641,10 @@ VISITOR_IMPL(AssignmentExp) {
   PRINT_NODE_NAME;
   Statement stmt;
   AstNode* left = ast_node->left_value();
-  if (AstBuilder::IsDestructringLeftHandSide(left)) {
+  AstNode* dsta = AstBuilder::IsDestructringLeftHandSide(left);
+  AstNode* exp = NULL;
+  AstNode* last = NULL;
+  if (dsta != NULL) {
     AstNode* parent = ast_node->parent_node();
     while (!parent->CastToStatement()) {
       parent = parent->parent_node();
@@ -651,7 +654,7 @@ VISITOR_IMPL(AssignmentExp) {
     if (parent_is_exp_stmt || parent_is_for_stmt) {
       translator_data_->set_current_statement(&stmt);
     }
-    DstaProcessor processor(left, proc_info_.Get());
+    DstaProcessor processor(dsta, proc_info_.Get());
     processor.ProcessNode(parent_is_exp_stmt || parent_is_for_stmt);
     if (parent_is_exp_stmt || parent_is_for_stmt) {
       AstNode* result = NULL;
@@ -667,15 +670,16 @@ VISITOR_IMPL(AssignmentExp) {
         }
         VariableStmt *var_stmt = builder()->CreateVarStmt(var_list, ast_node->line_number());
         parent->parent_node()->InsertBefore(var_stmt, parent);
-        stmt.destructuring_node()->refs()->last_child();
+        exp = ast_node->parent_node();
+        last = ast_node;
       } else {
         AstNode* first = list->first_child();
+        exp = ast_node->parent_node();
         list->RemoveChild(first);
         ast_node->parent_node()->ReplaceChild(ast_node, first);
+        last = first;
       }
       NodeIterator iter = list->ChildNodes();
-      AstNode* exp = ast_node->parent_node();
-      AstNode* last = ast_node;
       while (iter.HasNext()) {
         AstNode* item = iter.Next();
         exp->InsertAfter(item, last);

@@ -508,7 +508,7 @@
           __Runtime.assert( true ,strvalue === 100,"strvalue === 100",25,'destructuring_test.js');
           
           __LINE__ = 27;
-          value1 = object.value1;
+          value1 = object.value1, value3 = object.value2 && object.value2.value3?object.value2.value3 : undefined, value5_ = object.value4 && object.value4[0]?object.value4[0] : undefined, value6_ = object.value4 && object.value4[1]?object.value4[1] : undefined, value7_ = object.value4 && object.value4[2]?object.value4[2] : undefined, value7 = object.value5 && object.value5.value6 && object.value5.value6[0] && object.value5.value6[0].value7?object.value5.value6[0].value7 : undefined, strvalue = object["@value"] && object["@value"].strvalue?object["@value"].strvalue : undefined;
           
           __LINE__ = 28;
           __Runtime.assert( true ,value1 === 100,"value1 === 100",28,'destructuring_test.js');
@@ -565,7 +565,7 @@
           __Runtime.assert( true ,arr_value3 === 200,"arr_value3 === 200",45,'destructuring_test.js');
           
           __LINE__ = 46;
-          value1 = array[0] && array[0].value1?array[0].value1 : undefined;
+          value1 = array[0] && array[0].value1?array[0].value1 : undefined, arr_value1 = array[1], value2 = array[2] && array[2].value2?array[2].value2 : undefined, value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined, arr_value2 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[0]?array[4].value4.value5[0] : undefined, arr_value3 = array[4] && array[4].value4 && array[4].value4.value5 && array[4].value4.value5[1]?array[4].value4.value5[1] : undefined;
           
           __LINE__ = 47;
           __Runtime.assert( true ,value1 === 100,"value1 === 100",47,'destructuring_test.js');
@@ -621,7 +621,7 @@
           var arr_value4;
           
           __LINE__ = 64;
-          value1 = array[0] && array[0].value1?array[0].value1 : undefined;
+          value1 = array[0] && array[0].value1?array[0].value1 : undefined, arr_value1 = array[1], value2 = array[2] && array[2].value2?array[2].value2 : undefined, value3 = array[3] && array[3]["value3"]?array[3].value3 : undefined, arr_value4 = array[4] && array[4].value4 && array[4].value4.value5?__Runtime.toArray(array[4].value4.value5,0) : undefined;
           
           __LINE__ = 65;
           __Runtime.assert( true ,value1 === 100,"value1 === 100",65,'destructuring_test.js');
