@@ -11,7 +11,7 @@ readonly UV_LOC=$4
 PackAndStaging()
 {
     tar -czf ${1}.tar.gz $1
-    cp -v -r ${1}.tar.gz ../.libtmp
+    mv -v ${1}.tar.gz ../.libtmp
     cd ../.libtmp
     tar -xvzf ${1}.tar.gz
     cd ../lib
