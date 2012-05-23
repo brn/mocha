@@ -1,11 +1,11 @@
-import {Functions} from 'functions'
+import {funcUtils} from 'func_utils'
 module consts {
   export index = {
-    BG_CACHE : Functions.memoize(->$("#bg")),
-    LINE_CACHE : Functions.memoize(->$('#line'))
+    BG_CACHE : funcUtils.memoize(->$("#bg")),
+    LINE_CACHE : funcUtils.memoize(->$('#line'))
   }
   export api = {
-    LEFT_BLOCK : Functions.memoize(->$("#leftBlock")),
+    LEFT_BLOCK : funcUtils.memoize(->$("#leftBlock")),
     LEFT_A_SELECTOR : "#leftBlock li a"
   }
 }
