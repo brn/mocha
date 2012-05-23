@@ -1557,7 +1557,7 @@ AstNode* Parser::ParseIFStatement(bool is_comprehensions) {
   END(IFStatement);
   return if_stmt;
 }
-
+  
 //Parse do while statement.
 AstNode* Parser::ParseDoWhileStatement(bool is_expression) {
   /**
