@@ -24,7 +24,7 @@ class AsyncFSWatcher {
     int vnode_events = NOTE_DELETE |  NOTE_WRITE;
     for (; it != fs_watcher_->map_.end(); ++it) {
       struct kevent kev;
-      EV_SET(&kev, it->second->fd(), EVFILT_VNODE, EV_ADD | EV_CLEAR, vnode_events, 0, it->second);
+      EV_SET(&kev, it->second->handle()->fd(), EVFILT_VNODE, EV_ADD | EV_CLEAR, vnode_events, 0, it->second);
       events.push_back(kev);
     }
     struct kevent *event_data = pool.Alloc<struct kevent>(sizeof(struct kevent) * events.size());

@@ -26,8 +26,8 @@ void ReadFile(std::string* buf, const char* path) {
 
 FSEvent::FSEvent(const char* path, FSWatcher* fs_watcher)
     : path_(path),
-      fs_watcher_(fs_watcher){
-  fd_ = open(path, O_EVTONLY);
+      fs_watcher_(fs_watcher),
+      handle_(new FSEventHandle(path)){
   Stat stat(path);
   std::string buf;
   ReadFile(&buf, path_.c_str());
@@ -71,8 +71,8 @@ bool FSEvent::IsExist() const {
   return stat.IsExist();
 }
 
-int FSEvent::fd() const {
-  return fd_;
+FSEventHandle* FSEvent::handle() {
+  return handle_.Get();
 }
 
 void FSEvent::Close() {close(fd_);}
