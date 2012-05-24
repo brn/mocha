@@ -1,14 +1,14 @@
 #ifndef mocha_roaster_fs_event_macos_fsevent_kqueue_h_
 #define mocha_roaster_fs_event_macos_fsevent_kqueue_h_
 #include <mocha/roaster/memory/pool.h>
-#include <mocha/roaster/platform/fs/event/fs_watcher.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/lib/unordered_map.h>
 namespace mocha {
 namespace os {
 namespace fs {
 class AsyncFSWatcher;
-class FSWatcher : public FSWatcherInterface {
+class FSEvent;
+class FSWatcher : public Notificator<FSEvent*>{
   friend class AsyncFSWatcher;
   typedef std::pair<const char*, FSEvent*> FSEventPair;
   typedef roastlib::unordered_map<std::string, FSEvent*> FSEventMap;
@@ -21,7 +21,7 @@ class FSWatcher : public FSWatcherInterface {
   void RunAsync();
   void Exit();
   bool IsRunning() const;
-  static const char kModifiy[];
+  static const char kModify[];
   static const char kUpdate[];
   static const char kDelete[];
  private :

@@ -82,12 +82,7 @@ void FPrintf(FILE* fp, const char* format, ...) {
 }
 
 FILE* FOpen(const char* filename, const char* mode) {
-  FILE* fp;
-  K_ERRNO = fopen_s(&fp, filename, mode);
-  if (K_ERRNO != 0) {
-    fp = NULL;
-  }
-  return fp;
+  return _fsopen(filename, mode, _SH_DENYNO);
 }
 
 void FClose(FILE* fp) {

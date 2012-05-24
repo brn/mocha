@@ -20,7 +20,7 @@ TEST(PathTest, kqueueTest) {
   FSWatcher watcher;
   watcher.AddWatch("/Users/aono_taketoshi/github/mocha/src/mocha/roaster/nexc/parser/parser.cc");
   watcher.AddWatch("/Users/aono_taketoshi/github/mocha/src/mocha/roaster/platform/fs/event/macos/ut.cc");
-  watcher.AddListener(FSWatcher::kModifiy, print);
+  watcher.AddListener(FSWatcher::kModify, print);
   watcher.AddListener(FSWatcher::kUpdate, print2);
   watcher.Run();
 }

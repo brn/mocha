@@ -117,7 +117,7 @@ inline Pool::~Pool() {Free();}
 
 template <typename T>
 inline T* Pool::Alloc(size_t size) {
-  reinterpret_cast<T*>(AllocateBlock(sizeof(T) * size));
+  return reinterpret_cast<T*>(AllocateBlock(sizeof(T) * size));
 }
   
 inline void* Pool::AllocateBlock(size_t size) {

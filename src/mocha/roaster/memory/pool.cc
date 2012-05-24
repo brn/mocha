@@ -55,7 +55,7 @@ void Pool::Free() {
     Block* tmp = head_block_;
     while (tmp != NULL) {
       Block* next = tmp->next;
-      if (tmp->malloced & 1 == 1) {
+      if (tmp->malloced & (1 == 1)) {
         tmp = reinterpret_cast<Block*>(reinterpret_cast<char*>(tmp) - tmp->size);
         free(tmp);
       }

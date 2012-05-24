@@ -10,18 +10,22 @@ namespace fs {
 
 void ReadFile(std::string* buf, const char* path) {
   FILE* fp = FOpen(path, "rb");
-  fseek(fp, 0, SEEK_END);
-  int size = ftell(fp);
-  rewind(fp);
-  ScopedStr contents_handle(new char[size + 1]);
-  char* contents = const_cast<char*>(contents_handle.Get());
-  contents[size] = '\0';
-  for (int i = 0; i < size;) {
-    int read = fread(&contents[i], 1, size - i, fp);
-    i += read;
+  if (fp != NULL) {
+    fseek(fp, 0, SEEK_END);
+    int size = ftell(fp);
+    rewind(fp);
+    ScopedStr contents_handle(new char[size + 1]);
+    char* contents = const_cast<char*>(contents_handle.Get());
+    contents[size] = '\0';
+    for (int i = 0; i < size;) {
+      int read = fread(&contents[i], 1, size - i, fp);
+      i += read;
+    }
+    fclose(fp);
+    buf->assign(contents);
+  } else {
+    buf->assign("");
   }
-  FClose(fp);
-  buf->assign(contents);
 }
 
 FSEvent::FSEvent(const char* path, FSWatcher* fs_watcher)

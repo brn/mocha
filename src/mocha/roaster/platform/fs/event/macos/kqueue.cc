@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <sys/event.h>
 #include <mocha/roaster/platform/thread/thread.h>
+#include <mocha/roaster/platform/fs/event/event.h>
 #include <mocha/roaster/platform/fs/event/macos/kqueue.h>
 #include <mocha/roaster/platform/fs/event/macos/fs_handle.h>
 
@@ -110,7 +111,7 @@ void FSWatcher::RunAsync() {
   thread.Detach();
 }
 
-const char FSWatcher::kModifiy[] = {"Modified<kqueue>"};
+const char FSWatcher::kModify[] = {"Modified<kqueue>"};
 const char FSWatcher::kUpdate[] = {"Modified<update>"};
 const char FSWatcher::kDelete[] = {"Delete<kqueue>"};
 }
