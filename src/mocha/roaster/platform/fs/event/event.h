@@ -21,11 +21,11 @@ class FSEvent : public memory::Allocated {
   const char* filename() const;
   const char* md5() const;
  private :
-  FSEventHandle* handle_;
   std::string path_;
   std::string mtime_;
   std::string md5_;
-  ScopedPtr<FSWatcher> fs_watcher_;
+  FSWatcher* fs_watcher_;
+  ScopedPtr<FSEventHandle> handle_;
 };
 }
 }

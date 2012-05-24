@@ -33,7 +33,7 @@ TEST_CONFIG.Extend({
             }
         })
 TEST_CONFIG.set_base(ROOT)
-builder = TestBuilder(ARGUMENTS.get('mode'), ['ut.cc', 'kqueue.cc',
+builder = TestBuilder(ARGUMENTS.get('mode'), ['ut.cc', 'kqueue.cc', 'fs_handle.cc',
                                               CURRENT + '/src/mocha/roaster/platform/fs/event/event.cc',
                                               CURRENT + '/src/mocha/roaster/platform/fs/stat/stat.cc',
                                               CURRENT + '/src/mocha/roaster/platform/fs/mv/mv.cc',

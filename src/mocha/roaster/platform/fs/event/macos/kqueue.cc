@@ -3,6 +3,7 @@
 #include <sys/event.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/platform/fs/event/macos/kqueue.h>
+#include <mocha/roaster/platform/fs/event/macos/fs_handle.h>
 
 namespace mocha {
 namespace os {

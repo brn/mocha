@@ -1,8 +1,8 @@
-#include <fcntl.h>
 #include <string.h>
 #include <mocha/roaster/platform/fs/event/md5.h>
 #include <mocha/roaster/platform/fs/stat/stat.h>
 #include <mocha/roaster/platform/fs/event/event.h>
+#include <mocha/roaster/platform/fs/event/fs_handle.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {namespace os {
@@ -75,7 +75,7 @@ FSEventHandle* FSEvent::handle() {
   return handle_.Get();
 }
 
-void FSEvent::Close() {close(fd_);}
+void FSEvent::Close() {handle_->Close();}
 
 const char* FSEvent::filename() const {return path_.c_str();}
 const char* FSEvent::md5() const {return md5_.c_str();}
