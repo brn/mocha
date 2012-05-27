@@ -7,11 +7,11 @@
 using namespace mocha::os::fs;
 void print(FSEvent* e) {
   printf("Modify %s\n", e->filename());
-  //e->watcher()->Exit();
+  e->watcher()->Exit();
 }
 void print2(FSEvent* e) {
   printf("Update %s\n", e->filename());
-  //e->watcher()->Exit();
+  e->watcher()->Exit();
 }
 
 int main() {
@@ -24,3 +24,4 @@ int main() {
   watcher.Run();
   return 0;
 }
+

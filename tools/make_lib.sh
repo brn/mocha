@@ -73,6 +73,7 @@ BuildICU()
         echo "======BUILD ICU======"
         mkdir -p ${DEPS_DIR}/icu/include/
         cd src/.libtmp/icu/source
+        echo `pwd`
         if [ "${PLATFORM}" = "macos" ]; then
             ./runConfigureICU MacOSX --enable-static --disable-shared 
             ./configure --enable-static --disable-shared
@@ -100,8 +101,8 @@ BuildV8()
         elif [ "${PLATFORM}" = "linux" ]; then
             scons
         fi
-        cp $V8_LIB ${DEPS_DIR}/v8/
-        cp -r include ${DEPS_DIR}/v8/
+        cp $V8_LIB ${DEPS_DIR}/v8
+        cp -r include ${DEPS_DIR}/v8
         scons --clean
         cd ../../../
     fi

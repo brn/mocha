@@ -28,7 +28,7 @@ class FSWatcher : public Notificator<FSEvent*> {
   memory::Pool pool_;
   DirectoryMap dir_map_;
   FileMap file_map_;
-  FSWatcherAsync* async_;
+  ScopedPtr<FSWatcherAsync> async_;
 };
 
 }}}

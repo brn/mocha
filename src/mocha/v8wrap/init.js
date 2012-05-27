@@ -109,7 +109,6 @@
       }
       var dirList = modules.fs.listdir(source, false);
       modules.fs.makeDirectory(dest);
-      console.log(source, dest);
       dirList.forEach(function (item, index) {
         if (item.isdir) {
           modules.fs.copyTree(item.fullpath, dest + '/' + item.name);
@@ -374,7 +373,6 @@
             var pathInfo = new natives.fs.Path(path),
                 stat = new natives.fs.Stat(pathInfo.fullpath()),
                 fullpath = pathInfo.fullpath();
-            console.log(fullpath);
             if (stat.isExist() && stat.isReg()) {
               if (!(path in utils.globalExports) || force) {
                 var source = utils.loadFile(fullpath);
