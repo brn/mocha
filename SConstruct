@@ -79,7 +79,9 @@ class MochaBuilder :
     def Build(self) :
         #self.__SetExtraHeaders(deps.CheckHeaders(self.__env, './src/mocha/config.h', 'C++', True, HEADER_LIST))
         targets = self.__sources.CreateSourceList()
-        self.__env.Program(self.__config.target(), targets, CPPPATH=[self.__config.base()])
+        target = self.__config.target()
+        base_path = self.__config.base()
+        self.__env.Program(target, targets, CPPPATH=[base_path])
 
     def __SetExtraHeaders(self, has) :
         if has.has_key("HAVE_SYS_INOTIFY_H") and has["HAVE_SYS_INOTIFY_H"] is True :

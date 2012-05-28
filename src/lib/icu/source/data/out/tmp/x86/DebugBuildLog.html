@@ -1,0 +1,73 @@
+﻿2012/03/10 19:03:21 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "I:\icu4c-4_8_1_1-src\icu\source\data\makedata.vcxproj" (build ターゲット)。
+     1>PrepareForNMakeBuild:
+         ディレクトリ ".\x86\Debug\" を作成しています。
+       Build:
+         NMAKE /f makedata.mak ICUMAKE="I:\icu4c-4_8_1_1-src\icu\source\data\\" CFG=x86\Debug
+         
+         Microsoft(R) Program Maintenance Utility Version 10.00.30319.01
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         ICU data make path is I:\icu4c-4_8_1_1-src\icu\source\data\
+         ICU root path is I:\icu4c-4_8_1_1-src\icu
+         ICU data source archive is I:\icu4c-4_8_1_1-src\icu\source\data\in\icudt48l.dat
+         Information: cannot find "spreplocal.mk". Not building user-additional stringprep files.
+         Creating data DLL version information from I:\icu4c-4_8_1_1-src\icu\source\data\misc\icudata.rc
+         Microsoft (R) Windows (R) Resource Compiler Version 6.1.7600.16385
+         
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         
+         Building icu data from I:\icu4c-4_8_1_1-src\icu\source\data\in\icudt48l.dat
+         	cd "I:\icu4c-4_8_1_1-src\icu\source\data\out\build\icudt48l"
+         	"I:\icu4c-4_8_1_1-src\icu\bin\icupkg" -x * --list "I:\icu4c-4_8_1_1-src\icu\source\data\in\icudt48l.dat" > "I:\icu4c-4_8_1_1-src\icu\source\data\out\tmp\icudata.lst"
+         	"I:\icu4c-4_8_1_1-src\icu\bin\pkgdata" -f -e icudt48 -v -m dll -c -p icudt48l -T "I:\icu4c-4_8_1_1-src\icu\source\data\out\tmp" -L icudt48 -d "I:\icu4c-4_8_1_1-src\icu\source\data\out\build\icudt48l" -s . "I:\icu4c-4_8_1_1-src\icu\source\data\out\tmp\icudata.lst"
+            ライブラリ .\icudt.lib とオブジェクト .\icudt.exp を作成中
+         # pkgdata: Reading I:\icu4c-4_8_1_1-src\icu\source\data\out\tmp\icudata.lst..
+         # Writing package file I:\icu4c-4_8_1_1-src\icu\source\data\out\tmp\icudt48l.dat ..
+         # Writing object code to  ..
+         genccode: --match-arch cpu=332 bits=32 big-endian=0
+         pkgdata: link.exe /nologo /release /out:".\icudt48.dll" /DLL /NOENTRY /MANIFEST:NO  /base:0x4ad00000 /implib:".\icudt.lib" "I:\icu4c-4_8_1_1-src\icu\source\data\out\tmp\icudt48l_dat.obj" "I:\icu4c-4_8_1_1-src\icu\source\data\out\tmp\icudata.res"
+         	copy "icudt48.dll" "I:\icu4c-4_8_1_1-src\icu\bin"
+                 1 個のファイルをコピーしました。
+         	copy "I:\icu4c-4_8_1_1-src\icu\source\data\out\tmp\icudt48l.dat" "I:\icu4c-4_8_1_1-src\icu\source\data\out\icudt48l.dat"
+                 1 個のファイルをコピーしました。
+         building testdata...
+         	nmake /nologo /f "I:\icu4c-4_8_1_1-src\icu\source\test\testdata\testdata.mak" TESTDATA=. ICUTOOLS="I:\icu4c-4_8_1_1-src\icu\source\tools" ICUPBIN="I:\icu4c-4_8_1_1-src\icu\bin" ICUP="I:\icu4c-4_8_1_1-src\icu" CFG=x86\Debug TESTDATAOUT="I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out" TESTDATABLD="I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build"
+         Making Test Resource Bundle file with encoding ISCII,version=0
+         Making Test Resource Bundle file for IDNA reference implementation
+         	"I:\icu4c-4_8_1_1-src\icu\source\tools\gentest\x86\Debug\gentest" -d"I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build"
+         	"I:\icu4c-4_8_1_1-src\icu\source\tools\gentest\x86\Debug\gentest" -r -d"I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build"
+         Generating testtable32.txt
+         	"I:\icu4c-4_8_1_1-src\icu\source\tools\genrb\x86\Debug\genrb" -s"I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build" -d"I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build" testtable32.txt
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\test1.cnv
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\test1bmp.cnv
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\test3.cnv
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\test4.cnv
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\test4x.cnv
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\test5.cnv
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\ibm9027.cnv
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\nfscsi.spp
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\nfscss.spp
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\nfscis.spp
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\nfsmxs.spp
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\nfsmxp.spp
+         Building I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\testnorm.nrm
+         gennorm2: processing testnorm.txt
+         Making Test Resource Bundle files .\DataDrivenCollationTest.txt .\calendar.txt .\format.txt .\casing.txt .\conversion.txt .\icuio.txt .\mc.txt .\structLocale.txt .\root.txt .\sh.txt .\sh_YU.txt .\te.txt .\te_IN.txt .\te_IN_REVISED.txt .\testaliases.txt .\testtypes.txt .\testempty.txt .\DataDrivenCollationTest.txt
+         genrb number of files: 18
+         Building test data
+                 1 個のファイルをコピーしました。
+                 1 個のファイルをコピーしました。
+                 1 個のファイルをコピーしました。
+         	"I:\icu4c-4_8_1_1-src\icu\bin\pkgdata" -f -v -m common -c -p"testdata" -d "I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out" -T "I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build" -s "I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build" C:\Users\game\AppData\Local\Temp\nm238B.tmp
+         # pkgdata: Reading C:\Users\game\AppData\Local\Temp\nm238B.tmp..
+         # Writing package file I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\build\testdata.dat ..
+         # Moving package file to I:\icu4c-4_8_1_1-src\icu\source\test\testdata\out\testdata.dat ..
+         Test data is built.
+         All targets are up to date
+     1>プロジェクト "I:\icu4c-4_8_1_1-src\icu\source\data\makedata.vcxproj" (build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:12.43

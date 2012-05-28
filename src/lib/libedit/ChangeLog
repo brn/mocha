@@ -259,7 +259,7 @@
    * src/readline.c, src/filecomplete.c: Solaris use POSIX draft versions
 	of getpwent_r, getpwnam_r and getpwuid_r which return 'struct passwd *'.
 	Define HAVE_GETPW_R_POSIX if these functions are (non draft) POSIX
-	compatible. Patch by Julien Torrès.
+	compatible. Patch by Julien Torr竪s.
 
 2005-05-28  Jess Thrysoee
 

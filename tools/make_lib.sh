@@ -82,6 +82,7 @@ BuildICU()
         fi
         make
         cp -r common/unicode ${DEPS_DIR}/icu/include/
+        cp i18n/unicode/*.h ${DEPS_DIR}/icu/include/unicode/
         cp lib/*.a ${DEPS_DIR}/icu/
         make clean
         cd ../../../../
