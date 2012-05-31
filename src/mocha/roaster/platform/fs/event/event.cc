@@ -2,7 +2,6 @@
 #include <mocha/roaster/platform/fs/event/md5.h>
 #include <mocha/roaster/platform/fs/stat/stat.h>
 #include <mocha/roaster/platform/fs/event/event.h>
-#include <mocha/roaster/platform/fs/event/fs_handle.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 #include <mocha/roaster/platform/utils/utils.h>
 namespace mocha {namespace os {
@@ -30,8 +29,7 @@ void ReadFile(std::string* buf, const char* path) {
 
 FSEvent::FSEvent(const char* path, FSWatcher* fs_watcher)
     : path_(path),
-      fs_watcher_(fs_watcher),
-      handle_(new FSEventHandle(path)){
+      fs_watcher_(fs_watcher){
   Stat stat(path);
   std::string buf;
   ReadFile(&buf, path_.c_str());
@@ -74,12 +72,6 @@ bool FSEvent::IsExist() const {
   Stat stat(path_.c_str());
   return stat.IsExist();
 }
-
-FSEventHandle* FSEvent::handle() {
-  return handle_.Get();
-}
-
-void FSEvent::Close() {handle_->Close();}
 
 const char* FSEvent::filename() const {return path_.c_str();}
 const char* FSEvent::md5() const {return md5_.c_str();}

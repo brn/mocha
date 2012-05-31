@@ -6,9 +6,8 @@
 namespace mocha {
 namespace os {
 namespace fs {
-class FSEventHandle;
 class FSWatcher;
-class FSEvent : public memory::Allocated {
+class FSEvent {
  public :
   FSEvent(const char* path, FSWatcher*);
   ~FSEvent();
@@ -16,7 +15,6 @@ class FSEvent : public memory::Allocated {
   bool IsModified();
   bool IsUpdate();
   void Close();
-  FSEventHandle* handle();
   FSWatcher* watcher() {return fs_watcher_;}
   const char* filename() const;
   const char* md5() const;
@@ -25,7 +23,6 @@ class FSEvent : public memory::Allocated {
   std::string mtime_;
   std::string md5_;
   FSWatcher* fs_watcher_;
-  ScopedPtr<FSEventHandle> handle_;
 };
 }
 }

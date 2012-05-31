@@ -3,6 +3,8 @@
 #ifdef PLATFORM_MACOS
 #include <mocha/roaster/platform/fs/event/macos/fs_watcher_macos.h>
 #elif defined PLATFORM_WIN32
-#include <mocha/roaster/platform/fs/event/win32/readdirectorychangesw.h>
+#include <mocha/roaster/platform/fs/event/win32/fs_watcher_win32.h>
+#elif defined PLATFORM_POSIX
+#include <mocha/roaster/platform/fs/event/linux/fs_watcher_linux.h>
 #endif
 #endif

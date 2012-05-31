@@ -1,98 +1,16 @@
+#include <string.h>
+#include <sys/epoll.h>
+#include <mocha/roaster/platform/fs/path/path.h>
+#include <mocha/roaster/platform/fs/stat/stat.h>
 #include <mocha/roaster/platform/fs/event/linux/fs_watcher_linux.h>
-
-namespace mohca { namespace os { namespace fs {
-typedef unsigned long InotifyMask;
-typedef SharedPtr<inotify_event> EventHandle;
-typedef std::vector<EventHandle> EventArray;
-class FSWatcherAsync {
- public :
-  FSWatcherAsync()
-      : is_exit_(false){};
-  ~FSWatcherAsync(){}
-  void Run() {
-    int epfd;
-    if((epfd = epoll_create(MAX_EVENTS)) < 0) {
-      fprintf(stderr, "epoll_create()\\n");
-      exit(1);
-    }
-    struct epoll_event event;
-    memset(&event, 0, sizeof(event));
-    ev.events  = EPOLLIN | EPOLLET;
-    ev.data.fd = fs_wathcer_->inotify_fd_;
-    if (epoll_ctl(epfd, EPOLL_CTL_ADD, fs_wathcer_->inotify_fd_, &event) < 0) {
-      fprintf(stderr, "epoll_ctl()\\n");
-      exit(1);
-    }
-    int nfd, i;
-    struct epoll_event events[MAX_EVENTS];
-    while (!is_exit_) {
-      nfd = epoll_wait(epfd, events, MAX_EVENTS, 2000);
-      if(nfds < 0) {
-        fprintf(stderr, "epoll_wait()\\n");
-        exit(1);
-      }
-      EventArray event_array;
-      int read_size = ReadInotifyEvents(&event_array);
-      if (read_size > 0) {
-        CheckEvent(&event_array);
-      }
-    }
-  }
- private :
-  int ReadInotifyEvents(EventArray* event_array) {
-    char buffer[16384];
-    size_t buffer_i = 0;
-    inotify_event *pevent;
-    size_t read_size;
-    size_t event_size;
-    size_t q_event_size;
-    int count = 0;
-    read_size = ::read(fs_wathcer_->inotify_fd_, buffer, 16384);
-    if (read_size <= 0) {
-      return 0;
-    }
-    while (buffer_i < read_size) {
-      pevent = reinterpret_cast<inotify_event*>(&buffer[buffer_i]);
-      event_size = offsetof(inotify_event, name) + pevent->len;
-      q_event_size = offsetof(inotify_event, name) + pevent->len;
-      inotify_event* ret = new inotify_event;
-      memcpy(ret, pevent, event_size);
-      EventHandle handle(ret);
-      event_array->push_back(handle);
-      buffer_i += event_size;
-      count++;
-    }
-    return count;
-  }
-  void CheckEvent(EventArray* event_array) {
-    EventArray::iterator it = event_array->begin();
-    int wd = (*it)->wd;
-    InotifyFDMap::iterator find = fs_wathcer_->fd_map_.find(wd);
-    if (find != fs_wathcer_->fd_map_.end()) {
-      FSEvent* e = find->second;
-      if (e->IsExist()) {
-        if (e->IsModified()) {
-          fs_watcher_->NotifyForKey(fs_watcher_->kModifiy, e);
-        }
-        if (e->IsUpdate()) {
-          fs_watcher_->NotifyForKey(fs_watcher_->kUpdate, e);
-        }
-      } else {
-        if (e->IsModified()) {
-          fs_watcher_->NotifyForKey(fs_watcher_->kDelete, e);
-        }
-      }
-    }
-  }
-  void Exit() {
-    is_exit_ = true;
-  }
-  bool IsExit() const {return is_exit_;}
-  bool is_exit_;
-};
+#include <mocha/roaster/platform/fs/event/event.h>
+namespace mocha { namespace os { namespace fs {
+static const int kMaxEvents = 10;
+static InotifyMask mask = IN_CLOSE_WRITE | IN_DELETE_SELF | IN_MODIFY;
 
 FSWatcher::FSWatcher()
-    : epoll_fd_(epoll_create(10)),
+    : is_exit_(false),
+      epoll_fd_(epoll_create(10)),
       inotify_fd_(inotify_init()){}
 
 FSWatcher::~FSWatcher() {
@@ -123,31 +41,114 @@ void FSWatcher::RemoveWatch(const char* path) {
 }
 
 void FSWatcher::Regist(const char* abpath) {
-  InotifyMask mask = IN_CLOSE_WRITE | IN_DELETE_SELF;
   int wd = inotify_add_watch(inotify_fd_, abpath, mask);
   InotifyFDMap::iterator it = fd_map_.find(wd);
-  if (it != fd_map_.end()) {
-    FSEvent* event = new(&pool_) FSEvent(abpath);
-    fd_map_.insert(InotifyFDPair(wd, event));
+  if (it == fd_map_.end()) {
+    FSEventHandle handle(new FSEvent(abpath, this));
+    fd_map_.insert(InotifyFDPair(wd, handle));
   }
 }
 
 void* FSWatcher::ThreadRunner(void* arg) {
-  FSWatcherAsync* async = reinterpret_cast<FSWatcherAsync*>(arg);
-  async->Run();
+  FSWatcher* watcher = reinterpret_cast<FSWatcher*>(arg);
+  watcher->Start();
   return 0;
 }
 
 void FSWatcher::Run() {
   Thread thread;
-  thread.Create(ThreadRunner, fs_watcher_async_.Get());
+  thread.Create(ThreadRunner, this);
   thread.Join();
 }
 
 void FSWatcher::RunAsync() {
   Thread thread;
-  thread.Create(ThreadRunner, fs_watcher_async_.Get());
+  thread.Create(ThreadRunner, this);
   thread.Detach();
 }
+
+void FSWatcher::Exit() {is_exit_ = true;}
+
+void FSWatcher::Start() {
+  is_exit_ = false;
+  int epfd;
+  if((epfd = epoll_create(kMaxEvents)) < 0) {
+    fprintf(stderr, "epoll_create()\\n");
+    exit(1);
+  }
+  struct epoll_event event;
+  memset(&event, 0, sizeof(event));
+  event.events  = EPOLLIN | EPOLLET;
+  event.data.fd = inotify_fd_;
+  if (epoll_ctl(epfd, EPOLL_CTL_ADD, inotify_fd_, &event) < 0) {
+    fprintf(stderr, "epoll_ctl()\\n");
+    exit(1);
+  }
+  int nfd;
+  struct epoll_event events[kMaxEvents];
+  while (!is_exit_) {
+    nfd = epoll_wait(epfd, events, kMaxEvents, 2000);
+    if(nfd < 0) {
+      fprintf(stderr, "epoll_wait()\\n");
+      exit(1);
+    } else if (nfd > 0) {
+      EventArray event_array;
+      int read_size = ReadInotifyEvents(&event_array);
+      if (read_size > 0) {
+        CheckEvent(&event_array);
+      }
+    }
+  }
+}
+
+int FSWatcher::ReadInotifyEvents(EventArray* event_array) {
+  char buffer[16384];
+  size_t buffer_i = 0;
+  inotify_event *pevent;
+  size_t read_size;
+  size_t event_size;
+  int count = 0;
+  read_size = ::read(inotify_fd_, buffer, 16384);
+  if (read_size <= 0) {
+    return 0;
+  }
+  while (buffer_i < read_size) {
+    pevent = reinterpret_cast<inotify_event*>(&buffer[buffer_i]);
+    event_size = offsetof(inotify_event, name) + pevent->len;
+    inotify_event* ret = new inotify_event;
+    memcpy(ret, pevent, event_size);
+    EventHandle handle(ret);
+    event_array->push_back(handle);
+    buffer_i += event_size;
+    count++;
+  }
+  return count;
+}
+
+void FSWatcher::CheckEvent(EventArray* event_array) {
+  EventArray::iterator it = event_array->begin();
+  int wd = (*it)->wd;
+  InotifyFDMap::iterator find = fd_map_.find(wd);
+  printf("%d\n" , find != fd_map_.end());
+  if (find != fd_map_.end()) {
+    FSEvent* e = find->second.Get();
+    if (e->IsExist()) {
+      if (e->IsModified()) {
+        NotifyForKey(kModify, e);
+      }
+      if (e->IsUpdate()) {
+        NotifyForKey(kUpdate, e);
+      }
+    } else {
+      if (e->IsModified()) {
+        NotifyForKey(kDelete, e);
+      }
+    }
+  }
+}
+
+const char FSWatcher::kModify[] = {"Modified<kqueue>"};
+const char FSWatcher::kUpdate[] = {"Modified<update>"};
+const char FSWatcher::kDelete[] = {"Delete<kqueue>"};
 
 }}}

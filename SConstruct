@@ -6,8 +6,8 @@ import platform
 import locale
 import SCons.Conftest
 root_dir = os.path.dirname(File('SConstruct').rfile().abspath)
-sys.path.insert(0, os.path.join(root_dir, 'tools'))
-sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper'))
+sys.path.insert(0, os.path.join(root_dir, 'tools/'))
+sys.path.insert(0, os.path.join(root_dir, 'tools/scons_helper/'))
 import deps, makedeps
 from platform_utils import Config, platform, platform
 from sources import Sources
@@ -127,7 +127,7 @@ TESTS = {'notificator' : 'src/mocha/roaster/notificator',
          'platform_stat' : 'src/mocha/roaster/platform/fs/stat',
          'platform_directory' : 'src/mocha/roaster/platform/fs/directory',
          'platform_path' : 'src/mocha/roaster/platform/fs/path',
-         'platform_fsevent' : 'src/mocha/roaster/platform/fs/event/macos',
+         'platform_fsevent' : 'src/mocha/roaster/platform/fs/event',
          'nexc' : 'src/mocha/roaster/nexc',
          'nexc-scanner' : 'src/mocha/roaster/nexc/scanner',
          'nexc-parser' : 'src/mocha/roaster/nexc/parser',

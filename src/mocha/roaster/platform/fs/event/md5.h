@@ -32,7 +32,7 @@
 
 #ifndef BZF_MD5_H
 #define BZF_MD5_H
-
+#include <string.h>
 #include <string>
 #include <iostream>
 
