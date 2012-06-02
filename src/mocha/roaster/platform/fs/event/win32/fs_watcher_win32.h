@@ -3,6 +3,7 @@
 #include <mocha/roaster/notificator/notificator.h>
 namespace mocha { namespace os { namespace fs {
 struct FSEventContainer;
+class HandleData;
 class FSEvent;
 class FSWatcherAsync;
 class FSWatcher : public Notificator<FSEvent*> {
@@ -18,17 +19,24 @@ class FSWatcher : public Notificator<FSEvent*> {
   void RunAsync();
   void Exit();
   bool IsRunning() const;
+  bool IsWatched(const char* path) const;
   static void* ThreadRunner(void* param);
   static const char kModify[];
   static const char kUpdate[];
   static const char kDelete[];
  private :
+  void Start();
+  void EmitEvent(FSEvent* e, HandleData* handle_data, FSEventContainer* fs_event_container);
+  void WithFni(HandleData* handle_data, FSEventContainer* fs_event_container);
+  void WithoutFni(HandleData* handle_data, FSEventContainer* fs_event_container);
   void ReadDirectoryChangesW(void* buf, int size, int filter);
   void CreateIOCP();
+  bool is_exit_;
+  HANDLE iocp_handle_;
   memory::Pool pool_;
   DirectoryMap dir_map_;
   FileMap file_map_;
-  ScopedPtr<FSWatcherAsync> async_;
+  Mutex mutex_;
 };
 
 }}}

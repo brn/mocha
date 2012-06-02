@@ -12,17 +12,19 @@ typedef std::pair<int, FSEventHandle> InotifyFDPair;
 typedef roastlib::unordered_map<int,  FSEventHandle> InotifyFDMap;
 typedef unsigned long InotifyMask;
 typedef SharedPtr<inotify_event> EventHandle;
-typedef std::vector<EventHandle> EventArray;
+typedef struct inotify_event InotifyEvent;
 class FSWatcher : public Notificator<FSEvent*>{
  public :
   FSWatcher();
   ~FSWatcher();
   void AddWatch(const char* path);
   void RemoveWatch(const char* path);
+  void RemoveWatch();
   void Run();
   void RunAsync();
   void Exit();
   bool IsRunning() const {return !is_exit_;};
+  bool IsWatched(const char* path) const;
   static const char kModify[];
   static const char kUpdate[];
   static const char kDelete[];
@@ -30,11 +32,12 @@ class FSWatcher : public Notificator<FSEvent*>{
   static void* ThreadRunner(void* args);
   void Regist(const char* abpath);
   void Start();
-  int ReadInotifyEvents(EventArray*);
-  void CheckEvent(EventArray* event_array);
+  void ReadInotifyEvents();
+  void CheckEvent(InotifyEvent* ev);
   bool is_exit_;
   int epoll_fd_;
   int inotify_fd_;
+  Mutex mutex_;
   InotifyFDMap fd_map_;
 };
 }}}

@@ -88,7 +88,12 @@ void GetEnv(std::string* buf, const char* env) {
 bool Sleep(int nano_time) {
   struct timespec req;
   struct timespec rem;
-  req.tv_sec = 0;
+  if (nano_time > 1000) {
+    req.tv_sec = nano_time / 1000;
+    nano_time = (nano_time << 1) / 10;
+  } else {
+    req.tv_sec = 0;
+  }
   req.tv_nsec = nano_time;
   int ret = nanosleep(&req, &rem);
   return ret == 0 || ret == EINTR;

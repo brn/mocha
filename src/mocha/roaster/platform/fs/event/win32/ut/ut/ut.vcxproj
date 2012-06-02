@@ -37,7 +37,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files (x86)\boost\boost_1_47;C:\Users\brn\github\mocha\src;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files (x86)\boost\boost_1_47;C:\Users\brn\github\mocha\src;C:\Users\brn\github\mocha\src\third_party\gtest-1.6.0-win\include;C:\Users\brn\github\mocha\src\third_party\gtest-1.6.0-win;$(IncludePath)</IncludePath>
+    <SourcePath>C:\Users\brn\github\mocha\src;C:\Users\brn\github\mocha\src\third_party\gtest-1.6.0-win;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -46,12 +47,13 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MinimalRebuild>false</MinimalRebuild>
-      <PreprocessorDefinitions>DEBUG;PLATFORM_WIN32;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;PLATFORM_WIN32;NOMINMAX;CURRENT_DIR="C:/Users/brn/github/mocha";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>$(MSBuildProjectDirectory)\..\..\..\..\..\..\..\..\third_party\gtest-1.6.0-win\msvc\gtest\Debug\gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -68,18 +70,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\..\..\..\third_party\gtest-1.6.0-win\src\gtest-all.cc" />
+    <ClCompile Include="..\..\..\..\..\..\..\..\third_party\gtest-1.6.0-win\src\gtest_main.cc" />
     <ClCompile Include="..\..\..\..\..\..\log\logging.cc" />
     <ClCompile Include="..\..\..\..\..\..\memory\pool.cc" />
     <ClCompile Include="..\..\..\..\..\thread\thread-win32.cc" />
     <ClCompile Include="..\..\..\..\..\utils\utils-win32.cc" />
+    <ClCompile Include="..\..\..\..\directory\directory-win32.cc" />
     <ClCompile Include="..\..\..\..\mv\mv.cc" />
     <ClCompile Include="..\..\..\..\path\path.cc" />
+    <ClCompile Include="..\..\..\..\rm\rm.cc" />
     <ClCompile Include="..\..\..\..\stat\stat.cc" />
     <ClCompile Include="..\..\..\event.cc" />
     <ClCompile Include="..\..\..\md5.cc" />
-    <ClCompile Include="..\..\fs_handle.cc" />
-    <ClCompile Include="..\..\readdirectorychangesw.cc" />
-    <ClCompile Include="..\..\ut.cc" />
+    <ClCompile Include="..\..\..\ut.cc" />
+    <ClCompile Include="..\..\fs_watcher_win32.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\log\logging.h" />
@@ -88,15 +93,16 @@
     <ClInclude Include="..\..\..\..\..\thread\thread-win32.h" />
     <ClInclude Include="..\..\..\..\..\thread\thread.h" />
     <ClInclude Include="..\..\..\..\..\utils\utils.h" />
+    <ClInclude Include="..\..\..\..\directory\directory-inl.h" />
+    <ClInclude Include="..\..\..\..\directory\directory.h" />
     <ClInclude Include="..\..\..\..\mv\mv.h" />
     <ClInclude Include="..\..\..\..\path\path.h" />
+    <ClInclude Include="..\..\..\..\rm\rm.h" />
     <ClInclude Include="..\..\..\..\stat\stat.h" />
     <ClInclude Include="..\..\..\event.h" />
-    <ClInclude Include="..\..\..\fs_handle.h" />
     <ClInclude Include="..\..\..\fs_watcher.h" />
     <ClInclude Include="..\..\..\md5.h" />
-    <ClInclude Include="..\..\fs_handle.h" />
-    <ClInclude Include="..\..\readdirectorychangesw.h" />
+    <ClInclude Include="..\..\fs_watcher_win32.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

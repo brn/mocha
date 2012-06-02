@@ -17,15 +17,6 @@
     <ClCompile Include="..\..\..\md5.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\fs_handle.cc">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\readdirectorychangesw.cc">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ut.cc">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\thread\thread-win32.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -47,21 +38,33 @@
     <ClCompile Include="..\..\..\..\..\..\log\logging.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ut.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\third_party\gtest-1.6.0-win\src\gtest_main.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\..\third_party\gtest-1.6.0-win\src\gtest-all.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\fs_watcher_win32.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\rm\rm.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\directory\directory-win32.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\event.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\fs_handle.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\fs_watcher.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\md5.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\fs_handle.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\thread\thread.h">
@@ -88,10 +91,19 @@
     <ClInclude Include="..\..\..\..\..\..\memory\pool-inl.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\readdirectorychangesw.h">
+    <ClInclude Include="..\..\..\..\..\..\log\logging.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\log\logging.h">
+    <ClInclude Include="..\..\fs_watcher_win32.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\rm\rm.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\directory\directory.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\directory\directory-inl.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
