@@ -35,7 +35,9 @@ class Chunk : private Uncopyable {
  public :
   Chunk()
       : used_(0),
-        next_(NULL){}
+        next_(NULL) {
+    memset(block_, 0, size);
+  }
   ~Chunk(){}
 
   /**

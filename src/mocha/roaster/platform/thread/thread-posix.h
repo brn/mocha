@@ -52,6 +52,7 @@ class ScopedLock {
   ScopedLock(Mutex& mutex);
   ~ScopedLock();
   void Unlock();
+  void Lock();
  private :
   Mutex* mutex_;
   bool unlocked_;

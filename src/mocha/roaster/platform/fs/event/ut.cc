@@ -148,6 +148,7 @@ TEST(FSEventTest, FSWatcherAddTest) {
 
 TEST(FSEventTest, FSWatcherRemoveTest) {
   using namespace mocha;
+  mocha::Logging::Initialize(stdout);
   all = 0;
   count = 0;
   files.clear();

@@ -64,6 +64,13 @@ void ScopedLock::Unlock () {
   }
 }
 
+void ScopedLock::Lock () {
+  if (unlocked_ == true) { 
+    pthread_mutex_lock(&(mutex_->mutex_t_));
+    unlocked_ = false;
+  }
+}
+
 #ifdef PLATFORM_MACOS
 
 Semaphore::Semaphore(int count) {

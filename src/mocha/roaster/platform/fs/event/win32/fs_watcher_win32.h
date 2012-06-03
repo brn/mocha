@@ -6,15 +6,18 @@ struct FSEventContainer;
 class HandleData;
 class FSEvent;
 class FSWatcherAsync;
+class HandleData;
+typedef SharedPtr<HandleData> HandleDataHandle;
 class FSWatcher : public Notificator<FSEvent*> {
   friend class FSWatcherAsync;
-  typedef roastlib::unordered_map<std::string, FSEventContainer*> DirectoryMap;
+  typedef roastlib::unordered_map<std::string, HandleDataHandle> DirectoryMap;
   typedef roastlib::unordered_map<std::string, bool> FileMap;
  public :
   FSWatcher();
   ~FSWatcher();
   void AddWatch(const char* path);
   void RemoveWatch(const char* path);
+  void RemoveWatch();
   void Run();
   void RunAsync();
   void Exit();
@@ -26,12 +29,13 @@ class FSWatcher : public Notificator<FSEvent*> {
   static const char kDelete[];
  private :
   void Start();
-  void EmitEvent(FSEvent* e, HandleData* handle_data, FSEventContainer* fs_event_container);
-  void WithFni(HandleData* handle_data, FSEventContainer* fs_event_container);
-  void WithoutFni(HandleData* handle_data, FSEventContainer* fs_event_container);
-  void ReadDirectoryChangesW(void* buf, int size, int filter);
+  void EmitEvent(FSEvent* e, HandleData* handle_data);
+  void WithFni(HandleData* handle_data);
+  void WithoutFni(HandleData* handle_data);
+  void ReadDirectoryChangesW(HandleData* handle_data);
   void CreateIOCP();
   bool is_exit_;
+  int run_type_;
   HANDLE iocp_handle_;
   memory::Pool pool_;
   DirectoryMap dir_map_;

@@ -38,9 +38,6 @@
     <ClCompile Include="..\..\..\..\..\..\log\logging.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ut.cc">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\..\..\third_party\gtest-1.6.0-win\src\gtest_main.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -54,6 +51,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\directory\directory-win32.cc">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ut.cc">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

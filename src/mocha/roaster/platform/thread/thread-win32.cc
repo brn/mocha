@@ -87,6 +87,13 @@ void ScopedLock::Unlock() {
   }
 }
 
+void ScopedLock::Lock() {
+  if (unlocked_) {
+    EnterCriticalSection(&(mutex_->critical_section_));
+    unlocked_ = false;
+  }
+}
+
 ThreadLocalStorageKey::ThreadLocalStorageKey(ThreadLocalStorageKey::Destructor destructor)
     : destructor_(destructor), has_fn_(true), is_free_(false), key_(TlsAlloc()){}
 
