@@ -5,7 +5,7 @@
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
-#include <mocha/roaster/misc/atomic.h>
+
 namespace mocha {
 class V8Init {
  public :
@@ -20,13 +20,13 @@ class V8Init {
   void Print(v8::Handle<v8::Value> value);
   static void IdleNotification();
 #ifdef NDEBUG
-#define REGIST_PERSISTENT(holder,id) Regist(holder)
+#define REGISTER_PERSISTENT(holder,id) Regist(holder)
   template <typename T>
   v8::Persistent<T> Regist(v8::Persistent<T> holder);
   template <typename T>
   v8::Persistent<T> Regist(v8::Handle<T> obj);
 #else
-#define REGIST_PERSISTENT(holder,id) Regist(holder, id)
+#define REGISTER_PERSISTENT(holder,id) Regist(holder, id)
   template <typename T>
   v8::Persistent<T> Regist(v8::Persistent<T> holder, const char* id);
   template <typename T>

@@ -22,6 +22,7 @@
  */
 #ifndef mocha_roaster_compiler_compiler_h_
 #define mocha_roaster_compiler_compiler_h_
+#include <atomic>
 #include <vector>
 #include <mocha/roaster/memory/pool.h>
 #include <mocha/roaster/smart_pointer/ref_count/shared_ptr.h>
@@ -87,7 +88,6 @@ class Nexc : public Notificator<CompilationEvent*>{
   void AddEachRuntime(CompilationEvent* e, AstNode* root, memory::Pool* pool);
   CompilationEvent* CreateEvent(const os::fs::Path& path_info, const char* charset);
   AstRoot* root_;
-  AtomicWord token_initialized_;
   CompilationInfo* compilation_info_;
   ImportGuard guard_;
   AstList ast_list_;
@@ -96,6 +96,8 @@ class Nexc : public Notificator<CompilationEvent*>{
   SharedPtr<memory::Pool> pool_;
   ScopedPtr<os::fs::VirtualDirectory> virtual_directory_;
   ScopedPtr<AstBuilder> builder_;
+
+  static std::atomic<int> token_initialized_;
 };
 }
 #endif

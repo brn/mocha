@@ -1,27 +1,26 @@
 /**
- *@author Taketoshi Aono
- *@fileOverview
- *@license
- *Copyright (c) 2011 Taketoshi Aono
- *Licensed under the BSD.
- *
- *Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
- *associated doc umentation files (the "Software"), to deal in the Software without restriction,
- *including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
- *and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
- *subject to the following conditions:
- *
- *The above copyright notice and this permission notice shall be included in all copies or
- *substantial portions ofthe Software.
- *
- *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
- *TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- *THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- *CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- *DEALINGS IN THE SOFTWARE.
+ * @author Taketoshi Aono
+ * @fileOverview
+ * @license
+ * Copyright (c) 2011 Taketoshi Aono
+ * Licensed under the BSD.
+ *  
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated doc umentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *  
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions ofthe Software.
+ *  
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
  */
 #include <mocha/roaster/log/logging.h>
-#include <mocha/roaster/misc/atomic.h>
 #include <mocha/roaster/ast/ast.h>
 #include <mocha/roaster/ast/builder/ast_builder.h>
 #include <mocha/roaster/ast/visitors/codegen_visitor.h>
@@ -92,8 +91,7 @@ class LoadErrorListener {
 };
 
 Nexc::Nexc(CompilationInfo* info)
-    : token_initialized_(0),
-      compilation_info_(info),
+    : compilation_info_(info),
       deps_(new Dependencies),
       reporter_(new ErrorReporter),
       pool_(memory::Pool::Local()),
@@ -410,11 +408,11 @@ bool Nexc::CheckGuard(const char* path) {
 }
 
 void Nexc::Initialize() {
-  AtomicWord ret = Atomic::CompareAndSwap(&token_initialized_, 0, 1);
-  if ( ret == 1) {
-    return;
-  } else {
-    token_initialized_ = 1;
+  auto flag = token_initialized_.load(std::memory_order_relaxed);
+  std::atomic_thread_fence(std::memory_order_acquire);
+  if (flag == 0) {
+    std::atomic_thread_fence(std::memory_order_release);
+    token_initialized_.store(1, std::memory_order_relaxed);
     JsToken::Initialize();
     Loader::Initialize();
   }
@@ -470,4 +468,6 @@ const char Nexc::kCompilationSucessed[] = {"Nexc<CompilationSucessed>"};
 const char Nexc::kCompilationFailed[] = {"Nexc<CompilationFailed>"};
 const char Nexc::kFatal[] = {"Nexc<Fatal>"};
 const char Nexc::kFail[] = {"Nexc<Fail>"};
+
+std::atomic<int> Nexc::token_initialized_(0);
 }

@@ -33,12 +33,11 @@ namespace mocha {
  */
 template<typename Event>
 class Notificator {
-
-  //The unordered_multimap entry type.
+  // The unordered_multimap entry type.
   typedef std::pair<const char*, ListenerAdapterBase<Event>*> ListenerSet;
   typedef roastlib::unordered_multimap<std::string, ListenerAdapterBase<Event>*> Listeners;
   typedef typename Listeners::iterator ListenersIterator;
-  //The unordered_multimap equal_range type.
+  // The unordered_multimap equal_range type.
   typedef std::pair<ListenersIterator, ListenersIterator> ListenersRange;
 
  public :

@@ -21,8 +21,8 @@ MACOS_INCLUDE = '-I/opt/local/include -Isrc/.deps/macos/v8/include -Isrc/.deps/m
 PLATFORM_CONFIG = {
     "linux" : {
         "TARGET" : 'bin/linux/mchd',
-        "RELEASE" : '-Wall -Wextra -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -fomit-frame-pointer -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
-        "DEBUG" : '-Wall -Wextra -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
+        "RELEASE" : '-std=c++11 -Wall -Wextra -Wno-unused-parameter -O3 -DPLATFORM_POSIX -fno-exceptions -fno-rtti -fomit-frame-pointer -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
+        "DEBUG" : '-std=c++11 -Wall -Wextra -Wno-unused-parameter -O0 -g -DPLATFORM_POSIX -fno-exceptions -fno-rtti -DDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + LINUX_INCLUDE,
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "curses", "rt", "dl", "curses"],
         "STATIC_LIBS" : ['src/.deps/linux/v8/libv8.a' , 'src/.deps/linux/libuv/uv.a', 'src/.deps/linux/icu/libicui18n.a', 'src/.deps/linux/icu/libicuuc.a', 'src/.deps/linux/icu/libicudata.a', 'src/.deps/linux/libedit/libedit.a'],
@@ -35,14 +35,19 @@ PLATFORM_CONFIG = {
         },
     'macos' : {
         "TARGET" : 'bin/macos/mchd',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -fno-rtti -fomit-frame-pointer -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + MACOS_INCLUDE,
-        "DEBUG" : '-Wall -Wextra -Wdisabled-optimization -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DPLATFORM_MACOS -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + MACOS_INCLUDE,
+        "RELEASE" : '-std=c++11 -Wall -Wextra -Wno-unused-parameter -O3 -fno-exceptions -fno-rtti -fomit-frame-pointer -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + MACOS_INCLUDE,
+        "DEBUG" : '-std=c++11 -Wall -Wextra -Wdisabled-optimization -Wno-unused-parameter -Winline -O0 -g -fno-exceptions -fno-rtti -DDEBUG -DPLATFORM_POSIX -DPLATFORM_MACOS -DCURRENT_DIR=\\"' + os.getcwd() + '/src\\" ' + MACOS_INCLUDE,
         "LD_FLAGS" : "",
         "LIBS" : ["pthread", "curses"],
         "STATIC_LIBS" : ['src/.deps/macos/icu/libicui18n.a', 'src/.deps/macos/icu/libicudata.a', 'src/.deps/macos/icu/libicuuc.a', 'src/.deps/macos/libedit/libedit.a', 'src/.deps/macos/v8/libv8.a' , 'src/.deps/macos/libuv/libuv.a'],
         "EXCLUDE_FILES" : ["thread-win32.cc",
                            "directory-win32.cc",
+                           "fs_watcher_linux.cc",
+                           "fs_watcher_win32.cc",
+                           "readdirectorychangesw.cc",
+                           "fs_handle.cc",
                            "file_watcher-inotify-impl.cc",
+                           "kqueue.cc",
                            "shell-win32.cc",
                            'utils-win32.cc',
                            'process-win32.cc']

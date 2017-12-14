@@ -10,8 +10,8 @@ ROOT = os.getcwd().replace('\\', '/')
 PACKER_CONFIG = {
     "linux" : {
         "TARGET" : 'pack',
-        "RELEASE" : '-Wall -O3 -fno-exceptions -DPLATFORM_POSIX -DPACKING_RUNTIME -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
-        "DEBUG" : '-Wall -O0 -g -fno-exceptions -DDEBUG -DPLATFORM_POSIX -DPACKING_RUNTIME -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "RELEASE" : '-std=c++11 -Wall -O3 -fno-exceptions -DPLATFORM_POSIX -DPACKING_RUNTIME -DPLATFORM_LINUX -DNDEBUG -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "DEBUG" : '-std=c++11 -Wall -O0 -g -fno-exceptions -DDEBUG -DPLATFORM_POSIX -DPACKING_RUNTIME -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "LD_FLAGS" : "`icu-config --ldflags`",
         "LIBS" : ['pthread'],
         "EXCLUDE_FILES" : [],
@@ -22,8 +22,8 @@ PACKER_CONFIG = {
         },
     'macos' : {
         "TARGET" : 'pack',
-        "RELEASE" : '-Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DPACKING_RUNTIME -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
-        "DEBUG" : '-Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions -DPLATFORM_MACOS  -DPACKING_RUNTIME -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "RELEASE" : '-std=c++11 -Wall -Wextra -O3 -fno-exceptions -DPLATFORM_POSIX -DPLATFORM_MACOS -DNDEBUG -DPACKING_RUNTIME -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
+        "DEBUG" : '-std=c++11 -Wall -Wdisabled-optimization -DDEBUG -Winline -O0 -g -fno-exceptions -DPLATFORM_MACOS  -DPACKING_RUNTIME -DPLATFORM_POSIX -DCURRENT_DIR=\\"' + CURRENT + '\\" -I' + CURRENT + '/src',
         "STATIC_LIBS" : [],
         "LD_FLAGS" : "",
         "LIBS" : ['pthread'],

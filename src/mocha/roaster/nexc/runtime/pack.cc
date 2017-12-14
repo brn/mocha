@@ -16,7 +16,6 @@ void CompileRuntime() {
   Nexc nexc(&info);
   for (it = dir.Entries(true); it != dir.end(); ++it) {
     if (!it->IsDir() && strcmp(it->GetName(), "runtime.js") != 0) {
-      printf("%s\n", it->GetFullPath());
       if (strcmp(it->GetDirName(), CURRENT_DIR"/mocha/module") == 0) {
         nexc.Pack(it->GetFullPath(), false);
       } else {

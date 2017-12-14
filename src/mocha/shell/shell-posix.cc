@@ -21,12 +21,15 @@ const int kKeyUp = 65;
 const int kKeyDown = 66;
 const int kKeyLeft = 67;
 const int kKeyRight = 68;
-static char kPrompt[] = {'>', '>'};
+static char kPrompt[] = {'>', '>', ' '};
 
 
 Shell* Shell::Initialize(Action& action) {
-  if (Atomic::CompareAndSwap(&init_, 0, 1) == 0) {
-    init_ = 1;
+  auto flag = init_.load(std::memory_order_relaxed);
+  std::atomic_thread_fence(std::memory_order_acquire);
+  if (flag == 0) {
+    std::atomic_thread_fence(std::memory_order_release);
+    init_.store(1, std::memory_order_relaxed);
     shell_ = new Shell(action);
   }
   return shell_;
@@ -141,6 +144,6 @@ void Shell::SafeBreak(bool) {
 
 os::Mutex Shell::mutex_;
 Shell* Shell::shell_;
-AtomicWord Shell::init_;
+std::atomic<int> Shell::init_;
 
 }

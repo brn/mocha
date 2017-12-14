@@ -719,7 +719,10 @@
     var source = utils.loadFile(path),
         current = natives.fs.Path.getcwd();
     try {
-      natives.fs.Dir.chdir(natives.fs.Path.homeDir() + '/.mocha');
+      var targetPath = natives.fs.Path.homeDir() + '/.mocha';
+      if (path === targetPath) {
+        natives.fs.Dir.chdir(targetPath);
+      }
       compile('(function(mocha, config) {\n' + source + '\n})')(mocha, mocha.config);
     } catch(e) {
       env.console.log(e);

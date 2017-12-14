@@ -3,7 +3,6 @@
 #include <termios.h>
 #include <histedit.h>
 #include <string>
-#include <mocha/roaster/misc/atomic.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/smart_pointer/scope/scoped_ptr.h>
 namespace mocha {
@@ -37,7 +36,7 @@ class Shell {
   HistEvent event_;
   static os::Mutex mutex_;
   static Shell* shell_;
-  static AtomicWord init_;
+  static std::atomic<int> init_;
 };
 }
 

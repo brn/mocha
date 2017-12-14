@@ -31,9 +31,11 @@
 
 namespace mocha {
 Roaster::Roaster() {
-  int ret = Atomic::CompareAndSwap(&atomic_val_, 0, 1);
-  if (ret == 0) {
-    atomic_val_ = 1;
+  int flag = atomic_val_.load(std::memory_order_relaxed);
+  std::atomic_thread_fence(std::memory_order_acquire);
+  if (flag == 0) {
+    std::atomic_thread_fence(std::memory_order_release);
+    atomic_val_.store(1, std::memory_order_relaxed);
     std::string path = os::fs::Path::home_directory();
     path += '/';
     path += ".roaster";
@@ -161,5 +163,5 @@ const DepsListHandle Roaster::CheckDepends(const char* name) {
 }
 
 const char Roaster::ThreadArgs::kComplete[] = {"Roaster<Complete>"};
-AtomicWord Roaster::atomic_val_ = 0;
+std::atomic<uint32_t> Roaster::atomic_val_(0);
 }

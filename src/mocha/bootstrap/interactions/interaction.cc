@@ -14,13 +14,14 @@ namespace mocha {
 class Interaction::RunCommand : public Action {
  public :
   bool operator()(ConsoleInput input) {
-    if (input.size() > 1) {
+    if (input.size() > 0) {
       std::string buf;
       if (input.at(0) == '.') {
         std::stringstream st;
         mocha::StringUtils::Escape(&st, input, '\'');
         input = st.str();
-        os::SPrintf(&buf, "console.dir(mocha.callCommand('%s'))", input.c_str());
+        auto command = input.substr(1);
+        os::SPrintf(&buf, "mocha.callCommand('%s')", command.c_str());
       } else {
         os::SPrintf(&buf, "console.dir(do{%s})", input.c_str());
       }

@@ -22,9 +22,9 @@
  */
 #ifndef mocha_roaster_roaster_h_
 #define mocha_roaster_roaster_h_
+#include <atomic>
 #include <vector>
 #include <utility>
-#include <mocha/roaster/misc/atomic.h>
 #include <mocha/roaster/platform/thread/thread.h>
 #include <mocha/roaster/platform/fs/fs.h>
 #include <mocha/roaster/nexc/compilation_info/compilation_info.h>
@@ -49,7 +49,7 @@ class Roaster {
   class ThreadArgs;
   void AsyncRunner(ThreadArgs* args, bool is_join);
   static void* AsyncThreadRunner(void* args);
-  static AtomicWord atomic_val_;
+  static std::atomic<uint32_t> atomic_val_;
 };
 }
 

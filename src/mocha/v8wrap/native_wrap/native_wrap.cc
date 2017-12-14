@@ -37,14 +37,14 @@ void DoDispose(void* ptr) {
 
 void NativeWrap::Init(Handle<Object> object) {
   HandleScope handle_scope;
-  Persistent<Object> ns_fs = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<FS>");
-  Persistent<Object> ns_io = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<IO>");
-  Persistent<Object> ns_console = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<Config>");
-  Persistent<Object> ns_setting = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<Setting>");
-  Persistent<Object> invalid = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "InvalidObject");
-  Persistent<Object> repl_ns = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<Repl>");
-  Persistent<Object> os_ns = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<OS>");
-  Persistent<Object> logger_ns = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Namespace<InternalLogger>");
+  Persistent<Object> ns_fs = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Namespace<FS>");
+  Persistent<Object> ns_io = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Namespace<IO>");
+  Persistent<Object> ns_console = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Namespace<Config>");
+  Persistent<Object> ns_setting = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Namespace<Setting>");
+  Persistent<Object> invalid = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "InvalidObject");
+  Persistent<Object> repl_ns = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Namespace<Repl>");
+  Persistent<Object> os_ns = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Namespace<OS>");
+  Persistent<Object> logger_ns = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Namespace<InternalLogger>");
   NativeWrap::Directory::Init(ns_fs);
   NativeWrap::Path::Init(ns_fs);
   NativeWrap::Stat::Init(ns_fs);
@@ -817,7 +817,7 @@ void NativeWrap::Watcher::Init(Handle<Object> object) {
   proto->Set(String::New("resume"), v8::FunctionTemplate::New(NativeWrap::Watcher::Resume));
   proto->Set(String::New("isRunning"), v8::FunctionTemplate::New(NativeWrap::Watcher::IsRunning));
   proto->Set(String::New("addSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::AddSetting));
-  proto->Set(String::New("_settingList"), V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "SettingList"));
+  proto->Set(String::New("_settingList"), V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "SettingList"));
   proto->Set(String::New("removeSetting"), v8::FunctionTemplate::New(NativeWrap::Watcher::RemoveSetting));
   Handle<Object> instance = fn->GetFunction()->NewInstance();
   instance->SetPointerInInternalField(0, &ob);
@@ -918,7 +918,7 @@ void NativeWrap::Compiler::Init(Handle<Object> object) {
   Handle<v8::FunctionTemplate> compile_file_tmp = v8::FunctionTemplate::New(NativeWrap::Compiler::CompileFile);
   Handle<v8::FunctionTemplate> deploy_tmp = v8::FunctionTemplate::New(NativeWrap::Compiler::Deploy);
   Handle<v8::FunctionTemplate> deps_tmp = v8::FunctionTemplate::New(NativeWrap::Compiler::CheckDepends);
-  Persistent<Object> obj = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Roaster");
+  Persistent<Object> obj = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Roaster");
   obj->Set(String::New("compile"), compile_tmp->GetFunction());
   obj->Set(String::New("compileFile"), compile_file_tmp->GetFunction());
   obj->Set(String::New("deploy"), deploy_tmp->GetFunction());
@@ -1023,7 +1023,7 @@ METHOD_IMPL(NativeWrap::Repl::Exit) {
 
 void NativeWrap::OS::Init(Handle<Object> object) {
   HandleScope handle_scope;
-  Persistent<Object> process = V8Init::GetInstance()->REGIST_PERSISTENT(Object::New(), "Process");
+  Persistent<Object> process = V8Init::GetInstance()->REGISTER_PERSISTENT(Object::New(), "Process");
   Handle<FunctionTemplate> spawn_tmp = FunctionTemplate::New(NativeWrap::OS::Process::Spawn);
   Handle<FunctionTemplate> system_tmp = FunctionTemplate::New(NativeWrap::OS::Process::System);
   Handle<FunctionTemplate> run_tmp = FunctionTemplate::New(NativeWrap::OS::Process::Run);

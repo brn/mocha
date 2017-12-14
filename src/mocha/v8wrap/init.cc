@@ -168,19 +168,19 @@ Handle<Value> V8Init::DoRun(const char* src, const char* name) {
 void V8Init::Initialize() {
   HandleScope handle_scope;
   Handle<ObjectTemplate> config_global_template = ObjectTemplate::New();
-  context_ = REGIST_PERSISTENT(Context::New(NULL, config_global_template), "GlobalContext");
+  context_ = REGISTER_PERSISTENT(Context::New(NULL, config_global_template), "GlobalContext");
   Context::Scope context_scope(context_);
-  native_ = REGIST_PERSISTENT(Object::New(), "Natives");
+  native_ = REGISTER_PERSISTENT(Object::New(), "Natives");
   Handle<Value> fn = DoRun(packed_script::initjs, "init.js");
   Handle<FunctionTemplate> compile_tmp = FunctionTemplate::New(Compile);
   Handle<v8::Function> callable = Handle<v8::Function>::Cast(fn);
-  compile_ = REGIST_PERSISTENT(compile_tmp->GetFunction(), "CompileFunction");
+  compile_ = REGISTER_PERSISTENT(compile_tmp->GetFunction(), "CompileFunction");
   Extension<NativeWrap>();
-  config_global_ = REGIST_PERSISTENT(context_->Global(), "Global");
+  config_global_ = REGISTER_PERSISTENT(context_->Global(), "Global");
   Handle<Value> args[] = {config_global_, native_, compile_, String::New(os::fs::Path::current_directory())};
   Handle<Value> ret = callable->Call(callable, 4, args);
   Handle<v8::Function> config_context = Handle<v8::Function>::Cast(ret);
-  function_ = REGIST_PERSISTENT(config_context, "ResultFunction");
+  function_ = REGISTER_PERSISTENT(config_context, "ResultFunction");
 }
 
 os::ThreadLocalStorageKey V8Init::key_;

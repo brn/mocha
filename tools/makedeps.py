@@ -7,6 +7,6 @@ def MakeDeps() :
     if platform == 'linux' :
         os.system('tools/make_lib.sh linux libv8.a uv.a uv.a')
     elif platform == 'macos' :
-        os.system('tools/make_lib.sh macos libv8.a libuv.a build/Release/libuv.a')
+        os.system('tools/make_lib.sh macos libv8.a libuv.a out/Release/libuv.a')
     elif platform == 'win32' :
         os.system('tools/winbuild.bat')
