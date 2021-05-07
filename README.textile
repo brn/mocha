@@ -8,7 +8,7 @@ h2. Overview
 * Compress translated javascript.
 * Insert debug exception handler.
 * Watch the modification of the files and immediately compile.
-* Has test runner that is use the phantomjs.
+* Has test runner that use phantomjs.
 
 h2. Instlation
 
